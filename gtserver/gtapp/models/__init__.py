@@ -1,3 +1,4 @@
+from .status import Status
 from .supplier import Supplier
 from .part import Part
 from .article import Article
@@ -17,7 +18,6 @@ from .message import Message
 from .supporder import SuppOrder
 from .supporderdet import SuppOrderDet
 from .suppcontainer import SuppContainer
-from .status import Status
 from .stock import Stock
 from .todo import Todo
 from .custcomplaintdet import CustComplaintDet

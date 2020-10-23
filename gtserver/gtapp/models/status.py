@@ -1,11 +1,11 @@
 from django.db import models
 
-"""
-This model contains information about the meaning of all states for all tables.
-This table ist just for internal documentation and not meant to be mapped to other models.
-"""
-
 class Status(models.Model):
-    Table = models.CharField(max_length=30)
-    Status = models.CharField(max_length=1)
-    Description = models.CharField(max_length=30)
+    """
+    This model contains information about the meaning of all statuses for all tables.
+    """ 
+
+    table = models.CharField(max_length=30)
+    status = models.CharField(max_length=1)
+    description_en = models.CharField(max_length=30)
+    description_de = models.CharField(max_length=30)

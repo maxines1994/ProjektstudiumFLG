@@ -1,11 +1,11 @@
 from django.db import models
 from . import Status
 
-"""
-This model contains master data of the costumers
-"""
-
 class Customer(models.Model):
-    Status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    Name = models.CharField(max_length=30)
-    Memo = models.TextField()
+    """
+    This model contains master data of the costumers
+    """ 
+
+    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=30)
+    memo = models.TextField(null=True)
