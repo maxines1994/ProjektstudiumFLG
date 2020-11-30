@@ -1,5 +1,4 @@
 
-/gtserver/gtapp/migrations
 /gtserver/db.sqlite3
 /gtserver/gtapp/__pycache__
 /gtserver/gtserver/__pycache__
