@@ -1,1 +1,1 @@
-from views.stdViews import *
+from gtapp.views.stdViews import Home
