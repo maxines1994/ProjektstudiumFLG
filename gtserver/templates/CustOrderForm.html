@@ -1,0 +1,51 @@
+{% extends "forms.html" %}
+{% load materializecss %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col s12">
+            <h3>Auftrag erstellen</h3>
+        </div>
+        {% for field in form.visible_fields %}
+        <div class="col s12 m12 l6">
+            {{ field|materializecss }}
+        </div>
+        {% endfor %}
+
+        {% for field in form.hidden_fields %}
+        <div class="col s12 m12 l6">
+            {{ field }}
+        </div>
+        {% endfor %}
+
+        {% include "items.html" %}
+
+        <div class="col s12">
+            <input type="submit" value="Submit">
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+
+<div class="col s12" id="items">
+
+    <table id="itemtable">
+        <thead id="itemhead">
+          <tr>
+              <th hidden>id</th>
+              <th>Position</th>
+              <th>Artikel</th>
+              <th>Menge</th>
+              <th></th>
+          </tr>
+        </thead>
+
+        <tbody id="itembody">
+          <tr id="newposition">
+            <td colspan="4"><button data-target="newpositionmodal" class="btn modal-trigger">Position hinzufügen</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Modal Structure -->
+      <div id="newpositionmodal" class="modal">
+        <div class="modal-content">
+          <h4>Position erfassen</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a onclick="newposition()" class="modal-close waves-effect waves-green btn-flat">Position hinzufügen</a>
+        </div>
+      </div>
+
+      <script type="text/javascript">
+
+        function getNewElement(id,pos,label,qtty){
+          newitem = '<tr><td hidden>' + id + '</td><td>' + pos + '</td><td>' + label + '</td><td>' + qtty + '</td><td><button onclick="delposition(this)" class="btn waves-effect waves-light">Delete</button></td></tr>';
+          return newitem;
+        }
+
+        $(document).ready(function(){
+          $('.modal').modal();
+        });
+
+        function newposition() {
+          $("#newposition").before(getNewElement("1","2","3","4"))
+        }
+
+        function delposition(ele) {
+          ele.parentNode.parentNode.remove()
+        }
+        
+      </script>
+
+</div>
