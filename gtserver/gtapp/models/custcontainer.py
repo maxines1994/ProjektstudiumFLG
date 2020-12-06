@@ -3,9 +3,8 @@ from . import Container, CustOrderDet
 
 class CustContainer(Container):
     """
-    This is model contains the information about Containers that are used to ship lifting-platforms
-    to the costumer. They are used to map the container via Barcode to the Costumer-Order-Details.
-    It inherits most of its fields from the abstract Container-Class
+    Dieses Model enthalt Informationen ueber Container, in denen die fertigen Hubbuehnen zum Kunden transportiert werden.
+    Container werden mittels Barcode zu den Auftragspositionen verknuepft.
     """    
 
     cust_order_det = models.ForeignKey(CustOrderDet, on_delete=models.CASCADE)

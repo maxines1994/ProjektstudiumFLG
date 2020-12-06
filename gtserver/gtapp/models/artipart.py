@@ -1,11 +1,11 @@
 from django.db import models
-from . import Status, Article, Part
+from . import GtModelBasic, Status, Article, Part
 
-class ArtiPart(models.Model):
+class ArtiPart(GtModelBasic):
     """
-    This model maps the lifting platforms to each of its components with the respective component-quantity
+    Dieses Model ordnet die Artikel den Teilen mit der entsprechenden Menge zu, aus denen er besteht. 
     """
 
+    quantity = models.SmallIntegerField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
-    quantity = models.SmallIntegerField()

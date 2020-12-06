@@ -1,17 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
-from . import Status
+from gtapp.constants import *
+from . import GtModel, MessageTemplate
 
-class Message(models.Model):
+class Message(GtModel):
     """
-    This model contains all chat-messages, which contain the message itself and timestamps when it was
-    delivered and received. It also identifies the sending and receiving user.
+    Dieses Model enthaelt die einzelnen Nachrichten des Nachrichtensystems. Es speichert die Nachricht selbst,
+    Absender und Empfaenger, sowie die Zeitstempel wann sie verschickt, erhalten und gelesen wurde.
     """    
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
-    sender =  models.ForeignKey(User,null=True, related_name='sender', on_delete=models.SET_NULL)
-    receiver = models.ForeignKey(User,null=True, related_name='receiver', on_delete=models.SET_NULL)
+    text = models.TextField
+    subject = models.CharField(max_length=100)
     sent_on = models.SmallIntegerField()
     received_on = models.SmallIntegerField()
     read_on = models.SmallIntegerField()
-    text = models.TextField
+    template = models.ForeignKey(MessageTemplate, default=UNKNOWN, on_delete=models.SET_DEFAULT)
+    sender =  models.ForeignKey(User,default=UNKNOWN, related_name='sender', on_delete=models.SET_DEFAULT)
+    receiver = models.ForeignKey(User,default=UNKNOWN, related_name='receiver', on_delete=models.SET_DEFAULT)

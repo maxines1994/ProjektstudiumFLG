@@ -1,11 +1,10 @@
 from django.db import models
-from . import SuppOrderDet
+from . import Container, SuppOrderDet
 
-class SuppContainer(models.Model):
+class SuppContainer(Container):
     """
-    This is model contains the information about Containers that are used to ship parts from
-    the supplier. They are used to map the container via Barcode to the Supplier-Order-Details.
-    It inherits most of its fields from the abstract Container-Class
+    Dieses Model enthalt Informationen ueber Container, in denen die Teile vom Lieferanten zu JOGA transportiert werden.
+    Container werden mittels Barcode zu den Bestellpositionen verknuepft.
     """  
 
     supp_order_det = models.ForeignKey(SuppOrderDet, on_delete=models.CASCADE)

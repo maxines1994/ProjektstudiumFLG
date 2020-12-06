@@ -1,13 +1,12 @@
 from django.db import models
 from . import GtModelBasic
 
-class Status(GtModelBasic):
+class BookingCode(GtModelBasic):
     """
-    Dieses Model enthaelt die Status je Tabelle und ihre Bedeutung auf Deutsch und Englisch.
-    """ 
+    Dieses Model enthaelt die Lagerbuchungscodes mit der entsprechenden Beschreibung auf Deutsch und Englisch.
+    """
 
-    table = models.CharField(max_length=30)
-    code = models.CharField(max_length=1)
+    code = models.CharField(max_length=3)
     description_en = models.CharField(max_length=30)
     description_de = models.CharField(max_length=30)
 

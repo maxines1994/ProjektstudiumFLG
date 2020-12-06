@@ -1,0 +1,49 @@
+Deutsch;english
+Leitungsteam;management
+Kunde;customer
+Kunden;customers
+Kundendienst;customer service
+interne Dienstleistung;internal service
+Produktionsdienstleistung;production service
+Produktion;production
+Lieferant;supplier
+Lieferanten;suppliers
+Spielleitung;game master
+LT;MG
+K;C
+KD;CS
+IDL;ITS
+PDL;PRS
+PRO;PRO
+L;SUP
+SL;GM
+Wareneingang;goods receipt
+Warenentnahme;goods withdrawal
+Inventurbuchung;inventory correction
+Systemkorrektur;system correction
+(unbekannt);(unknown)
+aktiv;active
+inaktiv;inactive
+wird bestellt;being ordered
+freigegeben;approved
+wird bearbeitet;in progress
+Bearbeitung abgeschlossen;processing complete
+wird produziert;being produced
+abgeschlossen;done
+geliefert;delivered
+reklamiert;complained
+abgenommen;accepted
+bestellt;ordered
+wird erstellt;being created
+erhalten;received
+nicht zugewiesen;unassigned
+zugewiesen;assigned
+wird verfasst;being composed
+gesendet;sent
+gelesen;read
+Bestellung freigeben;approve order
+Bestellung an Lieferanten;order to supplier
+Box zur Verfügung stellen;provide box
+Qualitätskontrolle durchführen;perform quality control
+Organisationseinheit;organizational unit
+Organisationseinheiten;organizational units

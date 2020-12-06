@@ -1,17 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
-from . import Status
+from . import GtModel
 
-class Complaint(models.Model):
+class Complaint(GtModel):
     """
-    This is an abstract template-Class for Supplier-Complaints and Customer-Complaints.
-    It contains the fields, that all types of complaints have in common.
+    Das ist eine Abstrakte Klasse und dient als Vorlage fuer Kopfdaten der Lieferanten-Reklamationen und Kunden-Reklamationen
     """
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    memo = models.TextField()
     finished_on = models.SmallIntegerField()
+    memo = models.TextField()
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         abstract = True

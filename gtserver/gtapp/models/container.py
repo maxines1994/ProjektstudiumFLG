@@ -1,13 +1,11 @@
 from django.db import models
-from . import Status
+from . import GtModel
 
-class Container(models.Model):
+class Container(GtModel):
     """
-    This is an abstract template-Class for Supplier-Containers and Customer-Containers.
-    It contains the fields, that all types of containers have in common.
+    Das ist eine Abstrakte Klasse und dient als Vorlage fuer Lieferanten-Container und Kunden-Container.
     """   
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
     barcode = models.CharField(max_length=8)
     delivery_date = models.SmallIntegerField()
     memo = models.TextField()

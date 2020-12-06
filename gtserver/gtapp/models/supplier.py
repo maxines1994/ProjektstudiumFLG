@@ -1,11 +1,13 @@
 from django.db import models
-from . import Status
+from . import GtModel
 
-class Supplier(models.Model):
+class Supplier(GtModel):
     """
-    This model contains master data of suppliers, that sell the parts which are needed to build lifting platforms.
+    Diese Model enthaelt die Stammdaten der Lieferanten, die die Einzelteile verkaufen, welche zum Bau der Hubbuehnen gebraucht werden.
     """
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=30)
     memo = models.TextField()
+
+    def __str__(self):
+        return self.name
