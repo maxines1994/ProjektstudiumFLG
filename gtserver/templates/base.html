@@ -18,7 +18,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>{{title}}</title>
+    
+    <style>
+      nav .brand-logo {
+        position: relative;
+      }
+    </style>
 
+    <!-- Head-->
     {% block head %}
 
     {% endblock %}
@@ -27,31 +34,38 @@
 
   <body>
 
+    <!-- Navbar-->
     <nav>
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">Logo</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="sass.html">Sass</a></li>
-          <li><a href="badges.html">Components</a></li>
-          <li><a href="collapsible.html">Javascript</a></li>
-          <li><a href="mobile.html">Mobile</a></li>
+      <div class="nav-wrapper blue darken-1">
+        <a href="" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+        <a href="/" class="brand-logo left">Logo</a>
+        <ul class="right">
+          <li><a href=""><i class="material-icons">chat_bubble</i></a></li>
+          <li><a href=""><i class="material-icons">qr_code</i></a></li>
+          <li><a href=""><i class="material-icons">notifications</i></a></li>
+          <li><a href=""><i class="material-icons">person_pin</i></a></li>
         </ul>
       </div>
     </nav>
-  
+
+    <!-- Mobile Navbar-->
     <ul class="sidenav" id="mobile-demo">
-      <li><a href="sass.html">Sass</a></li>
-      <li><a href="badges.html">Components</a></li>
-      <li><a href="collapsible.html">Javascript</a></li>
-      <li><a href="mobile.html">Mobile</a></li>
+      <li{% if active == "Startseite" %} class="active"{% endif %}><a href="/">Startseite</a></li>
+      <li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="/tasks/">Aufgaben</a></li>
+      <li{% if active == "Aufträge" %} class="active"{% endif %}><a href="">Aufträge</a></li>
+      <li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">Bestellungen</a></li>
+      <li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>
+      <li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>
+      <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li>
     </ul>
 
+    <!-- Content-->
     <div class="container">
       {% block content %}
       {% endblock %}
     </div>
 
+    <!-- Additional Body-->
     {% block body %}
 
     {% endblock %}
