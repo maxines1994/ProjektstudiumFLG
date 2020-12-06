@@ -4,8 +4,10 @@ from . import Order, Customer
 
 class CustOrder(Order):
     """
-    This model contains information about the Costumer-Orders.
-    It inherits most of its fields from the abstract Order-Class.
+    Diese Model enthaelt die Kopfdaten der Kundenauftraege.
     """    
 
     costumer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return ("Auftrag " + self.order_no)

@@ -1,13 +1,32 @@
 from django.db import models
-from . import Part
+from gtapp.constants import *
+from . import GtModelBasic, Part, BookingCode
 
-class Stock(models.Model):
+class Stock(GtModelBasic):
     """
-    This model contains information about the stock of each part.
-    Stock is the current amount that is inside the warehouse.
-    Reserved is the amount that is currently reserved for withdrawal for Supplier-Orders.
+    Dieses Model enthaelt Informationen ueber die Bestaende und reservierten Mengen der einzelnen Teile. 
+    Anhand des Kennzeichens "supplier_stock" erkennt man, ob es sich um den Bestand von JOGA (false) oder 
+    den Bestand beim zum Teil gehoerenden Lieferanten handelt (true).
     """
 
-    part = models.ForeignKey(Part, on_delete=models.CASCADE)
+    is_supplier_stock = models.BooleanField(default=False)
     stock = models.SmallIntegerField()
     reserved = models.SmallIntegerField(default=0)
+    part = models.ForeignKey(Part, on_delete=models.CASCADE)
+
+    def change(self, booking_quantity: BookingCode, booking_code=BOOKING_UNKNOWN):
+        """
+        Aendert den Bestand und schreibt eine entsprechende Lagerbewegung. Der booking_code muss nur uebergeben werden, wenn es sich um eine 
+        besondere Buchung, wie eine Inventur oder eine Systemkorrektur handelt. Diese Methode ermittelt anhand der booking_quantity, ob es sich um eine 
+        Entnahme oder einen Wareneingang handelt. Ist die booking_quantity >= 0 ist es ein Wareneingang, sonst eine Entnahme.
+
+        Beispiel:
+            mystock.change(BOOKING_INVENTORY_CORRECTION, 2)
+        Erhoeht den Bestand um 2 und schreibt eine entsprechende Lagerbewegung mit dem Buchungscode INV.
+        """
+
+        from . import StockMovement
+
+        StockMovement.append(previous_stock=self.stock, booking_quantity=booking_quantity, stock=self, booking_code=booking_code)
+        self.stock += booking_quantity
+        self.save()

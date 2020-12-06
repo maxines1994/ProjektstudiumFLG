@@ -1,13 +1,11 @@
 from django.db import models
-from . import Status
+from . import GtModel
 
-class ComplaintDet(models.Model):
+class ComplaintDet(GtModel):
     """
-    This is an abstract template-Class for Supplier-Complaint-Details and Customer-Complaint-Details.
-    It contains the fields, that all types of complaint-details have in common.
+    Das ist eine Abstrakte Klasse und dient als Vorlage fuer die Einzelpositionen von Lieferanten-Reklamationen und Kunden-Reklamationen.
     """
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
     pos = models.SmallIntegerField()
     quantity = models.SmallIntegerField()
     memo = models.TextField()

@@ -1,14 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from . import Status
+from . import GtModel
 
-class Order(models.Model):
+class Order(GtModel):
     """
-    This is an abstract template-Class for Supplier-Orders and Customer-Orders.
-    It contains the fields, that all types of Orders have in common.
+    Das ist eine Abstrakte Klasse und dient als Vorlage fuer Kopfdaten der Bestellungen und Auftraege.
     """
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
     order_no = models.CharField(max_length=8)
     price = models.SmallIntegerField()
     issued_on = models.SmallIntegerField()

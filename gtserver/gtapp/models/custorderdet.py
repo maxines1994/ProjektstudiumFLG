@@ -4,8 +4,7 @@ from . import OrderDet, CustOrder, Article
 
 class CustOrderDet(OrderDet):
     """
-    This model contains detailed information for every position of a Costumer-Order.
-    It inherits most of its fields from the abstract OrderDet-Class.
+    Dieses Model enthaelt die Positionsdaten eines Kundenauftrages.
     """   
 
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)

@@ -3,8 +3,7 @@ from . import Complaint, SuppComplaint, SuppOrderDet
 
 class SuppComplaintDet(Complaint):
     """
-    This model contains detailed information for every position of a Complaint towards a Supplier.
-    Most fields are inherited from the abstract ComplaintDet-class.
+    Diese Model enthaelt die Positionsdaten je Lieferanten-Reklamation.
     """    
 
     supp_complaint = models.ForeignKey(SuppComplaint, on_delete=models.CASCADE)

@@ -1,11 +1,13 @@
 from django.db import models
-from . import Status
+from . import GtModel
 
-class Customer(models.Model):
+class Customer(GtModel):
     """
-    This model contains master data of the costumers
+    Dieses Model enthaelt die Stammdaten der Kunden.
     """ 
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=30)
     memo = models.TextField(null=True)
+
+    def __str__(self):
+        return self.name

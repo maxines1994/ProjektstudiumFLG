@@ -4,8 +4,11 @@ from . import Order, Supplier
 
 class SuppOrder(Order):
     """
-    This model contains information about the Supplier-Orders.
-    It inherits most of its fields from the abstract Order-Class.
+    Diese Model enthaelt die Kopfdaten der Lieferantenbestellungen.
     """   
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+
+    
+    def __str__(self):
+        return ("Bestellung " + self.order_no)

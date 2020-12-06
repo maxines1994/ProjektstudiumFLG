@@ -1,14 +1,17 @@
 from django.db import models
-from . import Status, CustOrderDet
+from django.contrib.auth.models import User
+from gtapp.constants.general import *
+from . import GtModel, CustOrderDet, TodoType
+import time
 
-class Todo(models.Model):
+class Todo(GtModel):
     """
-    This model contains all information about Todos. It identifies the User, that gets the todo,
-    the Todo-Text, as well as the mapping to the Customer-Order-Details.
+    Dieses Model enthaelt die einzelnen Todos. Es identifiziert den Todo-Typ und den Sachbearbeiter des Todos.
+    Ausserdem enthaelt es die Zuordnung zur Bestellposition, sowie ein Notizfeld.
     """
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
-    user = models.SmallIntegerField()
-    cust_order_det = models.SmallIntegerField()
     memo = models.TextField()
     finished_on = models.SmallIntegerField()
+    todo_type = models.ForeignKey(TodoType, on_delete=models.CASCADE)
+    cust_order_det = models.ForeignKey(CustOrderDet, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, default=UNKNOWN, on_delete=models.SET_DEFAULT)

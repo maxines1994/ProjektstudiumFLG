@@ -1,21 +1,22 @@
-#All global group-constants will be defined in this file.
+"""
+Alle Gruppen-Konstanten werden in dieser Datei definiert.
+"""
 
-LEITUNGSTEAM                        = 'Leitungsteam'
-KUNDEN                              = 'Kunden'
-KUNDENDIENST                        = 'Kundendienst'
-INTERNE_DIENSTLEISTUNG              = 'Interne Dienstleistung'
-PRODUKTIONSDIENSTLEISTUNG           = 'Produktionsdienstleistung'
-PRODUKTION                          = 'Produktion'
-LIEFERANTEN                         = 'Lieferanten'
-SPIELLEITUNG                        = 'Spielleitung'
+MANAGEMENT                          = 'management'
+CUSTOMERS                           = 'customers'
+CUSTOMER_SERVICE                    = 'customer service'
+INTERNAL_SERVICE                    = 'internal service'
+PRODUCTION_SERVICE                  = 'production service'
+PRODUCTION                          = 'production'
+SUPPLIERS                           = 'suppliers'
+GAME_MASTER                         = 'game master'
 
-#Abbreviations of the groups
-
-LEITUNGSTEAM_CODE                   = 'LT'
-KUNDEN_CODE                         = 'K'
-KUNDENDIENST_CODE                   = 'KD'
-INTERNE_DIENSTLEISTUNG_CODE         = 'IDL'
-PRODUKTIONSDIENSTLEISTUNG_CODE      = 'PDL'
-PRODUKTION_CODE                     = 'PRO'
-LIEFERANTEN_CODE                    = 'L'
-SPIELLEITUNG_CODE                   = 'SL'
+#Abkuerzungen fuer die Gruppen
+MANAGEMENT_CODE                     = 'MG'
+CUSTOMERS_CODE                      = 'C'
+CUSTOMER_SERVICE_CODE               = 'CS'
+INTERNAL_SERVICE_CODE               = 'ITS'
+PRODUCTION_SERVICE_CODE             = 'PRS'
+PRODUCTION_CODE                     = 'PRO'
+SUPPLIERS_CODE                      = 'SUP'
+GAME_MASTER_CODE                    = 'GM'

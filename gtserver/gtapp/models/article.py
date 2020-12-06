@@ -1,14 +1,16 @@
 from django.db import models
-from . import Status, Part
+from . import GtModel, Part
 from gtapp.constants import *
 
 
-class Article(models.Model):
+class Article(GtModel):
     """
-    This model contains master data of the lifting platforms that are sold to the costumers.
+    Dieses Model enthaelt die Stammdaten der Hubbuehnen, die an die Kunden verkauft werden.
     """
 
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
     article_no = models.CharField(max_length=8)
     description = models.CharField(max_length=30)
     parts = models.ManyToManyField(Part, through='ArtiPart')
+
+    def __str__(self):
+        return self.description
