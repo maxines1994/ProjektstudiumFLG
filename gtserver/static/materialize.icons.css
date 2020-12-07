@@ -2,10 +2,7 @@
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
-    src: url(iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
-    src: local('Material Icons'),
-         local('MaterialIcons-Regular'),
-         /*
+    src: /*
          url(iconfont/MaterialIconsOutlined-Regular.otf) format('truetype'),
          url(iconfont/MaterialIconsRound-Regular.otf) format('truetype'),
          url(iconfont/MaterialIconsSharp-Regular.otf) format('truetype'),
