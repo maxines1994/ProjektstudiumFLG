@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load materializecss %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+    <div class="row">
+        <div class="s12">
+            <h3>Benutzer wechseln</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m8 l6 xl4">
+            <ul class="collection">
+            {% for user_login in users %}
+                <li class="collection-item avatar"><div>
+                    {% if user_login.id == user.id %}
+                        <i class="material-icons circle green">how_to_reg</i>
+                        <span class="title">{{ user_login.username }}</span>
+                        <p>
+                            {% for group in user_login.groups.all %}
+                                {{ group.name }}<br />
+                            {% endfor %}
+                        </p>
+                        
+                    {% else %}
+                        <i class="material-icons circle">person</i>
+                        <span class="title">{{ user_login.username }}</span>
+                        <p>
+                            {% for group in user_login.groups.all %}
+                                {{ group.name }}<br />
+                            {% endfor %}
+                        </p>
+                        <a href="{% url 'change_user' %}{{user_login.id}}/" class="secondary-content"><i class="material-icons">login</i></a>
+                    {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+
+{% endblock %}
