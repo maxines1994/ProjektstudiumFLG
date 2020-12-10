@@ -39,14 +39,31 @@
       <div class="nav-wrapper blue darken-1">
         <a href="" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
         <a href="/" class="brand-logo left">Logo</a>
+        {% if user.is_authenticated %}
         <ul class="right">
           <li><a href=""><i class="material-icons">chat_bubble</i></a></li>
           <li><a href=""><i class="material-icons">qr_code</i></a></li>
           <li><a href=""><i class="material-icons">notifications</i></a></li>
-          <li><a href=""><i class="material-icons">person_pin</i></a></li>
+          <li ><a class="dropdown-trigger" href="#" data-target="userdropdown"><i class="material-icons left">person</i>{{ user.username }}</a></li>
         </ul>
+        {% else %}
+        <ul class="right">
+          <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Einloggen</a></li>
+        </ul>
+        {% endif %}
       </div>
     </nav>
+
+    {% if user.is_authenticated %}
+    <!-- Dropdown Structure -->
+    <ul id="userdropdown" class="dropdown-content">
+      {% if debug %}
+      <li><a href="{% url 'change_user' %}"><i class="material-icons left">people</i>Benutzer wechseln</a></li>
+      <li class="divider"></li>
+      {% endif %}
+      <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Ausloggen</a></li>
+    </ul>
+    {% endif %}
 
     <!-- Mobile Navbar-->
     <ul class="sidenav" id="mobile-demo">
@@ -84,6 +101,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
           $('.sidenav').sidenav();
+          $(".dropdown-trigger").dropdown();
         });
     </script>
     {% block scripts %}
