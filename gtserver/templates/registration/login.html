@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load materializecss %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form|materializecss }}
+        <button class="btn" type="submit"><i class="material-icons left">login</i>Einloggen</button>
+    </form>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+
+{% endblock %}
