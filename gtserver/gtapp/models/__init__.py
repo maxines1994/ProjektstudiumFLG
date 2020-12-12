@@ -1,3 +1,4 @@
+from . import groupextension
 from .gtmodelbasic import GtModelBasic
 from .player import Player
 from .status import Status
