@@ -12,7 +12,29 @@
 
 <!-- Body-->
 {% block body %}
-
+<table id="itemtable">
+    <thead id="itemhead">
+        <tr>
+            <th>Position</th>
+            <th>Artikel</th>
+            <th>Preis</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="itembody">
+        {% for i in items %}
+        <tr>
+            <td>{{ i.pos }}</td>
+            <td>{{ i.article.description }}</td>
+            <td>{{ i.unit_price }}</td>
+            <td><a href="/cust_order_det/alter/{{i.id}}/" class="btn-floating btn-small waves-effect waves-light blue"><i class="material-icons">create</i></a><a href="/cust_order_det/delete/{{i.id}}/" class="btn-floating btn-small waves-effect waves-light blue"><i class="material-icons">create</i></a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4"><button data-target="newpositionmodal" class="btn modal-trigger">Position hinzufügen</button></td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
 
 <!-- Scripts-->

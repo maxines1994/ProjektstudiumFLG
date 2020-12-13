@@ -29,6 +29,38 @@
       nav .brand-logo {
         position: relative;
       }
+      
+      .dropdown-content li>* {
+          display: flex;
+          align-items: center;
+      }
+
+      .dropdown-content {
+          width: auto !important;
+      }
+
+          /* optional */
+      .dropdown-content a> i {
+          margin-right: 16px;
+      }
+
+      .table-scrollable {
+          width: 100%;
+          overflow-y: auto;
+          margin: 0 0 1em;
+      }
+
+      .table-scrollable::-webkit-scrollbar {
+          -webkit-appearance: none;
+          width: 14px;
+          height: 14px;
+      }
+
+      .table-scrollable::-webkit-scrollbar-thumb {
+          border-radius: 8px;
+          border: 3px solid #fff;
+          background-color: rgba(0, 0, 0, .3);
+      }
     </style>
 
     <!-- Head-->
@@ -43,8 +75,8 @@
     <!-- Navbar-->
     <nav>
       <div class="nav-wrapper">
-        <a href="" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
-        <a href="/" class="brand-logo left">Logo</a>
+        <a data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+        <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
         {% if user.is_authenticated %}
         <ul class="right">
           <li><a href=""><i class="material-icons">chat_bubble</i></a></li>
@@ -73,9 +105,9 @@
 
     <!-- Mobile Navbar-->
     <ul class="sidenav" id="mobile-demo">
-      <li{% if active == "Startseite" %} class="active"{% endif %}><a href="/">Startseite</a></li>
-      <li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="/tasks/">Aufgaben</a></li>
-      <li{% if active == "Aufträge" %} class="active"{% endif %}><a href="">Aufträge</a></li>
+      <li{% if active == "Startseite" %} class="active"{% endif %}><a href="{% url 'home' %}">Startseite</a></li>
+      <li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="{% url 'tasks' %}">Aufgaben</a></li>
+      <li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">Aufträge</a></li>
       <li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">Bestellungen</a></li>
       <li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>
       <li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>

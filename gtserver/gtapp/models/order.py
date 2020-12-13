@@ -8,12 +8,15 @@ class Order(GtModel):
     """
 
     order_no = models.CharField(max_length=8)
-    price = models.SmallIntegerField()
+    price = models.SmallIntegerField(null=True)
     issued_on = models.SmallIntegerField()
     delivery_date = models.SmallIntegerField()
-    received_on = models.SmallIntegerField()
+    received_on = models.SmallIntegerField(null=True)
     memo = models.TextField()
     user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        super(Order, self).save(*args, **kwargs)

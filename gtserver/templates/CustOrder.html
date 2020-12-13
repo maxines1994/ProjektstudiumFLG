@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4>Kundenaufträge <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<div class="table-scrollable">
+    <table id="itemtable">
+        <thead id="itemhead">
+            <tr>
+                <th>Auftragsnummer</th>
+                <th>Einteilungsdatum</th>
+                <th>Lieferdatum</th>
+                <th>Kunde</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itembody">
+            {% for o in orders %}
+            <tr>
+                <td>Auftrag #{{ o.id }}</td>
+                <td>Tag #{{ o.issued_on }}</td>
+                <td>Tag #{{ o.delivery_date }}</td>
+                <td>{{ o.costumer }}</td>
+                <td>{{ o.status }}</td>
+                <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
+                            class="material-icons">more_vert</i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% for o in orders %}
+<ul id='a{{o.id}}' class='dropdown-content'>
+    <li><a href="{% url 'cust_order_alter' o.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_order_delete' o.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+</ul>
+{% endfor %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $('.dropdown-trigger').dropdown();
+    });
+</script>
+{% endblock %}

@@ -12,7 +12,7 @@
     {% csrf_token %}
     <div class="row">
         <div class="col s12">
-            <h3>Auftrag erstellen</h3>
+            <h4>Auftrag erstellen</h4>
         </div>
         {% for field in form.visible_fields %}
         <div class="col s12 m12 l6">
@@ -25,11 +25,34 @@
             {{ field }}
         </div>
         {% endfor %}
-
-        {% include "items.html" %}
-
+        {% if title == "Auftrag ändern" %}
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Position</th>
+                    <th>Artikel</th>
+                    <th>Preis</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                {% for i in items %}
+                <tr>
+                    <td>{{ i.pos }}</td>
+                    <td>{{ i.article.description }}</td>
+                    <td>{{ i.unit_price }}</td>
+                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
+                        class="material-icons">more_vert</i></a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" class="waves-effect waves-light btn"><i class="material-icons left">add_shopping_cart</i>Position hinzufügen</a></td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
         <div class="col s12">
-            <input type="submit" value="Submit">
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons right">send</i>Speichern</button>
         </div>
     </div>
 </form>
@@ -38,7 +61,12 @@
 
 <!-- Body-->
 {% block body %}
-
+{% for i in items %}
+<ul id='i{{i.id}}' class='dropdown-content'>
+    <li><a href="{% url 'cust_order_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+</ul>
+{% endfor %}
 {% endblock %}
 
 <!-- Scripts-->
@@ -48,4 +76,5 @@
     $('select').formSelect();
   });
 </script>
+
 {% endblock %}

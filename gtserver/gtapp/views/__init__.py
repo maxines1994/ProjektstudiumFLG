@@ -1,3 +1,3 @@
 from gtapp.views.stdViews import home_view, tasks_view, tasks_list_assigned_view, tasks_list_notassigned_view
 from gtapp.views.authViews import change_user_view, change_user_to_view
-from gtapp.views.CustOrderViews import cust_order_create_view, cust_order_alter_view, cust_order_list_view
+from gtapp.views.CustOrderViews import Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view
