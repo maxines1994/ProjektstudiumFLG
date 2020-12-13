@@ -11,7 +11,7 @@ PRODUCTION                          = 'production'
 SUPPLIERS                           = 'suppliers'
 GAME_MASTER                         = 'game master'
 
-#Abkuerzungen fuer die Gruppen
+#Gruppen-Kuerzel
 MANAGEMENT_CODE                     = 'MG'
 CUSTOMERS_CODE                      = 'C'
 CUSTOMER_SERVICE_CODE               = 'CS'

@@ -1,6 +1,6 @@
+from . import groupextension
 from .gtmodelbasic import GtModelBasic
 from .player import Player
-from .orgaunit import OrgaUnit
 from .status import Status
 from .bookingcode import BookingCode
 from .gtmodel import GtModel
