@@ -38,26 +38,28 @@
   <body>
 
     <!-- Navbar-->
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
-        {% if user.is_authenticated %}
-        <ul class="right">
-          {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
-          {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
-          {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}"><i class="material-icons">notifications</i></a></li>{% endif %}
-          <li ><a class="dropdown-trigger" href="#" data-target="userdropdown"><i class="material-icons left">person</i>{{ user.username }}</a></li>
-        </ul>
-        {% else %}
-        <ul class="right">
-          <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Einloggen</a></li>
-        </ul>
-        {% endif %}
+    <div class="navbar-fixed" style="z-index: 9999;">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
+          {% if user.is_authenticated %}
+          <ul class="right">
+            {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
+            {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
+            {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}"><i class="material-icons">notifications</i></a></li>{% endif %}
+            <li ><a class="dropdown-trigger" href="#" data-target="userdropdown"><i class="material-icons left">person</i>{{ user.username }}</a></li>
+          </ul>
+          {% else %}
+          <ul class="right">
+            <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Einloggen</a></li>
+          </ul>
+          {% endif %}
 
-        
-      </div>
-    </nav>
+          
+        </div>
+      </nav>
+    </div>
 
     {% if user.is_authenticated %}
     <!-- Dropdown Structure -->
@@ -70,8 +72,11 @@
     </ul>
     {% endif %}
 
-    <!-- Mobile Navbar-->
-    <ul class="sidenav sidenav-fixed" id="sidenav">
+    {% if user.is_authenticated %}
+    <!-- Sidenav-->
+    <ul class="sidenav sidenav-fixed" id="sidenav" >
+      <li style="height: 64px"></li>
+      
       <li{% if active == "Startseite" %} class="active"{% endif %}><a href="{% url 'home' %}">Startseite</a></li>
       {% if perms.gtapp.view_todo %}<li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
       <li><div class="divider"></div></li>
@@ -82,9 +87,10 @@
       <li><div class="divider"></div></li>
       <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li>
     </ul>
+    {% endif %}
 
     <!-- Content-->
-    <main>
+    <main {% if user.is_authenticated %}class="loggedin"{% endif %}>
       <div id="content" class="container">
         {% block content %}
         {% endblock %}

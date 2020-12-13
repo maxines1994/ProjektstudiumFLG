@@ -34,12 +34,16 @@ nav .brand-logo {
       background-color: rgba(0, 0, 0, .3);
   }
   
-  main, nav {
+  main.loggedin {
     padding-left: 300px;
   }
 
   @media only screen and (max-width : 992px) {
-    main, nav {
+    main.loggedin {
       padding-left: 0;
     }
+  }
+
+  .navbar-fixed {
+    z-index: 9999;
   }
