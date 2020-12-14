@@ -5,3 +5,4 @@
 /gtserver/gtapp/constants/__pycache__
 /gtserver/gtapp/migrations/__pycache__
 /gtserver/gtapp/models/__pycache__
+gtserver/gtapp/migrations/0001_initial.py
