@@ -20,49 +20,14 @@
     <!--Import materialize.icons.css-->
     <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.icons.css' %}"/>
 
+    <!--Import custom.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>{{title}}</title>
     
-    <style>
-      nav .brand-logo {
-        position: relative;
-      }
-      
-      .dropdown-content li>* {
-          display: flex;
-          align-items: center;
-      }
-
-      .dropdown-content {
-          width: auto !important;
-      }
-
-          /* optional */
-      .dropdown-content a> i {
-          margin-right: 16px;
-      }
-
-      .table-scrollable {
-          width: 100%;
-          overflow-y: auto;
-          margin: 0 0 1em;
-      }
-
-      .table-scrollable::-webkit-scrollbar {
-          -webkit-appearance: none;
-          width: 14px;
-          height: 14px;
-      }
-
-      .table-scrollable::-webkit-scrollbar-thumb {
-          border-radius: 8px;
-          border: 3px solid #fff;
-          background-color: rgba(0, 0, 0, .3);
-      }
-    </style>
-
     <!-- Head-->
     {% block head %}
 
@@ -73,24 +38,28 @@
   <body>
 
     <!-- Navbar-->
-    <nav>
-      <div class="nav-wrapper">
-        <a data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
-        <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
-        {% if user.is_authenticated %}
-        <ul class="right">
-          <li><a href=""><i class="material-icons">chat_bubble</i></a></li>
-          <li><a href=""><i class="material-icons">qr_code</i></a></li>
-          <li><a href=""><i class="material-icons">notifications</i></a></li>
-          <li ><a class="dropdown-trigger" href="#" data-target="userdropdown"><i class="material-icons left">person</i>{{ user.username }}</a></li>
-        </ul>
-        {% else %}
-        <ul class="right">
-          <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Einloggen</a></li>
-        </ul>
-        {% endif %}
-      </div>
-    </nav>
+    <div class="navbar-fixed" style="z-index: 9999;">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
+          {% if user.is_authenticated %}
+          <ul class="right">
+            {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
+            {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
+            {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}"><i class="material-icons">notifications</i></a></li>{% endif %}
+            <li ><a class="dropdown-trigger" href="#" data-target="userdropdown"><i class="material-icons left">person</i>{{ user.username }}</a></li>
+          </ul>
+          {% else %}
+          <ul class="right">
+            <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Einloggen</a></li>
+          </ul>
+          {% endif %}
+
+          
+        </div>
+      </nav>
+    </div>
 
     {% if user.is_authenticated %}
     <!-- Dropdown Structure -->
@@ -103,23 +72,30 @@
     </ul>
     {% endif %}
 
-    <!-- Mobile Navbar-->
-    <ul class="sidenav" id="mobile-demo">
+    {% if user.is_authenticated %}
+    <!-- Sidenav-->
+    <ul class="sidenav sidenav-fixed" id="sidenav" >
+      <li style="height: 64px"></li>
+      
       <li{% if active == "Startseite" %} class="active"{% endif %}><a href="{% url 'home' %}">Startseite</a></li>
-      <li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="{% url 'tasks' %}">Aufgaben</a></li>
-      <li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">Aufträge</a></li>
-      <li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">Bestellungen</a></li>
-      <li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>
-      <li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>
+      {% if perms.gtapp.view_todo %}<li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
+      <li><div class="divider"></div></li>
+      {% if perms.gtapp.view_custorder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">Aufträge</a></li>{% endif %}
+      {% if perms.gtapp.view_custcomplaint %}<li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>{% endif %}
+      {% if perms.gtapp.view_supporder %}<li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">Bestellungen</a></li>{% endif %}
+      {% if perms.gtapp.view_suppcomplaint %}<li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>{% endif %}
+      <li><div class="divider"></div></li>
       <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li>
     </ul>
+    {% endif %}
 
     <!-- Content-->
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>
-    
+    <main {% if user.is_authenticated %}class="loggedin"{% endif %}>
+      <div id="content" class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
     <!-- Additional Body-->
     {% block body %}
 
