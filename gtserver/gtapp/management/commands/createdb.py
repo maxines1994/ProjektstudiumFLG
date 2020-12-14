@@ -23,7 +23,7 @@ class Command(BaseCommand):
         if os.path.exists(db_name):
             os.remove(db_name)
         else:
-            print(db_name + " does not exist. Proceeding...")
+            print(str(db_name) + " does not exist. Proceeding...")
         
         #0001_initial.py loeschen
         os.remove(migrations_path + '0001_initial.py')
