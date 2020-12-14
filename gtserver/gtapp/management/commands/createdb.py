@@ -3,6 +3,7 @@ from django.core import management
 from django.core.management.base import BaseCommand, CommandError
 from gtserver import settings
 from gtapp import migrations
+from django.contrib.auth import get_user_model
 
 class Command(BaseCommand):
 
@@ -39,3 +40,11 @@ class Command(BaseCommand):
 
         #Migrations ausfuehren
         management.call_command('migrate')
+
+        #Superuser erstellen
+        if (settings.DEBUG):
+            User = get_user_model()
+            User.objects.create_superuser('admin', '', 'admin')
+            print("Superuser 'admin' was created.")
+        else:
+            print("Superuser was not created because the debug flag in settings.py is not set.")
