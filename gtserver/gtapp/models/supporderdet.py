@@ -8,3 +8,4 @@ class SuppOrderDet(OrderDet):
 
     supp_order = models.ForeignKey(SuppOrder, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
+    quantity = models.SmallIntegerField()
