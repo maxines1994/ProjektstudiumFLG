@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import *
 from gtapp.models import Article, CustOrder, CustOrderDet, Customer
+from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
@@ -29,6 +30,34 @@ class Cust_order_det_form(ModelForm):
         labels = {
             'pos': _('Positionsnummer'),
             'article': _('Artikel'),
+            'unit_price': _('Stückpreis'),
+            'memo': _('Kommentar'),
+        }
+
+class Supp_order_form(ModelForm):
+    class Meta:
+        model = SuppOrder
+        fields = ["order_no","issued_on","delivery_date","price","memo"]
+        labels = {
+            'order_no': _('Bestellnummer'),
+            'issued_on': _('Bestelltag'),
+            'delivery_date': _('Liefertag'),
+            'price': _('Preis'),
+            'memo': _('Kommentar'),
+        }
+        widgets = {
+            #'order_no': IntegerField()
+        }
+
+class Supp_order_det_form(ModelForm):
+    class Meta:
+        model = SuppOrderDet
+        fields = ["pos","part","quantity","unit_price","memo"] #"pack_quantity", 
+        labels = {
+            'pos': _('Positionsnummer'),
+            'part': _('Artikel'),
+            #'pack_quantity': _('Strukturmenge'),
+            'quantity': _('Bestellmenge'),
             'unit_price': _('Stückpreis'),
             'memo': _('Kommentar'),
         }
