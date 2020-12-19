@@ -5,6 +5,8 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.forms import Cust_order_form, Cust_order_det_form
 from gtapp.models import CustOrder, CustOrderDet
 
+
+# CustOrder von Joga und Bestellungen der 
 class Cust_order_create_view(CreateView):
     form_class = Cust_order_form
     template_name = "CustOrderForm.html"
@@ -22,6 +24,7 @@ class Cust_order_create_view(CreateView):
 class Cust_order_alter_view(UpdateView):
     form_class = Cust_order_form
     template_name = "CustOrderForm.html"
+    success_url = "/cust_order/"
 
     def get_object(self, queryset=None):
         obj = CustOrder.objects.get(id=self.kwargs['id'])
