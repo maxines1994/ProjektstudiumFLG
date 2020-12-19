@@ -29,7 +29,7 @@ class Cust_order_alter_view(UpdateView):
     def get_object(self, queryset=None):
         obj = CustOrder.objects.get(id=self.kwargs['id'])
         return obj
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['items'] = CustOrderDet.objects.filter(cust_order=self.get_object().pk)

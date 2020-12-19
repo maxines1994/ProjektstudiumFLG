@@ -15,8 +15,6 @@ class Migration(migrations.Migration):
         unknown_en = Translation.objects.get(id=UNKNOWN).string_en
         Article.objects.create(id=UNKNOWN, article_no=0, description=unknown_de)
         BookingCode.objects.create(id=UNKNOWN, code='',description_en=unknown_en, description_de=unknown_en)
-        TemplateType.objects.create(id=UNKNOWN, description_en=unknown_en, description_de=unknown_de)
-        MessageTemplate.objects.create(id=UNKNOWN, status=Status.objects.get(table='MESSAGETEMPLATE', code=MESSAGETEMPLATE_ACTIVE), text='', subject='', template_type=TemplateType.objects.get(id=UNKNOWN))
 
 
              
