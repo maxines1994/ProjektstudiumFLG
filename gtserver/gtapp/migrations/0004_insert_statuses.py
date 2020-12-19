@@ -67,7 +67,6 @@ class Migration(migrations.Migration):
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_translations'),
         ('gtapp', '0003_insert_usergroups'),
-        ('gtapp', '0004_insert_unknowns'),
     ]
 
     operations = [
