@@ -5,11 +5,28 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 #from gtapp.forms import Cust_order_form, Cust_order_det_form
 #from gtapp.models import CustOrder, CustOrderDet
 from gtapp.models import SuppOrder, SuppOrderDet
-from gtapp.forms import Supp_order_form, Supp_order_det_form
+from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
+
+from django import template
+register = template.Library()
+
+@register.simple_tag()
+def mul(qty, unit_price, *args, **kwargs):
+    # you would need to do any localization of the result here
+    return int(qty) * int(unit_price)
 
 class Supp_order_create_view(CreateView):
-    form_class = Supp_order_form
+
     template_name = "SuppOrderForm.html"
+
+    # def get_form(self, request, obj=None, **kwargs):
+    #     if request.user.groups.first.name == "suppliers":
+    #         kwargs['form'] = Supp_order_form_jg
+    #     else:
+    #         kwargs['form'] = Supp_order_form_lf            
+    #     return super().get_form(request, obj, **kwargs)
+
+    form_class = Supp_order_form_jg
 
     def form_valid(self, form):
         new_supp_order = form.save()
@@ -22,7 +39,7 @@ class Supp_order_create_view(CreateView):
 
 
 class Supp_order_alter_view(UpdateView):
-    form_class = Supp_order_form
+    form_class = Supp_order_form_jg
     template_name = "SuppOrderForm.html"
 
     def get_object(self, queryset=None):
@@ -59,9 +76,9 @@ class Supp_order_det_create_view(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.supp_order = SuppOrder.objects.get(id=self.kwargs["supp_order"])
+        form.instance.supp_order = SuppOrder.objects.get(id=self.kwargs["cust_order"])
         form.save()
-        return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["supp_order"]) + "/")
+        return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["cust_order"]) + "/")
     
 class Supp_order_det_alter_view(UpdateView):
     form_class = Supp_order_det_form
@@ -101,4 +118,3 @@ class Supp_order_view(TemplateView):
         context['orders'] = SuppOrder.objects.all()
         context = get_context_back(context,"Auftragsliste","Aufträge")
         return context
-

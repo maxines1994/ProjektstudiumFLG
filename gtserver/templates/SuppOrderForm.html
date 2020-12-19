@@ -31,6 +31,8 @@
                 <tr>
                     <th>Position</th>
                     <th>Artikel</th>
+                    <th>Bestellmenge</th>
+                    <th>Strukturmenge</th>
                     <th>Preis</th>
                     <th></th>
                 </tr>
@@ -39,7 +41,9 @@
                 {% for i in items %}
                 <tr>
                     <td>{{ i.pos }}</td>
-                    <td>{{ i.article.description }}</td>
+                    <td>{{ i.part.description }}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>{{ i.part.pack_quantity }}</td>
                     <td>{{ i.unit_price }}</td>
                     <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                         class="material-icons">more_vert</i></a></td>

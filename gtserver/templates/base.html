@@ -82,7 +82,7 @@
       <li><div class="divider"></div></li>
       {% if perms.gtapp.view_custorder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">Aufträge</a></li>{% endif %}
       {% if perms.gtapp.view_custcomplaint %}<li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>{% endif %}
-      {% if perms.gtapp.view_supporder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'supp_order' %}">Aufträge</a></li>{% endif %}
+      {% if perms.gtapp.view_supporder %}<li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="{% url 'supp_order' %}"> {% if user.groups.first.name == "suppliers" %} Aufträge {% else %} Bestellungen {% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>{% endif %}
       <li><div class="divider"></div></li>
       <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li>

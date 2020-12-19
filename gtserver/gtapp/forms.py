@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import *
 from gtapp.models import Article, CustOrder, CustOrderDet, Customer
-from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet
+from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet, Supplier
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
@@ -34,20 +34,39 @@ class Cust_order_det_form(ModelForm):
             'memo': _('Kommentar'),
         }
 
-class Supp_order_form(ModelForm):
+#Form für Bestellungen aus Sicht des Lieferanten
+class Supp_order_form_lf(ModelForm):
     class Meta:
         model = SuppOrder
-        fields = ["order_no","issued_on","delivery_date","price","memo"]
+        fields = ["order_no","issued_on","delivery_date","memo"]
         labels = {
             'order_no': _('Bestellnummer'),
             'issued_on': _('Bestelltag'),
             'delivery_date': _('Liefertag'),
-            'price': _('Preis'),
+            'memo': _('Kommentar')
+        }
+        widgets = {
+            #'order_no': IntegerField()
+        }
+        #-> Haben Lieferwoche
+        # -> BoxNr
+
+#Form für Bestellungen aus Sicht von Joga
+class Supp_order_form_jg(ModelForm):
+    class Meta:
+        model = SuppOrder
+        fields = ["order_no","issued_on","supplier","delivery_date","memo"]
+        labels = {
+            'order_no': _('Bestellnummer'),
+            'issued_on': _('Bestelltag'),
+            'supplier': _("Lieferant"),
+            'delivery_date': _('Liefertag'),
             'memo': _('Kommentar'),
         }
         widgets = {
             #'order_no': IntegerField()
         }
+        # -> Boxnummer
 
 class Supp_order_det_form(ModelForm):
     class Meta:
@@ -58,6 +77,6 @@ class Supp_order_det_form(ModelForm):
             'part': _('Artikel'),
             #'pack_quantity': _('Strukturmenge'),
             'quantity': _('Bestellmenge'),
-            'unit_price': _('Stückpreis'),
+            'unit_price': _('price'),
             'memo': _('Kommentar'),
         }

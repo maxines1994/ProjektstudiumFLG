@@ -7,12 +7,12 @@
 
 <!-- Content-->
 {% block content %}
-<h4>Kundenaufträge <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4> {% if user.groups.first.name == "suppliers" %} Kundenaufträge {% else %} Bestellungen {% endif %} <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="table-scrollable">
     <table id="itemtable">
         <thead id="itemhead">
             <tr>
-                <th>Auftragsnummer</th>
+                <th> {% if user.groups.first.name == "suppliers" %} Auftragsnummer {% else %} Bestellnummer {% endif %}</th>
                 <th>Einteilungsdatum</th>
                 <th>Lieferdatum</th>
                 <th>Status</th>
@@ -22,7 +22,7 @@
         <tbody id="itembody">
             {% for o in orders %}
             <tr>
-                <td>Auftrag #{{ o.id }}</td>
+                <td>{% if user.groups.first.name == "suppliers" %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>
                 <td>Tag #{{ o.issued_on }}</td>
                 <td>Tag #{{ o.delivery_date }}</td>
                 <td>{{ o.status }}</td>
