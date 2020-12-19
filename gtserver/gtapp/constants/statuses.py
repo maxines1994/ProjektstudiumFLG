@@ -65,3 +65,6 @@ MESSAGE_BEING_COMPOSED              = 'C'
 MESSAGE_SENT                        = 'G'
 MESSAGE_RECEIVED                    = 'P'
 MESSAGE_READ                        = 'R'
+
+#Nachritentemplate-Status
+MESSAGETEMPLATE_ACTIVE              = 'A'

@@ -5,6 +5,7 @@ from django import apps
 from django.db import migrations, models
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from gtserver import settings
 from gtapp.constants import *
 from gtapp.constants import groups
 from gtapp.models import *
@@ -171,58 +172,112 @@ class Migration(migrations.Migration):
         Beispiel: Der zweite Benutzer der Produktionsgruppe hat als 
         Benutzername und Password "PRO2"
         """
+
+        #Superuser erstellen
+        if (settings.DEBUG):
+            newUser = User(username=ADMIN, is_superuser=True, is_staff=True, is_active=True)
+            newUser.set_password(ADMIN)
+            newUser.save()
+            print("Superuser '"+ ADMIN + "' was created.")
+        else:
+            print("Superuser was not created because the debug flag in settings.py is not set.")
+
         #Leitungsteam
         for number in range(1, PLAYER_AMOUNT_MANAGEMENT + 1):
-            newUser = User(username=MANAGEMENT_CODE + str(number), password=MANAGEMENT_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=MANAGEMENT_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=MANAGEMENT)
+            newUser.groups.add(my_group)
+            my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
              
         #Kunden
         for number in range(1, PLAYER_AMOUNT_CUSTOMERS + 1):
-            newUser = User(username=CUSTOMERS_CODE + str(number), password=CUSTOMERS_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=CUSTOMERS_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=CUSTOMERS)
             newUser.groups.add(my_group)
+            if number == 1:
+                my_group = Group.objects.get(name=C1)
+            if number == 2:
+                my_group = Group.objects.get(name=C2)
+            if number == 3:
+                my_group = Group.objects.get(name=C3)
+            if number <= 3:
+                newUser.groups.add(my_group)
 
         #Kundendienst
         for number in range(1, PLAYER_AMOUNT_CUSTOMER_SERVICE + 1):
-            newUser = User(username=CUSTOMER_SERVICE_CODE + str(number), password=CUSTOMER_SERVICE_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=CUSTOMER_SERVICE_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=CUSTOMER_SERVICE)
+            newUser.groups.add(my_group)
+            my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Interne Dienstleistung
         for number in range(1, PLAYER_AMOUNT_INTERNAL_SERVICE + 1):
-            newUser = User(username=INTERNAL_SERVICE_CODE + str(number), password=INTERNAL_SERVICE_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=INTERNAL_SERVICE_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=MANAGEMENT)
+            my_group = Group.objects.get(name=INTERNAL_SERVICE)
+            newUser.groups.add(my_group)
+            my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Produktionsdienstleistung
         for number in range(1, PLAYER_AMOUNT_PRODUCTION_SERVICE + 1):
-            newUser = User(username=PRODUCTION_SERVICE_CODE + str(number), password=PRODUCTION_SERVICE_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=PRODUCTION_SERVICE_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=PRODUCTION_SERVICE)
+            newUser.groups.add(my_group)
+            my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Produktion
         for number in range(1, PLAYER_AMOUNT_PRODUCTION + 1):
-            newUser = User(username=PRODUCTION_CODE + str(number), password=PRODUCTION_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=PRODUCTION_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=PRODUCTION)
+            newUser.groups.add(my_group)
+            my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Lieferanten
         for number in range(1, PLAYER_AMOUNT_SUPPLIERS+ 1):
-            newUser = User(username=SUPPLIERS_CODE + str(number), password=SUPPLIERS_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=SUPPLIERS_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=SUPPLIERS)
             newUser.groups.add(my_group)
 
+            if number == 1:
+                my_group = Group.objects.get(name=S100)
+            if number == 2:
+                my_group = Group.objects.get(name=S200)
+            if number == 3:
+                my_group = Group.objects.get(name=S300)
+            if number <= 3:
+                newUser.groups.add(my_group)
+
         #Spielleitung
         for number in range(1, PLAYER_AMOUNT_GAME_MASTER + 1):
-            newUser = User(username=GAME_MASTER_CODE + str(number), password=GAME_MASTER_CODE + str(number), is_superuser=False, is_staff=True, is_active=True)
+            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=GAME_MASTER_CODE)
+            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name_de + str(number))
             newUser.save()
             my_group = Group.objects.get(name=GAME_MASTER)
             newUser.groups.add(my_group)

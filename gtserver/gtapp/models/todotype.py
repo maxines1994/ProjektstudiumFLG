@@ -12,4 +12,6 @@ class TodoType(GtModelBasic):
     type = models.CharField(max_length=3)
     description_en = models.CharField(max_length=30)
     description_de = models.CharField(max_length=30)    
+    parent = models.ForeignKey('self', null=True, related_name='parent_todo', on_delete=models.SET_NULL)
+    child = models.ForeignKey('self', null=True, related_name='child_todo', on_delete=models.SET_NULL)
     group = models.ForeignKey(Group,null=True, on_delete=models.SET_NULL)

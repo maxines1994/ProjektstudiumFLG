@@ -103,8 +103,8 @@ class Migration(migrations.Migration):
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_translations'),
         ('gtapp', '0003_insert_usergroups'),
-        ('gtapp', '0004_insert_unknowns'),
-        ('gtapp', '0005_insert_statuses'),
+        ('gtapp', '0005_insert_unknowns'),
+        ('gtapp', '0004_insert_statuses'),
     ]
 
     operations = [
