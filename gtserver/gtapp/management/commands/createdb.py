@@ -41,10 +41,3 @@ class Command(BaseCommand):
         #Migrations ausfuehren
         management.call_command('migrate')
 
-        #Superuser erstellen
-        if (settings.DEBUG):
-            User = get_user_model()
-            User.objects.create_superuser('admin', '', 'admin')
-            print("Superuser 'admin' was created.")
-        else:
-            print("Superuser was not created because the debug flag in settings.py is not set.")
