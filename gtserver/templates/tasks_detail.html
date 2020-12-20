@@ -19,6 +19,22 @@
                 <p>
                     {{object.memo}}
                 </p>
+                <p>
+                    <b>Benutzerzuodnung:</b> 
+                 </p>
+                 <p>
+                    {% if object.user_id == -1 %}
+                    Nicht zugeordnet
+                    {% else %}
+                    {{object.user}}
+                    {% endif %}
+                 </p>
+                <p>
+                    <b>Gruppenzuordnung:</b> 
+                 </p>
+                 <p>
+                     {{object.todo_type.group}}
+                 </p>
             </div>
             <div class="card-action">
                 <center>

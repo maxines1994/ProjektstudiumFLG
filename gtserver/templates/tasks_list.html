@@ -37,9 +37,9 @@
     {% if task.user.pk == -1 %}
     <li><a href="{% url 'tasks_assign' task.pk %}"><i class="material-icons">launch</i>Mir zuweisen</a></li>
     {%else%}
-    <li><a href="{% url 'tasks_share' task.pk %}"><i class="material-icons">launch</i>Aufgabe freigeben</a></li>
-    <li><a href=""><i class="material-icons">launch</i>Bearbeiten</a></li>
-    <li><a href=""><i class="material-icons">launch</i>Fertig</a></li>
+    <li><a href="{% url 'tasks_share' task.pk %}"><i class="material-icons">api</i>Aufgabe freigeben</a></li>
+    <li><a href=""><i class="material-icons">build</i>Bearbeiten</a></li>
+    <li><a href=""><i class="material-icons">done</i>Fertig</a></li>
     {%endif%}
     <li><a href="{% url 'tasks_detail' task.pk %}"><i class="material-icons">subject</i>Details</a></li>
 </ul>

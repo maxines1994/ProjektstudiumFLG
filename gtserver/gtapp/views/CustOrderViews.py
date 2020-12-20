@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.forms import Cust_order_form, Cust_order_det_form
 from gtapp.models import CustOrder, CustOrderDet
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 # CustOrder von Joga und Bestellungen der 
@@ -50,7 +52,8 @@ class Cust_order_delete_view(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class Cust_order_det_create_view(CreateView):
+class Cust_order_det_create_view(PermissionRequiredMixin,CreateView):
+    permission_required = 'gtapp.create_cust_order'
     form_class = Cust_order_det_form
     template_name = "CustOrderForm.html"
     
