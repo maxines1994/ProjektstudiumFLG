@@ -1,5 +1,6 @@
 nav .brand-logo {
   position: relative;
+  margin-left: 16px;
 }
 
 .dropdown-content li>* {

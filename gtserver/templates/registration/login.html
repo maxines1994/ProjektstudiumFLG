@@ -8,11 +8,16 @@
 
 <!-- Content-->
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form|materializecss }}
-        <button class="btn" type="submit"><i class="material-icons left">login</i>Einloggen</button>
-    </form>
+    <div class="section">
+        <h4>Login</h4>
+        <br />
+        <form method="post">
+            {% csrf_token %}
+            {{ form|materializecss }}
+            <br />
+            <button class="btn" type="submit"><i class="material-icons left">login</i>Einloggen</button>
+        </form>
+    </div>
 {% endblock %}
 
 <!-- Body-->

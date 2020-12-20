@@ -44,7 +44,7 @@
       <nav>
         <div class="nav-wrapper">
           <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-          <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
+          <a href="{% url 'home' %}" class="hide-on-med-and-down brand-logo left">{% if company == 'joga' %}JOGA{% else %}{{ user.groups.first.name_de }}{% endif %}</a>
           {% if user.is_authenticated %}
           <ul class="right">
             {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
@@ -82,20 +82,21 @@
         <div class="background">
           <img style="filter: brightness(50%);" src="{% static 'img/logistics-300px.jpg' %}">
         </div>
-        <a href="#user"><img class="grey lighten-2 circle" src="{% static 'img/avataaars.svg' %}"></a>
+        <a><img class="grey lighten-2 circle" src="{% static 'img/avataaars.svg' %}"></a>
         <!--<i class="material-icons center-align">person</i>-->
-        <a href="#name"><span class="white-text name">{{ user.username }}</span></a>
-        <a href="#email"><span class="white-text email">{{ user.groups.first.name_de }}</span></a>
+        <a><span class="white-text name">{{ user.username }}</span></a>
+        <a><span class="white-text email">{{ user.groups.first.name_de }}</span></a>
       </div></li>
       <li{% if active == "Startseite" %} class="active"{% endif %}><a href="{% url 'home' %}">Startseite</a></li>
       {% if perms.gtapp.view_todo %}<li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
       <li><div class="divider"></div></li>
-      {% if perms.gtapp.view_custorder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">Aufträge</a></li>{% endif %}
-      {% if perms.gtapp.view_custcomplaint %}<li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>{% endif %}
-      {% if perms.gtapp.view_supporder %}<li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">Bestellungen</a></li>{% endif %}
-      {% if perms.gtapp.view_suppcomplaint %}<li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>{% endif %}
-      <li><div class="divider"></div></li>
-      <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li>
+      {# <li><a class="subheader">Meine Seiten</a></li> #}
+      {% if perms.gtapp.view_custorder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">{% if company == 'customer' %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_custcomplaint %}<li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_supporder %}<li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">{% if company == 'supplier' %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_suppcomplaint %}<li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">{% if company == 'supplier' %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
+      {# <li><div class="divider"></div></li> #}
+      {# <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li> #}
     </ul>
     {% endif %}
 
