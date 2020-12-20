@@ -50,6 +50,15 @@ class Supp_order_form_lf(ModelForm):
         }
         #-> Haben Lieferwoche
         # -> BoxNr
+    
+    # def save(self, user=None):
+    #     user_profile = super(Supp_order_form_lf, self).save(commit=False)
+    #     if user:
+    #         user_profile.user = user
+    #     user_profile.save()
+    #     return user_profile
+
+
 
 #Form für Bestellungen aus Sicht von Joga
 class Supp_order_form_jg(ModelForm):
@@ -67,6 +76,15 @@ class Supp_order_form_jg(ModelForm):
             #'order_no': IntegerField()
         }
         # -> Boxnummer
+
+    def __init__(self, *args, **kwargs):
+        groups = kwargs.pop('groups', None)
+        user = kwargs.pop('user', None)
+        super(Supp_order_form_jg, self).__init__(*args, **kwargs)
+
+        if groups == "suppliers":
+            self.fields['supplier'].widget = HiddenInput()
+            self.fields['supplier'].initial = user[3]
 
 class Supp_order_det_form(ModelForm):
     class Meta:

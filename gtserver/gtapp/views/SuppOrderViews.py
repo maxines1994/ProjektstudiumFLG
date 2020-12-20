@@ -10,6 +10,8 @@ from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_f
 class Supp_order_create_view(CreateView):
 
     template_name = "SuppOrderForm.html"
+    form_class = Supp_order_form_jg
+
 
     # def get_form(self, request, obj=None, **kwargs):
     #     if request.user.groups.first.name == "suppliers":
@@ -18,8 +20,47 @@ class Supp_order_create_view(CreateView):
     #         kwargs['form'] = Supp_order_form_lf            
     #     return super().get_form(request, obj, **kwargs)
 
-    form_class = Supp_order_form_jg
+    # def get_form(self, request, obj=None, **kwargs):
+    #     if form_class is None: 
+    #         form_class = self.get_form_class()
 
+    #     if request.user.groups.first.name == "suppliers":
+    #         kwargs['form'] = Supp_order_form_jg
+    #     else:
+    #         kwargs['form'] = Supp_order_form_lf 
+    #     return super(Supp_order_create_view, self).get_form(request, obj, **kwargs)
+
+    # def get_form(self, form_class=None, **kwargs):
+    #     if form_class is None:
+    #         form_class = self.get_form_class()
+
+        
+
+    #     #if request.user.groups.first.name == "suppliers":
+    #      #   kwargs['form'] = Supp_order_form_jg
+    #     #else:
+        
+    #     #kwargs['form'] = Supp_order_form_lf  
+    
+    #     form_class = Supp_order_form_jg
+        
+    #     #return form_class(**self.get_form_kwargs()) 
+    #     return form_class
+
+    def get_form_kwargs(self):
+        kwargs = super(Supp_order_create_view, self).get_form_kwargs()
+
+        if self.request.method == 'GET':
+            
+            groups = list(self.request.user.groups.values_list('name',flat = True))
+            user = str(self.request.user)
+
+            kwargs.update({
+                'groups': str(groups[0]) ,
+                'user': user,
+            })
+        return kwargs
+    
     def form_valid(self, form):
         new_supp_order = form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
