@@ -3,7 +3,11 @@
 
 <!-- Header-->
 {% block head %}
-
+<style>
+    .help-block {
+        margin:0px;
+    }
+</style>
 {% endblock %}
 
 <!-- Content-->
@@ -15,11 +19,17 @@
             <div class="col s12">
                 <h4>Auftrag erstellen</h4>
             </div>
+            <div class="row" style="margin-bottom: 0px;">
             {% for field in form.visible_fields %}
+            {% if forloop.counter0|divisibleby:2 %}
+            </div>
+            <div class="row" style="margin-bottom: 0px;">
+            {% endif %}
             <div class="col s12 m12 l6">
                 {{ field|materializecss }}
             </div>
             {% endfor %}
+            </div>
             {% for field in form.hidden_fields %}
             <div class="col s12 m12 l6">
                 {{ field }}

@@ -7,15 +7,50 @@
 
 <!-- Content-->
 {% block content %}
-
+<h4>{{Headline}}</h4>
+<table id="itemtable">
+    <thead id="itemhead">
+      <tr>
+          <th>ID</th>
+          <th>Aufgabenname</th>
+          <th>Aufgabenbeschreibung</th>
+          <th></th>
+      </tr>
+    </thead>
+    <tbody id="itembody"></tbody>
+{% for task in tasks %}
+<tr id="newposition">
+    <td>{{task.id}}</td>
+    <td>{{task.todo_type.description_de}}</td>
+    <td>{{task.todo_type.description_de}}</td>
+    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
+</tr>
+{% endfor %}
+  </tbody>
+</table>
 {% endblock %}
 
 <!-- Body-->
 {% block body %}
-
+{% for task in tasks %}
+<ul id='a{{task.id}}' class='dropdown-content'>
+    {% if task.user.pk == -1 %}
+    <li><a href="{% url 'tasks_assign' task.pk %}"><i class="material-icons">launch</i>Mir zuweisen</a></li>
+    {%else%}
+    <li><a href="{% url 'tasks_share' task.pk %}"><i class="material-icons">api</i>Aufgabe freigeben</a></li>
+    <li><a href=""><i class="material-icons">build</i>Bearbeiten</a></li>
+    <li><a href=""><i class="material-icons">done</i>Fertig</a></li>
+    {%endif%}
+    <li><a href="{% url 'tasks_detail' task.pk %}"><i class="material-icons">subject</i>Details</a></li>
+</ul>
+{% endfor %}
 {% endblock %}
 
 <!-- Scripts-->
 {% block scripts %}
-
+<script>
+    $(document).ready(function () {
+        $('.dropdown-trigger').dropdown();
+    });
+</script>
 {% endblock %}

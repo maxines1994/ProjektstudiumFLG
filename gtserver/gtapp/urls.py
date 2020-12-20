@@ -1,6 +1,6 @@
 from django.urls import path, include
 from gtapp.views import change_user_view, change_user_to_view
-from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view
+from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -12,6 +12,9 @@ urlpatterns = [
     path('tasks/', tasks_view, name='tasks'),
     path('tasks_list/assigned/', tasks_list_assigned_view, name='tasks_assigned'),
     path('tasks_list/notassigned/', tasks_list_notassigned_view, name='tasks_notassigned'),
+    path('tasks_detail/<int:pk>/', Tasks_detail_view.as_view(), name='tasks_detail'),
+    path('tasks_assign/<int:id>/', tasks_assign_to_me_view, name='tasks_assign'),
+    path('tasks_share/<int:id>/', tasks_share_to_team_view, name='tasks_share'),
 
     path('cust_order/', Cust_order_view.as_view(), name="cust_order"),
     path('cust_order/create/', Cust_order_create_view.as_view(), name='cust_order_create'),

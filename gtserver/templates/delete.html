@@ -7,10 +7,12 @@
 
 <!-- Content-->
 {% block content %}
-<h4>Willkommen bei der Joga GmbH</h4>
+<h4>Löschung</h4>
 <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input type="submit" value="Confirm">
+    <p>Sind Sie sicher, dass Sie "{{ object }}" löschen möchten?</p>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Löschen
+        <i class="material-icons right">send</i>
+      </button>
 </form>
 {% endblock %}
 
