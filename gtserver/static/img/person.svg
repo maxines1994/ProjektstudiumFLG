@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 24 24"
+   fill="white"
+   width="48px"
+   height="48px"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="person.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="17.708333"
+     inkscape:cx="12.09591"
+     inkscape:cy="23.120688"
+     inkscape:window-x="-8"
+     inkscape:window-y="335"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <path
+     d="M0 0h24v24H0z"
+     fill="none"
+     id="path2" />
+  <path
+     d="m 12,11 c 1.724642,0 3.121524,-1.396882 3.121524,-3.1215238 0,-1.7246419 -1.396882,-3.1215238 -3.121524,-3.1215238 -1.724642,0 -3.1215238,1.3968819 -3.1215238,3.1215238 C 8.8784762,9.603118 10.275358,11 12,11 Z m 0,1.560762 c -2.0836171,0 -6.2430476,1.04571 -6.2430476,3.121524 v 1.560761 H 18.243047 v -1.560761 c 0,-2.075814 -4.15943,-3.121524 -6.243047,-3.121524 z"
+     id="path4"
+     style="stroke-width:0.780381;fill:#000000;fill-opacity:1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 1" />
+</svg>
