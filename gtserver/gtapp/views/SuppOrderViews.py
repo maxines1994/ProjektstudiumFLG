@@ -7,14 +7,6 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import SuppOrder, SuppOrderDet
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
 
-from django import template
-register = template.Library()
-
-@register.simple_tag()
-def mul(qty, unit_price, *args, **kwargs):
-    # you would need to do any localization of the result here
-    return int(qty) * int(unit_price)
-
 class Supp_order_create_view(CreateView):
 
     template_name = "SuppOrderForm.html"
@@ -52,6 +44,10 @@ class Supp_order_alter_view(UpdateView):
         context["supp_order_no"] = self.get_object().pk
         context = get_context_back(context,"Auftrag ändern","Aufträge")
         return context
+    
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect("/supp_order/")
 
 class Supp_order_delete_view(DeleteView):
     template_name = "delete.html"
@@ -62,7 +58,8 @@ class Supp_order_delete_view(DeleteView):
     
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = "/supp_order/alter/" + str(self.object.supp_order.pk) + "/"
+        success_url = "/supp_order/"
+        #success_url = "/supp_order/alter/" + str(self.object.supp_order.pk) + "/"
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
@@ -95,7 +92,7 @@ class Supp_order_det_alter_view(UpdateView):
 
     def form_valid(self, form):
         form.save()
-        return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["id"]) + "/")
+        return HttpResponseRedirect("/supp_order/alter/" + str(self.object.supp_order.pk) + "/")
 
 class Supp_order_det_delete_view(DeleteView):
     template_name = "delete.html"
