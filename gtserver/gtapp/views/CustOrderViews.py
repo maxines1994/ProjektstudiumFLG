@@ -124,6 +124,17 @@ class Cust_order_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['orders'] = CustOrder.objects.all()
+
+        # ToDo: Zusätzlichen Filter für Digitalisierungsstufe 1 einbauen, damit Kunden und JOGA nicht dieseleb Aufträge sehen können
+        if self.request.user.groups.filter(name='customer 1').exists():
+            context['orders'] = CustOrder.objects.filter(customer_id=1)
+        elif self.request.user.groups.filter(name='customer 2').exists():
+            context['orders'] = CustOrder.objects.filter(customer_id=2)
+        elif self.request.user.groups.filter(name='customer 3').exists():
+            context['orders'] = CustOrder.objects.filter(customer_id=3)
+        else:
+            self.context['orders'] = CustOrder.objects.all()
+
+        
         context = get_context_back(context,"Auftragsliste","Aufträge")
         return context
