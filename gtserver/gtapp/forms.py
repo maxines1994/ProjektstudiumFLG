@@ -54,12 +54,12 @@ class Supp_order_form(ModelForm):
     #Prüft vor der Initialisierung den user und die Usergroups
     def __init__(self, *args, **kwargs):
         groups = kwargs.pop('groups', None)
-        user = kwargs.pop('user', None)
+        user_name = kwargs.pop('user_name', None)
         super(Supp_order_form, self).__init__(*args, **kwargs)
 
         if groups == "suppliers":
             self.fields['supplier'].widget = HiddenInput()
-            self.fields['supplier'].initial = user[3]
+            self.fields['supplier'].initial = user_name[3]
 
 class Supp_order_det_form(ModelForm):
     class Meta:

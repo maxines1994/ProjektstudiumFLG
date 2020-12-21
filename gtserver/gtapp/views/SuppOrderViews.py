@@ -18,11 +18,12 @@ class Supp_order_create_view(CreateView):
 
         if self.request.method == 'GET':    
             groups = list(self.request.user.groups.values_list('name',flat = True))
-            user = str(self.request.user)
+            user_name = str(self.request.user)
             kwargs.update({
                 'groups': str(groups[0]) ,
-                'user': user,
+                'user_name': user_name,
             })
+
         return kwargs
     
     def form_valid(self, form):
