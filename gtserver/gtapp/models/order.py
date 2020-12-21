@@ -12,7 +12,7 @@ class Order(GtModel):
     issued_on = models.SmallIntegerField()
     delivery_date = models.SmallIntegerField()
     received_on = models.SmallIntegerField(null=True)
-    memo = models.TextField()
+    memo = models.TextField(null=True)
     user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
 
     class Meta:

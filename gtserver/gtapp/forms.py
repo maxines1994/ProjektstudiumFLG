@@ -15,7 +15,7 @@ class Cust_order_form(ModelForm):
             'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
         }
     )
-    costumer = ModelChoiceField(
+    customer = ModelChoiceField(
         Customer.objects.filter(pk__gt=0),
         label=_('Kunde'),
         error_messages={
@@ -46,7 +46,7 @@ class Cust_order_form(ModelForm):
     )
     class Meta:
         model = CustOrder
-        fields = ["order_no","costumer","issued_on","delivery_date","price","memo"]
+        fields = ["order_no","customer","issued_on","delivery_date","price","memo"]
         labels = {
             'memo': _('Kommentar'),
         }
