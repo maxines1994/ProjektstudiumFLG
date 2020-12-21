@@ -61,10 +61,10 @@ class Supp_order_alter_view(UpdateView):
 
         if self.request.method == 'GET':    
             groups = list(self.request.user.groups.values_list('name',flat = True))
-            user = str(self.request.user)
+            user_name = str(self.request.user)
             kwargs.update({
                 'groups': str(groups[0]) ,
-                'user': user,
+                'user_name': user_name,
             })
         return kwargs
     
