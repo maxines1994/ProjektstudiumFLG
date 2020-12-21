@@ -6,6 +6,7 @@ from gtapp.forms import Cust_order_form, Cust_order_det_form
 from gtapp.models import CustOrder, CustOrderDet
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db.models import Max
 
 
 # CustOrder von Joga und Bestellungen der Kunden
@@ -53,7 +54,7 @@ class Cust_order_delete_view(DeleteView):
     
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = "/cust_order/alter/" + str(self.object.cust_order.pk) + "/"
+        success_url = "/cust_order/"
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
@@ -63,6 +64,11 @@ class Cust_order_det_create_view(PermissionRequiredMixin,CreateView):
     form_class = Cust_order_det_form
     template_name = "CustOrderForm.html"
     
+    #def get(self, request, *args, **kwargs):
+    #    # Dynamisch Feld vorbelegen aus URLConf parameter pos # nun in form_valid gelöst
+    #    form = self.form_class(initial={"pos": self.kwargs['pos']})
+    #    return render(request, self.template_name, {'form': form})
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = get_context_back(context,"Position erstellen","Aufträge")
@@ -70,6 +76,13 @@ class Cust_order_det_create_view(PermissionRequiredMixin,CreateView):
 
     def form_valid(self, form):
         form.instance.cust_order = CustOrder.objects.get(id=self.kwargs["cust_order"])
+
+        # Position vergeben
+        try:
+            form.instance.pos = CustOrderDet.objects.filter(cust_order=form.instance.cust_order).latest('_creation_date').pos + 1
+        except CustOrderDet.DoesNotExist:
+            form.instance.pos = 1
+        
         form.save()
         return HttpResponseRedirect("/cust_order/alter/" + str(self.kwargs["cust_order"]) + "/")
 

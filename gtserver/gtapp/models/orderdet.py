@@ -6,7 +6,7 @@ class OrderDet(GtModel):
     Das ist eine Abstrakte Klasse und dient als Vorlage fuer Positionsdaten der Bestellungen und Auftraege.
     """
     
-    pos = models.IntegerField()
+    pos = models.IntegerField(blank=True)
     unit_price = models.IntegerField()
     received_on = models.SmallIntegerField(null=True)
     memo = models.TextField()

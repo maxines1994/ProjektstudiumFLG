@@ -64,4 +64,7 @@ class Cust_order_det_form(ModelForm):
             'unit_price': _('Stückpreis'),
             'memo': _('Kommentar'),
         }
+        widgets = {
+            'pos': TextInput(attrs={'disabled': True}),
+        }
 
