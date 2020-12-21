@@ -5,56 +5,20 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 #from gtapp.forms import Cust_order_form, Cust_order_det_form
 #from gtapp.models import CustOrder, CustOrderDet
 from gtapp.models import SuppOrder, SuppOrderDet
-from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
+from gtapp.forms import Supp_order_form, Supp_order_det_form
 
 class Supp_order_create_view(CreateView):
 
     template_name = "SuppOrderForm.html"
-    form_class = Supp_order_form_jg
+    form_class = Supp_order_form
 
-
-    # def get_form(self, request, obj=None, **kwargs):
-    #     if request.user.groups.first.name == "suppliers":
-    #         kwargs['form'] = Supp_order_form_jg
-    #     else:
-    #         kwargs['form'] = Supp_order_form_lf            
-    #     return super().get_form(request, obj, **kwargs)
-
-    # def get_form(self, request, obj=None, **kwargs):
-    #     if form_class is None: 
-    #         form_class = self.get_form_class()
-
-    #     if request.user.groups.first.name == "suppliers":
-    #         kwargs['form'] = Supp_order_form_jg
-    #     else:
-    #         kwargs['form'] = Supp_order_form_lf 
-    #     return super(Supp_order_create_view, self).get_form(request, obj, **kwargs)
-
-    # def get_form(self, form_class=None, **kwargs):
-    #     if form_class is None:
-    #         form_class = self.get_form_class()
-
-        
-
-    #     #if request.user.groups.first.name == "suppliers":
-    #      #   kwargs['form'] = Supp_order_form_jg
-    #     #else:
-        
-    #     #kwargs['form'] = Supp_order_form_lf  
-    
-    #     form_class = Supp_order_form_jg
-        
-    #     #return form_class(**self.get_form_kwargs()) 
-    #     return form_class
-
+    #Gibt der Form mittels kwargs parameter des Users mit
     def get_form_kwargs(self):
         kwargs = super(Supp_order_create_view, self).get_form_kwargs()
 
-        if self.request.method == 'GET':
-            
+        if self.request.method == 'GET':    
             groups = list(self.request.user.groups.values_list('name',flat = True))
             user = str(self.request.user)
-
             kwargs.update({
                 'groups': str(groups[0]) ,
                 'user': user,
@@ -72,7 +36,7 @@ class Supp_order_create_view(CreateView):
 
 
 class Supp_order_alter_view(UpdateView):
-    form_class = Supp_order_form_jg
+    form_class = Supp_order_form
     template_name = "SuppOrderForm.html"
 
     def get_object(self, queryset=None):
@@ -89,6 +53,21 @@ class Supp_order_alter_view(UpdateView):
     def form_valid(self, form):
         form.save()
         return HttpResponseRedirect("/supp_order/")
+
+    #Gibt der Form mittels kwargs parameter des Users mit
+    def get_form_kwargs(self):
+        kwargs = super(Supp_order_alter_view, self).get_form_kwargs()
+
+        if self.request.method == 'GET':    
+            groups = list(self.request.user.groups.values_list('name',flat = True))
+            user = str(self.request.user)
+            kwargs.update({
+                'groups': str(groups[0]) ,
+                'user': user,
+            })
+        return kwargs
+    
+    
 
 class Supp_order_delete_view(DeleteView):
     template_name = "delete.html"

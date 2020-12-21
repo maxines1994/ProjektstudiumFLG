@@ -34,39 +34,13 @@ class Cust_order_det_form(ModelForm):
             'memo': _('Kommentar'),
         }
 
-#Form für Bestellungen aus Sicht des Lieferanten
-class Supp_order_form_lf(ModelForm):
-    class Meta:
-        model = SuppOrder
-        fields = ["order_no","issued_on","delivery_date","memo"]
-        labels = {
-            'order_no': _('Bestellnummer'),
-            'issued_on': _('Bestelltag'),
-            'delivery_date': _('Liefertag'),
-            'memo': _('Kommentar')
-        }
-        widgets = {
-            #'order_no': IntegerField()
-        }
-        #-> Haben Lieferwoche
-        # -> BoxNr
-    
-    # def save(self, user=None):
-    #     user_profile = super(Supp_order_form_lf, self).save(commit=False)
-    #     if user:
-    #         user_profile.user = user
-    #     user_profile.save()
-    #     return user_profile
 
-
-
-#Form für Bestellungen aus Sicht von Joga
-class Supp_order_form_jg(ModelForm):
+class Supp_order_form(ModelForm):
     class Meta:
         model = SuppOrder
         fields = ["order_no","issued_on","supplier","delivery_date","memo"]
         labels = {
-            'order_no': _('Bestellnummer'),
+            'order_no': _('Nummer'),
             'issued_on': _('Bestelltag'),
             'supplier': _("Lieferant"),
             'delivery_date': _('Liefertag'),
@@ -77,10 +51,11 @@ class Supp_order_form_jg(ModelForm):
         }
         # -> Boxnummer
 
+    #Prüft vor der Initialisierung den user und die Usergroups
     def __init__(self, *args, **kwargs):
         groups = kwargs.pop('groups', None)
         user = kwargs.pop('user', None)
-        super(Supp_order_form_jg, self).__init__(*args, **kwargs)
+        super(Supp_order_form, self).__init__(*args, **kwargs)
 
         if groups == "suppliers":
             self.fields['supplier'].widget = HiddenInput()
