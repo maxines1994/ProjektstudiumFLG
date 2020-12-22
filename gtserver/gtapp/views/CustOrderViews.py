@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.forms import Cust_order_form, Cust_order_det_form
+from gtapp.forms import Cust_order_form, Cust_order_det_form, Cust_order_det_form_create
 from gtapp.models import CustOrder, CustOrderDet
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -61,13 +61,13 @@ class Cust_order_delete_view(DeleteView):
 
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_det_create_view(CreateView):
-    form_class = Cust_order_det_form
+    form_class = Cust_order_det_form_create
     template_name = "CustOrderForm.html"
     
-    #def get(self, request, *args, **kwargs):
-    #    # Dynamisch Feld vorbelegen aus URLConf parameter pos # nun in form_valid gelöst
-    #    form = self.form_class(initial={"pos": self.kwargs['pos']})
-    #    return render(request, self.template_name, {'form': form})
+#    def get(self, request, *args, **kwargs):
+#        #Feld pos ausblenden
+#        form = self.form_class(})
+#        return render(request, self.template_name, {'form': form})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -98,11 +98,15 @@ class Cust_order_det_alter_view(UpdateView):
 
     def get_object(self, queryset=None):
         obj = CustOrderDet.objects.get(id=self.kwargs['id'])
+
         return obj
 
     def form_valid(self, form):
+        form.instance.pos = CustOrderDet.objects.get(id=form.instance.id).pos
         form.save()
-        return HttpResponseRedirect("/cust_order/alter/" + str(self.kwargs["id"]) + "/")
+        return HttpResponseRedirect("/cust_order/alter/" + str(form.instance.cust_order.id) + "/")
+
+#//self.kwargs["id"]
 
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_det_delete_view(DeleteView):

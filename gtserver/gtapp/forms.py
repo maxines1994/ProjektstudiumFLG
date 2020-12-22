@@ -67,4 +67,13 @@ class Cust_order_det_form(ModelForm):
         widgets = {
             'pos': TextInput(attrs={'disabled': True}),
         }
-
+class Cust_order_det_form_create(ModelForm):
+    use_required_attribute = False
+    class Meta:
+        model = CustOrderDet
+        fields = ["article","unit_price","memo"]
+        labels = {
+            'article': _('Artikel'),
+            'unit_price': _('Stückpreis'),
+            'memo': _('Kommentar'),
+        }
