@@ -46,20 +46,14 @@ class Cust_order_alter_view(UpdateView):
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_delete_view(DeleteView):
     template_name = "delete.html"
+    success_url = "/cust_order/"
 
     def get_object(self, queryset=None):
         obj = CustOrder.objects.get(id=self.kwargs['id'])
         return obj
-    
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = "/cust_order/alter/" + str(self.object.cust_order.pk) + "/"
-        self.object.delete()
-        return HttpResponseRedirect(success_url)
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_det_create_view(PermissionRequiredMixin,CreateView):
-    permission_required = 'gtapp.create_cust_order'
+class Cust_order_det_create_view(CreateView):
     form_class = Cust_order_det_form
     template_name = "CustOrderForm.html"
     
