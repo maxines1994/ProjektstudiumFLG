@@ -6,14 +6,16 @@
     <script type="text/javascript" src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
 
     <!--Import materialize.css-->
-    {% if user.groups.first.name == "customers" %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_red.min.css' %}"  media="screen,projection"/>
-    {% elif user.groups.first.name == "suppliers" %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_green.min.css' %}"  media="screen,projection"/>
-    {% else %}
+    {% if company == 'joga' %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_light-blue.min.css' %}"  media="screen,projection"/>
+    {% elif company == 'supplier' %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_green.min.css' %}"  media="screen,projection"/>
+    {% elif company == 'customer' %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_red.min.css' %}"  media="screen,projection"/>
+    {% else %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_grey.min.css' %}"  media="screen,projection"/>
     {% endif %}
-
+    
     <!--Import materialize.js-->
     <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
 
@@ -42,7 +44,7 @@
       <nav>
         <div class="nav-wrapper">
           <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-          <a href="{% url 'home' %}" class="brand-logo left">Logo</a>
+          <a href="{% url 'home' %}" class="hide-on-med-and-down brand-logo left">{% if company == 'joga' %}JOGA{% else %}{{ user.groups.first.name_de }}{% endif %}</a>
           {% if user.is_authenticated %}
           <ul class="right">
             {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
@@ -75,17 +77,26 @@
     {% if user.is_authenticated %}
     <!-- Sidenav-->
     <ul class="sidenav sidenav-fixed" id="sidenav" >
-      <li style="height: 64px"></li>
-      
+      <li class="hide-on-med-and-down" style="height: 64px"></li>
+      <li><div class="user-view">
+        <div class="background">
+          <img style="filter: brightness(50%);" src="{% static 'img/logistics-300px.jpg' %}">
+        </div>
+        <a><img class="grey lighten-2 circle" src="{% static 'img/avataaars.svg' %}"></a>
+        <!--<i class="material-icons center-align">person</i>-->
+        <a><span class="white-text name">{{ user.username }}</span></a>
+        <a><span class="white-text email">{{ user.groups.first.name_de }}</span></a>
+      </div></li>
       <li{% if active == "Startseite" %} class="active"{% endif %}><a href="{% url 'home' %}">Startseite</a></li>
       {% if perms.gtapp.view_todo %}<li{% if active == "Aufgaben" %} class="active"{% endif %}><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
       <li><div class="divider"></div></li>
-      {% if perms.gtapp.view_custorder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">Aufträge</a></li>{% endif %}
-      {% if perms.gtapp.view_custcomplaint %}<li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">Auftragsreklamationen</a></li>{% endif %}
-      {% if perms.gtapp.view_supporder %}<li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">Bestellungen</a></li>{% endif %}
-      {% if perms.gtapp.view_suppcomplaint %}<li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">Bestellreklamationen</a></li>{% endif %}
-      <li><div class="divider"></div></li>
-      <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li>
+      {# <li><a class="subheader">Meine Seiten</a></li> #}
+      {% if perms.gtapp.view_custorder %}<li{% if active == "Aufträge" %} class="active"{% endif %}><a href="{% url 'cust_order' %}">{% if company == 'customer' %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_custcomplaint %}<li{% if active == "Auftragsreklamationen" %} class="active"{% endif %}><a href="">{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_supporder %}<li{% if active == "Bestellungen" %} class="active"{% endif %}><a href="">{% if company == 'supplier' %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_suppcomplaint %}<li{% if active == "Bestellreklamationen" %} class="active"{% endif %}><a href="">{% if company == 'supplier' %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
+      {# <li><div class="divider"></div></li> #}
+      {# <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li> #}
     </ul>
     {% endif %}
 
@@ -108,6 +119,7 @@
           $(".dropdown-trigger").dropdown();
         });
     </script>
+    
     {% block scripts %}
 
     {% endblock %}

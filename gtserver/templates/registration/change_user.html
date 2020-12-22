@@ -11,9 +11,10 @@
     <div class="row">
         <div class="s12">
             <h3>Benutzer wechseln</h3>
+            {% if not debug_flag %}<h5 class="red-text">Der Benutzer kann nur bei gesetztem Debug Flag gewechselt werden.</h5>{% endif %}
         </div>
     </div>
-    {% if debug_flag %}
+    
     <div class="row">
         <div class="col s12 m8 l6 xl4">
             <ul class="collection">
@@ -24,7 +25,7 @@
                         <span class="title">{{ user_login.username }}</span>
                         <p>
                             {% for group in user_login.groups.all %}
-                                {{ group.name }}
+                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name_de }}</span>
                                 {% if not forloop.last %}<br />{% endif %}
                             {% empty %}
                                 keine Gruppen zugewiesen
@@ -36,13 +37,15 @@
                         <span class="title">{{ user_login.username }}</span>
                         <p>
                             {% for group in user_login.groups.all %}
-                                {{ group.name }}
+                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name_de }}</span>
                                 {% if not forloop.last %}<br />{% endif %}
                             {% empty %}
                                 keine Gruppen zugewiesen
                             {% endfor %}
                         </p>
-                        <a href="{% url 'change_user' %}{{user_login.id}}/" class="secondary-content"><i class="material-icons small">login</i></a>
+                        {% if debug_flag %}
+                            <a href="{% url 'change_user_to' user_login.id %}" class="secondary-content"><i class="material-icons small">login</i></a>
+                        {% endif %}
                     {% endif %}
                     </div>
                 </li>
@@ -50,9 +53,7 @@
             </ul>
         </div>
     </div>
-    {% else %}
-    <h3 class="red">Funktion nur bei gesetztem Debug-Flag möglich</h3>
-    {% endif %}
+    
 {% endblock %}
 
 <!-- Body-->
@@ -62,5 +63,9 @@
 
 <!-- Scripts-->
 {% block scripts %}
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.tooltip').tooltip();
+    });
+</script>
 {% endblock %}

@@ -7,7 +7,8 @@
 
 <!-- Content-->
 {% block content %}
-<h4>Willkommen bei der Joga GmbH</h4>
+
+<h4>Willkommen bei der {% if company == 'joga' %}JOGA{% else %}{{ user.groups.first.name_de }}{% endif %} GmbH</h4>
 
 
 {% endblock %}

@@ -1,49 +1,53 @@
 nav .brand-logo {
-    position: relative;
-  }
-  
-  .dropdown-content li>* {
-      display: flex;
-      align-items: center;
-  }
+  position: relative;
+  margin-left: 16px;
+}
 
-  .dropdown-content {
-      width: auto !important;
-  }
+.dropdown-content li>* {
+    display: flex;
+    align-items: center;
+}
 
-      /* optional */
-  .dropdown-content a> i {
-      margin-right: 16px;
-  }
+.dropdown-content {
+    width: auto !important;
+}
 
-  .table-scrollable {
-      width: 100%;
-      overflow-y: auto;
-      margin: 0 0 1em;
-  }
+    /* optional */
+.dropdown-content a> i {
+    margin-right: 16px;
+}
 
-  .table-scrollable::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
-  }
+.table-scrollable {
+    width: 100%;
+    overflow-y: auto;
+    margin: 0 0 1em;
+}
 
-  .table-scrollable::-webkit-scrollbar-thumb {
-      border-radius: 8px;
-      border: 3px solid #fff;
-      background-color: rgba(0, 0, 0, .3);
-  }
-  
+.table-scrollable::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+}
+
+.table-scrollable::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 3px solid #fff;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+main.loggedin {
+  padding-left: 300px;
+}
+.navbar-fixed {
+  z-index: 9999;
+}
+
+@media only screen and (max-width : 992px) {
   main.loggedin {
-    padding-left: 300px;
+    padding-left: 0;
   }
+  .sidenav {
+    z-index: 40000;
+  }
+}
 
-  @media only screen and (max-width : 992px) {
-    main.loggedin {
-      padding-left: 0;
-    }
-  }
-
-  .navbar-fixed {
-    z-index: 9999;
-  }
