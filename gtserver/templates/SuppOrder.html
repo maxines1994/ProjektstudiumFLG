@@ -7,7 +7,7 @@
 
 <!-- Content-->
 {% block content %}
-<h4> {% if user.groups.first.name == "suppliers" %} Kundenaufträge {% else %} Bestellungen {% endif %} <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4> {{title}} <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="table-scrollable">
     <table id="itemtable">
         <thead id="itemhead">
@@ -22,49 +22,14 @@
         <tbody id="itembody">
             <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
             {% for o in orders %}
-                {% if user.username == "SUP1" %}
-                    {% if o.supplier_id == 1 %}
-                        <tr>
-                            <td>Auftrag #{{ o.id }}</td>
-                            <td>Tag #{{ o.issued_on }}</td>
-                            <td>Tag #{{ o.delivery_date }}</td>
-                            <td>{{ o.status }}</td>
-                            <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
-                                        class="material-icons">more_vert</i></a></td>
-                        </tr>
-                    {% endif %}
-                {% elif user.username == "SUP2" %}
-                    {% if o.supplier_id == 2 %}
-                        <tr>
-                            <td>Auftrag #{{ o.id }}</td>
-                            <td>Tag #{{ o.issued_on }}</td>
-                            <td>Tag #{{ o.delivery_date }}</td>
-                            <td>{{ o.status }}</td>
-                            <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
-                                        class="material-icons">more_vert</i></a></td>
-                        </tr>
-                    {% endif %}
-                {% elif user.username == "SUP3" %}
-                    {% if o.supplier_id == 3 %}
-                        <tr>
-                            <td>Auftrag #{{ o.id }}</td>
-                            <td>Tag #{{ o.issued_on }}</td>
-                            <td>Tag #{{ o.delivery_date }}</td>
-                            <td>{{ o.status }}</td>
-                            <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
-                                        class="material-icons">more_vert</i></a></td>
-                        </tr>
-                    {% endif %}
-                {% else %}
-                    <tr>
-                        <td>Bestellung #{{ o.id }}</td>
-                        <td>Tag #{{ o.issued_on }}</td>
-                        <td>Tag #{{ o.delivery_date }}</td>
-                        <td>{{ o.status }}</td>
-                        <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
-                                    class="material-icons">more_vert</i></a></td>
-                    </tr>
-                {% endif %}
+                <tr>
+                    <td>{% if user.groups.first.name == "suppliers" %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>
+                    <td>Tag #{{ o.issued_on }}</td>
+                    <td>Tag #{{ o.delivery_date }}</td>
+                    <td>{{ o.status }}</td>
+                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
+                                class="material-icons">more_vert</i></a></td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

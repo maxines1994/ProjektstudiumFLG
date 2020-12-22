@@ -2,42 +2,38 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-#from gtapp.forms import Cust_order_form, Cust_order_det_form
-#from gtapp.models import CustOrder, CustOrderDet
 from gtapp.models import SuppOrder, SuppOrderDet
-from gtapp.forms import Supp_order_form, Supp_order_det_form
+from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
 
 class Supp_order_create_view(CreateView):
-
     template_name = "SuppOrderForm.html"
-    form_class = Supp_order_form
-
-    #Gibt der Form mittels kwargs parameter des Users mit
-    def get_form_kwargs(self):
-        kwargs = super(Supp_order_create_view, self).get_form_kwargs()
-
-        if self.request.method == 'GET':    
-            groups = list(self.request.user.groups.values_list('name',flat = True))
-            user_name = str(self.request.user)
-            kwargs.update({
-                'groups': str(groups[0]) ,
-                'user_name': user_name,
-            })
-
-        return kwargs
     
     def form_valid(self, form):
+        form.instance._creation_user_id = self.request.user.id
+
+        if self.request.user.groups.first().name == "suppliers":
+            form.instance.supplier_id = 1
         new_supp_order = form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Auftrag erstellen","Aufträge")
+
+        if self.request.user.groups.first().name == "suppliers":
+            context = get_context_back(context,"Auftrag erstellen","Aufträge")   
+        else:
+            context = get_context_back(context,"Bestellung erfassen","Bestellungen")
         return context
+
+    def get_form(self, form_class=None):
+        if self.request.user.groups.first().name == "suppliers":
+            form_class = Supp_order_form_lf
+        else:
+            form_class = Supp_order_form_jg
+        return form_class(**self.get_form_kwargs()) 
 
 
 class Supp_order_alter_view(UpdateView):
-    form_class = Supp_order_form
     template_name = "SuppOrderForm.html"
 
     def get_object(self, queryset=None):
@@ -48,26 +44,24 @@ class Supp_order_alter_view(UpdateView):
         context = super().get_context_data(**kwargs)
         context['items'] = SuppOrderDet.objects.filter(supp_order=self.get_object().pk)
         context["supp_order_no"] = self.get_object().pk
-        context = get_context_back(context,"Auftrag ändern","Aufträge")
+
+        if self.request.user.groups.first().name == "suppliers":
+            context = get_context_back(context,"Auftrag ändern","Aufträge")
+        else:
+            context = get_context_back(context,"Bestellung ändern","Bestellungen")
         return context
     
     def form_valid(self, form):
+        form.instance._update_user_id = self.request.user.id
         form.save()
         return HttpResponseRedirect("/supp_order/")
 
-    #Gibt der Form mittels kwargs parameter des Users mit
-    def get_form_kwargs(self):
-        kwargs = super(Supp_order_alter_view, self).get_form_kwargs()
-
-        if self.request.method == 'GET':    
-            groups = list(self.request.user.groups.values_list('name',flat = True))
-            user_name = str(self.request.user)
-            kwargs.update({
-                'groups': str(groups[0]) ,
-                'user_name': user_name,
-            })
-        return kwargs
-    
+    def get_form(self, form_class=None):
+        if self.request.user.groups.first().name == "suppliers":
+            form_class = Supp_order_form_lf
+        else:
+            form_class = Supp_order_form_jg
+        return form_class(**self.get_form_kwargs())   
     
 
 class Supp_order_delete_view(DeleteView):
@@ -80,7 +74,6 @@ class Supp_order_delete_view(DeleteView):
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = "/supp_order/"
-        #success_url = "/supp_order/alter/" + str(self.object.supp_order.pk) + "/"
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
@@ -95,6 +88,7 @@ class Supp_order_det_create_view(CreateView):
 
     def form_valid(self, form):
         form.instance.supp_order = SuppOrder.objects.get(id=self.kwargs["cust_order"])
+        form.instance._creation_user_id = self.request.user.id
         form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["cust_order"]) + "/")
     
@@ -112,6 +106,7 @@ class Supp_order_det_alter_view(UpdateView):
         return obj
 
     def form_valid(self, form):
+        form.instance._update_user_id = self.request.user.id
         form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(self.object.supp_order.pk) + "/")
 
@@ -133,6 +128,15 @@ class Supp_order_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['orders'] = SuppOrder.objects.all()
-        context = get_context_back(context,"Auftragsliste","Aufträge")
+        if self.request.user.groups.first().name == "suppliers":
+            ### HIER AUF BASIS DER NEUEN GRUPPEN!!
+            context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
+            context = get_context_back(context,"Auftragsliste","Aufträge")
+            
+        else:
+            context['orders'] = SuppOrder.objects.all()
+            context = get_context_back(context,"Bestellungsliste","Bestellungen")
+
         return context
+
+

@@ -12,7 +12,7 @@
     {% csrf_token %}
     <div class="row">
         <div class="col s12">
-            <h4>Auftrag erstellen</h4>
+            <h4>{{title}}</h4>
         </div>
         {% for field in form.visible_fields %}
         <div class="col s12 m12 l6">
@@ -25,7 +25,7 @@
             {{ field }}
         </div>
         {% endfor %}
-        {% if title == "Auftrag ändern" %}
+        {% if title == "Auftrag ändern" or title == "Bestellung ändern" %}
         <table id="itemtable">
             <thead id="itemhead">
                 <tr>

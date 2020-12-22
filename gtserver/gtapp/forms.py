@@ -35,7 +35,7 @@ class Cust_order_det_form(ModelForm):
         }
 
 
-class Supp_order_form(ModelForm):
+class Supp_order_form_jg(ModelForm):
     class Meta:
         model = SuppOrder
         fields = ["order_no","issued_on","supplier","delivery_date","memo"]
@@ -51,25 +51,30 @@ class Supp_order_form(ModelForm):
         }
         # -> Boxnummer
 
-    #Prüft vor der Initialisierung den user und die Usergroups
-    def __init__(self, *args, **kwargs):
-        groups = kwargs.pop('groups', None)
-        user_name = kwargs.pop('user_name', None)
-        super(Supp_order_form, self).__init__(*args, **kwargs)
+class Supp_order_form_lf(ModelForm):
+    class Meta:
+        model = SuppOrder
+        fields = ["order_no","issued_on","delivery_date","memo"]
+        labels = {
+            'order_no': _('Nummer'),
+            'issued_on': _('Bestelltag'),
+            'delivery_date': _('Liefertag'),
+            'memo': _('Kommentar'),
+        }
+        widgets = {
+            #'order_no': IntegerField()
+        }
+        # -> Boxnummer
 
-        if groups == "suppliers":
-            self.fields['supplier'].widget = HiddenInput()
-            self.fields['supplier'].initial = user_name[3]
 
 class Supp_order_det_form(ModelForm):
     class Meta:
         model = SuppOrderDet
-        fields = ["pos","part","quantity","unit_price","memo"] #"pack_quantity", 
+        fields = ["pos","part","quantity","unit_price","memo"]
         labels = {
             'pos': _('Positionsnummer'),
             'part': _('Artikel'),
-            #'pack_quantity': _('Strukturmenge'),
             'quantity': _('Bestellmenge'),
-            'unit_price': _('price'),
+            'unit_price': _('Preis'),
             'memo': _('Kommentar'),
         }
