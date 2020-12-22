@@ -133,7 +133,7 @@ class Cust_order_view(TemplateView):
         elif self.request.user.groups.filter(name='customer 3').exists():
             context['orders'] = CustOrder.objects.filter(customer_id=3)
         else:
-            self.context['orders'] = CustOrder.objects.all()
+            context['orders'] = CustOrder.objects.all()
 
         
         context = get_context_back(context,"Auftragsliste","Aufträge")
