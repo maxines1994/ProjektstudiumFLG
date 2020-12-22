@@ -43,7 +43,7 @@ class Supp_order_alter_view(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['items'] = SuppOrderDet.objects.filter(supp_order=self.get_object().pk)
-        context["supp_order_no"] = self.get_object().pk
+        context['supp_order_no'] = self.get_object().pk
 
         if self.request.user.groups.first().name == "suppliers":
             context = get_context_back(context,"Auftrag ändern","Aufträge")
@@ -87,10 +87,10 @@ class Supp_order_det_create_view(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.supp_order = SuppOrder.objects.get(id=self.kwargs["cust_order"])
+        form.instance.supp_order = SuppOrder.objects.get(id=self.kwargs["supp_order"])
         form.instance._creation_user_id = self.request.user.id
         form.save()
-        return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["cust_order"]) + "/")
+        return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["supp_order"]) + "/")
     
 class Supp_order_det_alter_view(UpdateView):
     form_class = Supp_order_det_form
@@ -131,11 +131,11 @@ class Supp_order_view(TemplateView):
         if self.request.user.groups.first().name == "suppliers":
             ### HIER AUF BASIS DER NEUEN GRUPPEN!!
             context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
-            context = get_context_back(context,"Auftragsliste","Aufträge")
+            context = get_context_back(context,"Kundenaufträge","Aufträge")
             
         else:
             context['orders'] = SuppOrder.objects.all()
-            context = get_context_back(context,"Bestellungsliste","Bestellungen")
+            context = get_context_back(context,"Bestellungen","Bestellungen")
 
         return context
 

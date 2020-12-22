@@ -2,6 +2,7 @@ from django import forms
 from django.forms import *
 from gtapp.models import Article, CustOrder, CustOrderDet, Customer
 from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet, Supplier
+from gtapp.models import SuppComplaint, SuppComplaintDet
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
@@ -77,4 +78,30 @@ class Supp_order_det_form(ModelForm):
             'quantity': _('Bestellmenge'),
             'unit_price': _('Preis'),
             'memo': _('Kommentar'),
+        }
+
+
+class Supp_complaint_form(ModelForm):
+    class Meta:
+        model = SuppComplaint
+        fields = ["memo", "finished_on"]
+        labels = {
+            'memo': _('Kommentar'),
+            'finished_on': _('Abgeschlossen am')
+        }
+        widgets = {
+            #'order_no': IntegerField()
+        }
+
+class Supp_complaint_det_form(ModelForm):
+    class Meta:
+        model = SuppComplaintDet
+        fields = ["supp_order_det","memo", "finished_on"]
+        labels = {
+            'supp_oder_det': _('Position'),
+            'memo': _('Kommentar'),
+            'finished_on': _('Abgeschlossen am'),            
+        }
+        widgets = {
+            #'order_no': IntegerField()
         }
