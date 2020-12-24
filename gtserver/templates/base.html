@@ -47,6 +47,7 @@
           <a href="{% url 'home' %}" class="hide-on-med-and-down brand-logo left">{% if company == 'joga' %}JOGA{% else %}{{ user.groups.first.name_de }}{% endif %}</a>
           {% if user.is_authenticated %}
           <ul class="right">
+            <li><a id="currenttime"><i class="material-icons left">today</i>Tag {{day}}</a>
             {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
             {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}"><i class="material-icons">notifications</i></a></li>{% endif %}
@@ -119,9 +120,26 @@
           $(".dropdown-trigger").dropdown();
         });
     </script>
-    
+    <script type="text/javascript">
+      $(document).ready(function(){
+        setInterval(getasyncinformation, 5000);
+      });
+      function getasyncinformation(){
+          var request = new XMLHttpRequest();
+          request.open("GET","/api/");
+          request.addEventListener('load', function(event) {
+            if (request.status >= 200 && request.status < 300) {
+              var obj = JSON.parse(request.responseText);
+              // Werte setzen
+              $('#currenttime')[0].innerHTML = '<i class="material-icons left">today</i> Tag ' + obj['time']
+            } else {
+              console.warn(request.statusText, request.responseText);
+            }
+          });
+          request.send();
+        }
+    </script>
     {% block scripts %}
-
     {% endblock %}
   </body>
 </html>

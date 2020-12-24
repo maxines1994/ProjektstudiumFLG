@@ -1,4 +1,5 @@
 from django.conf import settings
+from gtapp.models import Timers
 
 #Global context
 
@@ -13,4 +14,4 @@ def gtcontext(request):
         company = 'none' # grey
 
 
-    return {"debug_flag": settings.DEBUG, "company": company}
+    return {"debug_flag": settings.DEBUG, "company": company, "day": Timers.get_current_day()}
