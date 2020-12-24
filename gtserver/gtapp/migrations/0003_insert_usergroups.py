@@ -10,7 +10,7 @@ from gtapp.constants import *
 from gtapp.constants import groups
 from gtapp.models import *
 from gtapp import models
-
+from gtapp.models import LiveSettings
 
 class Migration(migrations.Migration):
     atomic = False
@@ -282,7 +282,10 @@ class Migration(migrations.Migration):
             my_group = Group.objects.get(name=GAME_MASTER)
             newUser.groups.add(my_group)
         
-        
+        #Einstellungen
+        LiveSettings.load()
+        print("Livesettings initialisiert!")
+
     dependencies = [
         ('gtapp', '0001_initial'),  
         ('gtapp', '0002_insert_translations'),

@@ -31,3 +31,5 @@ from .todotype import TodoType
 from .todo import Todo
 from .custcomplaintdet import CustComplaintDet
 from .suppcomplaintdet import SuppComplaintDet
+from .timer import Timers
+from .livesettings import LiveSettings
