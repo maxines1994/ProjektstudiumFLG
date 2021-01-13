@@ -22,7 +22,7 @@ class Cust_order_create_view(CreateView):
     # Navbar Context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Auftrag erstellen","Aufträge")
+        context["action"] = "create"
         return context
 
 # CustOrder von Joga und Bestellungen der Kunden
@@ -41,7 +41,7 @@ class Cust_order_alter_view(UpdateView):
         context = super().get_context_data(**kwargs)
         context['items'] = CustOrderDet.objects.filter(cust_order=self.get_object().pk)
         context["cust_order_no"] = self.get_object().pk
-        context = get_context_back(context,"Auftrag ändern","Aufträge")
+        context["action"] = "alter"
         return context
 
 # CustOrder von Joga und Bestellungen der Kunden
@@ -62,7 +62,7 @@ class Cust_order_delete_view(DeleteView):
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_det_create_view(CreateView):
     form_class = Cust_order_det_form_create
-    template_name = "CustOrderForm.html"
+    template_name = "CustOrderDetForm.html"
     
 #    def get(self, request, *args, **kwargs):
 #        #Feld pos ausblenden
@@ -71,7 +71,7 @@ class Cust_order_det_create_view(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Position erstellen","Aufträge")
+        context["action"] = "create"
         return context
 
     def form_valid(self, form):
@@ -89,16 +89,15 @@ class Cust_order_det_create_view(CreateView):
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_det_alter_view(UpdateView):
     form_class = Cust_order_det_form
-    template_name = "CustOrderForm.html"
+    template_name = "CustOrderDetForm.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Position ändern","Aufträge")
+        context["action"] = "alter"
         return context
 
     def get_object(self, queryset=None):
         obj = CustOrderDet.objects.get(id=self.kwargs['id'])
-
         return obj
 
     def form_valid(self, form):
@@ -129,16 +128,14 @@ class Cust_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # ToDo: Zusätzlichen Filter für Digitalisierungsstufe 1 einbauen, damit Kunden und JOGA nicht dieseleb Aufträge sehen können
+        # ToDo: Zusätzlichen Filter für Digitalisierungsstufe 1 einbauen, damit Kunden und JOGA nicht dieselben Aufträge sehen können
         if self.request.user.groups.filter(name='customer 1').exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=1)
+            context['orders'] = CustOrder.objects.filter(customer_id=1) # Fremdsystem-Flag=True
         elif self.request.user.groups.filter(name='customer 2').exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=2)
+            context['orders'] = CustOrder.objects.filter(customer_id=2) # Fremdsystem-Flag=True
         elif self.request.user.groups.filter(name='customer 3').exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=3)
+            context['orders'] = CustOrder.objects.filter(customer_id=3) # Fremdsystem-Flag=True
         else:
-            context['orders'] = CustOrder.objects.all()
+            context['orders'] = CustOrder.objects.all() # Fremdsystem-Flag=False
 
-        
-        context = get_context_back(context,"Auftragsliste","Aufträge")
         return context
