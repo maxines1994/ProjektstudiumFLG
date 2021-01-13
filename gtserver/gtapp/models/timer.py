@@ -21,4 +21,4 @@ class Timers(models.Model):
             if myList[-1].nowactive:
                 sum += nowtime.timestamp()
 
-        return int(sum/180)
+        return int(sum/180+1)
