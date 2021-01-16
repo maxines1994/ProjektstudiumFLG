@@ -22,6 +22,7 @@ from .custcomplaint import CustComplaint
 from .custcontainer import CustContainer
 from .messagetemplate import MessageTemplate
 from .message import Message
+from .messageuser import MessageUser
 from .supporder import SuppOrder
 from .supporderdet import SuppOrderDet
 from .suppcontainer import SuppContainer

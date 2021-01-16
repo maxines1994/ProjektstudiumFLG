@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load materializecss %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<div class="row">
+    <div class="col s12">
+        <h4 class="left">{{title}}</h4>
+        <div class="right">
+            <h4>
+                <a href="{% url 'msgwrite' %}" class="waves-effect waves-light btn-floating"><i
+                        class="material-icons">add</i></a>
+                <a href="{% url 'inbox' %}" class="waves-effect waves-light btn-floating"><i
+                        class="material-icons">archive</i></a>
+                <a href="{% url 'outbox' %}" class="waves-effect waves-light btn-floating"><i
+                        class="material-icons">unarchive</i></a>
+                <a href="{% url 'bin' %}" class="waves-effect waves-light btn-floating"><i
+                        class="material-icons">delete</i></a>
+            </h4>
+        </div>
+
+    </div>
+    <div class="col s12">
+        {% block middle %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                {% for field in form.visible_fields %}
+                <div class="col s12">
+                    {{ field|materializecss }}
+                </div>
+                {% endfor %}
+            </div>
+            {% for field in form.hidden_fields %}
+            {{ field }}
+            {% endfor %}
+            <div class="col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col s12">
+        <select>
+            <option value="">---------</option>
+            {% for o in orders %}
+            <option value="{{ o.pk }}">{{ o.pk }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+{% endblock %}
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+{% endblock %}

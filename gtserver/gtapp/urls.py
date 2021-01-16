@@ -1,6 +1,7 @@
 from django.urls import path, include
 from gtapp.views import change_user_view, change_user_to_view, get_async_information
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
+from gtapp.views import binView, inboxView, outboxView, msgWriteView, delete_message_view, msgDetailsView, add_order_view
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -10,6 +11,14 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/change_user/', change_user_view, name='change_user'),
     path('accounts/change_user/<int:id>/', change_user_to_view, name='change_user_to'),
+
+    path('msg/inbox/', inboxView.as_view(), name="inbox"),
+    path('msg/outbox/', outboxView.as_view(), name='outbox'),
+    path('msg/bin/', binView.as_view(), name='bin'),
+    path('msg/write/', msgWriteView.as_view(), name='msgwrite'),
+    path('msg/details/<int:id>', msgDetailsView.as_view(), name='msgdetails'),
+    path('msg/delete/<int:id>/', delete_message_view, name='msgdelete'),
+    path('msg/api/<int:id>/', add_order_view, name='msgorderadd'),
 
     path('tasks/', tasks_view, name='tasks'),
     path('tasks_list/assigned/', tasks_list_assigned_view, name='tasks_assigned'),

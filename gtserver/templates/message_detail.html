@@ -1,0 +1,10 @@
+{% extends "message.html" %}
+{% block middle %}
+<div>
+    <h5>Von: {{object.sender}}</h5>
+    <h3>{{object.subject}}</h3>
+    <p>
+        {{object.text}}
+    </p>
+</div>
+{% endblock %}

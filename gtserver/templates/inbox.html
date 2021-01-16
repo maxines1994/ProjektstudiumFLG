@@ -1,0 +1,27 @@
+{% extends "message.html" %}
+{% block middle %}
+
+<table id="tbl">
+    <thead id="thd">
+        <tr>
+            <th>Betreff</th>
+            <th>{% if p == "bin" or p == "in" %}Sender{% else %}Empfänger{% endif %}</th>
+            <th>Tag</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody id="bdy">
+        {% for i in msg %}
+        <tr>
+            <td><a style="color: black" href="{% url 'msgdetails' i.id %}">{{ i.message.subject }}</a></td>
+            <td>{% if p == "bin" or p == "in" %}{{ i.message.sender }}{% else %}{{i.message.receiver}}{% endif %}</td>
+            <td>{{ i.message.sent_on }}</td>
+            <td><a href="{% url 'msgdelete' i.id %}" class="waves-effect waves-light btn-floating"><i
+                class="material-icons">{% if p == "bin" %}autorenew{% elif p == "in" %}delete{% endif %}</i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

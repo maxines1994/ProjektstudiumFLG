@@ -20,3 +20,4 @@ class Order(GtModel):
 
     def save(self, *args, **kwargs):
         super(Order, self).save(*args, **kwargs)
+
