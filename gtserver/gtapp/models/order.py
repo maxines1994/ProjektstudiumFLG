@@ -14,6 +14,7 @@ class Order(GtModel):
     received_on = models.SmallIntegerField(null=True)
     memo = models.TextField(null=True)
     user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
+    external_system = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
