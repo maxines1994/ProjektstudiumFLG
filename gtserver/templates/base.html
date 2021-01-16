@@ -82,6 +82,9 @@
       {% if perms.gtapp.view_custcomplaint %}<li><a href="">{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_supporder %}<li><a href="">{% if company == 'supplier' %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="">{% if company == 'supplier' %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
+      
+      <li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li>
+
       {# <li><div class="divider"></div></li> #}
       {% if user.is_authenticated %}
           <li><div class="divider"></div></li>

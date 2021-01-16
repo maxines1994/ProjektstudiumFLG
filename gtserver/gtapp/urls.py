@@ -1,6 +1,7 @@
 from django.urls import path, include
 from gtapp.views import change_user_view, change_user_to_view, get_async_information
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
+from gtapp.views.ProductionViews import Production_steps
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -25,5 +26,7 @@ urlpatterns = [
 
     path('cust_order_det/create/<int:cust_order>/', Cust_order_det_create_view.as_view(), name="cust_order_det_create"),
     path('cust_order_det/alter/<int:id>/', Cust_order_det_alter_view.as_view(), name="cust_order_det_alter"),
-    path('cust_order_det/delete/<int:id>/', Cust_order_det_delete_view.as_view(), name="cust_order_det_delete")
+    path('cust_order_det/delete/<int:id>/', Cust_order_det_delete_view.as_view(), name="cust_order_det_delete"),
+
+    path('production_steps', Production_steps, name="production_steps")
 ]

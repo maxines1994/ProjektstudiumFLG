@@ -9,3 +9,7 @@ from gtapp.models import Timers
 import json
 
 # Anlegen von Views mit dictionary TITEL und Markierung für den User wo er sich gerade befindet.
+
+def Production_steps(request):
+    c = get_context("Produktionsschritte","Produktionsschritte")
+    return render(request, "ProductionSteps.html", c)
