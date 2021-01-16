@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+<!-- Title-->
+{% block title %}
+{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4> M2 Produktionsschritt 2 </h4>
+<p> <a href="{% url 'M2_production_step_1' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons left">chevron_left</i></a> <a href="{% url 'M2_production_step_3' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">chevron_right</i></a> </p>
+
+<div class="table-scrollable">
+    <table id="itemtable">
+        <thead id="itemhead">
+            <tr>
+                <th>Anzahl</th>
+                <th>Teilenummer</th>
+                <th>Bezeichnung</th>
+            </tr>
+        </thead>
+        <tbody id="itembody">
+            <tr>
+                <td>1</td>
+                <td>T22</td>
+                <td>Test</td>
+            </tr>
+        </tbody>
+    </table>
+
+<video width="100%" height="auto" controls>
+    <source src="movie.mp4" type="video/mp4">
+    <source src="movie.ogg" type="video/ogg">
+  Your browser does not support the video tag.
+</video>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}
