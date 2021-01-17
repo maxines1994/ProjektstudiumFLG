@@ -46,7 +46,7 @@ urlpatterns = [
     path('cust_complaint/alter/<int:id>/', Cust_complaint_alter_view.as_view(), name='cust_complaint_alter'),
     path('cust_complaint/delete/<int:id>/', Cust_complaint_delete_view.as_view(), name='cust_complaint_delete'),
 
-    path('cust_complaint_det/create/<int:supp_complaint>/', Cust_complaint_det_create_view.as_view(), name="cust_complaint_det_create"),
+    path('cust_complaint_det/create/<int:cust_complaint>/', Cust_complaint_det_create_view.as_view(), name="cust_complaint_det_create"),
     path('cust_complaint_det/alter/<int:id>/', Cust_complaint_det_alter_view.as_view(), name="cust_complaint_det_alter"),
     path('cust_complaint_det/delete/<int:id>/', Cust_complaint_det_delete_view.as_view(), name="cust_complaint_det_delete"),
 ]

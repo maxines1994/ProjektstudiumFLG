@@ -29,18 +29,20 @@
         <table id="itemtable">
             <thead id="itemhead">
                 <tr>
-                    <th>Reklamierte Position</th>
+                    <th>Position</th>
+                    <th>Reklamierter Artikel</th>
                     <th>Beschreibung</th>
-                    <th>Abgeschlossen am</th>
+                    <th>Reklamierte Anzahl</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody id="itembody">
                 {% for i in items %}
                 <tr>
-                    <td>{{ i.cust_order_det.part_id }}</td>
+                    <td>{{ i.pos }}</td>
+                    <td>{{ i.cust_order_det.article_id }}</td>
                     <td>{{ i.memo }}</td>
-                    <td>{{ i.finished_on }}</td>
+                    <td>{{ i.quantity }}</td>
                     <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                         class="material-icons">more_vert</i></a></td>
                 </tr>

@@ -117,10 +117,12 @@ class Cust_complaint_form(ModelForm):
 class Cust_complaint_det_form(ModelForm):
     class Meta:
         model = CustComplaintDet
-        fields = ["cust_order_det","memo"]
+        fields = ["pos","cust_order_det","memo","quantity"]
         labels = {
+            'pos': _('Position'),
             'cust_oder_det': _('Position'),
-            'memo': _('Kommentar'),    
+            'memo': _('Kommentar'),
+            'quantity': _('Anzahl')    
         }
         widgets = {
             #'order_no': IntegerField()
