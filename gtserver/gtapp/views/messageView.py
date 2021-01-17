@@ -47,7 +47,6 @@ class binView(TemplateView):
 class msgWriteView(CreateView):
     template_name = "message.html"
     form_class = Msg_write_form
-    success_url = "/msg/inbox/"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +74,7 @@ class msgWriteView(CreateView):
                 user=i, user_is_sender=False, message=newmessage, is_trash=False)
         MessageUser.objects.create(
             user=form.instance.sender, user_is_sender=True, message=newmessage, is_trash=False)
-        return HttpResponseRedirect("/msg/write/")
+        return HttpResponseRedirect(reverse("inbox"))
 
 
 class msgDetailsView(DetailView):
@@ -83,7 +82,8 @@ class msgDetailsView(DetailView):
     model = Message
 
     def get_object(self, queryset=None):
-        obj = Message.objects.get(id=self.kwargs['id'])
+        mu = MessageUser.objects.filter(self.kwargs['id'])[0]
+        obj = Message.objects.get(pk=mu.message.pk)
         return obj
 
     def get_context_data(self, **kwargs):

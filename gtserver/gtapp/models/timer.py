@@ -22,3 +22,4 @@ class Timers(models.Model):
                 sum += nowtime.timestamp()
 
         return int(sum/180+1)
+        
