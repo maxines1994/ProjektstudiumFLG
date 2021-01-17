@@ -1,0 +1,696 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Title-->
+{% block title %}
+{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4> Produktionschritt {{ step }} von Hubwagen {{ product }} </h4>
+<p>   </p>
+
+<p> 
+    {% if step == 1 %}
+        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light" style="visibility: hidden;"> <i class="material-icons left">chevron_left</i></a>
+    {% endif %}
+    {% if step != 1 %}
+        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons left">chevron_left</i></a>  
+    {% endif %}
+    {% if step != 8 %}
+        <a href="/Production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons">chevron_right</i></a> 
+    {% endif %}
+    <a class="waves-effect waves-light btn" style="float: right;"> 3D-Modell</a>
+</p>
+
+{% if product == "M1" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+        {% endif %}
+
+{% elif product == "M2" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+        {% endif %}
+
+{% elif product == "M3" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% endif %}
+
+{% elif product == "M4" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>1</td>
+                    <td>T22</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% endif %}
+{% endif %}
+
+{% if step == 1 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step1.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 2 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step2.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 3 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>  
+        <source src="{% static 'vid/Step3.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 4 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step4.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 5 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step5.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 6 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step6.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 7 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step7.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 8 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step8.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% endif %}
+
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}
