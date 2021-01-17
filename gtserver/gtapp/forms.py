@@ -39,6 +39,7 @@ class Cust_order_form(ModelForm):
     )
     price = IntegerField(
         label=_('Preis'),
+        required = False,
         error_messages={
             'required': "Dieses Feld ist ein Pflichtfeld!",
             'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
@@ -47,6 +48,7 @@ class Cust_order_form(ModelForm):
 
     memo = CharField(
         label=_('Kommentar'),
+        required = False,
         widget=Textarea,
         error_messages={
             'required': "Dieses Feld ist ein Pflichtfeld!",
