@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody id="itembody">
-            <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
+            <!-- Alle orders durchlaufen und anzeigen-->
             {% for o in orders %}
                 <tr>
                     <td>{% if company == 'supplier' %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>

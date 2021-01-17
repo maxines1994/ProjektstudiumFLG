@@ -83,6 +83,7 @@ class Cust_order_det_form_create(ModelForm):
 
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
+    
     order_no = CharField(
         label=_('Bestellnummer'),
         error_messages={
@@ -121,13 +122,14 @@ class Supp_order_form_jg(ModelForm):
     )
     class Meta:
         model = SuppOrder
-        fields = ["order_no","issued_on","supplier","delivery_date","memo"]
+        fields = ["order_no","issued_on","supplier","delivery_date","price","memo"]
         labels = {
             'memo': _('Kommentar'),
         }
 
 class Supp_order_form_lf(ModelForm):
     use_required_attribute = False
+
     order_no = CharField(
         label=_('Bestellnummer'),
         error_messages={
@@ -158,7 +160,7 @@ class Supp_order_form_lf(ModelForm):
     )
     class Meta:
         model = SuppOrder
-        fields = ["order_no","issued_on","delivery_date","memo"]
+        fields = ["order_no","issued_on","delivery_date","price","memo"]
         labels = {
             'memo': _('Kommentar'),
         }
