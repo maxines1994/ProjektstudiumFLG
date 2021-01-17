@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.models import SuppOrder, SuppOrderDet
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
+from django.db.models import Q
 
 class Supp_order_create_view(CreateView):
     template_name = "SuppOrderForm.html"
@@ -132,17 +133,33 @@ class Supp_order_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        ## Digitalisierungsstufe 3
+        # if self.request.user.groups.filter(name='supplier 100').exists():
+        #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
+        #     context = get_context_back(context,"Kundenaufträge","Aufträge")
+        # elif self.request.user.groups.filter(name='supplier 200').exists():
+        #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
+        #     context = get_context_back(context,"Kundenaufträge","Aufträge")
+        # elif self.request.user.groups.filter(name='supplier 300').exists():
+        #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
+        #     context = get_context_back(context,"Kundenaufträge","Aufträge")
+        # else:
+        #     context['orders'] = SuppOrder.objects.all()
+        #     context = get_context_back(context,"Bestellungen","Bestellungen")
+
+        ##Digitalisierungsstufe 2
         if self.request.user.groups.filter(name='supplier 100').exists():
-            context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
+            context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 20)
             context = get_context_back(context,"Kundenaufträge","Aufträge")
         elif self.request.user.groups.filter(name='supplier 200').exists():
-            context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
+            context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 21)
             context = get_context_back(context,"Kundenaufträge","Aufträge")
         elif self.request.user.groups.filter(name='supplier 300').exists():
-            context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
+            context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 22)
             context = get_context_back(context,"Kundenaufträge","Aufträge")
         else:
-            context['orders'] = SuppOrder.objects.all()
+            context['orders'] = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
             context = get_context_back(context,"Bestellungen","Bestellungen")
 
         return context
