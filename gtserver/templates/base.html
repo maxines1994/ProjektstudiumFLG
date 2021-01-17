@@ -1,4 +1,6 @@
 {% load static %}
+{% load custom_tags %}
+
 <!DOCTYPE html>
 <html{% if company == 'joga' %} style="min-height: 100%;background-image: url('{% static 'img/joga_background.svg' %}'); background-repeat: no-repeat; background-position: right bottom;"{% endif %}>
   <head>
@@ -83,7 +85,7 @@
       {% if perms.gtapp.view_supporder %}<li><a href="">{% if company == 'supplier' %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="">{% if company == 'supplier' %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
       
-      <li><a href="{% url 'Production_steps' %}"> Produktionsschritte</a></li>
+      {% if request.user|has_group:"production" %}<li><a href="{% url 'Production_steps' %}"> Produktionsschritte</a></li> {% endif %}
 
       {# <li><div class="divider"></div></li> #}
       {% if user.is_authenticated %}
