@@ -10,7 +10,6 @@ class Supp_order_create_view(CreateView):
     
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
-        # New Supplier
         if self.request.user.groups.filter(name='supplier 100').exists():
             form.instance.supplier_id = 1
         elif self.request.user.groups.filter(name='supplier 200').exists():

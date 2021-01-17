@@ -171,7 +171,7 @@ class Supp_order_det_form(ModelForm):
         labels = {
             'pos': _('Positionsnummer'),
             'part': _('Artikel'),
-            'quantity': _('Bestellmenge'),
+            'quantity': _('Menge'),
             'unit_price': _('Preis'),
             'memo': _('Kommentar'),
         }
