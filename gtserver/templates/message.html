@@ -23,39 +23,57 @@
                         class="material-icons">delete</i></a>
             </h4>
         </div>
-
+    </div>
+    {% block middle %}
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content white-text">
+                <form style="padding: 0px" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        {% for field in form.visible_fields %}
+                        <div class="col s12">
+                            {{ field|materializecss }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% for field in form.hidden_fields %}
+                    {{ field }}
+                    {% endfor %}
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="col s12">
-        {% block middle %}
-        <form method="post">
-            {% csrf_token %}
-            <div class="row">
-                {% for field in form.visible_fields %}
-                <div class="col s12">
-                    {{ field|materializecss }}
+        <h4 class="left">Anhängen von Dokumenten</h4>
+    </div>
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content white-text">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field col s12">
+                            <select id="orderno">
+                                <option value="">---------</option>
+                                {% for o in orders %}
+                                <option value="{{ o.pk }}">Bestellung #{{ o.pk }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="orderno">Bestellungen</label>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <a onclick="getmsgapi()" class="waves-effect waves-light btn">Bestellung hinzufügen</a>
+                    </div>
                 </div>
-                {% endfor %}
             </div>
-            {% for field in form.hidden_fields %}
-            {{ field }}
-            {% endfor %}
-            <div class="col s12">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
-    <div class="col s12">
-        <select>
-            <option value="">---------</option>
-            {% for o in orders %}
-            <option value="{{ o.pk }}">{{ o.pk }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    {% endblock %}
 </div>
-{% endblock %}
 {% endblock %}
 
 <!-- Body-->
@@ -69,5 +87,28 @@
     $(document).ready(function () {
         $('select').formSelect();
     });
+</script>
+<script>
+    function getmsgapi() {
+        var id = $("#orderno").val();
+        var request = new XMLHttpRequest();
+        request.open("GET", "/msg/api/" + id + "/");
+        request.addEventListener('load', function (event) {
+            if (request.status >= 200 && request.status < 300) {
+                var obj = JSON.parse(request.responseText);
+                // Werte setzen
+                s = "\nBestellung: " + obj["no"] + "\nKunde: " + obj["customer"] + "\n" + "Bestelltag: " + obj["issued"] + "\n";
+                for (i=1;i<=obj["posl"];i++) {
+                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tArtikel: " + obj[i]["article"] + "\n\tPreis: " + obj[i]["price"] + "\n";
+                }
+                $('#id_text').val($('#id_text').val() + s);
+                M.textareaAutoResize($('#id_text'));
+                M.updateTextFields()
+            } else {
+                console.warn(request.statusText, request.responseText);
+            }
+        });
+        request.send();
+    }
 </script>
 {% endblock %}

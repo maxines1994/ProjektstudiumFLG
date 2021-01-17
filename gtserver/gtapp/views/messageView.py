@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, FormView, DetailView
 from gtapp.forms import Cust_order_form, Cust_order_det_form, Cust_order_det_form_create, Msg_write_form
-from gtapp.models import MessageUser, Message, Timers, CustOrder
+from gtapp.models import MessageUser, Message, Timers, CustOrder, CustOrderDet
 from django.contrib.auth.models import Group, User
 import json
 
@@ -51,7 +51,18 @@ class msgWriteView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context, "Nachricht verfassen", "")
+        context = get_context_back(context, "Nachricht", "")
+
+        # Orders zum anhängen, nur die des benutzers
+        if self.request.user.groups.filter(name='customer 1').exists():
+            context['orders'] = CustOrder.objects.filter(customer_id=1)
+        elif self.request.user.groups.filter(name='customer 2').exists():
+            context['orders'] = CustOrder.objects.filter(customer_id=2)
+        elif self.request.user.groups.filter(name='customer 3').exists():
+            context['orders'] = CustOrder.objects.filter(customer_id=3)
+        elif self.request.user.groups.filter(name='JOGA').exists():
+            context['orders'] = CustOrder.objects.all()
+
         return context
 
     # Umleitung auf die Alter View
@@ -78,17 +89,6 @@ class msgDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = get_context_back(context, "Nachricht", "")
-
-        # Orders zum anhängen, nur die des benutzers
-        if request.user.groups.filter(name='customer 1').exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=1)
-        elif request.user.groups.filter(name='customer 2').exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=2)
-        elif request.user.groups.filter(name='customer 3').exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=3)
-        elif request.user.groups.filter(name='JOGA').exists():
-            context['orders'] = CustOrder.objects.all()
-
         return context
 
 # Weise Task User zu
@@ -107,8 +107,18 @@ def delete_message_view(request, **kwargs):
 def add_order_view(request, **kwargs):
     o = CustOrder.objects.filter(pk=kwargs["id"])[0]
     order = {
-        "customer": o.customer,
+        "customer": o.customer.name,
         "no": o.pk,
-        "issued": o.issued_on
+        "issued": o.issued_on,
+        "posl": CustOrderDet.objects.filter(cust_order=kwargs["id"]).count(),
     }
+    s=0
+    for i in CustOrderDet.objects.filter(cust_order=kwargs["id"]):
+        s = s+1
+        pos = {
+            "article": i.article.description,
+            "price": i.unit_price,
+            "posno": i.pos
+        }
+        order[s] = pos
     return HttpResponse(json.dumps(order))

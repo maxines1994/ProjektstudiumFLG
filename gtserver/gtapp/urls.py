@@ -16,7 +16,7 @@ urlpatterns = [
     path('msg/outbox/', outboxView.as_view(), name='outbox'),
     path('msg/bin/', binView.as_view(), name='bin'),
     path('msg/write/', msgWriteView.as_view(), name='msgwrite'),
-    path('msg/details/<int:id>', msgDetailsView.as_view(), name='msgdetails'),
+    path('msg/details/<int:id>/', msgDetailsView.as_view(), name='msgdetails'),
     path('msg/delete/<int:id>/', delete_message_view, name='msgdelete'),
     path('msg/api/<int:id>/', add_order_view, name='msgorderadd'),
 
