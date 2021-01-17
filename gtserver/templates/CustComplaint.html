@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 <!-- Title-->
-{% block title %}{% if company == 'customer' %}Bestellungen{% else %}Kundenaufträge{% endif %}{% endblock %}
+{% block title %}{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -10,28 +10,29 @@
 
 <!-- Content-->
 {% block content %}
-<h4>{% if company == 'customer' %}Bestellungen{% else %}Kundenaufträge{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4>{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="table-scrollable">
     <table id="itemtable">
         <thead id="itemhead">
             <tr>
-                <th>{% if company == 'customer' %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
-                <th>Einteilungsdatum</th>
-                <th>Lieferdatum</th>
-                <th>Kunde</th>
+                <th>Bestellreklamationsnummer</th>
+                <th>Beschreibung</th>
                 <th>Status</th>
+                <th>Abgeschlossen am</th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="itembody">
-            {% for o in orders %}
-            <tr>
-                <td>{% if company == 'customer' %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
-                <td>Tag #{{ o.issued_on }}</td>
-                <td>Tag #{{ o.delivery_date }}</td>
-                <td>{{ o.customer }}</td>
-                <td>{{ o.status }}</td>
-                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
-            </tr>
+            <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
+            {% for c in complaints %}
+                <tr>
+                    <td>Bestellreklamation #{{ c.id }}</td>
+                    <td>{{ c.memo }}</td>
+                    <td>{{ c.status }}</td>
+                    <td>Tag #{{ c.finished_on }}</td>
+                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i
+                                class="material-icons">more_vert</i></a></td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
