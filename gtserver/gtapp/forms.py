@@ -82,35 +82,86 @@ class Cust_order_det_form_create(ModelForm):
 
 
 class Supp_order_form_jg(ModelForm):
+    use_required_attribute = False
+    order_no = CharField(
+        label=_('Bestellnummer'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    supplier = ModelChoiceField(
+        Supplier.objects.filter(pk__gt=0),
+        label=_('Kunde'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    issued_on =  IntegerField(
+        label=_("Bestelltag"),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    delivery_date =  IntegerField(
+        label=_('Liefertag'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    price = IntegerField(
+        label=_('Preis'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
     class Meta:
         model = SuppOrder
         fields = ["order_no","issued_on","supplier","delivery_date","memo"]
         labels = {
-            'order_no': _('Nummer'),
-            'issued_on': _('Bestelltag'),
-            'supplier': _("Lieferant"),
-            'delivery_date': _('Liefertag'),
             'memo': _('Kommentar'),
         }
-        widgets = {
-            #'order_no': IntegerField()
-        }
-        # -> Boxnummer
 
 class Supp_order_form_lf(ModelForm):
+    use_required_attribute = False
+    order_no = CharField(
+        label=_('Bestellnummer'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    issued_on =  IntegerField(
+        label=_("Bestelltag"),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    delivery_date =  IntegerField(
+        label=_('Liefertag'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    price = IntegerField(
+        label=_('Preis'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
     class Meta:
         model = SuppOrder
         fields = ["order_no","issued_on","delivery_date","memo"]
         labels = {
-            'order_no': _('Nummer'),
-            'issued_on': _('Bestelltag'),
-            'delivery_date': _('Liefertag'),
             'memo': _('Kommentar'),
         }
-        widgets = {
-            #'order_no': IntegerField()
-        }
-        # -> Boxnummer
 
 
 class Supp_order_det_form(ModelForm):

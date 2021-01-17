@@ -1,9 +1,11 @@
 {% extends "forms.html" %}
 {% load materializecss %}
 
+<!-- Title-->
+{% block title %}{% if company == 'supplier' %}Kundenauftrag{% else %}Bestellung{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}{% endblock %}
+
 <!-- Header-->
 {% block head %}
-
 {% endblock %}
 
 <!-- Content-->
@@ -12,7 +14,7 @@
     {% csrf_token %}
     <div class="row">
         <div class="col s12">
-            <h4>{{title}}</h4>
+            <h4>{% if company == 'supplier' %}Kundenauftrag{% else %}Bestellung{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}</h4>
         </div>
         {% for field in form.visible_fields %}
         <div class="col s12 m12 l6">
