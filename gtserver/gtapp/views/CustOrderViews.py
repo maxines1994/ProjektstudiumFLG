@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.forms import Cust_order_form, Cust_order_det_form, Cust_order_det_form_create
-from gtapp.models import CustOrder, CustOrderDet
+from gtapp.models import CustOrder, CustOrderDet, Todo, Timers
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max
@@ -17,7 +17,9 @@ class Cust_order_create_view(CreateView):
     # Umleitung auf die Alter View
     def form_valid(self, form):
         new_cust_order = form.save()
+        Todo.set_first_todo(new_cust_order, 1, Timers.get_current_day())
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
+        
     
     # Navbar Context
     def get_context_data(self, **kwargs):
@@ -76,14 +78,14 @@ class Cust_order_det_create_view(CreateView):
 
     def form_valid(self, form):
         form.instance.cust_order = CustOrder.objects.get(id=self.kwargs["cust_order"])
-
+        
         # Position vergeben
         try:
             form.instance.pos = CustOrderDet.objects.filter(cust_order=form.instance.cust_order).latest('_creation_date').pos + 1
         except CustOrderDet.DoesNotExist:
             form.instance.pos = 1
         
-        form.save()
+        newCustOrderDet=form.save()
         return HttpResponseRedirect("/cust_order/alter/" + str(self.kwargs["cust_order"]) + "/")
 
 # CustOrder von Joga und Bestellungen der Kunden
@@ -103,7 +105,7 @@ class Cust_order_det_alter_view(UpdateView):
 
     def form_valid(self, form):
         form.instance.pos = CustOrderDet.objects.get(id=form.instance.id).pos
-        form.save()
+        custOrderDet = form.save()
         return HttpResponseRedirect("/cust_order/alter/" + str(form.instance.cust_order.id) + "/")
 
 #//self.kwargs["id"]

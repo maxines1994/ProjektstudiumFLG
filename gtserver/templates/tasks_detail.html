@@ -12,18 +12,23 @@
     <div class="col s12 m6">
         <div class="card">
             <div class="card-content">
-                <span class="card-title"><b>{{object.todo_type.description_de}}</b></span>
+                {% if object.todo_type.id == 1%}
+                <span class="card-title"><b>Auftrag: {{object.cust_order.order_no}} <br> {{object.todo_type.title_de}}</b></span>
+                {%else%}
+                <span class="card-title"><b>Auftrag: {{object.cust_order_det.cust_order.order_no}} Position: {{object.cust_order_det.pos}} <br> {{object.todo_type.title_de}}</b></span>
+                {% endif %}
                 <p>
                    <b>Beschreibung:</b> 
                 </p>
                 <p>
-                    {{object.memo}}
+                    {{object.todo_type.description_de}}
                 </p>
                 <p>
                     <b>Benutzerzuodnung:</b> 
                  </p>
                  <p>
-                    {% if object.user_id == -1 %}
+                    
+                    {% if object.user_id is null %}
                     Nicht zugeordnet
                     {% else %}
                     {{object.user}}
@@ -35,14 +40,28 @@
                  <p>
                      {{object.todo_type.group}}
                  </p>
+                 {% if object.finished_on is null %}
+                 <p>
+                  
+                 </p>
+                 {% else %}
+                 <p>
+                    <b>Abgeschlossen am:  {{object.todo.finished_on}}</b> 
+                 </p>
+                 <p>
+                     {{object.finished_on}}
+                 </p>
+                 {% endif %}
+                 
             </div>
             <div class="card-action">
                 <center>
-                    {% if object.user.pk == -1 %}
+                    {% if object.user_id is null %}
                     <a href="{% url 'tasks_assign' object.pk %}">Mir zuweisen</a>
                     {%else%}
-                    <a href="{% url 'tasks_assign' object.pk %}">Aufgabe freigeben</a>
-                    <a href="">Bearbeitet</a>
+                    <a href="{% url 'tasks_share' object.pk %}">Aufgabe freigeben</a>
+                    <a href="{% url 'tasks_edit' object.pk %}">Bearbeiten</a>
+                    <a href="{% url 'tasks_finish' object.pk %}">Fertig</a>
                     {%endif%}
                     <a href="{% url 'tasks' %}">Zurück</a>
                 </center>
