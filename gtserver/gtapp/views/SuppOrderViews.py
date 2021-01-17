@@ -11,7 +11,7 @@ class Supp_order_create_view(CreateView):
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
 
-        if self.request.user.groups.first().name == "suppliers":
+        if self.request.user.groups.filter(name='suppliers').exists():
             form.instance.supplier_id = 1
         new_supp_order = form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
@@ -19,14 +19,14 @@ class Supp_order_create_view(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.request.user.groups.first().name == "suppliers":
+        if self.request.user.groups.filter(name='suppliers').exists():
             context = get_context_back(context,"Auftrag erstellen","Aufträge")   
         else:
             context = get_context_back(context,"Bestellung erfassen","Bestellungen")
         return context
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.first().name == "suppliers":
+        if self.request.user.groups.filter(name='suppliers').exists():
             form_class = Supp_order_form_lf
         else:
             form_class = Supp_order_form_jg
@@ -45,7 +45,7 @@ class Supp_order_alter_view(UpdateView):
         context['items'] = SuppOrderDet.objects.filter(supp_order=self.get_object().pk)
         context['supp_order_no'] = self.get_object().pk
 
-        if self.request.user.groups.first().name == "suppliers":
+        if self.request.user.groups.filter(name='suppliers').exists():
             context = get_context_back(context,"Auftrag ändern","Aufträge")
         else:
             context = get_context_back(context,"Bestellung ändern","Bestellungen")
@@ -57,7 +57,7 @@ class Supp_order_alter_view(UpdateView):
         return HttpResponseRedirect("/supp_order/")
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.first().name == "suppliers":
+        if self.request.user.groups.filter(name='suppliers').exists():
             form_class = Supp_order_form_lf
         else:
             form_class = Supp_order_form_jg
@@ -128,7 +128,7 @@ class Supp_order_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.groups.first().name == "suppliers":
+        if self.request.user.groups.filter(name='suppliers').exists():
             ### HIER AUF BASIS DER NEUEN GRUPPEN!!
             context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
             context = get_context_back(context,"Kundenaufträge","Aufträge")
