@@ -20,3 +20,10 @@ class Production_steps_single(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+class Production_steps_3D_Models(TemplateView):
+    template_name = "ProductionSteps3DModels.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

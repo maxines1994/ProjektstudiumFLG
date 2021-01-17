@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Title-->
+{% block title %}
+{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4> Produktionschritt {{ step }} von Hubwagen {{ product }} </h4>
+
+<p> <a href="/Production_steps_single/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> Zurück</a> <br> </p></br>
+<p></p>
+
+    <iframe class="z-depth-4" src="/static/iframe/step_{{ step }}.html" 
+        title="3D Player" width=100% height=500 frameBorder="0">
+        Ihr Browser ist leider nicht kompatibel für diese 3D Darstellung.
+    </iframe>
+    
+
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}
