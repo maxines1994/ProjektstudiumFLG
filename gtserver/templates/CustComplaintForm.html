@@ -38,7 +38,7 @@
             <tbody id="itembody">
                 {% for i in items %}
                 <tr>
-                    <td>{{ i.supp_order_det.part_id }}</td>
+                    <td>{{ i.cust_order_det.part_id }}</td>
                     <td>{{ i.memo }}</td>
                     <td>{{ i.finished_on }}</td>
                     <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
@@ -46,7 +46,7 @@
                 </tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="4"><a href="{% url 'supp_complaint_det_create' supp_complaint_no %}" class="waves-effect waves-light btn"><i class="material-icons left">add_shopping_cart</i>Position hinzufügen</a></td>
+                    <td colspan="4"><a href="{% url 'cust_complaint_det_create' cust_complaint_no %}" class="waves-effect waves-light btn"><i class="material-icons left">add_shopping_cart</i>Position hinzufügen</a></td>
                 </tr>
             </tbody>
         </table>
@@ -63,8 +63,8 @@
 {% block body %}
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
-    <li><a href="{% url 'supp_complaint_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'supp_complaint_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'cust_complaint_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_complaint_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
 </ul>
 {% endfor %}
 {% endblock %}

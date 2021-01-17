@@ -102,7 +102,7 @@ class Msg_write_form(ModelForm):
             'text': _('Nachricht'),
         }
 
-class Supp_complaint_form(ModelForm):
+class Cust_complaint_form(ModelForm):
     class Meta:
         model = CustComplaint
         fields = ["memo", "finished_on"]
@@ -117,11 +117,10 @@ class Supp_complaint_form(ModelForm):
 class Cust_complaint_det_form(ModelForm):
     class Meta:
         model = CustComplaintDet
-        fields = ["cust_order_det","memo", "finished_on"]
+        fields = ["cust_order_det","memo"]
         labels = {
             'cust_oder_det': _('Position'),
-            'memo': _('Kommentar'),
-            'finished_on': _('Abgeschlossen am'),            
+            'memo': _('Kommentar'),    
         }
         widgets = {
             #'order_no': IntegerField()

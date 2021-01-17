@@ -10,7 +10,7 @@
 
 <!-- Content-->
 {% block content %}
-<h4>{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4>{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %} <a href="{% url 'cust_complaint_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="table-scrollable">
     <table id="itemtable">
         <thead id="itemhead">
@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody id="itembody">
-            <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
+            <!-- Alle complaints durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
             {% for c in complaints %}
                 <tr>
                     <td>Bestellreklamation #{{ c.id }}</td>
@@ -41,10 +41,10 @@
 
 <!-- Body-->
 {% block body %}
-{% for o in orders %}
-<ul id='a{{o.id}}' class='dropdown-content'>
-    <li><a href="{% url 'cust_order_alter' o.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'cust_order_delete' o.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+{% for c in complaints %}
+<ul id='a{{c.id}}' class='dropdown-content'>
+    <li><a href="{% url 'cust_complaint_alter' c.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_complaint_delete' c.id %}"><i class="material-icons">delete</i>Löschen</a></li>
 </ul>
 {% endfor %}
 {% endblock %}
