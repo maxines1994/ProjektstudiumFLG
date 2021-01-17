@@ -48,7 +48,7 @@
           {% if user.is_authenticated %}
           <ul class="right">
             <li><a id="currenttime"><i class="material-icons left">today</i>Tag {{day}}</a>
-            {% if perms.gtapp.view_message %}<li><a href=""><i class="material-icons">chat_bubble</i></a></li>{% endif %}
+            {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>{% endif %}
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
             {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}"><i class="material-icons">notifications</i></a></li>{% endif %}
           </ul>

@@ -9,7 +9,6 @@ class Todo(GtModel):
     Dieses Model enthaelt die einzelnen Todos. Es identifiziert den Todo-Typ und den Sachbearbeiter des Todos.
     Ausserdem enthaelt es die Zuordnung zur Bestellposition, sowie ein Notizfeld.
     """
-
     memo = models.TextField()
     finished_on = models.SmallIntegerField()
     todo_type = models.ForeignKey(TodoType, on_delete=models.CASCADE)

@@ -1,3 +1,4 @@
 from gtapp.views.stdViews import home_view, tasks_view, tasks_list_assigned_view, tasks_list_notassigned_view, tasks_assign_to_me_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view, get_async_information
 from gtapp.views.authViews import change_user_view, change_user_to_view
 from gtapp.views.CustOrderViews import Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view
+from gtapp.views.messageView import binView, inboxView, outboxView, msgWriteView, msgDetailsView, delete_message_view, add_order_view
