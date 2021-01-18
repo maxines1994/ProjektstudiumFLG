@@ -7,9 +7,9 @@ class OrderDet(GtModel):
     """
     
     pos = models.IntegerField(blank=True)
-    unit_price = models.IntegerField()
-    received_on = models.SmallIntegerField(null=True)
-    memo = models.TextField()
+    unit_price = models.IntegerField(blank=True, null=True)
+    received_on = models.SmallIntegerField(blank=True, null=True)
+    memo = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
