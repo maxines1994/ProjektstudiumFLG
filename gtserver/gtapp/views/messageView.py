@@ -82,7 +82,7 @@ class msgDetailsView(DetailView):
     model = Message
 
     def get_object(self, queryset=None):
-        mu = MessageUser.objects.filter(self.kwargs['id'])[0]
+        mu = MessageUser.objects.filter(pk=self.kwargs['id'])[0]
         obj = Message.objects.get(pk=mu.message.pk)
         return obj
 
