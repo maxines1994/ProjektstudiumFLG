@@ -1,7 +1,7 @@
 from django import forms
 from django.core import validators
 from django.forms import *
-from gtapp.models import Article, CustOrder, CustOrderDet, Customer, Message
+from gtapp.models import Article, CustOrder, CustOrderDet, Customer, Message, CustComplaint, CustComplaintDet
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
@@ -102,4 +102,30 @@ class Msg_write_form(ModelForm):
             'receiver': _('Empfänger'),
             'subject': _('Betreff'),
             'text': _('Nachricht'),
+        }
+
+class Cust_complaint_form(ModelForm):
+    class Meta:
+        model = CustComplaint
+        fields = ["memo", "finished_on"]
+        labels = {
+            'memo': _('Kommentar'),
+            'finished_on': _('Abgeschlossen am')
+        }
+        widgets = {
+            #'order_no': IntegerField()
+        }
+
+class Cust_complaint_det_form(ModelForm):
+    class Meta:
+        model = CustComplaintDet
+        fields = ["pos","cust_order_det","memo","quantity"]
+        labels = {
+            'pos': _('Position'),
+            'cust_oder_det': _('Position'),
+            'memo': _('Kommentar'),
+            'quantity': _('Anzahl')    
+        }
+        widgets = {
+            #'order_no': IntegerField()
         }

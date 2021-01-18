@@ -3,6 +3,7 @@ from gtapp.views import change_user_view, change_user_to_view, get_async_informa
 from gtapp.views import binView, inboxView, outboxView, msgWriteView, delete_message_view, msgDetailsView, add_order_view
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_edit,tasks_finish, tasks_list_finished_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
 from gtapp.views.ProductionViews import Production_steps, Production_steps_single, Production_steps_3D_Models
+from gtapp.views.CustComplaintViews import Cust_complaint_view, Cust_complaint_create_view, Cust_complaint_alter_view, Cust_complaint_delete_view, Cust_complaint_det_create_view, Cust_complaint_det_alter_view, Cust_complaint_det_delete_view
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -43,4 +44,13 @@ urlpatterns = [
     path('Production_steps', Production_steps, name="Production_steps"),
     path('Production_steps_single/<str:product>/<int:step>', Production_steps_single.as_view(), name="Production_steps_single"),
     path('Production_steps_3D_Models/<str:product>/<int:step>', Production_steps_3D_Models.as_view(), name="Production_steps_3D_Models"),
+    
+    path('cust_complaint/', Cust_complaint_view.as_view(), name="cust_complaint"),
+    path('cust_complaint/create/', Cust_complaint_create_view.as_view(), name='cust_complaint_create'),
+    path('cust_complaint/alter/<int:id>/', Cust_complaint_alter_view.as_view(), name='cust_complaint_alter'),
+    path('cust_complaint/delete/<int:id>/', Cust_complaint_delete_view.as_view(), name='cust_complaint_delete'),
+
+    path('cust_complaint_det/create/<int:cust_complaint>/', Cust_complaint_det_create_view.as_view(), name="cust_complaint_det_create"),
+    path('cust_complaint_det/alter/<int:id>/', Cust_complaint_det_alter_view.as_view(), name="cust_complaint_det_alter"),
+    path('cust_complaint_det/delete/<int:id>/', Cust_complaint_det_delete_view.as_view(), name="cust_complaint_det_delete"),
 ]

@@ -81,7 +81,7 @@
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == 'customer' %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
-      {% if perms.gtapp.view_custcomplaint %}<li><a href="">{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
+      {% if perms.gtapp.view_custcomplaint %}<li><a href="{% url 'cust_complaint' %}">{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_supporder %}<li><a href="">{% if company == 'supplier' %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="">{% if company == 'supplier' %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
       
