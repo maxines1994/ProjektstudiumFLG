@@ -1,0 +1,898 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Title-->
+{% block title %}
+{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4> Produktionschritt {{ step }} von Hubwagen {{ product }} </h4>
+<p>   </p>
+
+<p> 
+    {% if step == 1 %}
+        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light" style="visibility: hidden;"> <i class="material-icons left">chevron_left</i></a>
+    {% endif %}
+    {% if step != 1 %}
+        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons left">chevron_left</i></a>  
+    {% endif %}
+    {% if step != 8 %}
+        <a href="/Production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons">chevron_right</i></a> 
+    {% endif %}
+    <a href="/Production_steps_3D_Models/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> 3D-Modell</a>
+</p>
+
+
+{% if product == "M1" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T6</td>
+                    <td>Hülse Hubelement</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T9</td>
+                    <td>Schraube M6 + Scheibe</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T3</td>
+                    <td>Strebe 230</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T10</td>
+                    <td>Träger Fahrgestell</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T12</td>
+                    <td>Querstrebe 120</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T12</td>
+                    <td>Querstrebe 120</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>T11</td>
+                    <td>Träger Lastmodul</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T1</td>
+                    <td>Welle 80</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+        <p> <div class="table-scrollable">
+            <table id="itemtable">
+                <thead id="itemhead">
+                    <tr>
+                        <th>Anzahl</th>
+                        <th>Teilenummer</th>
+                        <th>Bezeichnung</th>
+                    </tr>
+                </thead>
+                <tbody id="itembody">
+                    <tr>
+                        <td>1</td>
+                        <td>T11</td>
+                        <td>Träger Lastmodul</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>T8</td>
+                        <td>Schraube M5 X 20</td>
+                    </tr>
+                </tbody>
+            </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T14</td>
+                    <td>Sicherungsblech</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T5</td>
+                    <td>Rad</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+        {% endif %}
+
+{% elif product == "M2" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T6</td>
+                    <td>Hülse Hubelement</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T9</td>
+                    <td>Schraube M6 + Scheibe</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T3</td>
+                    <td>Strebe 230</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T10</td>
+                    <td>Träger Fahrgestell</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T13</td>
+                    <td>Querstrebe 170</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T13</td>
+                    <td>Querstrebe 170</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>T11</td>
+                    <td>Träger Lastmodul</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T2</td>
+                    <td>Welle 130</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+        <p> <div class="table-scrollable">
+            <table id="itemtable">
+                <thead id="itemhead">
+                    <tr>
+                        <th>Anzahl</th>
+                        <th>Teilenummer</th>
+                        <th>Bezeichnung</th>
+                    </tr>
+                </thead>
+                <tbody id="itembody">
+                    <tr>
+                        <td>1</td>
+                        <td>T11</td>
+                        <td>Träger Lastmodul</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>T8</td>
+                        <td>Schraube M5 X 20</td>
+                    </tr>
+                </tbody>
+            </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T14</td>
+                    <td>Sicherungsblech</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T5</td>
+                    <td>Rad</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+        {% endif %}
+
+{% elif product == "M3" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T6</td>
+                    <td>Hülse Hubelement</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T9</td>
+                    <td>Schraube M6 + Scheibe</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T4</td>
+                    <td>Strebe 280</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T10</td>
+                    <td>Träger Fahrgestell</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T12</td>
+                    <td>Querstrebe 120</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T12</td>
+                    <td>Querstrebe 120</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>T11</td>
+                    <td>Träger Lastmodul</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T1</td>
+                    <td>Welle 80</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+        <p> <div class="table-scrollable">
+            <table id="itemtable">
+                <thead id="itemhead">
+                    <tr>
+                        <th>Anzahl</th>
+                        <th>Teilenummer</th>
+                        <th>Bezeichnung</th>
+                    </tr>
+                </thead>
+                <tbody id="itembody">
+                    <tr>
+                        <td>1</td>
+                        <td>T11</td>
+                        <td>Träger Lastmodul</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>T8</td>
+                        <td>Schraube M5 X 20</td>
+                    </tr>
+                </tbody>
+            </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T14</td>
+                    <td>Sicherungsblech</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T5</td>
+                    <td>Rad</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% endif %}
+
+{% elif product == "M4" %}
+    {% if step == 1 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T6</td>
+                    <td>Hülse Hubelement</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T9</td>
+                    <td>Schraube M6 + Scheibe</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T4</td>
+                    <td>Strebe 280</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% elif step == 2 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T10</td>
+                    <td>Träger Fahrgestell</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T13</td>
+                    <td>Querstrebe 170</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 3 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T13</td>
+                    <td>Querstrebe 170</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>T11</td>
+                    <td>Träger Lastmodul</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>T8</td>
+                    <td>Schraube M5 X 20</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 4 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T2</td>
+                    <td>Welle 130</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 5 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T7</td>
+                    <td>Wellenhülse</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 6 %}
+        <p> <div class="table-scrollable">
+            <table id="itemtable">
+                <thead id="itemhead">
+                    <tr>
+                        <th>Anzahl</th>
+                        <th>Teilenummer</th>
+                        <th>Bezeichnung</th>
+                    </tr>
+                </thead>
+                <tbody id="itembody">
+                    <tr>
+                        <td>1</td>
+                        <td>T11</td>
+                        <td>Träger Lastmodul</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>T8</td>
+                        <td>Schraube M5 X 20</td>
+                    </tr>
+                </tbody>
+            </table> </p>
+
+    {% elif step == 7 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>2</td>
+                    <td>T14</td>
+                    <td>Sicherungsblech</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+
+    {% elif step == 8 %}
+    <p> <div class="table-scrollable">
+        <table id="itemtable">
+            <thead id="itemhead">
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Teilenummer</th>
+                    <th>Bezeichnung</th>
+                </tr>
+            </thead>
+            <tbody id="itembody">
+                <tr>
+                    <td>4</td>
+                    <td>T5</td>
+                    <td>Rad</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>T15</td>
+                    <td>Schraube M5 X 8</td>
+                </tr>
+            </tbody>
+        </table> </p>
+    {% endif %}
+{% endif %}
+
+{% if step == 1 %}
+<p> Diesen Schritt zweimal bauen:</p>
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step1.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 2 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step2.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 3 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>  
+        <source src="{% static 'vid/Step3.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 4 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step4.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 5 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step5.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 6 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step6.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 7 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step7.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% elif step == 8 %}
+    <video width="100%" height="auto" frameBorder="0" autoplay loop muted playsinline>
+        <source src="{% static 'vid/Step8.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+{% endif %}
+
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}
