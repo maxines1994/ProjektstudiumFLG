@@ -4,6 +4,8 @@ from gtapp.views import binView, inboxView, outboxView, msgWriteView, delete_mes
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_edit,tasks_finish, tasks_list_finished_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
 from gtapp.views.ProductionViews import Production_steps, Production_steps_single, Production_steps_3D_Models
 from gtapp.views.CustComplaintViews import Cust_complaint_view, Cust_complaint_create_view, Cust_complaint_alter_view, Cust_complaint_delete_view, Cust_complaint_det_create_view, Cust_complaint_det_alter_view, Cust_complaint_det_delete_view
+from gtapp.views.SuppOrderViews import Supp_order_view, Supp_order_create_view, Supp_order_alter_view, Supp_order_delete_view, Supp_order_det_create_view, Supp_order_det_alter_view, Supp_order_det_delete_view
+from gtapp.views.SuppComplaintViews import Supp_complaint_view, Supp_complaint_create_view, Supp_complaint_alter_view, Supp_complaint_delete_view, Supp_complaint_det_create_view, Supp_complaint_det_alter_view, Supp_complaint_det_delete_view
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -53,4 +55,22 @@ urlpatterns = [
     path('cust_complaint_det/create/<int:cust_complaint>/', Cust_complaint_det_create_view.as_view(), name="cust_complaint_det_create"),
     path('cust_complaint_det/alter/<int:id>/', Cust_complaint_det_alter_view.as_view(), name="cust_complaint_det_alter"),
     path('cust_complaint_det/delete/<int:id>/', Cust_complaint_det_delete_view.as_view(), name="cust_complaint_det_delete"),
+
+    path('supp_order/', Supp_order_view.as_view(), name="supp_order"),
+    path('supp_order/create/', Supp_order_create_view.as_view(), name='supp_order_create'),
+    path('supp_order/alter/<int:id>/', Supp_order_alter_view.as_view(), name='supp_order_alter'),
+    path('supp_order/delete/<int:id>/', Supp_order_delete_view.as_view(), name='supp_order_delete'),
+
+    path('supp_order_det/create/<int:supp_order>/', Supp_order_det_create_view.as_view(), name="supp_order_det_create"),
+    path('supp_order_det/alter/<int:id>/', Supp_order_det_alter_view.as_view(), name="supp_order_det_alter"),
+    path('supp_order_det/delete/<int:id>/', Supp_order_det_delete_view.as_view(), name="supp_order_det_delete"),
+
+    path('supp_complaint/', Supp_complaint_view.as_view(), name="supp_complaint"),
+    path('supp_complaint/create/', Supp_complaint_create_view.as_view(), name='supp_complaint_create'),
+    path('supp_complaint/alter/<int:id>/', Supp_complaint_alter_view.as_view(), name='supp_complaint_alter'),
+    path('supp_complaint/delete/<int:id>/', Supp_complaint_delete_view.as_view(), name='supp_complaint_delete'),
+
+    path('supp_complaint_det/create/<int:supp_complaint>/', Supp_complaint_det_create_view.as_view(), name="supp_complaint_det_create"),
+    path('supp_complaint_det/alter/<int:id>/', Supp_complaint_det_alter_view.as_view(), name="supp_complaint_det_alter"),
+    path('supp_complaint_det/delete/<int:id>/', Supp_complaint_det_delete_view.as_view(), name="supp_complaint_det_delete")
 ]
