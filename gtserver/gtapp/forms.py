@@ -108,6 +108,14 @@ class Msg_write_form(ModelForm):
 class Cust_complaint_form(ModelForm):
     class Meta:
         model = CustComplaint
+        fields = ["memo","finished_on"]
+        labels = {
+            'memo': _('Kommentar'),
+            'finished_on': _('Abgeschlossen am')
+        }
+        widgets = {
+            #'order_no': IntegerField()
+        }
 
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
