@@ -23,6 +23,7 @@ class Supp_order_create_view(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["action"] = "create"
 
         if self.request.user.groups.filter(name='suppliers').exists():
             context = get_context_back(context,"Auftrag erstellen","Aufträge")   
@@ -49,6 +50,7 @@ class Supp_order_alter_view(UpdateView):
         context = super().get_context_data(**kwargs)
         context['items'] = SuppOrderDet.objects.filter(supp_order=self.get_object().pk)
         context['supp_order_no'] = self.get_object().pk
+        context["action"] = "alter"
 
         if self.request.user.groups.filter(name='suppliers').exists():
             context = get_context_back(context,"Auftrag ändern","Aufträge")
@@ -84,10 +86,11 @@ class Supp_order_delete_view(DeleteView):
 
 class Supp_order_det_create_view(CreateView):
     form_class = Supp_order_det_form
-    template_name = "SuppOrderForm.html"
+    template_name = "SuppOrderDetForm.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["action"] = "create"
         context = get_context_back(context,"Position erstellen","Aufträge")
         return context
 
@@ -99,11 +102,12 @@ class Supp_order_det_create_view(CreateView):
     
 class Supp_order_det_alter_view(UpdateView):
     form_class = Supp_order_det_form
-    template_name = "SuppOrderForm.html"
+    template_name = "SuppOrderDetForm.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = get_context_back(context,"Position ändern","Aufträge")
+        context["action"] = "alter"
         return context
 
     def get_object(self, queryset=None):

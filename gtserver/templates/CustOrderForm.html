@@ -28,24 +28,24 @@
         </div>
     {% endif %}
 
-        <div class="row" style="margin-bottom: 0px;">
+    <div class="row" style="margin-bottom: 0px;">
         {% for field in form.visible_fields %}
             {% if forloop.counter0|divisibleby:2 %}
             </div>
             <div class="row" style="margin-bottom: 0px;">
             {% endif %}
-        <div class="col s12 m12 l6" style="padding: 0">
-            {{ field|materializecss }}
-        </div>
-        {% endfor %}
-        </div>
-
-        {% for field in form.hidden_fields %}
-        <div class="col s12 m12 l6">
-            {{ field }}
-        </div>
-        {% endfor %}
+    <div class="col s12 m12 l6" style="padding: 0">
+        {{ field|materializecss }}
     </div>
+    {% endfor %}
+    </div>
+
+    {% for field in form.hidden_fields %}
+    <div class="col s12 m12 l6">
+        {{ field }}
+    </div>
+    {% endfor %}
+</div>
     
     {% if action == "alter" %}
     <div class="row section">
