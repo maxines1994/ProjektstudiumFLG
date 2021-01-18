@@ -94,8 +94,6 @@ class Cust_order_det_form_create(ModelForm):
             'memo': _('Kommentar'),
         }
 
-
-<<<<<<< HEAD
 class Msg_write_form(ModelForm):
     use_required_attribute = False
     class Meta:
@@ -110,7 +108,7 @@ class Msg_write_form(ModelForm):
 class Cust_complaint_form(ModelForm):
     class Meta:
         model = CustComplaint
-=======
+
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
     
@@ -212,7 +210,6 @@ class Supp_order_det_form(ModelForm):
 class Supp_complaint_form(ModelForm):
     class Meta:
         model = SuppComplaint
->>>>>>> BashNewGlot47
         fields = ["memo", "finished_on"]
         labels = {
             'memo': _('Kommentar'),
@@ -222,7 +219,6 @@ class Supp_complaint_form(ModelForm):
             #'order_no': IntegerField()
         }
 
-<<<<<<< HEAD
 class Cust_complaint_det_form(ModelForm):
     class Meta:
         model = CustComplaintDet
@@ -231,8 +227,9 @@ class Cust_complaint_det_form(ModelForm):
             'pos': _('Position'),
             'cust_oder_det': _('Position'),
             'memo': _('Kommentar'),
-            'quantity': _('Anzahl')    
-=======
+            'quantity': _('Anzahl')
+        }
+
 class Supp_complaint_det_form(ModelForm):
     class Meta:
         model = SuppComplaintDet
@@ -241,7 +238,6 @@ class Supp_complaint_det_form(ModelForm):
             'supp_oder_det': _('Position'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am'),            
->>>>>>> BashNewGlot47
         }
         widgets = {
             #'order_no': IntegerField()
