@@ -24,11 +24,6 @@ class Supp_order_create_view(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["action"] = "create"
-
-        if self.request.user.groups.filter(name='suppliers').exists():
-            context = get_context_back(context,"Auftrag erstellen","Aufträge")   
-        else:
-            context = get_context_back(context,"Bestellung erfassen","Bestellungen")
         return context
 
     def get_form(self, form_class=None):
@@ -51,11 +46,6 @@ class Supp_order_alter_view(UpdateView):
         context['items'] = SuppOrderDet.objects.filter(supp_order=self.get_object().pk)
         context['supp_order_no'] = self.get_object().pk
         context["action"] = "alter"
-
-        if self.request.user.groups.filter(name='suppliers').exists():
-            context = get_context_back(context,"Auftrag ändern","Aufträge")
-        else:
-            context = get_context_back(context,"Bestellung ändern","Bestellungen")
         return context
     
     def form_valid(self, form):
@@ -91,7 +81,6 @@ class Supp_order_det_create_view(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["action"] = "create"
-        context = get_context_back(context,"Position erstellen","Aufträge")
         return context
 
     def form_valid(self, form):
@@ -106,7 +95,6 @@ class Supp_order_det_alter_view(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Position ändern","Aufträge")
         context["action"] = "alter"
         return context
 
@@ -141,29 +129,20 @@ class Supp_order_view(TemplateView):
         ## Digitalisierungsstufe 3
         # if self.request.user.groups.filter(name='supplier 100').exists():
         #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
-        #     context = get_context_back(context,"Kundenaufträge","Aufträge")
         # elif self.request.user.groups.filter(name='supplier 200').exists():
         #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
-        #     context = get_context_back(context,"Kundenaufträge","Aufträge")
         # elif self.request.user.groups.filter(name='supplier 300').exists():
         #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
-        #     context = get_context_back(context,"Kundenaufträge","Aufträge")
         # else:
         #     context['orders'] = SuppOrder.objects.all()
-        #     context = get_context_back(context,"Bestellungen","Bestellungen")
 
         ##Digitalisierungsstufe 2
         if self.request.user.groups.filter(name='supplier 100').exists():
             context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 20)
-            context = get_context_back(context,"Kundenaufträge","Aufträge")
         elif self.request.user.groups.filter(name='supplier 200').exists():
             context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 21)
-            context = get_context_back(context,"Kundenaufträge","Aufträge")
         elif self.request.user.groups.filter(name='supplier 300').exists():
             context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 22)
-            context = get_context_back(context,"Kundenaufträge","Aufträge")
         else:
             context['orders'] = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
-            context = get_context_back(context,"Bestellungen","Bestellungen")
-
         return context

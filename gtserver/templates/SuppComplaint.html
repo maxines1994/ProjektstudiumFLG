@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+<!-- Title-->
+{% block title %}{% if company == 'customer' %}Bestellungen{% else %}Kundenaufträge{% endif %}{% endblock %}
+
 <!-- Header-->
 {% block head %}
 
@@ -7,12 +10,12 @@
 
 <!-- Content-->
 {% block content %}
-<h4> {{title}} <a href="{% url 'supp_complaint_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4>{% if company == 'supplier' %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} <a href="{% url 'supp_complaint_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="table-scrollable">
     <table id="itemtable">
         <thead id="itemhead">
             <tr>
-                <th>Bestellreklamationsnummer</th>
+                <th>Reklamationsnummer</th>
                 <th>Beschreibung</th>
                 <th>Status</th>
                 <th>Abgeschlossen am</th>
