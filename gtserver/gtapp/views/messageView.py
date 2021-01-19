@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, FormView, DetailView
-from gtapp.forms import Cust_order_form, Cust_order_det_form, Cust_order_det_form_create, Msg_write_form
+from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_form_create, Msg_write_form
 from gtapp.models import MessageUser, Message, Timers, CustOrder, CustOrderDet
 from django.contrib.auth.models import Group, User
 import json

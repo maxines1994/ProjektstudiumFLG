@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.forms import Cust_order_form, Cust_order_det_form, Cust_order_det_form_create
+from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_form_create
 from gtapp.models import CustOrder, CustOrderDet, Todo, Timers
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -12,19 +12,27 @@ from gtapp.constants.groups import *
 
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_create_view(CreateView):
-    form_class = Cust_order_form
     template_name = "CustOrderForm.html"
 
     # Umleitung auf die Alter View
     def form_valid(self, form):
-        new_cust_order = form.save()
+        form.instance._creation_user_id = self.request.user.id
+        if self.request.user.groups.filter(name='customer 1').exists():
+            form.instance.customer_id = 1
+        elif self.request.user.groups.filter(name='customer 2').exists():
+            form.instance.customer_id = 2
+        elif self.request.user.groups.filter(name='customer 3').exists():
+            form.instance.customer_id = 3
 
+        new_cust_order = form.save()
+        
         obj = CustOrder.objects.get(pk=new_cust_order.pk)
         if self.request.user.groups.filter(name=CUSTOMERS).exists():
             obj.external_system = True
             obj.save()
         
         Todo.set_first_todo(new_cust_order, 1, Timers.get_current_day())
+        
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
         
     
@@ -34,9 +42,15 @@ class Cust_order_create_view(CreateView):
         context["action"] = "create"
         return context
 
+    def get_form(self, form_class=None):
+        if self.request.user.groups.filter(name='customers').exists():
+            form_class = Cust_order_form_kd
+        else:
+            form_class = Cust_order_form_jg
+        return form_class(**self.get_form_kwargs()) 
+
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_alter_view(UpdateView):
-    form_class = Cust_order_form
     template_name = "CustOrderForm.html"
     success_url = "/cust_order/"
 
@@ -52,6 +66,13 @@ class Cust_order_alter_view(UpdateView):
         context["cust_order_no"] = self.get_object().pk
         context["action"] = "alter"
         return context
+
+    def get_form(self, form_class=None):
+        if self.request.user.groups.filter(name='customers').exists():
+            form_class = Cust_order_form_kd
+        else:
+            form_class = Cust_order_form_jg
+        return form_class(**self.get_form_kwargs()) 
 
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_delete_view(DeleteView):
