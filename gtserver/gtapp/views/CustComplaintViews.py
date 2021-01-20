@@ -16,7 +16,7 @@ class Cust_complaint_create_view(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Reklamation erfassen","Bestellreklamationen")
+        context["action"] = "create"
         return context
 
     def get_form(self, form_class=None):
@@ -25,7 +25,6 @@ class Cust_complaint_create_view(CreateView):
         #else:
         #    form_class = Supp_order_form_jg
         return form_class(**self.get_form_kwargs()) 
-
 
 class Cust_complaint_alter_view(UpdateView):
     template_name = "CustComplaintForm.html"
@@ -38,8 +37,7 @@ class Cust_complaint_alter_view(UpdateView):
         context = super().get_context_data(**kwargs)
         context['items'] = CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk)
         context['cust_complaint_no'] = self.get_object().pk
-
-        context = get_context_back(context,"Bestellreklamation ändern","Bestellreklamationen")
+        context["action"] = "alter"
         return context
     
     def form_valid(self, form):
@@ -51,9 +49,6 @@ class Cust_complaint_alter_view(UpdateView):
         form_class = Cust_complaint_form
         return form_class(**self.get_form_kwargs())
         
-   
-    
-
 class Cust_complaint_delete_view(DeleteView):
     template_name = "delete.html"
 
@@ -69,11 +64,11 @@ class Cust_complaint_delete_view(DeleteView):
 
 class Cust_complaint_det_create_view(CreateView):
     form_class = Cust_complaint_det_form
-    template_name = "CustComplaintForm.html"
+    template_name = "CustComplaintDetForm.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Position erstellen","Bestellreklamationen")
+        context["action"] = "create"
         return context
 
     def form_valid(self, form):
@@ -84,11 +79,11 @@ class Cust_complaint_det_create_view(CreateView):
     
 class Cust_complaint_det_alter_view(UpdateView):
     form_class = Cust_complaint_det_form
-    template_name = "CustComplaintForm.html"
+    template_name = "CustComplaintDetForm.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context,"Bestellreklamation ändern","Bestellreklamationen")
+        context["action"] = "alter"
         return context
 
     def get_object(self, queryset=None):
@@ -119,6 +114,4 @@ class Cust_complaint_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['complaints'] = CustComplaint.objects.all()
-        context = get_context_back(context,"Bestellreklamationen","Bestellreklamationen")
-
         return context
