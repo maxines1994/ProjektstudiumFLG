@@ -8,7 +8,7 @@ from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
 
-class Cust_order_form(ModelForm):
+class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
     order_no = CharField(
         label=_('Bestellnummer'),
@@ -61,6 +61,51 @@ class Cust_order_form(ModelForm):
         model = CustOrder
         fields = ["order_no", "customer", "issued_on",
                   "delivery_date", "price", "memo"]
+
+class Cust_order_form_kd(ModelForm):
+    use_required_attribute = False
+    order_no = CharField(
+        label=_('Bestellnummer'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    issued_on = IntegerField(
+        label=_("Bestelltag"),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    delivery_date = IntegerField(
+        label=_('Liefertag'),
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    price = IntegerField(
+        label=_('Preis'),
+        required = False,
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    memo = CharField(
+        label=_('Kommentar'),
+        required = False,
+        widget=Textarea,
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+
+    class Meta:
+        model = CustOrder
+        fields = ["order_no", "issued_on", "delivery_date", "price", "memo"]
 
 
 
