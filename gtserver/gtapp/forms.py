@@ -47,7 +47,6 @@ class Cust_order_form(ModelForm):
             'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
         }
     )
-
     memo = CharField(
         label=_('Kommentar'),
         required = False,
@@ -67,6 +66,8 @@ class Cust_order_form(ModelForm):
 
 class Cust_order_det_form(ModelForm):
     use_required_attribute = False
+    memo = CharField(required=False)
+    unit_price = IntegerField(required=False)
 
     class Meta:
         model = CustOrderDet
@@ -84,6 +85,8 @@ class Cust_order_det_form(ModelForm):
 
 class Cust_order_det_form_create(ModelForm):
     use_required_attribute = False
+    memo = CharField(required=False)
+    unit_price = IntegerField(required=False)
 
     class Meta:
         model = CustOrderDet
@@ -106,6 +109,10 @@ class Msg_write_form(ModelForm):
         }
 
 class Cust_complaint_form(ModelForm):
+    use_required_attribute = False
+    memo = CharField(required=False)
+    finished_on = IntegerField(required=False)
+
     class Meta:
         model = CustComplaint
         fields = ["memo","finished_on"]
@@ -151,6 +158,16 @@ class Supp_order_form_jg(ModelForm):
     )
     price = IntegerField(
         label=_('Preis'),
+        required = False,
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+    memo = CharField(
+        label=_('Kommentar'),
+        required = False,
+        widget=Textarea,
         error_messages={
             'required': "Dieses Feld ist ein Pflichtfeld!",
             'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
@@ -189,11 +206,22 @@ class Supp_order_form_lf(ModelForm):
     )
     price = IntegerField(
         label=_('Preis'),
+        required = False,
         error_messages={
             'required': "Dieses Feld ist ein Pflichtfeld!",
             'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
         }
     )
+    memo = CharField(
+        label=_('Kommentar'),
+        required = False,
+        widget=Textarea,
+        error_messages={
+            'required': "Dieses Feld ist ein Pflichtfeld!",
+            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
+        }
+    )
+
     class Meta:
         model = SuppOrder
         fields = ["order_no","issued_on","delivery_date","price","memo"]
@@ -203,6 +231,10 @@ class Supp_order_form_lf(ModelForm):
 
 
 class Supp_order_det_form(ModelForm):
+    use_required_attribute = False
+    memo = CharField(required=False)
+    unit_price = IntegerField(required=False)
+
     class Meta:
         model = SuppOrderDet
         fields = ["pos","part","quantity","unit_price","memo"]
@@ -216,6 +248,10 @@ class Supp_order_det_form(ModelForm):
 
 
 class Supp_complaint_form(ModelForm):
+    use_required_attribute = False
+    memo = CharField(required=False)
+    finished_on = IntegerField(required=False)
+
     class Meta:
         model = SuppComplaint
         fields = ["memo", "finished_on"]
@@ -228,6 +264,9 @@ class Supp_complaint_form(ModelForm):
         }
 
 class Cust_complaint_det_form(ModelForm):
+    use_required_attribute = False
+    memo = CharField(required=False)
+
     class Meta:
         model = CustComplaintDet
         fields = ["pos","cust_order_det","memo","quantity"]
@@ -239,6 +278,10 @@ class Cust_complaint_det_form(ModelForm):
         }
 
 class Supp_complaint_det_form(ModelForm):
+    use_required_attribute = False
+    memo = CharField(required=False)
+    finished_on = IntegerField(required=False)
+
     class Meta:
         model = SuppComplaintDet
         fields = ["supp_order_det","memo", "finished_on"]
