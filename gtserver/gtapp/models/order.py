@@ -8,7 +8,6 @@ class Order(GtModel):
     """
 
     order_no = models.CharField(max_length=8)
-    price = models.SmallIntegerField(null=True, blank=True)
     issued_on = models.SmallIntegerField()
     delivery_date = models.SmallIntegerField()
     received_on = models.SmallIntegerField(null=True)
