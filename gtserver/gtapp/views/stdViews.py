@@ -45,7 +45,7 @@ def tasks_list_notassigned_view(request):
 def tasks_list_finished_view(request):
     c = get_context("Zugewiesene Aufgaben","Aufgaben")
     c['tasks'] = Todo.objects.filter(user=request.user, active=0)
-    c['Headline'] = "Bearbeitete Aufgaben"
+    c['Headline'] = "Abgeschlossene Aufgaben"
     c['finished'] = 1
     return render(request, "tasks_list.html", c)
 
