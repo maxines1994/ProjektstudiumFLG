@@ -17,7 +17,11 @@ class Supp_order_create_view(CreateView):
             form.instance.supplier_id = 2
         elif self.request.user.groups.filter(name='supplier 300').exists():
             form.instance.supplier_id = 3
-            
+        
+        # Positionen automatisch erstellen
+        if form.instance.cust_order != None:
+            pass
+
         new_supp_order = form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
     

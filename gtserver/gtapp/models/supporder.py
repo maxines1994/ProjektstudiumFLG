@@ -1,12 +1,13 @@
 from django.db import models
 from gtapp.models.custorderdet import CustOrderDet
-from . import Order, Supplier
+from . import Order, Supplier, CustOrder
 
 class SuppOrder(Order):
     """
     Diese Model enthaelt die Kopfdaten der Lieferantenbestellungen.
     """   
 
+    cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE, null=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     

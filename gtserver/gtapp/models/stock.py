@@ -1,6 +1,6 @@
 from django.db import models
 from gtapp.constants import *
-from . import GtModelBasic, Part, BookingCode
+from . import GtModelBasic, Part, BookingCode, ArtiPart, CustOrder
 
 class Stock(GtModelBasic):
     """
@@ -30,3 +30,14 @@ class Stock(GtModelBasic):
         StockMovement.append(previous_stock=self.stock, booking_quantity=booking_quantity, stock=self, booking_code=booking_code)
         self.stock += booking_quantity
         self.save()
+
+    @classmethod
+    def auto_positions(cls, cust_order):
+        cod = CustOrderDet.objects.filter(cust_order_id=cust_order)
+        needs = list()
+        for a in cod:
+            atpt = ArtiPart.objects.filter(article_id=a.article.id,)
+            for p in atpt:
+                pass
+
+

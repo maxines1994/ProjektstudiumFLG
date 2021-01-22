@@ -10,12 +10,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
-
-
     class Meta:
         model = CustOrder
-        fields = ["order_no", "customer", "issued_on",
-                  "delivery_date", "memo"]
+        fields = ["order_no", "customer", "issued_on", "delivery_date", "memo"]
 
 class Cust_order_form_kd(ModelForm):
     use_required_attribute = False
@@ -119,52 +116,20 @@ class Cust_complaint_form(ModelForm):
 
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
-    
-    order_no = CharField(
-        label=_('Bestellnummer'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
-    supplier = ModelChoiceField(
-        Supplier.objects.filter(pk__gt=0),
-        label=_('Kunde'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
-    issued_on =  IntegerField(
-        label=_("Bestelltag"),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
-    delivery_date =  IntegerField(
-        label=_('Liefertag'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
+    cust_order = ModelChoiceField(queryset=CustOrder.objects.filter(external_system=False), required=False)
 
-    memo = CharField(
-        label=_('Kommentar'),
-        required = False,
-        widget=Textarea,
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
     class Meta:
         model = SuppOrder
-        fields = ["order_no","issued_on","supplier","delivery_date","memo"]
+        fields = ["order_no","cust_order","issued_on","supplier","delivery_date","memo"]
         labels = {
+            "order_no": _("Referenznummer"),
+            "cust_order": _("Auftrag"),
+            "issued_on": _("Bestelldatum"),
+            "supplier": _("Lieferant"),
+            "delivery_date": _("Lieferdatum"),
             'memo': _('Kommentar'),
         }
+
 
 class Supp_order_form_lf(ModelForm):
     use_required_attribute = False
