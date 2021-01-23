@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.models import SuppComplaint, SuppComplaintDet, Part
 from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
+from django import forms
+
 
 class Supp_complaint_create_view(CreateView):
     template_name = "SuppComplaintForm.html"
@@ -42,12 +44,14 @@ class Supp_complaint_alter_view(UpdateView):
     
     def form_valid(self, form):
         form.instance._update_user_id = self.request.user.id
+
         form.save()
         return HttpResponseRedirect("/supp_complaint/")
 
     def get_form(self, form_class=None):
         form_class = Supp_complaint_form
         return form_class(**self.get_form_kwargs())
+
         
 class Supp_complaint_delete_view(DeleteView):
     template_name = "delete.html"
@@ -76,7 +80,20 @@ class Supp_complaint_det_create_view(CreateView):
         form.instance._creation_user_id = self.request.user.id
         form.save()
         return HttpResponseRedirect("/supp_complaint/alter/" + str(self.kwargs["supp_complaint"]) + "/")
-    
+
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(Supp_complaint_det_create_view, self).get_form_kwargs()
+
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+
+        kwargs.update({'supp_order_id': SuppComplaint.objects.get(pk=self.kwargs['supp_complaint']).supp_order.id})
+        return kwargs
+
+
 class Supp_complaint_det_alter_view(UpdateView):
     form_class = Supp_complaint_det_form
     template_name = "SuppComplaintDetForm.html"
@@ -94,6 +111,19 @@ class Supp_complaint_det_alter_view(UpdateView):
         form.instance._update_user_id = self.request.user.id
         form.save()
         return HttpResponseRedirect("/supp_complaint/alter/" + str(self.object.supp_complaint.pk) + "/")
+    
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(Supp_complaint_det_alter_view, self).get_form_kwargs()
+
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+
+        supp_complaint_id = SuppComplaintDet.objects.get(pk=self.kwargs['id']).supp_complaint.id
+        kwargs.update({'supp_order_id': SuppComplaint.objects.get(pk=supp_complaint_id).supp_order.id})
+        return kwargs
 
 class Supp_complaint_det_delete_view(DeleteView):
     template_name = "delete.html"

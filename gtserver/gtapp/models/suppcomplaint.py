@@ -1,9 +1,12 @@
 from django.db import models
 from .complaint import Complaint
-#from . import SuppOrder
+from .supporder import SuppOrder
+from .supplier import Supplier
+
 
 class SuppComplaint(Complaint):
     """
     Dieses Model enthaelt die Kopfdaten von Lieferanten-Reklamationen.
     """
-    pass
+    supp_order = models.ForeignKey(SuppOrder,on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier,on_delete=models.CASCADE)

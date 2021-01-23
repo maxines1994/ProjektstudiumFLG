@@ -2,7 +2,7 @@
 {% load materializecss %}
 
 <!-- Title-->
-{% block title %}{% if company == 'supplier' %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}{% endblock %}
+{% block title %}{% if company == 'supplier' %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} {% if action == 'create' %}erstellen{% else %} ändern{% endif %}{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -19,7 +19,7 @@
     {% csrf_token %}
     <div class="row section">
         <div class="col s12">
-            <a class="btn-flat" href="{% url 'cust_order' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+            <a class="btn-flat" href="{% url 'supp_complaint' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
             <h4>{% if company == 'supplier' %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}</h4>
         </div>
     {% if action == "alter" %}

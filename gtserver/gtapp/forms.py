@@ -233,14 +233,18 @@ class Supp_complaint_form(ModelForm):
 
     class Meta:
         model = SuppComplaint
-        fields = ["memo", "finished_on"]
+        fields = ["supplier","supp_order","memo", "finished_on"]
         labels = {
+            'supplier': _("Lieferant"),
+            'supp_order': _('Bestellung'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am')
+            
         }
         widgets = {
             #'order_no': IntegerField()
         }
+
 
 class Cust_complaint_det_form(ModelForm):
     use_required_attribute = False
@@ -263,9 +267,8 @@ class Supp_complaint_det_form(ModelForm):
 
     class Meta:
         model = SuppComplaintDet
-        fields = ["supp_order","supp_order_det","memo", "finished_on"]
+        fields = ["supp_order_det","memo", "finished_on"]
         labels = {
-            'supp_order': _("Bestellung"),
             'supp_oder_det': _('Position'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am'),            
@@ -273,3 +276,7 @@ class Supp_complaint_det_form(ModelForm):
         widgets = {
             #'order_no': IntegerField()
         }
+
+    def __init__(self, supp_order_id, *args, **kwargs):
+        super(Supp_complaint_det_form, self).__init__(*args, **kwargs)
+        self.fields['supp_order_det'].queryset = SuppOrderDet.objects.filter(supp_order_id= supp_order_id)
