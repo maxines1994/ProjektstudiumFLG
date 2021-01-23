@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Title-->
+{% block title %}
+{% endblock %}
+
+<!-- Header-->
+{% block head %}
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<p>   </p>
+<a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+
+<h4> Informationen über {% if info == 'Unternehmen' %} das {{info}} JOGA
+                        {% elif info == 'Planspiel' %} die Planspielphasen
+                        {% elif info == 'Rolle' %} deine {{info}}
+                        {% endif %}
+</h4>
+
+<br>   </br>
+
+{% if info == 'Unternehmen' %}
+<div class="col s12"></div>
+    <div class="card">
+        <div class="card-content">
+            <p><i class="medium material-icons" style="vertical-align: middle">business</i> </p>
+            <font size="+1"> 1933 als Werkstatt von Maschinenbau-Ingenieur Johann Garbade gegründet </font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">person</i></p>
+            <font size="+1"> Familiengeführtes Unternehmen in der vierten Generation</font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">shopping_basket</i></p>
+                <font size="+1"> <p>Das Produktsortiment begann mit Flaschenzügen und Hebezeugen.</p>1990 entstand nach Vergrößerungen des Unternehmens und nach Aktualisierungen der Produktion: die zeitgemäße Hub-technik, der zuverlässige Service, die aktuelle Unternehmensstruktur & ein zweckmäßiges Unternehmensgebäude</font>
+            <br>   </br>
+
+            <p></p><i class="medium material-icons" style="vertical-align: middle">build</i></p>
+                <font size="+1"> Spezialisierung auf die Konstruktion, die Herstellung und den Vertrieb von Hebegeräten für gewerbliche und industrielle Zwecke</font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">euro_symbol</i></p>
+                <font size="+1"> Umsatz in Höhe von 1,2 Millionen Euro (letzte Aktualisierung: 2020)</font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">widgets</i></p>
+                <font size="+1"> Langjährig erfahrene, belastbare und solidarische Mitarbeiter stärken das Unternehmen</font>
+        </div>
+    </div>
+</div>
+
+{% elif info == 'Planspiel' %}
+<div class="col s12"></div>
+    <div class="card">
+        <div class="card-content">
+            <font size="+1"> Das Spiel erfolgt in drei Spielphasen. In jeder Phase erreicht die Durchführung eine weitere Digitalisierungsstufe, welche einen gewissen Grad an digitalisierten Prozessen und Tätigkeiten aufweist.
+            <br> </br>
+            Der Aufbau einer Phase kann der folgenden Grafik entnommen werden:
+            </font>
+            <img src="{% static 'img/Grafik_Homepage_Spielphase.svg' %}" width="100%" height="auto">
+        </div>
+    </div>
+</div>
+
+
+{% elif info == 'Rolle' %}
+
+{% endif %}
+
+
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}
