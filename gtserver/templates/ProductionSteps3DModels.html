@@ -12,9 +12,12 @@
 
 <!-- Content-->
 {% block content %}
+<p></p>
+<a href="/Production_steps_single/{{ product }}/{{ step }}" class="btn-flat" style="margin-left: -16px;"> <i class="material-icons left">arrow_back</i>Zurück</a>
+
 <h4> Produktionschritt {{ step }} von Hubwagen {{ product }} </h4>
 
-<p> <a href="/Production_steps_single/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> Zurück</a> <br> </p></br>
+   
 <p></p>
 
     <iframe class="z-depth-4" src="/static/iframe/step_{{ step }}.html" 

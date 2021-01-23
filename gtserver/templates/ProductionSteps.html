@@ -12,14 +12,19 @@
 <!-- Content-->
 {% block content %}
 <h4> Produktionsschritte </h4>
+
 <p> Wähle das gewünschte Modell des zu bauenden Hubwagens aus:</p>
-<p> 
-    <div class="divider" > </div> <br> </br>
-    <a href="{% url 'Production_steps_single' product='M1' step=1 %}" class="waves-effect waves-light btn"> M1: Mob Standard 150 </a> <br> </br>
-    <a href="{% url 'Production_steps_single' product='M2' step=1 %}" class="waves-effect waves-light btn"> M2: Mob Standard 200 </a> <br> </br> 
-    <a href="{% url 'Production_steps_single' product='M3' step=1 %}" class="waves-effect waves-light btn"> M3: High Mob 150 </a> <br> </br>
-    <a href="{% url 'Production_steps_single' product='M4' step=1 %}" class="waves-effect waves-light btn"> M4: High Mob 200 </a> <br> </br>
-</p>
+
+<div class="row">
+    <p><div class="grid-example col s12 m6 btn waves-effect waves-light"><a href="{% url 'Production_steps_single' product='M1' step=1 %}" class="white-text "> M1: Mob Standard 150 </a> </div></p>
+    <br></br>
+    <p><div class="grid-example col s12 m6 btn waves-effect waves-light"><a href="{% url 'Production_steps_single' product='M2' step=1 %}" class="white-text"> M2: Mob Standard 200 </a></div></p>
+    <br></br>
+    <p><div class="grid-example col s12 m6 btn waves-effect waves-light"> <a href="{% url 'Production_steps_single' product='M3' step=1 %}" class="white-text"> M3: High Mob 150 </a> </div></p>
+    <br></br>
+    <p><div class="grid-example col s12 m6 btn waves-effect waves-light"> <a href="{% url 'Production_steps_single' product='M4' step=1 %}" class="white-text"> M4: High Mob 200 </a> </div></p>
+    <br></br>
+</div>
 
 {% endblock %}
 
