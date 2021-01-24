@@ -31,6 +31,21 @@
     <a href="/Production_steps_3D_Models/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> 3D-Modell</a>
 </p>
 
+<!-- Tabellen Kopfzeile -->
+
+{% for i in productionsteps_list %}
+    {% if i.production_step == step %}
+        {% if i.article_id|stringformat:"s" in product|stringformat:"s" %}
+            <!-- Tabellenzeilen -->
+                    <p>Dies ist Produktionsschritt {{ i.production_step }} und meine Anzahl ist {{ i.quantity }}  Test:{{ i.part.description }}</p>
+        
+
+
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+
 <div class="col s12"></div>
     <div class="card">
         <div class="card-content">

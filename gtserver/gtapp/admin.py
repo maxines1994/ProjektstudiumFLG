@@ -1,5 +1,6 @@
 from django.contrib import admin
 from gtapp.models import *
+from gtapp.models.productionsteps import ProductionSteps
 
 # Register your models here.
 admin.site.register(Article)
@@ -15,6 +16,7 @@ admin.site.register(Message)
 admin.site.register(MessageTemplate)
 admin.site.register(Part)
 admin.site.register(Player)
+admin.site.register(ProductionSteps)
 admin.site.register(Status)
 admin.site.register(Stock)
 admin.site.register(StockMovement)

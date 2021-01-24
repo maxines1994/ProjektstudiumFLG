@@ -6,6 +6,7 @@ from django.db import migrations
 from django.contrib.auth.models import User, Group, Permission
 from gtapp.constants import *
 from gtapp.models import *
+from gtapp.models.productionsteps import ProductionSteps
 
 class Migration(migrations.Migration):
     atomic = False
@@ -99,6 +100,20 @@ class Migration(migrations.Migration):
                 mobHigh200.parts.add(currentPart,through_defaults={'quantity':currentPart.install_quantity})          
 
 
+    def insert_productionsteps(apps, schema_editor):
+
+        steps = []
+        step_m1_1 = ProductionSteps(production_step=1, quantity=20,article_id=1,part_id=1)
+        steps.append(step_m1_1)
+
+        step_m1_2 = ProductionSteps(production_step=2, quantity=99,article_id=1,part_id=5)
+        steps.append(step_m1_2)
+        
+
+        for step in steps:
+            step.save()
+        
+
     dependencies = [
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_translations'),
@@ -113,4 +128,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_parts),
         migrations.RunPython(insert_stocks),
         migrations.RunPython(insert_articles),
+        migrations.RunPython(insert_productionsteps),
     ]
