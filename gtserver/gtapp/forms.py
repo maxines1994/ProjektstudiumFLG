@@ -116,14 +116,17 @@ class Cust_complaint_form(ModelForm):
 
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
-    cust_order = ModelChoiceField(queryset=CustOrder.objects.filter(external_system=False), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(Supp_order_form_jg, self).__init__(*args, **kwargs)
+        #HIER MUSS DER STATUS EINGEGRENZT WERDEN
+        self.fields['cust_order_det'] = ChoiceField(choices=[ (o.id, str(o)+"HHAL") for o in CustOrderDet.objects.filter(cust_order__external_system=False)], label="Fertigungsauftrag")
 
     class Meta:
         model = SuppOrder
-        fields = ["order_no","cust_order","issued_on","supplier","delivery_date","memo"]
+        fields = ["order_no","cust_order_det","issued_on","supplier","delivery_date","memo"]
         labels = {
             "order_no": _("Referenznummer"),
-            "cust_order": _("Auftrag"),
             "issued_on": _("Bestelldatum"),
             "supplier": _("Lieferant"),
             "delivery_date": _("Lieferdatum"),

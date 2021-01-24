@@ -6,6 +6,7 @@ from gtapp.views.ProductionViews import Production_steps, Production_steps_singl
 from gtapp.views.CustComplaintViews import Cust_complaint_view, Cust_complaint_create_view, Cust_complaint_alter_view, Cust_complaint_delete_view, Cust_complaint_det_create_view, Cust_complaint_det_alter_view, Cust_complaint_det_delete_view
 from gtapp.views.SuppOrderViews import Supp_order_view, Supp_order_create_view, Supp_order_alter_view, Supp_order_delete_view, Supp_order_det_create_view, Supp_order_det_alter_view, Supp_order_det_delete_view
 from gtapp.views.SuppComplaintViews import Supp_complaint_view, Supp_complaint_create_view, Supp_complaint_alter_view, Supp_complaint_delete_view, Supp_complaint_det_create_view, Supp_complaint_det_alter_view, Supp_complaint_det_delete_view
+from gtapp.views import manufacturing_list_view, manufacturing_release_view, manufacturing_supporder_view, manufacturing_testing_view
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -72,5 +73,10 @@ urlpatterns = [
 
     path('supp_complaint_det/create/<int:supp_complaint>/', Supp_complaint_det_create_view.as_view(), name="supp_complaint_det_create"),
     path('supp_complaint_det/alter/<int:id>/', Supp_complaint_det_alter_view.as_view(), name="supp_complaint_det_alter"),
-    path('supp_complaint_det/delete/<int:id>/', Supp_complaint_det_delete_view.as_view(), name="supp_complaint_det_delete")
+    path('supp_complaint_det/delete/<int:id>/', Supp_complaint_det_delete_view.as_view(), name="supp_complaint_det_delete"),
+
+    path('manufacturing/', manufacturing_list_view, name="manufacturing_list"),
+    path('manufacturing/release/<int:id>/', manufacturing_release_view, name="manufacturing_release"),
+    path('manufacturing/supporder/<int:id>/', manufacturing_supporder_view, name="manufacturing_supporder"),
+    path('manufacturing/testing/<int:id>/', manufacturing_testing_view, name="manufacturing_testing"),
 ]

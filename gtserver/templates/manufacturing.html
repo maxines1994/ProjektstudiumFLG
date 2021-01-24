@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+<!-- Title-->
+{% block title %}Fertigungsaufträge{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4>Fertigungsaufträge</h4>
+<div class="table-scrollable">
+    <table id="itemtable">
+        <thead id="itemhead">
+            <tr>
+                <th>Fertigungsauftrag</th>
+                <th>Artikel</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="itembody">
+            <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
+            {% for m in manufacturing %}
+                <tr>
+                    <td>{{ m }}</td>
+                    <td>{{ m.article }}</td>
+                    <td>{{ c.status }}</td>
+                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{m.id}}'><i
+                                class="material-icons">more_vert</i></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% for m in manufacturing %}
+<ul id='a{{m.id}}' class='dropdown-content'>
+    <li><a href="{% url 'manufacturing_testing' m.id %}"><i class="material-icons">create</i>Bestandsüberprüfung</a></li>
+    <li><a href="{% url 'manufacturing_supporder' m.id %}"><i class="material-icons">create</i>Bestellen</a></li>
+    <li><a href="{% url 'manufacturing_release' m.id %}"><i class="material-icons">delete</i>Freigeben</a></li>
+</ul>
+{% endfor %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $('.dropdown-trigger').dropdown();
+    });
+</script>
+{% endblock %}

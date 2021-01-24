@@ -7,7 +7,7 @@ class SuppOrder(Order):
     Diese Model enthaelt die Kopfdaten der Lieferantenbestellungen.
     """   
 
-    cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE, null=True)
+    cust_order_det = models.ForeignKey(CustOrderDet, on_delete=models.CASCADE, null=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     

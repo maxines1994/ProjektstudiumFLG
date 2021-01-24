@@ -30,14 +30,23 @@ class Stock(GtModelBasic):
         StockMovement.append(previous_stock=self.stock, booking_quantity=booking_quantity, stock=self, booking_code=booking_code)
         self.stock += booking_quantity
         self.save()
-
+    
     @classmethod
-    def auto_positions(cls, cust_order):
-        cod = CustOrderDet.objects.filter(cust_order_id=cust_order)
-        needs = list()
-        for a in cod:
-            atpt = ArtiPart.objects.filter(article_id=a.article.id,)
-            for p in atpt:
-                pass
+    def reserve_test(cls, needs=list()):
+        newNeeds = list()
+        for i in needs:
+            p, q = i
+            nq = 0
+            stk = Stock.objects.get(is_supplier_stock=False, part=p)
+            reservable = stk.stock-stk.reserved
+            if q > reservable:
+                nq = q - reservable
+            else:
+                nq = 0
+            newNeeds.append((p,nq))
 
-
+        for i in newNeeds:
+            p, q = i
+            if q != 0:
+                return False
+        return True
