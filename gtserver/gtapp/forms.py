@@ -233,9 +233,8 @@ class Supp_complaint_form(ModelForm):
 
     class Meta:
         model = SuppComplaint
-        fields = ["supplier","supp_order","memo", "finished_on"]
+        fields = ["supp_order","memo", "finished_on"]
         labels = {
-            'supplier': _("Lieferant"),
             'supp_order': _('Bestellung'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am')
