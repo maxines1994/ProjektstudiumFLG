@@ -8,6 +8,7 @@ class Order(GtModel):
     """
 
     order_no = models.CharField(max_length=8)
+    ref_no = models.CharField(null=True,blank=True, max_length=10)
     issued_on = models.SmallIntegerField()
     delivery_date = models.SmallIntegerField()
     received_on = models.SmallIntegerField(null=True)
@@ -17,7 +18,3 @@ class Order(GtModel):
 
     class Meta:
         abstract = True
-
-    def save(self, *args, **kwargs):
-        super(Order, self).save(*args, **kwargs)
-

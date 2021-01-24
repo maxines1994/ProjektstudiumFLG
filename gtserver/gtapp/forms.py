@@ -10,22 +10,17 @@ from django.utils.translation import gettext_lazy as _
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
-
+    memo = CharField(required=False)
+    #refno = CharField(required=False)
 
     class Meta:
         model = CustOrder
-        fields = ["order_no", "customer", "issued_on",
+        fields = ["ref_no","customer", "issued_on",
                   "delivery_date", "memo"]
 
 class Cust_order_form_kd(ModelForm):
     use_required_attribute = False
-    order_no = CharField(
-        label=_('Bestellnummer'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
+
     issued_on = IntegerField(
         label=_("Bestelltag"),
         error_messages={
@@ -53,7 +48,7 @@ class Cust_order_form_kd(ModelForm):
 
     class Meta:
         model = CustOrder
-        fields = ["order_no", "issued_on", "delivery_date", "memo"]
+        fields = ["issued_on", "delivery_date", "memo"]
 
 
 
@@ -120,13 +115,6 @@ class Cust_complaint_form(ModelForm):
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
     
-    order_no = CharField(
-        label=_('Bestellnummer'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
     supplier = ModelChoiceField(
         Supplier.objects.filter(pk__gt=0),
         label=_('Kunde'),
@@ -161,7 +149,7 @@ class Supp_order_form_jg(ModelForm):
     )
     class Meta:
         model = SuppOrder
-        fields = ["order_no","issued_on","supplier","delivery_date","memo"]
+        fields = ["ref_no","issued_on","supplier","delivery_date","memo"]
         labels = {
             'memo': _('Kommentar'),
         }
@@ -169,13 +157,6 @@ class Supp_order_form_jg(ModelForm):
 class Supp_order_form_lf(ModelForm):
     use_required_attribute = False
 
-    order_no = CharField(
-        label=_('Bestellnummer'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
     issued_on =  IntegerField(
         label=_("Bestelltag"),
         error_messages={
@@ -203,7 +184,7 @@ class Supp_order_form_lf(ModelForm):
 
     class Meta:
         model = SuppOrder
-        fields = ["order_no","issued_on","delivery_date","memo"]
+        fields = ["ref_no","issued_on","delivery_date","memo"]
         labels = {
             'memo': _('Kommentar'),
         }
