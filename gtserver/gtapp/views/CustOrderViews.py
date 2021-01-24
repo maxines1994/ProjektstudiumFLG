@@ -62,6 +62,7 @@ class Cust_order_alter_view(UpdateView):
         context = super().get_context_data(**kwargs)
         context['items'] = CustOrderDet.objects.filter(cust_order=self.get_object().pk)
         context["cust_order_no"] = self.get_object().pk
+        context["order_no"] = self.get_object().order_no
         context["action"] = "alter"
         return context
 
