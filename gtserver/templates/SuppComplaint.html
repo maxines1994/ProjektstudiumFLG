@@ -26,7 +26,7 @@
             <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
             {% for c in complaints %}
                 <tr>
-                    <td>Bestellreklamation #{{ c.id }}</td>
+                    <td>{% if company == 'supplier' %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} #{{ c.id }}</td>
                     <td>{{ c.memo }}</td>
                     <td>{{ c.status }}</td>
                     <td>Tag #{{ c.finished_on }}</td>

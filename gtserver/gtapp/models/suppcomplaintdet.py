@@ -8,4 +8,5 @@ class SuppComplaintDet(Complaint):
 
     supp_complaint = models.ForeignKey(SuppComplaint, on_delete=models.CASCADE)
     supp_order_det = models.ForeignKey(SuppOrderDet, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField()
 

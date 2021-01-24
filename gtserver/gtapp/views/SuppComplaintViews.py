@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import SuppComplaint, SuppComplaintDet, Part
+from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder
 from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
 from django import forms
 
@@ -26,7 +26,41 @@ class Supp_complaint_create_view(CreateView):
         form_class = Supp_complaint_form
         #else:
         #    form_class = Supp_order_form_jg
-        return form_class(**self.get_form_kwargs()) 
+        return form_class(**self.get_form_kwargs())
+
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(Supp_complaint_create_view, self).get_form_kwargs()
+
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+
+        if (True):
+            # 3. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                suppliers = [1]
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                suppliers = [2]
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                suppliers = [3]
+            else:
+                suppliers = [1,2,3]
+            kwargs.update({'suppliers': suppliers})
+        else:
+            # 2. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                user = 20
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                user = 21
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                user = 22
+            else:
+                user = 0
+            kwargs.update({'user': user})
+        
+        return kwargs
 
 class Supp_complaint_alter_view(UpdateView):
     template_name = "SuppComplaintForm.html"
@@ -51,6 +85,27 @@ class Supp_complaint_alter_view(UpdateView):
     def get_form(self, form_class=None):
         form_class = Supp_complaint_form
         return form_class(**self.get_form_kwargs())
+
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(Supp_complaint_alter_view, self).get_form_kwargs()
+
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+
+        if self.request.user.groups.filter(name='supplier 100').exists():
+            suppliers = [1]
+        elif self.request.user.groups.filter(name='supplier 200').exists():
+            suppliers = [2]
+        elif self.request.user.groups.filter(name='supplier 300').exists():
+            suppliers = [3]
+        else:
+            suppliers = [1,2,3]
+
+        kwargs.update({'suppliers': suppliers})
+        return kwargs
 
         
 class Supp_complaint_delete_view(DeleteView):
@@ -143,5 +198,26 @@ class Supp_complaint_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['complaints'] = SuppComplaint.objects.all()
+
+        if (True):
+            # 3. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 1))
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 2))
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 3))
+            else:
+                context['complaints'] = SuppComplaint.objects.all()
+        else:
+            # 2. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                context['complaints'] = SuppComplaint.objects.all().filter(_creation_user_id = 20)
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                context['complaints'] = SuppComplaint.objects.all().filter(_creation_user_id = 21)
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                context['complaints'] = SuppComplaint.objects.all().filter(_creation_user_id = 22)
+            else:
+                context['complaints'] = SuppComplaint.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
+       
         return context
