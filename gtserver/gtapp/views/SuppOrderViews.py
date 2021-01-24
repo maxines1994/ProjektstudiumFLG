@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf,Supp_order_det_form
 from django.db.models import Q
+from gtapp.models import Timers
 
 
 class Supp_order_create_view(CreateView):
@@ -33,7 +34,9 @@ class Supp_order_create_view(CreateView):
         else:
             form_class = Supp_order_form_jg
         return form_class(**self.get_form_kwargs())
-
+    
+    def get_initial(self):
+        return {"issued_on":Timers.get_current_day()}
 
 class Supp_order_alter_view(UpdateView):
     template_name = "SuppOrderForm.html"

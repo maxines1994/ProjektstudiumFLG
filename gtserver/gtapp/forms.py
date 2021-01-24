@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
+    
     class Meta:
         model = CustOrder
         fields = ["order_no", "customer", "issued_on", "delivery_date", "memo"]

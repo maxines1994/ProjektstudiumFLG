@@ -24,18 +24,22 @@ class Cust_order_create_view(CreateView):
         elif self.request.user.groups.filter(name='customer 3').exists():
             form.instance.customer_id = 3
 
+        form.instance.issued_on = Timers.get_current_day()
+
         new_cust_order = form.save()
         
         obj = CustOrder.objects.get(pk=new_cust_order.pk)
         if self.request.user.groups.filter(name=CUSTOMERS).exists():
             obj.external_system = True
             obj.save()
-        
+
         Todo.set_first_todo(new_cust_order, 1, Timers.get_current_day())
         
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
-        
-    
+
+    def get_initial(self):
+        return {"issued_on":Timers.get_current_day()}
+
     # Navbar Context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
