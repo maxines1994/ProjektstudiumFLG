@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import SuppOrder, SuppOrderDet
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
 from django.db.models import Q
+from gtapp.constants.groups import *
 
 class Supp_order_create_view(CreateView):
     template_name = "SuppOrderForm.html"
@@ -17,6 +18,9 @@ class Supp_order_create_view(CreateView):
             form.instance.supplier_id = 2
         elif self.request.user.groups.filter(name='supplier 300').exists():
             form.instance.supplier_id = 3
+        
+        if self.request.user.groups.filter(name=SUPPLIERS).exists():
+            form.instance.external_system = True
             
         new_supp_order = form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
@@ -45,6 +49,7 @@ class Supp_order_alter_view(UpdateView):
         context = super().get_context_data(**kwargs)
         context['items'] = SuppOrderDet.objects.filter(supp_order=self.get_object().pk)
         context['supp_order_no'] = self.get_object().pk
+        context["order_no"] = self.get_object().order_no
         context["action"] = "alter"
         return context
     
