@@ -24,12 +24,10 @@ class Cust_order_create_view(CreateView):
         elif self.request.user.groups.filter(name='customer 3').exists():
             form.instance.customer_id = 3
 
-        new_cust_order = form.save()
-        
-        obj = CustOrder.objects.get(pk=new_cust_order.pk)
         if self.request.user.groups.filter(name=CUSTOMERS).exists():
-            obj.external_system = True
-            obj.save()
+            form.instance.external_system = True
+
+        new_cust_order = form.save()
         
         Todo.set_first_todo(new_cust_order, 1, Timers.get_current_day())
         
