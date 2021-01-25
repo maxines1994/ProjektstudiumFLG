@@ -15,6 +15,10 @@ def home_view(request):
     c = get_context("Startseite","Startseite")
     return render(request, "home.html", c)
 
+# Startseite Absprünge per Buttons zu Informationsseiten
+class Home_Information_Pages(TemplateView):
+    template_name = "HomeInformationPages.html"
+
 # Task Schaltfläche
 def tasks_view(request):
     c = get_context("Aufgaben","Aufgaben")

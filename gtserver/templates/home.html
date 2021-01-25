@@ -11,8 +11,29 @@
 <!-- Content-->
 {% block content %}
 
-<h4>Willkommen bei der {% if company == 'joga' %}JOGA{% else %}{{ user.groups.first.name_de }}{% endif %} GmbH</h4>
+<h4>Willkommen  {% if company == 'joga' %}bei der JOGA GmbH
+                {% else %}{{ user.groups.first.name_de }}
+                {% endif %} 
+</h4>
 
+
+<br> </br>
+<div class="row">
+    <p><div class="grid-example col s12 m6">
+        <a class="waves-effect waves-light btn" style="width: auto;" href="{% url 'Home_Information_Pages' info='Unternehmen' %}" class="white-text "> Unternehmensinformationen </a> 
+    </div></p>
+    <br></br>
+
+    <p><div class="grid-example col s12 m6">
+        <a class="waves-effect waves-light btn" style="width: auto;" href="{% url 'Home_Information_Pages' info='Planspiel' %}" class="white-text"> Grundlagen des Planspiels </a>
+    </div></p>
+    <br></br>
+
+    <p><div class="grid-example col s12 m6">
+        <a class="waves-effect waves-light btn" style="width: auto;" href="{% url 'Home_Information_Pages' info='Rolle' %}" class="white-text"> Stellenbeschreibung </a>
+    </div></p>
+    <br></br>
+</div>
 
 {% endblock %}
 

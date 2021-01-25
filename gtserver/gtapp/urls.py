@@ -2,6 +2,7 @@ from django.urls import path, include
 from gtapp.views import change_user_view, change_user_to_view, get_async_information
 from gtapp.views import binView, inboxView, outboxView, msgWriteView, delete_message_view, msgDetailsView, add_order_view
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_edit,tasks_finish, tasks_list_finished_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
+from gtapp.views.stdViews import Home_Information_Pages
 from gtapp.views.ProductionViews import Production_steps, Production_steps_single, Production_steps_3D_Models
 from gtapp.views.CustComplaintViews import Cust_complaint_view, Cust_complaint_create_view, Cust_complaint_alter_view, Cust_complaint_delete_view, Cust_complaint_det_create_view, Cust_complaint_det_alter_view, Cust_complaint_det_delete_view
 from gtapp.views.SuppOrderViews import Supp_order_view, Supp_order_create_view, Supp_order_alter_view, Supp_order_delete_view, Supp_order_det_create_view, Supp_order_det_alter_view, Supp_order_det_delete_view
@@ -9,6 +10,7 @@ from gtapp.views.SuppComplaintViews import Supp_complaint_view, Supp_complaint_c
 
 urlpatterns = [
     path('', home_view, name='home'),
+    path('Home_Information_Pages/<str:info>/', Home_Information_Pages.as_view(), name="Home_Information_Pages"),
 
     path('api/', get_async_information, name="apicall"),
 

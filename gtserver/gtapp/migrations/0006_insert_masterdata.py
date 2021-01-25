@@ -6,6 +6,7 @@ from django.db import migrations
 from django.contrib.auth.models import User, Group, Permission
 from gtapp.constants import *
 from gtapp.models import *
+from gtapp.models.productionsteps import ProductionSteps
 
 class Migration(migrations.Migration):
     atomic = False
@@ -99,6 +100,236 @@ class Migration(migrations.Migration):
                 mobHigh200.parts.add(currentPart,through_defaults={'quantity':currentPart.install_quantity})          
 
 
+    def insert_productionsteps(apps, schema_editor):
+
+        steps = []
+        #Datenbankwerte für die Produktionsschritte von M1 
+        step_m1_s1_1 = ProductionSteps(production_step=1, quantity=2,article_id=1,part_id=6)
+        steps.append(step_m1_s1_1)
+
+        step_m1_s1_2 = ProductionSteps(production_step=1, quantity=2,article_id=1,part_id=9)
+        steps.append(step_m1_s1_2)
+        
+        step_m1_s1_3 = ProductionSteps(production_step=1, quantity=4,article_id=1,part_id=3)
+        steps.append(step_m1_s1_3)
+
+        step_m1_s2_1 = ProductionSteps(production_step=2, quantity=2,article_id=1,part_id=10)
+        steps.append(step_m1_s2_1)
+
+        step_m1_s2_2 = ProductionSteps(production_step=2, quantity=2,article_id=1,part_id=12)
+        steps.append(step_m1_s2_2)
+
+        step_m1_s2_3 = ProductionSteps(production_step=2, quantity=4,article_id=1,part_id=8)
+        steps.append(step_m1_s2_3)
+
+        step_m1_s3_1 = ProductionSteps(production_step=3, quantity=2,article_id=1,part_id=12)
+        steps.append(step_m1_s3_1)
+
+        step_m1_s3_2 = ProductionSteps(production_step=3, quantity=1,article_id=1,part_id=11)
+        steps.append(step_m1_s3_2)
+
+        step_m1_s3_3 = ProductionSteps(production_step=3, quantity=2,article_id=1,part_id=8)
+        steps.append(step_m1_s3_3)
+
+        step_m1_s4_1 = ProductionSteps(production_step=4, quantity=4,article_id=1,part_id=1)
+        steps.append(step_m1_s4_1)
+
+        step_m1_s4_2 = ProductionSteps(production_step=4, quantity=4,article_id=1,part_id=7)
+        steps.append(step_m1_s4_2)
+
+        step_m1_s5_1 = ProductionSteps(production_step=5, quantity=4,article_id=1,part_id=7)
+        steps.append(step_m1_s5_1)
+
+        step_m1_s6_1 = ProductionSteps(production_step=6, quantity=1,article_id=1,part_id=11)
+        steps.append(step_m1_s6_1)
+
+        step_m1_s6_2 = ProductionSteps(production_step=6, quantity=2,article_id=1,part_id=8)
+        steps.append(step_m1_s6_2)
+
+        step_m1_s7_1 = ProductionSteps(production_step=7, quantity=2,article_id=1,part_id=14)
+        steps.append(step_m1_s7_1)
+
+        step_m1_s7_2 = ProductionSteps(production_step=7, quantity=6,article_id=1,part_id=15)
+        steps.append(step_m1_s7_2)
+
+        step_m1_s8_1 = ProductionSteps(production_step=8, quantity=4,article_id=1,part_id=5)
+        steps.append(step_m1_s8_1)
+
+        step_m1_s8_2 = ProductionSteps(production_step=8, quantity=4,article_id=1,part_id=15)
+        steps.append(step_m1_s8_2)
+
+
+        #Datenbankwerte für die Produktionsschritte von M2
+        step_m2_s1_1 = ProductionSteps(production_step=1, quantity=2,article_id=2,part_id=6)
+        steps.append(step_m2_s1_1)
+
+        step_m2_s1_2 = ProductionSteps(production_step=1, quantity=2,article_id=2,part_id=9)
+        steps.append(step_m2_s1_2)
+        
+        step_m2_s1_3 = ProductionSteps(production_step=1, quantity=4,article_id=2,part_id=3)
+        steps.append(step_m2_s1_3)
+
+        step_m2_s2_1 = ProductionSteps(production_step=2, quantity=2,article_id=2,part_id=10)
+        steps.append(step_m2_s2_1)
+
+        step_m2_s2_2 = ProductionSteps(production_step=2, quantity=2,article_id=2,part_id=13)
+        steps.append(step_m2_s2_2)
+
+        step_m2_s2_3 = ProductionSteps(production_step=2, quantity=4,article_id=2,part_id=8)
+        steps.append(step_m2_s2_3)
+
+        step_m2_s3_1 = ProductionSteps(production_step=3, quantity=2,article_id=2,part_id=13)
+        steps.append(step_m2_s3_1)
+
+        step_m2_s3_2 = ProductionSteps(production_step=3, quantity=1,article_id=2,part_id=11)
+        steps.append(step_m2_s3_2)
+
+        step_m2_s3_3 = ProductionSteps(production_step=3, quantity=2,article_id=2,part_id=8)
+        steps.append(step_m2_s3_3)
+
+        step_m2_s4_1 = ProductionSteps(production_step=4, quantity=4,article_id=2,part_id=2)
+        steps.append(step_m2_s4_1)
+
+        step_m2_s4_2 = ProductionSteps(production_step=4, quantity=4,article_id=2,part_id=7)
+        steps.append(step_m2_s4_2)
+
+        step_m2_s5_1 = ProductionSteps(production_step=5, quantity=4,article_id=2,part_id=7)
+        steps.append(step_m2_s5_1)
+
+        step_m2_s6_1 = ProductionSteps(production_step=6, quantity=1,article_id=2,part_id=11)
+        steps.append(step_m2_s6_1)
+
+        step_m2_s6_2 = ProductionSteps(production_step=6, quantity=2,article_id=2,part_id=8)
+        steps.append(step_m2_s6_2)
+
+        step_m2_s7_1 = ProductionSteps(production_step=7, quantity=2,article_id=2,part_id=14)
+        steps.append(step_m2_s7_1)
+
+        step_m2_s7_2 = ProductionSteps(production_step=7, quantity=6,article_id=2,part_id=15)
+        steps.append(step_m2_s7_2)
+
+        step_m2_s8_1 = ProductionSteps(production_step=8, quantity=4,article_id=2,part_id=5)
+        steps.append(step_m2_s8_1)
+
+        step_m2_s8_2 = ProductionSteps(production_step=8, quantity=4,article_id=2,part_id=15)
+        steps.append(step_m2_s8_2)
+
+
+        #Datenbankwerte für die Produktionsschritte von M3
+        step_m3_s1_1 = ProductionSteps(production_step=1, quantity=2,article_id=3,part_id=6)
+        steps.append(step_m3_s1_1)
+
+        step_m3_s1_2 = ProductionSteps(production_step=1, quantity=2,article_id=3,part_id=9)
+        steps.append(step_m3_s1_2)
+        
+        step_m3_s1_3 = ProductionSteps(production_step=1, quantity=4,article_id=3,part_id=4)
+        steps.append(step_m3_s1_3)
+
+        step_m3_s2_1 = ProductionSteps(production_step=2, quantity=2,article_id=3,part_id=10)
+        steps.append(step_m3_s2_1)
+
+        step_m3_s2_2 = ProductionSteps(production_step=2, quantity=2,article_id=3,part_id=12)
+        steps.append(step_m3_s2_2)
+
+        step_m3_s2_3 = ProductionSteps(production_step=2, quantity=4,article_id=3,part_id=8)
+        steps.append(step_m3_s2_3)
+
+        step_m3_s3_1 = ProductionSteps(production_step=3, quantity=2,article_id=3,part_id=12)
+        steps.append(step_m3_s3_1)
+
+        step_m3_s3_2 = ProductionSteps(production_step=3, quantity=1,article_id=3,part_id=11)
+        steps.append(step_m3_s3_2)
+
+        step_m3_s3_3 = ProductionSteps(production_step=3, quantity=2,article_id=3,part_id=8)
+        steps.append(step_m3_s3_3)
+
+        step_m3_s4_1 = ProductionSteps(production_step=4, quantity=4,article_id=3,part_id=1)
+        steps.append(step_m3_s4_1)
+
+        step_m3_s4_2 = ProductionSteps(production_step=4, quantity=4,article_id=3,part_id=7)
+        steps.append(step_m3_s4_2)
+
+        step_m3_s5_1 = ProductionSteps(production_step=5, quantity=4,article_id=3,part_id=7)
+        steps.append(step_m3_s5_1)
+
+        step_m3_s6_1 = ProductionSteps(production_step=6, quantity=1,article_id=3,part_id=11)
+        steps.append(step_m3_s6_1)
+
+        step_m3_s6_2 = ProductionSteps(production_step=6, quantity=2,article_id=3,part_id=8)
+        steps.append(step_m3_s6_2)
+
+        step_m3_s7_1 = ProductionSteps(production_step=7, quantity=2,article_id=3,part_id=14)
+        steps.append(step_m3_s7_1)
+
+        step_m3_s7_2 = ProductionSteps(production_step=7, quantity=6,article_id=3,part_id=15)
+        steps.append(step_m3_s7_2)
+
+        step_m3_s8_1 = ProductionSteps(production_step=8, quantity=4,article_id=3,part_id=5)
+        steps.append(step_m3_s8_1)
+
+        step_m3_s8_2 = ProductionSteps(production_step=8, quantity=4,article_id=3,part_id=15)
+        steps.append(step_m3_s8_2)
+
+
+        #Datenbankwerte für die Produktionsschritte von M4
+        step_m4_s1_1 = ProductionSteps(production_step=1, quantity=2,article_id=4,part_id=6)
+        steps.append(step_m4_s1_1)
+
+        step_m4_s1_2 = ProductionSteps(production_step=1, quantity=2,article_id=4,part_id=9)
+        steps.append(step_m4_s1_2)
+        
+        step_m4_s1_3 = ProductionSteps(production_step=1, quantity=4,article_id=4,part_id=4)
+        steps.append(step_m4_s1_3)
+
+        step_m4_s2_1 = ProductionSteps(production_step=2, quantity=2,article_id=4,part_id=10)
+        steps.append(step_m4_s2_1)
+
+        step_m4_s2_2 = ProductionSteps(production_step=2, quantity=2,article_id=4,part_id=13)
+        steps.append(step_m4_s2_2)
+
+        step_m4_s2_3 = ProductionSteps(production_step=2, quantity=4,article_id=4,part_id=8)
+        steps.append(step_m4_s2_3)
+
+        step_m4_s3_1 = ProductionSteps(production_step=3, quantity=2,article_id=4,part_id=13)
+        steps.append(step_m4_s3_1)
+
+        step_m4_s3_2 = ProductionSteps(production_step=3, quantity=1,article_id=4,part_id=11)
+        steps.append(step_m4_s3_2)
+
+        step_m4_s3_3 = ProductionSteps(production_step=3, quantity=2,article_id=4,part_id=8)
+        steps.append(step_m4_s3_3)
+
+        step_m4_s4_1 = ProductionSteps(production_step=4, quantity=4,article_id=4,part_id=2)
+        steps.append(step_m4_s4_1)
+
+        step_m4_s4_2 = ProductionSteps(production_step=4, quantity=4,article_id=4,part_id=7)
+        steps.append(step_m4_s4_2)
+
+        step_m4_s5_1 = ProductionSteps(production_step=5, quantity=4,article_id=4,part_id=7)
+        steps.append(step_m4_s5_1)
+
+        step_m4_s6_1 = ProductionSteps(production_step=6, quantity=1,article_id=4,part_id=11)
+        steps.append(step_m4_s6_1)
+
+        step_m4_s6_2 = ProductionSteps(production_step=6, quantity=2,article_id=4,part_id=8)
+        steps.append(step_m4_s6_2)
+
+        step_m4_s7_1 = ProductionSteps(production_step=7, quantity=2,article_id=4,part_id=14)
+        steps.append(step_m4_s7_1)
+
+        step_m4_s7_2 = ProductionSteps(production_step=7, quantity=6,article_id=4,part_id=15)
+        steps.append(step_m4_s7_2)
+
+        step_m4_s8_1 = ProductionSteps(production_step=8, quantity=4,article_id=4,part_id=5)
+        steps.append(step_m4_s8_1)
+
+        step_m4_s8_2 = ProductionSteps(production_step=8, quantity=4,article_id=4,part_id=15)
+        steps.append(step_m4_s8_2)
+
+        for step in steps:
+            step.save()
+        
+
     dependencies = [
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_translations'),
@@ -113,4 +344,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_parts),
         migrations.RunPython(insert_stocks),
         migrations.RunPython(insert_articles),
+        migrations.RunPython(insert_productionsteps),
     ]
