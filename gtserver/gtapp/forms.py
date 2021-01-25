@@ -6,6 +6,7 @@ from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet, Supplier
 from gtapp.models import SuppComplaint, SuppComplaintDet
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 
 
 class Cust_order_form_jg(ModelForm):
@@ -214,14 +215,32 @@ class Supp_complaint_form(ModelForm):
 
     class Meta:
         model = SuppComplaint
-        fields = ["memo", "finished_on"]
+        fields = ["supp_order","memo", "finished_on"]
         labels = {
+            'supp_order': _('Bestellung'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am')
+            
         }
         widgets = {
             #'order_no': IntegerField()
         }
+
+    if (True):
+        # 3. Digitalisierungsstufe
+        def __init__(self, suppliers, *args, **kwargs):
+            super(Supp_complaint_form, self).__init__(*args, **kwargs)
+            self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers)
+    else:
+        # 2. Digitalisierungsstufe
+        def __init__(self, user, *args, **kwargs):
+            super(Supp_complaint_form, self).__init__(*args, **kwargs)
+            if user != 0:
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(_creation_user=user)
+            else:
+                self.fields['supp_order'].queryset = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
+                
+
 
 class Cust_complaint_det_form(ModelForm):
     use_required_attribute = False
@@ -244,13 +263,17 @@ class Supp_complaint_det_form(ModelForm):
 
     class Meta:
         model = SuppComplaintDet
-        fields = ["supp_order","supp_order_det","memo", "finished_on"]
+        fields = ["supp_order_det","quantity","memo", "finished_on"]
         labels = {
-            'supp_order': _("Bestellung"),
             'supp_oder_det': _('Position'),
+            'quantity': _('Menge'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am'),            
         }
         widgets = {
             #'order_no': IntegerField()
         }
+
+    def __init__(self, supp_order_id, *args, **kwargs):
+        super(Supp_complaint_det_form, self).__init__(*args, **kwargs)
+        self.fields['supp_order_det'].queryset = SuppOrderDet.objects.filter(supp_order_id= supp_order_id)

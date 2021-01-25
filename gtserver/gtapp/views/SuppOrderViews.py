@@ -131,23 +131,25 @@ class Supp_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        ## Digitalisierungsstufe 3
-        # if self.request.user.groups.filter(name='supplier 100').exists():
-        #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
-        # elif self.request.user.groups.filter(name='supplier 200').exists():
-        #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
-        # elif self.request.user.groups.filter(name='supplier 300').exists():
-        #     context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
-        # else:
-        #     context['orders'] = SuppOrder.objects.all()
-
-        ##Digitalisierungsstufe 2
-        if self.request.user.groups.filter(name='supplier 100').exists():
-            context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 20)
-        elif self.request.user.groups.filter(name='supplier 200').exists():
-            context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 21)
-        elif self.request.user.groups.filter(name='supplier 300').exists():
-            context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 22)
+        if (True):
+            # 3. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
+            else:
+                context['orders'] = SuppOrder.objects.all()
         else:
-            context['orders'] = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
+            # 2. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 20)
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 21)
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 22)
+            else:
+                context['orders'] = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
+       
         return context

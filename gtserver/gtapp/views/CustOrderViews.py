@@ -157,8 +157,8 @@ class Cust_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (False):
-            # 2. Digitalisierungsstufe
+        if (True):
+            # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name=C1).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=1)
             elif self.request.user.groups.filter(name=C2).exists():
@@ -168,7 +168,7 @@ class Cust_order_view(TemplateView):
             else:
                 context['orders'] = CustOrder.objects.all()
         else:
-            # 1. Digitalisierungsstufe
+            # 2. Digitalisierungsstufe
             if self.request.user.groups.filter(name=C1).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=1, external_system=True)
             elif self.request.user.groups.filter(name=C2).exists():
