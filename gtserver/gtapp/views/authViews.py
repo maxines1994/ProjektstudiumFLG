@@ -16,3 +16,4 @@ def change_user_to_view(request, id):
         return redirect('/')
     else:
         return HttpResponse('Unauthorized', status=401)
+

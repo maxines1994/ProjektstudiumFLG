@@ -19,7 +19,7 @@
 
 <h4> Informationen über {% if info == 'Unternehmen' %} das {{info}} JOGA
                         {% elif info == 'Planspiel' %} die Planspielphasen
-                        {% elif info == 'Rolle' %} deine {{info}}
+                        <p>{% elif info == 'Rolle' %} deine Stelle {{ user.groups.first.name_de }} </p> und deine {{info}} {{ user.username }}
                         {% endif %}
 </h4>
 
