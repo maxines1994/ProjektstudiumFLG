@@ -157,7 +157,7 @@ class Cust_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name=C1).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=1)

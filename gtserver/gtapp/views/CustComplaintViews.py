@@ -36,7 +36,7 @@ class Cust_complaint_create_view(CreateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='customer 1').exists():
                 customers = [1]
@@ -94,7 +94,7 @@ class Cust_complaint_alter_view(UpdateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='customer 1').exists():
                 customers = [1]
@@ -212,7 +212,7 @@ class Cust_complaint_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='customer 1').exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 1))

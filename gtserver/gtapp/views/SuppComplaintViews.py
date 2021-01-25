@@ -38,7 +38,7 @@ class Supp_complaint_create_view(CreateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='supplier 100').exists():
                 suppliers = [1]
@@ -97,7 +97,7 @@ class Supp_complaint_alter_view(UpdateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='supplier 100').exists():
                 suppliers = [1]
@@ -214,7 +214,7 @@ class Supp_complaint_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='supplier 100').exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 1))

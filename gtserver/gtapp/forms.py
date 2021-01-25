@@ -114,7 +114,7 @@ class Cust_complaint_form(ModelForm):
             #'order_no': IntegerField()
         }
 
-    if (True):
+    if (False):
         # 3. Digitalisierungsstufe
         def __init__(self, customers, *args, **kwargs):
             super(Cust_complaint_form, self).__init__(*args, **kwargs)
@@ -242,7 +242,7 @@ class Supp_complaint_form(ModelForm):
             #'order_no': IntegerField()
         }
 
-    if (True):
+    if (False):
         # 3. Digitalisierungsstufe
         def __init__(self, suppliers, *args, **kwargs):
             super(Supp_complaint_form, self).__init__(*args, **kwargs)
