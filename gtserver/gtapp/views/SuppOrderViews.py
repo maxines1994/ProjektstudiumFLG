@@ -131,7 +131,7 @@ class Supp_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (True):
+        if (False):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='supplier 100').exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
