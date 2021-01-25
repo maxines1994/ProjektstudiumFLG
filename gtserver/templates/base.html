@@ -76,8 +76,8 @@
         <a><span class="white-text name">{{ user.username }}</span></a>
         <a><span class="white-text email">{{ user.groups.first.name_de }}</span></a>
       </div></li>
-      <li class="active"><a href="{% url 'home' %}">Startseite</a></li>
-      {% if perms.gtapp.view_todo %}<li class="active"><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
+      <li><a href="{% url 'home' %}">Startseite</a></li>
+      {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == 'customer' %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
@@ -90,7 +90,7 @@
           <li><div class="divider"></div></li>
           <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Ausloggen</a></li>
           {% endif %}
-      {# <li{% if active == "Dashboard" %} class="active"{% endif %}><a href="">Dashboard</a></li> #}
+      {# <li><a href="">Dashboard</a></li> #}
     </ul>
     {% endif %}
 
