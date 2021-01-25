@@ -11,5 +11,16 @@ class SuppOrder(Order):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     
+    
     def __str__(self):
         return ("Bestellung " + self.order_no)
+
+    def auto_needs(self):
+        cod = CustOrderDet.objects.get(pk=self.pk)
+        needs = list()
+        atpt = ArtiPart.objects.filter(article_id=cod.article.id, part__supplier_id=3)
+        for p in atpt:
+            needs.append((p.part, p.quantity))
+        return needs
+    
+    

@@ -50,3 +50,4 @@ class Stock(GtModelBasic):
             if q != 0:
                 return False
         return True
+

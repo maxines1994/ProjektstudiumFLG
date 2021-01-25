@@ -21,6 +21,9 @@ class Supp_order_create_view(CreateView):
             form.instance.supplier_id = 3
 
         new_supp_order = form.save()
+
+        
+
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
 
     def get_context_data(self, **kwargs):
@@ -78,7 +81,6 @@ class Supp_order_delete_view(DeleteView):
         success_url = "/supp_order/"
         self.object.delete()
         return HttpResponseRedirect(success_url)
-
 
 class Supp_order_det_create_view(CreateView):
     form_class = Supp_order_det_form
