@@ -9,3 +9,6 @@ class CustOrderDet(OrderDet):
 
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(str(self.cust_order) + ": Artikel: "+ str(self.article) )

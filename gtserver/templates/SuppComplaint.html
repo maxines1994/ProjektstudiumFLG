@@ -16,6 +16,7 @@
         <thead id="itemhead">
             <tr>
                 <th>Reklamationsnummer</th>
+                {% if company != 'supplier' %}<th>Lieferant</th>{% endif %}
                 <th>Beschreibung</th>
                 <th>Status</th>
                 <th>Abgeschlossen am</th>
@@ -27,6 +28,7 @@
             {% for c in complaints %}
                 <tr>
                     <td>{% if company == 'supplier' %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} #{{ c.id }}</td>
+                    {% if company != 'supplier' %}<td>{{c.supp_order.supplier}}</td>{% endif %}
                     <td>{{ c.memo }}</td>
                     <td>{{ c.status }}</td>
                     <td>Tag #{{ c.finished_on }}</td>

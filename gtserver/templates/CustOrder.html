@@ -16,9 +16,9 @@
         <thead id="itemhead">
             <tr>
                 <th>{% if company == 'customer' %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
+                {% if company != 'customer' %}<th>Kunde</th>{% endif %}
                 <th>Einteilungsdatum</th>
                 <th>Lieferdatum</th>
-                <th>Kunde</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -26,9 +26,9 @@
             {% for o in orders %}
             <tr>
                 <td>{% if company == 'customer' %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
+                {% if company != 'customer' %}<td>{{ o.customer }}</td>{% endif %}
                 <td>Tag #{{ o.issued_on }}</td>
                 <td>Tag #{{ o.delivery_date }}</td>
-                <td>{{ o.customer }}</td>
                 <td>{{ o.status }}</td>
                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
             </tr>

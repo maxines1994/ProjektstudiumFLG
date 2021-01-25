@@ -16,6 +16,7 @@
         <thead id="itemhead">
             <tr>
                 <th>Reklamationsnummer</th>
+                {% if company != 'customer' %}<th>Kunde</th>{% endif %}
                 <th>Beschreibung</th>
                 <th>Status</th>
                 <th>Abgeschlossen am</th>
@@ -27,6 +28,7 @@
             {% for c in complaints %}
                 <tr>
                     <td>Bestellreklamation #{{ c.id }}</td>
+                    {% if company != 'customer' %} <td>{{c.cust_order.customer}}</td>{% endif %}
                     <td>{{ c.memo }}</td>
                     <td>{{ c.status }}</td>
                     <td>Tag #{{ c.finished_on }}</td>

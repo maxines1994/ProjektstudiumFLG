@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('auth', '0013_auto_20210113_2045'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('auth', '0013_auto_20210116_1543'),
     ]
@@ -360,15 +359,14 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('_creation_date', models.DateTimeField(auto_now_add=True)),
                 ('_update_date', models.DateTimeField(auto_now=True)),
-                ('finished_on', models.SmallIntegerField(blank=True, null=True)),
-                ('memo', models.TextField(blank=True, null=True)),
+                ('pos', models.SmallIntegerField()),
+                ('memo', models.TextField()),
                 ('quantity', models.PositiveSmallIntegerField()),
                 ('_creation_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='suppcomplaintdet_creation_user', to=settings.AUTH_USER_MODEL)),
                 ('_update_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='suppcomplaintdet_update_user', to=settings.AUTH_USER_MODEL)),
                 ('status', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='gtapp.status')),
                 ('supp_complaint', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gtapp.suppcomplaint')),
                 ('supp_order_det', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gtapp.supporderdet')),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -528,7 +526,6 @@ class Migration(migrations.Migration):
                 ('_creation_date', models.DateTimeField(auto_now_add=True)),
                 ('_update_date', models.DateTimeField(auto_now=True)),
                 ('pos', models.SmallIntegerField()),
-                ('quantity', models.SmallIntegerField()),
                 ('memo', models.TextField()),
                 ('_creation_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='custcomplaintdet_creation_user', to=settings.AUTH_USER_MODEL)),
                 ('_update_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='custcomplaintdet_update_user', to=settings.AUTH_USER_MODEL)),
@@ -539,6 +536,11 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
+        ),
+        migrations.AddField(
+            model_name='custcomplaint',
+            name='cust_order',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gtapp.custorder'),
         ),
         migrations.AddField(
             model_name='custcomplaint',

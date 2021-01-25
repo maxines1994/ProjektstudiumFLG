@@ -1,7 +1,6 @@
 from django.db import models
 from .complaint import Complaint
 from .supporder import SuppOrder
-from .supplier import Supplier
 
 
 class SuppComplaint(Complaint):
