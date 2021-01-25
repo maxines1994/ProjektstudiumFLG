@@ -15,6 +15,7 @@
         <thead id="itemhead">
             <tr>
                 <th> {% if company == 'supplier' %} Auftragsnummer {% else %} Bestellnummer {% endif %}</th>
+                {% if company != 'supplier' %}<th>Lieferant</th> {% endif %}
                 <th>Einteilungsdatum</th>
                 <th>Lieferdatum</th>
                 <th>Status</th>
@@ -26,6 +27,7 @@
             {% for o in orders %}
                 <tr>
                     <td>{% if company == 'supplier' %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>
+                    {% if company != 'supplier' %}<td>{{o.supplier}}</td>{% endif %}
                     <td>Tag #{{ o.issued_on }}</td>
                     <td>Tag #{{ o.delivery_date }}</td>
                     <td>{{ o.status }}</td>

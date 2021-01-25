@@ -7,7 +7,6 @@ class ComplaintDet(GtModel):
     """
 
     pos = models.SmallIntegerField()
-    quantity = models.SmallIntegerField()
     memo = models.TextField()
 
     class Meta:

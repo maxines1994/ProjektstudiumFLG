@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder
 from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
 from django import forms
+from django.db.models import Q
 
 
 class Supp_complaint_create_view(CreateView):
@@ -62,6 +63,7 @@ class Supp_complaint_create_view(CreateView):
         
         return kwargs
 
+
 class Supp_complaint_alter_view(UpdateView):
     template_name = "SuppComplaintForm.html"
 
@@ -95,16 +97,29 @@ class Supp_complaint_alter_view(UpdateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if self.request.user.groups.filter(name='supplier 100').exists():
-            suppliers = [1]
-        elif self.request.user.groups.filter(name='supplier 200').exists():
-            suppliers = [2]
-        elif self.request.user.groups.filter(name='supplier 300').exists():
-            suppliers = [3]
+        if (True):
+            # 3. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                suppliers = [1]
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                suppliers = [2]
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                suppliers = [3]
+            else:
+                suppliers = [1,2,3]
+            kwargs.update({'suppliers': suppliers})
         else:
-            suppliers = [1,2,3]
-
-        kwargs.update({'suppliers': suppliers})
+            # 2. Digitalisierungsstufe
+            if self.request.user.groups.filter(name='supplier 100').exists():
+                user = 20
+            elif self.request.user.groups.filter(name='supplier 200').exists():
+                user = 21
+            elif self.request.user.groups.filter(name='supplier 300').exists():
+                user = 22
+            else:
+                user = 0
+            kwargs.update({'user': user})
+        
         return kwargs
 
         
