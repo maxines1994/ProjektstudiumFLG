@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+<!-- Title-->
+{% block title %}Lager{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4>Lager</h4>
+<div class="table-scrollable">
+    <table id="itemtable">
+        <thead id="itemhead">
+            <tr>
+                <th>Teil</th>
+                <th>Menge</th>
+                {% if company == "joga" %}<th>Reserviert</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody id="itembody">
+            {% for o in stock %}
+            <tr>
+                <td>{{o.part.description}}</td>
+                <td>{% if o.part.supplier_id == 3 or request.user|has_group:'suppliers' %}{{o.stock}}{% else %}KANBAN{% endif %}</td>
+                {% if company == "joga" %}<td>{% if o.part.supplier_id != 3 %} KANBAN {% else %}{{o.reserved}}{% endif %}</td>{% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}
