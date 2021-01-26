@@ -1,8 +1,8 @@
 from django.db import models
 from gtapp.constants import *
-from . import GtModelBasic, Part, BookingCode
+from . import GtModel, Part, BookingCode
 
-class Stock(GtModelBasic):
+class Stock(GtModel):
     """
     Dieses Model enthaelt Informationen ueber die Bestaende und reservierten Mengen der einzelnen Teile. 
     Anhand des Kennzeichens "supplier_stock" erkennt man, ob es sich um den Bestand von JOGA (false) oder 

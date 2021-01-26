@@ -6,9 +6,20 @@ class SuppOrder(Order):
     """
     Diese Model enthaelt die Kopfdaten der Lieferantenbestellungen.
     """   
+    class Status(models.TextChoices):
+
+        DEFAULT                = '0', ('Standard')
+        BEING_ORDERED          = '1', ('Wird bestellt')
+        ORDERED                = '2', ('Bestellt')
+        DELIVERED              = '3', ('Geliefert')
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-
+    
+    status = models.CharField(
+        max_length = 1,
+        choices = Status.choices,
+        default = Status.DEFAULT,
+    )
     
     def __str__(self):
         return ("Bestellung " + self.order_no)

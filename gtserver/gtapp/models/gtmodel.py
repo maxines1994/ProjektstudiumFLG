@@ -1,45 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import User
 from gtapp.constants import *
-from . import Status, GtModelBasic
+from django.contrib import admin
 
-
-class GtModel(GtModelBasic):
+class GtModel(models.Model):
     """
-    Der Standard-Modeltyp alle Models der Glotrain-App, die ein Statusfeld brauchen.
-    Es enthaelt die Methoden set_status() und get_status().
+    Der Modeltyp für alle Models der Glotrain-App. Es erweitert das Standard-Model von Django um Zeitstempel fuer Anlage- und
+    Update-Zeitpunkt und speichert welcher User den Datensatz angelegt und zuletzt geupdatet hat. Das Model nutzt dazu erweiterte
+    Methoden save() zum Speichern und create() zum Anlegen von Datensaetzen. 
     """
-
-    status = models.ForeignKey(Status,null=True, on_delete=models.SET_NULL)
+    _creation_date = models.DateTimeField(auto_now_add=True)
+    _creation_user = models.ForeignKey(User, related_name='%(class)s_creation_user',null=True, on_delete=models.SET_NULL)
+    _update_date = models.DateTimeField(auto_now=True)
+    _update_user = models.ForeignKey(User, related_name='%(class)s_update_user',null=True, on_delete=models.SET_NULL)
 
     class Meta:
         abstract = True
 
-    def set_status(self, code: str):
-        """
-        Aendert den Status eines Objekts. Es muss nur der Status-Code uebergeben werden,
-        auf den gewechselt werden soll. Das funktioniert in allen Tabellen, die einen Status haben.
-        
-        Beispiel:
-
-        myTodo.set_status(TODO_DONE)
-
-        Setzt den Status des Todos in der variable myTodo auf "erledigt".
-        """
-        try:
-
-            #_meta.model_name ist der name des konkreten Models, das diese Methode aufruft.
-            my_table = str(self._meta.model_name).upper
-            self.status = Status.objects.get(table=my_table, code=code)
-            self.save()
-
-        except ObjectDoesNotExist:
-            raise Exception("Status """ + code + """ does not exist for table """ + my_table + "")
+    def save(self, *args, **kwargs):
+        #Hier muss noch eine Methode gefunden werden um an dieser Stelle den User zu holen, der diese Methode aufruft,
+        #optimalerweise ohne ihn explizit uebergeben zu muessen
+       # self._update_user = user
+        super().save(*args, **kwargs)
 
 
-    def get_status(self):
-        """
-        Gibt den aktuellen Status-Code eines Objekts zurueck.
-        """
-        return self.status.code
-
+    #Hier fehlen noch create()-Methoden, die den Standard ueberschreiben
