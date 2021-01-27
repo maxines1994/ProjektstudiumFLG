@@ -15,7 +15,8 @@ def manufacturing_release_view(request,**kwargs):
 def manufacturing_testing_view(request,**kwargs):
     c = {}
     needs = auto_needs(kwargs["id"])
-    erg = Stock.reserve_test(needs)
+    if Stock.reserve_test(needs):
+        CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='1')
     #SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 
