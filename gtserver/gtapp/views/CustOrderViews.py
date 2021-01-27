@@ -32,8 +32,10 @@ class Cust_order_create_view(CreateView):
         Todo.set_first_todo(new_cust_order, 1, Timers.get_current_day())
         
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
-        
-    
+
+    def get_initial(self):
+        return {"issued_on":Timers.get_current_day()}
+
     # Navbar Context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

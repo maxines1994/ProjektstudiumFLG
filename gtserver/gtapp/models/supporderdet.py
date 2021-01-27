@@ -23,3 +23,15 @@ class SuppOrderDet(OrderDet):
 
     def __str__(self):
         return str(str(self.supp_order) + ": Teil: "+ str(self.part) )
+
+    @classmethod
+    def create_from_needs(cls, supp_order, needs=list()):
+        for i in needs:
+            p, q = i
+            pt = Part.objects.filter(pk=p)[0]
+            qtty=0
+            o = q % pt.pack_quantity
+            if o != 0:
+                qtty = q-o+pt.pack_quantity
+            else:
+                qtty = q

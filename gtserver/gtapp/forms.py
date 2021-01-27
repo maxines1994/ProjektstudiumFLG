@@ -131,45 +131,18 @@ class Cust_complaint_form(ModelForm):
 
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
-    
-    supplier = ModelChoiceField(
-        Supplier.objects.filter(pk__gt=0),
-        label=_('Kunde'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
-    issued_on =  IntegerField(
-        label=_("Bestelltag"),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
-    delivery_date =  IntegerField(
-        label=_('Liefertag'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
 
-    memo = CharField(
-        label=_('Kommentar'),
-        required = False,
-        widget=Textarea,
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
-    )
     class Meta:
         model = SuppOrder
         fields = ["ref_no","issued_on","supplier","delivery_date","memo"]
         labels = {
+            "order_no": _("Referenznummer"),
+            "issued_on": _("Bestelldatum"),
+            "supplier": _("Lieferant"),
+            "delivery_date": _("Lieferdatum"),
             'memo': _('Kommentar'),
         }
+
 
 class Supp_order_form_lf(ModelForm):
     use_required_attribute = False
