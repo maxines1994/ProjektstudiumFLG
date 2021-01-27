@@ -1,7 +1,7 @@
 from django.db import models
-from . import GtModelBasic
+from . import GtModel
 
-class Status(GtModelBasic):
+class Status(GtModel):
     """
     Dieses Model enthaelt die Status je Tabelle und ihre Bedeutung auf Deutsch und Englisch.
     """ 

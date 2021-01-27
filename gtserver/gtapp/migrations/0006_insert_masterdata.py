@@ -15,17 +15,17 @@ class Migration(migrations.Migration):
         
         defaultCustomerStatus = Status.objects.get(code=CUSTOMER_ACTIVE,table='CUSTOMER')
         
-        Customer.objects.create(status=defaultCustomerStatus,name='K100')
-        Customer.objects.create(status=defaultCustomerStatus,name='K200')
-        Customer.objects.create(status=defaultCustomerStatus,name='K300')
+        Customer.objects.create(name='K100')
+        Customer.objects.create(name='K200')
+        Customer.objects.create(name='K300')
 
     def insert_suppliers(apps, schema_editor):
         
         defaultSupplierStatus = Status.objects.get(code=SUPPLIER_ACTIVE,table='SUPPLIER')
         
-        Supplier.objects.create(status=defaultSupplierStatus,name='L100')
-        Supplier.objects.create(status=defaultSupplierStatus,name='L200')
-        Supplier.objects.create(status=defaultSupplierStatus,name='L300')
+        Supplier.objects.create(name='L100')
+        Supplier.objects.create(name='L200')
+        Supplier.objects.create(name='L300')
 
     def insert_parts(apps, schema_editor):
 
@@ -34,21 +34,21 @@ class Migration(migrations.Migration):
         supplier_L200 = Supplier.objects.get(name='L200')
         supplier_L300 = Supplier.objects.get(name='L300')    
 
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L100, part_no='T1', description='Welle 80', pack_quantity=8, install_quantity=4, initial_stock=6, total_stock=50)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L100, part_no='T2', description='Welle 130', pack_quantity=8, install_quantity=4, initial_stock=3, total_stock=50)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L100, part_no='T3', description='Strebe 230', pack_quantity=8, install_quantity=4, initial_stock=5, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L100, part_no='T4', description='Strebe 280', pack_quantity=8, install_quantity=4, initial_stock=2, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L100, part_no='T5', description='Rad', pack_quantity=13, install_quantity=4, initial_stock=3, total_stock=80)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L200, part_no='T6', description='Hülse Hubelement', pack_quantity=10, install_quantity=2, initial_stock=0, total_stock=50)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L200, part_no='T7', description='Wellenhülse', pack_quantity=12, install_quantity=8, initial_stock=2, total_stock=60)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L200, part_no='T8', description='Schraube M5 X 20', pack_quantity=33, install_quantity=12, initial_stock=6, total_stock=200)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L200, part_no='T9', description='Schraube M6 + Scheibe', pack_quantity=16, install_quantity=2, initial_stock=2, total_stock=100)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L300, part_no='T10', description='Träger Fahrgestell', pack_quantity=5, install_quantity=2, initial_stock=1, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L300, part_no='T11', description='Träger Lastmodul', pack_quantity=5, install_quantity=2, initial_stock=0, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L300, part_no='T12', description='Querstrebe 120', pack_quantity=8, install_quantity=4, initial_stock=2, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L300, part_no='T13', description='Querstrebe 170', pack_quantity=6, install_quantity=4, initial_stock=2, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L300, part_no='T14', description='Sicherungsblech', pack_quantity=8, install_quantity=2, initial_stock=1, total_stock=40)
-        Part.objects.create(status=defaultPartStatus, supplier=supplier_L300, part_no='T15', description='Schraube M5 X 8', pack_quantity=8, install_quantity=6, initial_stock=0, total_stock=40)
+        Part.objects.create(supplier=supplier_L100, part_no='T1', description='Welle 80', pack_quantity=8, install_quantity=4, initial_stock=6, total_stock=50)
+        Part.objects.create(supplier=supplier_L100, part_no='T2', description='Welle 130', pack_quantity=8, install_quantity=4, initial_stock=3, total_stock=50)
+        Part.objects.create(supplier=supplier_L100, part_no='T3', description='Strebe 230', pack_quantity=8, install_quantity=4, initial_stock=5, total_stock=40)
+        Part.objects.create(supplier=supplier_L100, part_no='T4', description='Strebe 280', pack_quantity=8, install_quantity=4, initial_stock=2, total_stock=40)
+        Part.objects.create(supplier=supplier_L100, part_no='T5', description='Rad', pack_quantity=13, install_quantity=4, initial_stock=3, total_stock=80)
+        Part.objects.create(supplier=supplier_L200, part_no='T6', description='Hülse Hubelement', pack_quantity=10, install_quantity=2, initial_stock=0, total_stock=50)
+        Part.objects.create(supplier=supplier_L200, part_no='T7', description='Wellenhülse', pack_quantity=12, install_quantity=8, initial_stock=2, total_stock=60)
+        Part.objects.create(supplier=supplier_L200, part_no='T8', description='Schraube M5 X 20', pack_quantity=33, install_quantity=12, initial_stock=6, total_stock=200)
+        Part.objects.create(supplier=supplier_L200, part_no='T9', description='Schraube M6 + Scheibe', pack_quantity=16, install_quantity=2, initial_stock=2, total_stock=100)
+        Part.objects.create(supplier=supplier_L300, part_no='T10', description='Träger Fahrgestell', pack_quantity=5, install_quantity=2, initial_stock=1, total_stock=40)
+        Part.objects.create(supplier=supplier_L300, part_no='T11', description='Träger Lastmodul', pack_quantity=5, install_quantity=2, initial_stock=0, total_stock=40)
+        Part.objects.create(supplier=supplier_L300, part_no='T12', description='Querstrebe 120', pack_quantity=8, install_quantity=4, initial_stock=2, total_stock=40)
+        Part.objects.create(supplier=supplier_L300, part_no='T13', description='Querstrebe 170', pack_quantity=6, install_quantity=4, initial_stock=2, total_stock=40)
+        Part.objects.create(supplier=supplier_L300, part_no='T14', description='Sicherungsblech', pack_quantity=8, install_quantity=2, initial_stock=1, total_stock=40)
+        Part.objects.create(supplier=supplier_L300, part_no='T15', description='Schraube M5 X 8', pack_quantity=8, install_quantity=6, initial_stock=0, total_stock=40)
 
     def insert_stocks(apps, schema_editor):
 
@@ -69,10 +69,10 @@ class Migration(migrations.Migration):
        
         defaultArticleStatus = Status.objects.get(code=ARTICLE_ACTIVE,table='ARTICLE')
                   
-        mobStandard150  = Article(status=defaultArticleStatus,article_no=1, description='Mob Standard 150')
-        mobStandard200  = Article(status=defaultArticleStatus,article_no=2, description='Mob Standard 200')
-        mobHigh150      = Article(status=defaultArticleStatus,article_no=3, description='High Mob 150')
-        mobHigh200      = Article(status=defaultArticleStatus,article_no=4, description='High Mob 200')
+        mobStandard150  = Article(article_no=1, description='Mob Standard 150')
+        mobStandard200  = Article(article_no=2, description='Mob Standard 200')
+        mobHigh150      = Article(article_no=3, description='High Mob 150')
+        mobHigh200      = Article(article_no=4, description='High Mob 200')
 
         mobStandard150.save()
         mobStandard200.save()

@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from . import GtModelBasic
+from . import GtModel
 
-class Player(GtModelBasic):
+class Player(GtModel):
     """
     Dieses Model erweitert die User-Tabelle um zusaetzliche Felder
     """

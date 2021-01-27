@@ -1,7 +1,7 @@
 from django.db import models
-from . import GtModelBasic
+from . import GtModel
 
-class BookingCode(GtModelBasic):
+class BookingCode(GtModel):
     """
     Dieses Model enthaelt die Lagerbuchungscodes mit der entsprechenden Beschreibung auf Deutsch und Englisch.
     """

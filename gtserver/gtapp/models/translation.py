@@ -1,9 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from . import GtModelBasic
+from . import GtModel
 from gtapp.constants.languages import *
 
-class Translation(GtModelBasic):
+class Translation(GtModel):
     """
     Dieses Model speichert allerhand englische Strings und die entsprechende deutsche Uebersetzung.
     """

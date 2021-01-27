@@ -1,9 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from gtapp.constants import *
-from . import GtModelBasic, Stock, BookingCode, Translation
+from . import GtModel, Stock, BookingCode, Translation
 
-class StockMovement(GtModelBasic):
+class StockMovement(GtModel):
     """
     Dieses Model speichert den Verlauf eines Bestandes in Form von Lagerbewegungen.
     """

@@ -1,7 +1,7 @@
 from django.db import models
-from . import GtModelBasic, Status, Article, Part
+from . import GtModel, Status, Article, Part
 
-class ArtiPart(GtModelBasic):
+class ArtiPart(GtModel):
     """
     Dieses Model ordnet die Artikel den Teilen mit der entsprechenden Menge zu, aus denen er besteht. 
     """

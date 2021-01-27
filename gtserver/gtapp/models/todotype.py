@@ -1,9 +1,9 @@
 from django.db import models
 from gtapp.constants import *
 from django.contrib.auth.models import Group
-from . import GtModelBasic
+from . import GtModel
 
-class TodoType(GtModelBasic):
+class TodoType(GtModel):
     """
     Dieses Model enthaelt die einzelnen Arten von Todos und Ihre Zuordnung zur Nutzergruppe, die diese Todoart bekommt.
     Es enthaelt ein Kuerzel, sowie eine Beschreibung auf Deutsch und Englisch.
