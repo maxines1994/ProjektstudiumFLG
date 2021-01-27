@@ -1,6 +1,6 @@
 from django.db import models
 from gtapp.constants import *
-from . import GtModel, Part, BookingCode ArtiPart, CustOrder
+from . import GtModel, Part, BookingCode, ArtiPart, CustOrder
 
 class Stock(GtModel):
     """
