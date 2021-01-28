@@ -7,7 +7,7 @@ from gtapp.models import SuppComplaint, SuppComplaintDet
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
-
+from gtapp.models import goods_receipt
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
@@ -270,3 +270,54 @@ class Supp_complaint_det_form(ModelForm):
     def __init__(self, supp_order_id, *args, **kwargs):
         super(Supp_complaint_det_form, self).__init__(*args, **kwargs)
         self.fields['supp_order_det'].queryset = SuppOrderDet.objects.filter(supp_order_id= supp_order_id)
+
+class formset_goods_cust(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['cust_det'].disabled = True
+            self.fields['quantity'].disabled = True
+
+    class Meta:
+        fields = ['cust_det','quantity','delivered','trash']
+
+
+class formset_goods_cust_c(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['cust_complaint_det'].disabled = True
+            self.fields['quantity'].disabled = True
+
+    class Meta:
+        fields = ['cust_complaint_det','quantity','delivered','trash']
+
+
+class formset_goods_supp(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['supp_det'].widget.attrs['readonly'] = True
+            self.fields['quantity'].widget.attrs['readonly'] = True
+
+    class Meta:
+        fields = ['supp_det','quantity','delivered','trash']
+
+
+class formset_goods_supp_c(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['supp_complaint_det'].widget.attrs['readonly'] = True
+            self.fields['quantity'].widget.attrs['readonly'] = True
+
+    class Meta:
+        fields = ['supp_complaint_det','quantity','delivered','trash']

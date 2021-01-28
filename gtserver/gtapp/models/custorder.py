@@ -11,7 +11,7 @@ class CustOrder(Order):
     #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return ("Auftrag " + self.order_no)
+        return (self.order_no)
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -54,3 +54,4 @@ class CustOrder(Order):
                         pass
             self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
+    

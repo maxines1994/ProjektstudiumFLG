@@ -7,7 +7,7 @@ from gtapp.views.ProductionViews import Production_steps, Production_steps_singl
 from gtapp.views.CustComplaintViews import Cust_complaint_view, Cust_complaint_create_view, Cust_complaint_alter_view, Cust_complaint_delete_view, Cust_complaint_det_create_view, Cust_complaint_det_alter_view, Cust_complaint_det_delete_view
 from gtapp.views.SuppOrderViews import Supp_order_view, Supp_order_create_view, Supp_order_alter_view, Supp_order_delete_view, Supp_order_det_create_view, Supp_order_det_alter_view, Supp_order_det_delete_view
 from gtapp.views.SuppComplaintViews import Supp_complaint_view, Supp_complaint_create_view, Supp_complaint_alter_view, Supp_complaint_delete_view, Supp_complaint_det_create_view, Supp_complaint_det_alter_view, Supp_complaint_det_delete_view
-from gtapp.views import manufacturing_list_view, manufacturing_release_view, manufacturing_supporder_view, manufacturing_testing_view, manufacturing_stock_view
+from gtapp.views import manufacturing_list_view, manufacturing_release_view, manufacturing_supporder_view, manufacturing_testing_view, manufacturing_stock_view, goods_receipt_view
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -82,4 +82,6 @@ urlpatterns = [
     path('manufacturing/supporder/<int:id>/', manufacturing_supporder_view, name="manufacturing_supporder"),
     path('manufacturing/testing/<int:id>/', manufacturing_testing_view, name="manufacturing_testing"),
     path('manufacturing/stock/', manufacturing_stock_view, name="manufacturing_stock"),
+
+    path('goods_receipt/<int:typeofdet>/<int:idofdet>/', goods_receipt_view, name="goods_receipt"),
 ]
