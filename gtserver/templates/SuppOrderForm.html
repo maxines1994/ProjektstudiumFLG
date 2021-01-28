@@ -60,6 +60,7 @@
                         <th>Bestellmenge</th>
                         <th>Strukturmenge</th>
                         <th>Preis</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -71,6 +72,7 @@
                         <td>{{ i.quantity }}</td>
                         <td>{{ i.part.pack_quantity }}</td>
                         <td>{{ i.unit_price }}</td>
+                        <td>{{ i.get_status_display }}</td>
                         <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                             class="material-icons">more_vert</i></a></td>
                     </tr>

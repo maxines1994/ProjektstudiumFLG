@@ -25,7 +25,7 @@ class SuppOrderDet(OrderDet):
     )
 
     def __str__(self):
-        return str(str(self.supp_order) + ": Teil: "+ str(self.part) )
+        return str(self.part.description)
 
     @classmethod
     def create_from_needs(cls, supp_order, needs=list()):

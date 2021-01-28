@@ -67,13 +67,5 @@ class SuppOrder(Order):
                         pass
             self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
-
-    def auto_needs(self):
-        cod = CustOrderDet.objects.get(pk=self.pk)
-        needs = list()
-        atpt = ArtiPart.objects.filter(article_id=cod.article.id, part__supplier_id=3)
-        for p in atpt:
-            needs.append((p.part, p.quantity))
-        return needs
     
     

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gtapp',
     'materializecssform',
+    'extra_views',
 ]
 
 MIDDLEWARE = [

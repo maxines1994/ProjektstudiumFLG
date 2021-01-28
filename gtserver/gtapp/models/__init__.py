@@ -33,3 +33,4 @@ from .custcomplaintdet import CustComplaintDet
 from .suppcomplaintdet import SuppComplaintDet
 from .timer import Timers
 from .livesettings import LiveSettings
+from .goods_receipt import goods_receipt

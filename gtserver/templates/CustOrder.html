@@ -25,7 +25,7 @@
         <tbody id="itembody">
             {% for o in orders %}
             <tr>
-                <td>{% if company == 'customer' %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
+                <td>{{o}}</td>
                 {% if company != 'customer' %}<td>{{ o.customer }}</td>{% endif %}
                 <td>Tag #{{ o.issued_on }}</td>
                 <td>Tag #{{ o.delivery_date }}</td>

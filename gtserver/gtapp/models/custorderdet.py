@@ -26,9 +26,15 @@ class CustOrderDet(OrderDet):
         default = Status.DEFAULT,
     )
 
-    
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     
     def __str__(self):
-        return str(str(self.cust_order) + ": Artikel: "+ str(self.article) )
+        return str(self.article)
+
+    def auto_needs(self):
+        needs = list()
+        atpt = ArtiPart.objects.filter(article_id=self.article.id, part__supplier_id=3)
+        for p in atpt:
+            needs.append((p.part, p.quantity))
+        return needs
