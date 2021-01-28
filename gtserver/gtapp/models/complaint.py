@@ -17,6 +17,7 @@ class Complaint(GtModel):
     finished_on = models.SmallIntegerField(null=True, blank=True)
     memo = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    box_no = models.CharField(max_length=8,null=True,blank=True)
    
     status = models.CharField(
         max_length = 1,

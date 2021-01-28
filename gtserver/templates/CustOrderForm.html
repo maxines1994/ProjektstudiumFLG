@@ -83,7 +83,13 @@
         <div class="col s12 right-align">
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">done_all</i>{% if action != 'create' %}Freigeben{% endif %}</button>
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
-            {% if action != "create" %}<a class="waves-effect waves-light btn">Freigeben</a>{% endif %}
+            {% if action != "create" %}
+                {%if company == 'customer' %}
+                    <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 1 9%}">Freigeben</a>
+                {%else%}
+                    <a class="waves-effect waves-light btn" href="{% url 'set_status_todo_share' object.pk 1 2 2 2%}">Freigeben</a>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </form>

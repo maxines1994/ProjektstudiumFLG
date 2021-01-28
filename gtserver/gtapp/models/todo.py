@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from gtapp.constants.general import *
-from . import GtModel, CustOrderDet, CustOrder, TodoType, GtModel
+from . import GtModel, CustOrderDet, CustOrder, TodoType, GtModel, SuppOrder, SuppOrderDet
 import time
 
 class Todo(GtModel):
@@ -24,6 +24,8 @@ class Todo(GtModel):
     todo_type = models.ForeignKey(TodoType, on_delete=models.CASCADE)
     cust_order = models.ForeignKey(CustOrder, null= True, on_delete=models.SET_NULL)
     cust_order_det = models.ForeignKey(CustOrderDet, null= True, on_delete=models.SET_NULL)
+    supp_order = models.ForeignKey(SuppOrder, null= True, on_delete=models.SET_NULL)
+    supp_order_det = models.ForeignKey(SuppOrderDet, null= True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     active = models.SmallIntegerField(null=True)
 
@@ -34,19 +36,38 @@ class Todo(GtModel):
     )
     
 
-    #erstes ToDo erstellen mit Auftragsnummer
+    #Todo für CusOrders
     @classmethod
-    def set_first_todo(cls, order, number, day):
-        mylist = list(Todo.objects.filter(cust_order_id = order))
+    def set_todo_cust(cls, order, number, day):
+        mylist = list(Todo.objects.filter(cust_order_id = order, todo_type_id=number))
         if not mylist:
                 Todo.objects.create(cust_order=order, todo_type_id=number, active = 1, start_on= day)
         else:
             pass 
 
+    #Todo für CusOrderDets
     @classmethod
-    def set_todo(cls, orderdet, number, day):
-        mylist = list(Todo.objects.filter(cust_order_det_id = orderdet))
+    def set_todo_cust_det(cls, orderdet, number, day):
+        mylist = list(Todo.objects.filter(cust_order_det_id = orderdet,todo_type_id=number))
         if not mylist:
                 Todo.objects.create(cust_order_det=orderdet, todo_type_id=number, active = 1, start_on= day)
         else:
-            pass 
+            pass
+
+    #Todo für SuppOrders
+    @classmethod
+    def set_todo_supp(cls, order, number, day):
+        mylist = list(Todo.objects.filter(supp_order_id = order,todo_type_id=number))
+        if not mylist:
+                Todo.objects.create(supp_order=order, todo_type_id=number, active = 1, start_on= day)
+        else:
+            pass  
+    
+    #Todo für SuppOrderDets
+    @classmethod
+    def set_todo_supp_det(cls, orderdet, number, day):
+        mylist = list(Todo.objects.filter(supp_order_det_id = orderdet,todo_type_id=number))
+        if not mylist:
+                Todo.objects.create(cust_order_det=orderdet, todo_type_id=number, active = 1, start_on= day)
+        else:
+            pass

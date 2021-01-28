@@ -8,16 +8,17 @@ class CustOrderDet(OrderDet):
     """   
     class Status(models.TextChoices):
 
-        DEFAULT                = '0', ('Standard')
-        BEING_ORDERED          = '1', ('Wird bestellt')
-        APPROVED               = '2', ('Freigegeben')
-        IN_PROGRESS            = '3', ('In Bearbeitung')
-        PROCESSING_COMPLETE    = '4', ('Bearbeitung abgeschlossen')
-        BEING_PRODUCED         = '5', ('Wird produziert')
-        DONE                   = '6', ('Produktion abgeschlossen')
-        DELIVERED              = '7', ('Geliefert')
-        COMPLAINED             = '8', ('Reklamiert')
-        ACCEPTED               = '9', ('bgenommen')
+        DEFAULT                 =  '0',('Standard')
+        CAPTURED                 = '1', ('Erfasst')
+        INVENTORY                = '2', ('Bestandsprüfung ausstehend')
+        ORDER_RELEASE            = '3', ('Auftrag freigegeben')
+        IN_PRODUCTION            = '4', ('In Produktion')
+        DELIVERY_KD              = '5', ('Lieferung an Kundendienst ausstehend')
+        DELIVERY_CUST            = '6', ('Lieferung an Kunden ausstehend')
+        DELIVERED                = '7', ('Geliefert')
+        COMPLAINED               = '8', ('Reklamiert')
+        #Kundensystem Erfasst - Bestellt - Geliefert
+        ACCEPTED                 = '9', ('Bestellt')
     
     status = models.CharField(
         max_length = 1,

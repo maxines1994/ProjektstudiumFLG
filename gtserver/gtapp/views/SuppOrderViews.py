@@ -58,6 +58,7 @@ class Supp_order_alter_view(UpdateView):
             supp_order=self.get_object().pk)
         context['supp_order_no'] = self.get_object().pk
         context["order_no"] = self.get_object().order_no
+        context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
         return context
 

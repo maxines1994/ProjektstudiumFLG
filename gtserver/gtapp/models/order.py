@@ -15,6 +15,7 @@ class Order(GtModel):
     memo = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
     external_system = models.BooleanField(default=False)
+    box_no = models.CharField(max_length=8,blank=True,null=True)
 
     class Meta:
         abstract = True

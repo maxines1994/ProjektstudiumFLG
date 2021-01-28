@@ -29,7 +29,15 @@ class Cust_order_create_view(CreateView):
 
         new_cust_order = form.save()
         
-        Todo.set_first_todo(new_cust_order, 1, Timers.get_current_day())
+        if form.instance.external_system == True:
+            if self.request.user.groups.filter(name='customer 1').exists():
+                Todo.set_todo_cust(new_cust_order, 16, Timers.get_current_day())
+            elif self.request.user.groups.filter(name='customer 2').exists():
+                Todo.set_todo_cust(new_cust_order, 17, Timers.get_current_day())
+            elif self.request.user.groups.filter(name='customer 3').exists():
+                Todo.set_todo_cust(new_cust_order, 18, Timers.get_current_day())
+        else:
+            Todo.set_todo_cust(new_cust_order, 1, Timers.get_current_day())
         
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
 
@@ -65,6 +73,7 @@ class Cust_order_alter_view(UpdateView):
         context['items'] = CustOrderDet.objects.filter(cust_order=self.get_object().pk)
         context["cust_order_no"] = self.get_object().pk
         context["order_no"] = self.get_object().order_no
+        context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
         return context
 
@@ -124,6 +133,7 @@ class Cust_order_det_alter_view(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
         return context
 
@@ -151,6 +161,7 @@ class Cust_order_det_delete_view(DeleteView):
         success_url = "/cust_order/alter/" + str(self.object.cust_order.pk) + "/"
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
 
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_view(TemplateView):

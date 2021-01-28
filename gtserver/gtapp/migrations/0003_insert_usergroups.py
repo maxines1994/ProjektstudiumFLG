@@ -87,12 +87,12 @@ class Migration(migrations.Migration):
                     can_view_only.append(get_content_type_ids_of_models(model)[0])
         
             if group.name == CUSTOMERS:
-                #can_view_only   = get_content_type_ids_of_models()
-                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet,Message)
+                can_view_only   = get_content_type_ids_of_models(CustContainer)
+                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet,Message, Todo)
 
             if group.name == CUSTOMER_SERVICE:
                 can_view_only   = get_content_type_ids_of_models(Article, ArtiPart, Part, CustContainer)
-                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Todo, Message)
+                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Todo, Message,)
 
             if group.name == INTERNAL_SERVICE:
                 #can_view_only   = get_content_type_ids_of_models
@@ -107,8 +107,8 @@ class Migration(migrations.Migration):
                 can_change      = get_content_type_ids_of_models(Todo, Message)
 
             if group.name == SUPPLIERS:
-                #can_view_only   = get_content_type_ids_of_models()
-                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer)
+                can_view_only   = get_content_type_ids_of_models(SuppContainer)
+                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer, Todo)
 
             perms_list = get_perms(can_view_only, VIEW)
             perms_list = perms_list + get_perms(can_change, CHANGE)        
