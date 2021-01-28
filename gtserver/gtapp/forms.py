@@ -17,7 +17,7 @@ class Cust_order_form_jg(ModelForm):
     class Meta:
         model = CustOrder
         fields = ["ref_no","customer", "issued_on",
-                  "delivery_date", "memo", "box_no"]
+                  "delivery_date", "memo"]
 
 class Cust_order_form_kd(ModelForm):
     use_required_attribute = False
@@ -49,7 +49,7 @@ class Cust_order_form_kd(ModelForm):
 
     class Meta:
         model = CustOrder
-        fields = ["issued_on", "delivery_date", "memo", "box_no"]
+        fields = ["issued_on", "delivery_date", "memo"]
 
 
 
@@ -187,7 +187,7 @@ class Supp_order_det_form(ModelForm):
 
     class Meta:
         model = SuppOrderDet
-        fields = ["pos","part","quantity","unit_price","memo", "box_no"]
+        fields = ["pos","part","quantity","unit_price","memo"]
         labels = {
             'pos': _('Positionsnummer'),
             'part': _('Artikel'),

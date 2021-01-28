@@ -40,10 +40,15 @@ class Migration(migrations.Migration):
         #weitere von JOGA
         TodoType.objects.create(id=15, title_de = "Bestellung freigeben", description_de ="Bitte geben Sie die Bestellung frei", group_id=12)
 
-        #Bestellung freigeben Kunden (Kunde 1,2,3)
+        #Bestellung freigeben Kunden (Kunde 1,2,3, PDL)
         TodoType.objects.create(id=16, title_de = "Bestellung freigeben", description_de ="Bitte geben Sie die Bestellung frei", group_id=2)
         TodoType.objects.create(id=17, title_de = "Bestellung freigeben", description_de ="Bitte geben Sie die Bestellung frei", group_id=3)
         TodoType.objects.create(id=18, title_de = "Bestellung freigeben", description_de ="Bitte geben Sie die Bestellung frei", group_id=4)
+        TodoType.objects.create(id=19, title_de = "Bestellung freigeben", description_de ="Bitte geben Sie die Bestellung frei", group_id=12)
+
+
+        #Lieferant 300
+        TodoType.objects.create(id=20, title_de = "Auftrag freigeben", description_de ="Bitte geben Sie den Auftrag frei.", group_id=15)
 
     dependencies = [
         ('gtapp', '0001_initial'),

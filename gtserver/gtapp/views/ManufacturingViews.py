@@ -9,7 +9,7 @@ from gtapp.forms import formset_goods_cust, formset_goods_cust_c, formset_goods_
 
 def manufacturing_list_view(request):
     c = {}
-    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False,status='1')
+    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False,status='2')
     return render(request,"manufacturing.html",c)
 
 def manufacturing_release_view(request,**kwargs):

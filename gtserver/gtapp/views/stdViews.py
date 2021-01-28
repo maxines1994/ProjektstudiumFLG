@@ -82,6 +82,7 @@ def set_status_todo (request, **kwargs):
         Todo.set_todo_supp_det(kwargs["id"], kwargs["todotype"], Timers.get_current_day())
     else:
         pass
+    return HttpResponseRedirect(reverse("tasks_notassigned"))
 
 
 #Status und Todo setzten, Da für jede Position ein Todo angelegt werden muss, gibt es hier eine spezielle Funktion dafür
@@ -111,7 +112,7 @@ def set_status(id, type, status):
         CustOrderDet.objects.filter(pk=id).update(status=status)
     #supporder
     elif type == 3:
-        SuppOrder.objects.filter(pk=id).update(status=kstatus)
+        SuppOrder.objects.filter(pk=id).update(status=status)
     #supporderdet
     elif type == 4:
         SuppOrderDet.objects.filter(pk=id).update(status=status)
@@ -187,7 +188,10 @@ def tasks_edit(request,**kwargs):
     elif mytodo.todo_type_id == 2:
         #Bestandsprüfungsseite eintragen
         pass
-
+    elif mytodo.todo_type_id == 19:
+        return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytodo.supp_order.pk}))
+    elif mytodo.todo_type_id == 20:
+        return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytodo.supp_order.pk}))
 
 # Task Detail View
 class Tasks_detail_view(DetailView):
