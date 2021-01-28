@@ -4,7 +4,6 @@ Diese Migrations-Datei fuegt alle Unbekannt-Datensaetze (ID = -1) hinzu.
 
 from django.db import migrations
 from django.utils import timezone
-from gtapp.constants import statuses, bookingcodes
 from gtapp.constants import *
 from gtapp.models import *
 from django.contrib.auth.models import Group, User
@@ -28,7 +27,6 @@ class Migration(migrations.Migration):
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_translations'),
         ('gtapp', '0003_insert_usergroups'),
-        ('gtapp', '0004_insert_statuses'),
 
     ]
 
