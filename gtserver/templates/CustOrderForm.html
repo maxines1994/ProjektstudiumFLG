@@ -28,62 +28,75 @@
         </div>
     {% endif %}
 
-    <div class="row" style="margin-bottom: 0px;">
-        {% for field in form.visible_fields %}
-            {% if forloop.counter0|divisibleby:2 %}
-            </div>
-            <div class="row" style="margin-bottom: 0px;">
-            {% endif %}
-    <div class="col s12 m12 l6" style="padding: 0">
-        {{ field|materializecss }}
-    </div>
-    {% endfor %}
-    </div>
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row" style="margin-bottom: 0px;">
+                    {% for field in form.visible_fields %}
+                        {% if forloop.counter0|divisibleby:2 %}
+                        </div>
+                        <div class="row" style="margin-bottom: 0px;">
+                        {% endif %}
+                <div class="col s12 m12 l6" style="padding: 0">
+                    {{ field|materializecss }}
+                </div>
+                {% endfor %}
+                </div>
 
-    {% for field in form.hidden_fields %}
-    <div class="col s12 m12 l6">
-        {{ field }}
+                {% for field in form.hidden_fields %}
+                <div class="col s12 m12 l6">
+                    {{ field }}
+                </div>
+                {% endfor %}
+            </div> 
+        </div> 
     </div>
-    {% endfor %}
 </div>
     
     {% if action == "alter" %}
     <div class="row section">
         <div class="col s12">
             <h5>Positionen</h5>
-            <table id="itemtable">
-                <thead id="itemhead">
-                    <tr>
-                        <th>Position</th>
-                        <th>Artikel</th>
-                        <th>Preis</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="itembody">
-                    {% for i in items %}
-                    <tr>
-                        <td>{{ i.pos }}</td>
-                        <td>{{ i.article.description }}</td>
-                        <td>{{ i.unit_price }}</td>
-                        <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
-                            class="material-icons">more_vert</i></a></td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                        <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <table id="itemtable">
+                        <thead id="itemhead">
+                            <tr>
+                                <th>Position</th>
+                                <th>Artikel</th>
+                                <th>Preis</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="itembody">
+                            {% for i in items %}
+                            <tr>
+                                <td>{{ i.pos }}</td>
+                                <td>{{ i.article.description }}</td>
+                                <td>{{ i.unit_price }}</td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
+                                    class="material-icons">more_vert</i></a></td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
     
     <div class="row section">
         <div class="col s12 right-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">done_all</i>{% if action != 'create' %}Freigeben{% endif %}</button>
+            {% if action != 'create' %}
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</button>
+            {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
-            {% if action != "create" %}<a class="waves-effect waves-light btn">Freigeben</a>{% endif %}
         </div>
     </div>
 </form>
@@ -93,8 +106,8 @@
 {% block body %}
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
-    <li><a href="{% url 'cust_order_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'cust_order_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_order_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
 </ul>
 {% endfor %}
 {% endblock %}

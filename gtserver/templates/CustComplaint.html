@@ -11,33 +11,39 @@
 <!-- Content-->
 {% block content %}
 <h4>{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %} <a href="{% url 'cust_complaint_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
-<div class="table-scrollable">
-    <table id="itemtable">
-        <thead id="itemhead">
-            <tr>
-                <th>Reklamationsnummer</th>
-                {% if company != 'customer' %}<th>Kunde</th>{% endif %}
-                <th>Beschreibung</th>
-                <th>Status</th>
-                <th>Abgeschlossen am</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="itembody">
-            <!-- Alle complaints durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
-            {% for c in complaints %}
-                <tr>
-                    <td>Bestellreklamation #{{ c.id }}</td>
-                    {% if company != 'customer' %} <td>{{c.cust_order.customer}}</td>{% endif %}
-                    <td>{{ c.memo }}</td>
-                    <td>{{ c.status }}</td>
-                    <td>Tag #{{ c.finished_on }}</td>
-                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i
-                                class="material-icons">more_vert</i></a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <div class="table-scrollable">
+                <table id="itemtable">
+                    <thead id="itemhead">
+                        <tr>
+                            <th>Reklamationsnummer</th>
+                            {% if company != 'customer' %}<th>Kunde</th>{% endif %}
+                            <th>Beschreibung</th>
+                            <th>Status</th>
+                            <th>Abgeschlossen am</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="itembody">
+                        <!-- Alle complaints durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
+                        {% for c in complaints %}
+                            <tr>
+                                <td>Bestellreklamation #{{ c.id }}</td>
+                                {% if company != 'customer' %} <td>{{c.cust_order.customer}}</td>{% endif %}
+                                <td>{{ c.memo }}</td>
+                                <td>{{ c.status }}</td>
+                                <td>Tag #{{ c.finished_on }}</td>
+                                <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i
+                                            class="material-icons">more_vert</i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -45,8 +51,8 @@
 {% block body %}
 {% for c in complaints %}
 <ul id='a{{c.id}}' class='dropdown-content'>
-    <li><a href="{% url 'cust_complaint_alter' c.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'cust_complaint_delete' c.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'cust_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
 </ul>
 {% endfor %}
 {% endblock %}

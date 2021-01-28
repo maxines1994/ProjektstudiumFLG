@@ -11,30 +11,36 @@
 <!-- Content-->
 {% block content %}
 <h4>{% if company == 'customer' %}Bestellungen{% else %}Kundenaufträge{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
-<div class="table-scrollable">
-    <table id="itemtable">
-        <thead id="itemhead">
-            <tr>
-                <th>{% if company == 'customer' %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
-                {% if company != 'customer' %}<th>Kunde</th>{% endif %}
-                <th>Einteilungsdatum</th>
-                <th>Lieferdatum</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="itembody">
-            {% for o in orders %}
-            <tr>
-                <td>{% if company == 'customer' %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
-                {% if company != 'customer' %}<td>{{ o.customer }}</td>{% endif %}
-                <td>Tag #{{ o.issued_on }}</td>
-                <td>Tag #{{ o.delivery_date }}</td>
-                <td>{{ o.status }}</td>
-                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <div class="table-scrollable">
+                <table id="itemtable">
+                    <thead id="itemhead">
+                        <tr>
+                            <th>{% if company == 'customer' %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
+                            {% if company != 'customer' %}<th>Kunde</th>{% endif %}
+                            <th>Einteilungsdatum</th>
+                            <th>Lieferdatum</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itembody">
+                        {% for o in orders %}
+                        <tr>
+                            <td>{% if company == 'customer' %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
+                            {% if company != 'customer' %}<td>{{ o.customer }}</td>{% endif %}
+                            <td>Tag #{{ o.issued_on }}</td>
+                            <td>Tag #{{ o.delivery_date }}</td>
+                            <td>{{ o.status }}</td>
+                            <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -42,8 +48,8 @@
 {% block body %}
 {% for o in orders %}
 <ul id='a{{o.id}}' class='dropdown-content'>
-    <li><a href="{% url 'cust_order_alter' o.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'cust_order_delete' o.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'cust_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
 </ul>
 {% endfor %}
 {% endblock %}
