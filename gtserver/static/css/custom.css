@@ -12,6 +12,10 @@ nav .brand-logo {
     width: auto !important;
 }
 
+.li-content {
+  min-width: 200px !important;
+}
+
     /* optional */
 .dropdown-content a> i {
     margin-right: 16px;
