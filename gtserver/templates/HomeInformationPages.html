@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}
@@ -17,9 +18,33 @@
 <p>   </p>
 <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
 
-<h4> Informationen über {% if info == 'Unternehmen' %} das {{info}} JOGA
+<h4> Informationen über  {% if info == 'Unternehmen' %} das {{info}} JOGA
                         {% elif info == 'Planspiel' %} die Planspielphasen
-                        <p>{% elif info == 'Rolle' %} deine Stelle {{ user.groups.first.name_de }} </p> und deine {{info}} {{ user.username }}
+                        {% elif info == 'Rolle' %} Ihre Stelle 
+                            {% if request.user|has_group:"customer service" %}
+                                Kundendienst
+                            {% elif request.user|has_group:"internal service" %}
+                                interne Dienstleistung
+                            {% elif request.user|has_group:"production service" %}
+                                Produktionsdienstleistung
+                            {% elif request.user|has_group:"management" %}
+                                Leitungsteam
+                            {% elif request.user|has_group:"production" %}
+            	                Produktion
+                            {% elif request.user|has_group:"customer 1" %}
+                                Kunde 1
+                            {% elif request.user|has_group:"customer 2" %}
+                                Kunde 2
+                            {% elif request.user|has_group:"customer 3" %}
+                                Kunde 3
+                            {% elif request.user|has_group:"supplier 100" %}
+                                Lieferant 100
+                            {% elif request.user|has_group:"supplier 200" %}
+                                Lieferant 200
+                            {% elif request.user|has_group:"supplier 300" %}
+                                Lieferant 300
+                            {% endif %}
+                        
                         {% endif %}
 </h4>
 
@@ -70,6 +95,504 @@
 
 
 {% elif info == 'Rolle' %}
+    {% if request.user|has_group:"customer service" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle Kundendienst (KD)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Kundenbetreuer Großkunden, Kundenbetreuer Spezialkunden, Versand, Fertigteilelager</span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle {{ user.username }}</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                {% if user.username == 'KD1' %}
+                    Sie sind seit acht Jahren bei der JOHA GmbH, die letzten vier Jahre davon in der Funktion als Teamleiter Kundendienst. Sie sind erfahren im Verkauf. Ihre Kunden versuchen Sie auf der Beziehungsebene für sich einzunehmen.
+                {% elif user.username == 'KD2' %}
+                    Sie sind im Verkauf ein Neuling. Sie überzeugen Ihre Kunden durch Begeisterung und logische Argumente. Bei den Verhandlungen der anderen Kundenbetreuer sind sie oft freiweillig mit dabei, um das Geschäft noch besser zu lernen.
+                {% elif user.username == 'KD3' %}
+                    Sie sind in ständiger Sorge um Ihren Arbeitsplatz. Gegebenenfalls sind sie gerade bei Ihrem Rechtsanwalt.
+                {% else %}
+                    Sie machen zur Zeit einen LKW-Führerschein, da die Kundenbetreuer zukünftig die Auslieferung der Ware an die Kunden durch das Team Kundendienst durchführen lassen wollen. "One team to the costumer" lautet die Devise. Gegebenenfalls sind Sie gerade in der Fahrschule.
+                {% endif %}
+                <p></p>Alle Kundenbetreuer bestreiten den Hauptteil Ihres Einkommens durch Provisionen. Alle Provisionen fließen in einen gemeinsamen Provisionstopf, der dann geteilt wird.
+            </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Kundenbetreuung und Verkauf</h6><p></p>
+                    Aufgabe des Kundendienst ist sowohl das aktive Verkaufen, als auch die Kundenbetreuung. Der Kunde ist grundsätzlich König und sollte vom den Kundenbetreuern regelmäßig kontaktiert werden. Verkaufsverhandlungen finden meistens bei den Kunden vor Ort statt. Versuchen Sie nach „allen Regeln der Kunst“ Ihre Produkte zu verkaufen. Falls der Kunde extrem günstige Konditionen verlangt, holen Sie sich vor der Vertragsunterzeichnung lieber das „OK“ der Geschäftsleitung. <p></p>
+                    Die Aufträge der Kunden nehmen Sie im System unter "Aufträge" durch Neuerstellung auf. Nachdem der Kunde unterschrieben hat geben Sie ihm eine Kopie des Auftrages. Fügen Sie anschließend den Auftrag in den Kapazitätsplan (Flip-Chart) ein. Das Auftragsformular geben Sie dann unverzüglich an das Team Produktionsdienstleistungen PDL weitergeben. <p></p>
+                    Erkundigen Sie sich während der Bearbeitung des Kundenauftrages in der Abteilung Produktionsdienstleistungen PDL nach dem Stand des Auftrages. <p></p>
+                    Nach Produktion der benötigten Hubwagen bekommen Sie das Auftrags-Formular mit der dazugehörigen Ware von Team Produktion PRO. <p></p>
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Wenn es bei den Verhandlungen mit den Kunden eng wird, so gewähren Sie einmal mehr Rabatt, als es Ihnen von der Geschäftsleitung erlaubt wurde.
+                    Verlangen Sie auch einmal Unmögliches vom Team Produktion und verweisen Sie dabei auf den Kundenwunsch.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"production service" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle Produktionsdienstleistung (PDL)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Einkäufer, Arbeitsvorbereitung, Rohteilelager </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle {{ user.username }}</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                {% if user.username == 'PDL1' %}
+                    Sie sind seit vielen Jahren mit dem Verkäufer von Lieferant L 300 freundschaftlich verbunden. Im letzten Sommer wurden Sie gemeinsam mit seiner Ehefrau sogar zu einem zweiwöchigen Florida-Urlaub eingeladen. Dies blieb nicht ohne Folgen...
+                {% elif user.username == 'PDL2' %}
+                    Sie sind stets sehr gut über das Unternehmen informiert und verfügt über einen großen Erfahrungsschatz. Mit großer Sorge betrachten Sie alle Aktivitäten des Leitungsteams, die auf Veränderungen ausgerichtet sind.
+                {% elif user.username == 'PDL3' %}
+                    Sie haben bereits Ihre Lehre bei JOGA absolviert. Sie finden Ihre Aufgabe großartig und sind stets mit viel Freude bei der Arbeit.
+                {% endif %}
+                <p></p>Bei der Kommunikation und den Verhandlungen mit den Lieferanten L 100, L200 und L 300 sind dem Team Produktionsdienstleistungen PDL die Termintreue und das Funktionieren des KANBAN-Systems sehr wichtig.
+            </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Geben Sie auch einmal defekte Teile an die Produktion weiter. <p></p>Geben Sie einmal einen Kunden-Auftrag über einen Hubwagen mit den Teilen für ein anderes Modell an das Team Produktion weiter.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"production" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle Produktion (PRO)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Fertigung und Montage, Qualitätssicherung </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle {{ user.username }}</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                {% if user.username == 'PRO1' %}
+                    Sie sind Schlossermeister und wurden als Teamleiter gewählt. Sie sind ein souveräner Mitarbeiter und behalten auch dann einen kühlen Kopf, wenn die Produktion am Kapazitätslimit arbeitet.
+                {% elif user.username == 'PRO2' %}
+                    Sie sind der Metallfacharbeiter-Geselle im Team und besuchen im Augenblick abends die Meisterschule. Sie wirken manchmal etwas demotiviert.
+                {% elif user.username == 'PRO3' %}
+                    Sie waren früher einmal bei der Qualitätssicherung. Sie verfolgen konsequent Ihr "Null-Fehler-Ziel". Sie verstehen sich sehr gut mit dem Qualitätsmanager aus dem Leitungsteam, bei dem Sie sich stets in ein gutes Licht rücken möchten.
+                {% elif user.username == 'PRO4' %}
+                    Sie sind Deutsch-Russe und kamen erst vor sechs Monaten nach Deutschland. Sie wurden auf Ihre Position angelernt und haben einen auf zwölf Monate befristeten Vertrag. Da Sie auf eine Festanstellung spekulieren, legen Sie sich besonders ins Zeug. Sie arbeiten schnell und zuverlässig.
+                {% endif %}
+                <p></p>Durch innerbetriebliche Qualifizierungsaufgaben können alle Mitarbeiter der Produktion die einzelnen Aufgaben bewältigen.
+            </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Geben Sie einmal einen fehlerhaften Hubwagen an das Team Kundendienst weiter. Lassen Sie einmal völlig intakte Teile als fehlerhaft an das Team Produktionsdienstleistungen zurückgehen.
+
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"internal service" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle interne Dienstleistung (IDL)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Materiallogistik </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Rolle der IDL</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Das Team Interne Dienstleistungen IDL ist ein Profit-Center. Seine Kunden sind die anderen Teams. Die Dienstleistungen der Materiallogistik müssen den anderen Teams daher aktiv angeboten werden, damit diese sie auch annehmen. Das Team Interne Dienstleistungen IDL sollte daher sehr zuverlässig sein und bestrebt sein, den Transport der Materialboxen der Teams untereinander am Team Interne Dienstleistungen IDL vorbei zu verhindern.
+                    <p></p>
+                    Die schnelle Materiallogistik ist eine wichtige Funktionen im Unternehmen. Durch die zuverlässige und schnelle Weiterleitung der gesamten Materialien intern und extern unterstützt das Team Interne Dienstleistungen das Erreichen eines reibungslosen Materialflusses.
+                    <p></p>
+                    Um die Kunden zu halten, pflegen die Mitarbeiter der Internen Dienstleistungen zu allen Kollegen einen guten Kontakt. Besonders eng arbeiten Sie mit dem Team Kundendienst zusammen. 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Wenn Sie platzierte Transportboxen, die nicht Sie dort abgestellt haben, so bedeutet dies, dass Ihre Kollegen selbst Boxen wegbringen. Da Ihnen das nicht gefällt, lassen Sie solche Boxen einfach mal verschwinden, damit jeder sieht, dass der Materialtransport bei Ihnen zuverlässiger ist.
+
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"customer 1" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Kunde 1 (K1)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie sind bereits seit vielen Jahren Kunde bei JOGA Hubtechnik GmbH. Eine gute persönliche Beziehung zu dem Verkäufer von JOGA und Ihnen ist Ihnen sehr wichtig und Sie tun alles, um diese zu pflegen. 
+                    <p></p>
+                    Ein gutes Gespräch bedeutet für Sie, dass Sie die meiste Zeit über Privates reden, um am Ende des Gespräches in einigen kurzen Sätzen das Geschäftliche abzuhandeln. Eine gute Beziehung ist Ihnen wichtiger als ein niedriger Preis.
+                    <p></p>
+                    Solange Ihnen der Verkäufer sympathisch ist, sind Sie in allen Verhandlungen sehr kulant. Wenn Sie allerdings merken, dass Sie dem Verkäufer völlig egal sind, und er nur auf das schnelle Geschäft aus ist, so sagen Sie ihm offen, was Sie von ihm erwarten. Zeigt er keine Einsicht, so zögern Sie nicht, mit der JOGA-Geschäftsführung zu sprechen.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Versuchen Sie stets, so viel Zeit des Verkäufers wie möglich für sich zu beanspruchen - schließlich sind Sie Stammkunde!
+                    Versuchen Sie eine Terminänderung durchzusetzen (5 Minuten schneller). Bei Problemen richten Sie sich an die Geschäftsführung.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"customer 2" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Kunde 2 (K2) </div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie sind als Einkäufer des Kunden K2 sehr produktorientiert. Ständig haben 
+                    Sie gute Ideen über Modifikationen von Hubwagen und möchten vom zuständigen JOGA-Verkäufer immer möglichst schnell wissen, ob Ihre Vorstellungen zu realisieren sind und wenn ja, wann und zu welchem Preis. Oft haben Sie schon die nächste Idee, bevor Sie auf Ihre vorherige Anfrage einen Preis erfahren haben. 
+                    <p></p>
+                    Sie sind ein sehr spontaner, flexibler Mensch. In Verhandlungen sprechen Sie stets ganz offen aus, was Sie gerade denken und legen dabei ein hohes Tempo vor. Sie denken laut und schnell, so daß Ihre Gesprächspartner manchmal Probleme haben, Ihren Gedanken zu folgen.
+                    <p></p>
+                    Preisverhandlungen sind für Sie nicht so wichtig, sofern JOGA nur möglichst flexibel und kundenorientiert auf Ihre Sonderwünsche eingeht. Sie reagieren sehr empfindlich, wenn Zusagen nicht erfüllt werden. Insbesondere wenn JOGA einen zugesagten Liefertermin nicht einhalten kann, werden Sie zu einem unangenehmen Gesprächspartner.            
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Versuchen Sie einmal, einen Auftrag, der sich bereits in der Produktion befindet, noch zu ändern. Erwarten Sie Flexibilität von JOGA. Jeder Sonderwunsch Ihrerseits ist für JOGA ein „Störfall“.
+                    <p></p>
+                    Bei Problemen richten Sie sich an die Geschäftsführung.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"customer 3" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Kunde 3 (K3)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Die Beziehung zum Verkäufer von JOGA ist Ihnen völlig egal. Als streng rational denkender Mensch treffen Sie Ihre Kaufentscheidung sehr sorgfältig. Bei einem Kauf möchten Sie sich gegen alle Eventualitäten absichern. Das Preis-/Leistungsverhältnis ist für Sie das ausschlaggebende Kaufkriterium. 
+                    <p></p>
+                    Sie erwarten von JOGA stets sehr günstige Preise. Die gekaufte Ware begutachten Sie besonders kritisch, um jeden eventuellen Mangel aufzudecken. Um sicher sein zu können, dass Liefertermine eingehalten werden, erkundigen Sie sich oft bei JOGA über den Auftragsstatus.
+                    <p></p>
+                    Am liebsten möchten Sie mit Ihrer Qualitätskontrolle bereits in der Produktion bei JOGA beginnen. Daher stellen Sie Ihrem zuständigen Verkäufer auch manchmal die Frage, von welchen Lieferanten JOGA seine Rohstoffe bezieht. 
+                    <p></p>
+                    Sie sind ein sehr penibler Mensch. Zusagen des JOGA-Verkäufers möchten Sie am liebsten immer schriftlich.          
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie möchten über alles schriftliche Belege haben. Zusagen des Verkäufers akzeptieren Sie nur schriftlich. Lassen Sie sich noch einmal das Original einer Bestellung von Ihnen zeigen. Versuchen Sie bei dieser Gelegenheit, weitere Zusagen zu erhalten (z.B. über die Stabilität des Hubwagens etc.).
+                    <p></p>
+                    Fragen Sie, ob Sie eine Betriebsbesichtigung bei JOGA machen können.                     
+                    <p></p>
+                    Bei Problemen richten Sie sich an die Geschäftsführung.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"supplier 100" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Lieferant 100 (L1)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie sind erst seit einem Jahr Lieferant der B-Teile (Teile mit mittlerem Wert) der JOGA GmbH. Ihre Bindung zum Kunden JOGA ist noch nicht so eng. Daher versuchen Sie, die mit JOGA vereinbarte KANBAN-Anlieferung der B-Teile so gut wie möglich zu realisieren, um als möglichst zuverlässiger Lieferant zu gelten. 
+                    <p></p>
+                    Im Augenblick sind Sie bei Gesprächen mit JOGA noch sehr kompromißbereit. Wenn Sie eines Tages eine zuverlässige Bindung zum Kunden haben, möchten Sie sich auf ihren Lorbeeren ausruhen.
+                    <p></p>
+                    Sie sind ein sehr spontaner Mensch und entwickeln immer wieder Ideen, wie Sie Ihren Wert für JOGA noch steigern können.                            
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Informieren Sie das Team Produktionsdienstleistungen PDL der JOGA GmbH über Ihre Produkte. Weisen Sie auf die Zuverlässigkeit und das Preis-/Leistungsverhältnis Ihrer Angebote hin.
+                    <p></p>
+                    Falls Ihr Vorrat bei einem Teil (z.B. T1) erschöpft ist, versuchen Sie in Rücksprache mit dem Team Produktionsdienstleistungen (PDL) das größere/kleinere Teil (T2) zu verkaufen.                     
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"supplier 200" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Lieferant 200 (L2)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie haben sich seit Jahren im Markt einen Namen als günstigster Anbieter gemacht. Tatsächlich liegen Ihre Preise deutlich unter denen der Wettbewerber. Ihr Unternehmen arbeitet so günstig, dass Sie aus jedem Preiskampf als Sieger hervorgehen würden.
+                    <p></p>
+                    Natürlich hat diese Geschäftspolitik ihren Preis. Bei der Qualität müssen die Kunden einfach Abstriche machen. Da Sie „nur“ Schrauben und Hülsen, also typische C-Teile liefern, sind die meisten Kunden bereit, hier auf hohe Qualität zu verzichten. Sie sagen Ihren Kunden immer wieder Ihren Wahlspruch: „Wer nur den Preis für einen Skoda zahlt, kann ja auch keinen Mercedes verlangen!“.
+                    <p></p>
+                    Auch beim Service müssen Sie sparen, um Ihre Preise halten zu können. Da JOGA Ihr einziger KANBAN-Kunde ist, haben Sie mit der Anlieferung im KANBAN-System manchmal Probleme. Ihre eigene Lagerhaltung ist so gering, dass es schon einmal passieren kann, dass Sie gerade keine Teile verfügbar haben.                                                 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Liefern Sie mal mehr fehlerhafte Teile als in der Liefervorschrift angegeben.
+                    <p></p>
+                    Sagen Sie der JOGA einmal, dass Sie einen Engpaß bei den M5-Schrauben haben und dieses Teil nicht liefern können (auf Druck von JOGA sollten Sie dann aber doch einige Schrauben liefern).                                         
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"supplier 300" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Lieferant 300 (L3)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie beliefern die JOGA GmbH bereits seit vielen Jahren mit A-Teilen. Mit dem Einkäufer von JOGA verbindet Sie mittlerweile eine Freundschaft. Auch privat haben Sie schon so manchen Skatabend verbracht. Im letzten Frühling haben Sie den Einkäufer und seine Ehefrau zu einem 2-wöchigen Florida-Urlaub eingeladen. Natürlich haben Sie die Erwartung, dass diese „kleine Geste“ zu ständigen Aufträgen zu den von Ihnen genannten Preisen führt.
+                    <p></p>
+                    Da Sie die Bindung zum Kunden JOGA als sehr fest betrachten, haben Sie im Laufe der Jahre Ihre Preise angehoben, so dass Sie nun zu den teuersten Anbietern zählen. Daher fürchten Sie, JOGA könnte bei einer Marktrecherche herausfinden, dass Ihre Preise zu hoch sind. Wegen der guten Beziehung zu Ihnen hat der Einkäufer von JOGA allerdings seit längerer Zeit keine Marktrecherche mehr durchgeführt.                                                                     
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Informieren Sie den Einkäufer der JOGA GmbH über Ihre Produkte, insbesondere über Neuerungen und Weiterentwicklungen. Laden Sie hierzu einen Mitarbeiter des Teams Produktionsdienstleistungen PDL zu sich ein.
+                    <p></p>
+                    Liefern Sie andere Teile als bestellt.
+                    <p></p>
+                    Liefern Sie andere Mengen als bestellt.                                     
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"management" %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;"> Das Leitungsteam</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Geschäftsführer, Unternehmensberater, Organisationsentwicklung, Qualitätsmanagement </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Die Rollen im Leitungsteam</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Der Geschäftsführer der JOGA GmbH ist in dieser Funktion bereits seit 14 Jahren tätig und wird in zwei Jahren in den Ruhestand gehen. Er hat das Unternehmen bislang erfolgreich geführt und steht Veränderungen zunächst immer sehr kritisch gegenüber. Er weiß aber auch, dass es Veränderungen geben muß, um künftigen Herausforderungen zu begegnen. Alle Entscheidungen sind wohl überlegt und niemals voreilig. 
+                    <p></p>
+                    Seine Kollegen im Leitungsteam bezeichnet er gerne als „junge Wilde“. Ihrem Enthusiasmus für Veränderungen setzt er seine Erfahrung und Souveränität entgegen. Von gut begründeten Veränderungen läßt sich aber auch der Geschäftsführer überzeugen. Er ist bei seinen Mitarbeitern beliebt und führt mit Lob und Anerkennung.
+                    <p></p>
+                    Der externe Unternehmensberater ist seit zwei Jahren ausschließlich für die JOGA GmbH tätig. Er ist grundsätzlich für Veränderungen und möchte für jede Idee Konzepte erarbeiten, da er damit sein Geld verdient. 
+                    <p></p>
+                    Der Mitarbeiter für Organisationsentwicklung ist erst vor 6 Monaten, gleich nach Abschluß seines BWL-Studiums, in das Unternehmen eingetreten. Er ist sehr fleißig und möchte sich unbedingt gegenüber dem Geschäftsführer profilieren. 
+                    <p></p>
+                    Der Mitarbeiter für Qualitätsmanagement ist seit drei Jahren im Unternehmen. Er hat gute Kontakte in die Produktion. Als Dipl.-Ingenieur hat er ein großes Verständnis für alle technischen Belange des Unternehmens. 
+                    <p></p>
+                    Einzelne Mitarbeiter des Leitungsteams sind oft außer Haus. In diesem Fall versuchen die verbliebenen Mitarbeiter, wenigstens die wichtigsten Aufgaben zu bearbeiten.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Bei auftretenden Problemen sind Sie der Ansprechpartner für alle Mitarbeiter. Als Leitungsteam sollten Sie Ihren Kollegen bei der Beseitigung aller Störungen helfen. Selbstverständlich dürfen Sie auch Personal zwischen einzelnen Arbeitsgruppen austauschen. 
+                    Wenn Sie ein mangelhafte Auslastung einzelner Mitarbeiter oder Teams feststellen, so können Sie Zusatzaufgaben vergeben, um die Mitarbeiter wieder zu aktivieren. Gegebenenfalls erhalten Sie zusätzliche Aufgaben durch die Spielleitung.                    
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% endif %}
+
 
 {% endif %}
 
@@ -83,4 +606,9 @@
 
 <!-- Scripts-->
 {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.collapsible').collapsible();
+        });
+    </script>
 {% endblock %}
