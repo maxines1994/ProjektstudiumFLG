@@ -4,15 +4,26 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.models import CustComplaint, CustComplaintDet, Article, CustOrder, CustOrderDet
 from gtapp.forms import Cust_complaint_form, Cust_complaint_det_form
-from django.db.models import Q
+from gtapp.models import LiveSettings
 
 class Cust_complaint_create_view(CreateView):
     template_name = "CustComplaintForm.html"
     
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
+        
+        if self.request.user.groups.filter(name='customer 1').exists():
+            form.instance.customer_id = 1
+        elif self.request.user.groups.filter(name='customer 2').exists():
+            form.instance.customer_id = 2
+        elif self.request.user.groups.filter(name='customer 3').exists():
+            form.instance.customer_id = 3
+
+        if self.request.user.groups.filter(name='customers').exists():
+            form.instance.external_system = True
 
         new_cust_order_complaint = form.save()
+
         return HttpResponseRedirect("/cust_complaint/alter/" + str(new_cust_order_complaint.pk) + "/")
     
     def get_context_data(self, **kwargs):
@@ -36,29 +47,15 @@ class Cust_complaint_create_view(CreateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if (False):
-            # 3. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='customer 1').exists():
-                customers = [1]
-            elif self.request.user.groups.filter(name='customer 2').exists():
-                customers = [2]
-            elif self.request.user.groups.filter(name='customer 3').exists():
-                customers = [3]
-            else:
-                customers = [1,2,3]
-            kwargs.update({'customers': customers})
+        if self.request.user.groups.filter(name='customer 1').exists():
+            customers = [1]
+        elif self.request.user.groups.filter(name='customer 2').exists():
+            customers = [2]
+        elif self.request.user.groups.filter(name='customer 3').exists():
+            customers = [3]
         else:
-            # 2. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='customer 1').exists():
-                user = 5
-            elif self.request.user.groups.filter(name='customer 2').exists():
-                user = 6
-            elif self.request.user.groups.filter(name='customer 3').exists():
-                user = 7
-            else:
-                user = 0
-            kwargs.update({'user': user})
-        
+            customers = [1,2,3]
+        kwargs.update({'customers': customers})
         return kwargs
 
 
@@ -94,29 +91,15 @@ class Cust_complaint_alter_view(UpdateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if (False):
-            # 3. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='customer 1').exists():
-                customers = [1]
-            elif self.request.user.groups.filter(name='customer 2').exists():
-                customers = [2]
-            elif self.request.user.groups.filter(name='customer 3').exists():
-                customers = [3]
-            else:
-                customers = [1,2,3]
-            kwargs.update({'customers': customers})
+        if self.request.user.groups.filter(name='customer 1').exists():
+            customers = [1]
+        elif self.request.user.groups.filter(name='customer 2').exists():
+            customers = [2]
+        elif self.request.user.groups.filter(name='customer 3').exists():
+            customers = [3]
         else:
-            # 2. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='customer 1').exists():
-                user = 5
-            elif self.request.user.groups.filter(name='customer 2').exists():
-                user = 6
-            elif self.request.user.groups.filter(name='customer 3').exists():
-                user = 7
-            else:
-                user = 0
-            kwargs.update({'user': user})
-        
+            customers = [1,2,3]
+        kwargs.update({'customers': customers})
         return kwargs
     
         
@@ -212,7 +195,7 @@ class Cust_complaint_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (False):
+        if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='customer 1').exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 1))
@@ -225,12 +208,12 @@ class Cust_complaint_view(TemplateView):
         else:
             # 2. Digitalisierungsstufe
             if self.request.user.groups.filter(name='customer 1').exists():
-                context['complaints'] = CustComplaint.objects.all().filter(_creation_user_id = 5)
+                context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 1, external_system=True))
             elif self.request.user.groups.filter(name='customer 2').exists():
-                context['complaints'] = CustComplaint.objects.all().filter(_creation_user_id = 6)
+                context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 2, external_system=True))
             elif self.request.user.groups.filter(name='customer 3').exists():
-                context['complaints'] = CustComplaint.objects.all().filter(_creation_user_id = 7)
+                context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 3, external_system=True))
             else:
-                context['complaints'] = CustComplaint.objects.all().exclude(Q(_creation_user_id = 5) | Q(_creation_user_id = 6) | Q(_creation_user_id = 7))
+                context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(external_system=False))
        
         return context

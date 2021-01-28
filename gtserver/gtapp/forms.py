@@ -6,7 +6,7 @@ from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet, Supplier
 from gtapp.models import SuppComplaint, SuppComplaintDet
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
-from django.db.models import Q
+from gtapp.models import LiveSettings
 
 
 class Cust_order_form_jg(ModelForm):
@@ -114,6 +114,7 @@ class Cust_complaint_form(ModelForm):
             #'order_no': IntegerField()
         }
 
+    #"False" muss durch "False" ausgetauscht werden für den produktiven Betrieb
     if (False):
         # 3. Digitalisierungsstufe
         def __init__(self, customers, *args, **kwargs):
@@ -121,12 +122,12 @@ class Cust_complaint_form(ModelForm):
             self.fields['cust_order'].queryset = CustOrder.objects.filter(customer__in=customers)
     else:
         # 2. Digitalisierungsstufe
-        def __init__(self, user, *args, **kwargs):
+        def __init__(self, customers, *args, **kwargs):
             super(Cust_complaint_form, self).__init__(*args, **kwargs)
-            if user != 0:
-                self.fields['cust_order'].queryset = CustOrder.objects.filter(_creation_user=user)
+            if len(customers) == 1:
+                self.fields['cust_order'].queryset = CustOrder.objects.filter(customer__in=customers, external_system=True)
             else:
-                self.fields['cust_order'].queryset = CustOrder.objects.all().exclude(Q(_creation_user_id = 5) | Q(_creation_user_id = 6) | Q(_creation_user_id = 7))
+                self.fields['cust_order'].queryset = CustOrder.objects.all().filter(customer__in=customers, external_system=False)
  
 
 class Supp_order_form_jg(ModelForm):
@@ -215,6 +216,7 @@ class Supp_complaint_form(ModelForm):
             #'order_no': IntegerField()
         }
 
+    #"False" muss durch "LiveSettings.objects.all().first().phase_3" ausgetauscht werden für den produktiven Betrieb
     if (False):
         # 3. Digitalisierungsstufe
         def __init__(self, suppliers, *args, **kwargs):
@@ -222,13 +224,12 @@ class Supp_complaint_form(ModelForm):
             self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers)
     else:
         # 2. Digitalisierungsstufe
-        def __init__(self, user, *args, **kwargs):
+        def __init__(self, suppliers, *args, **kwargs):
             super(Supp_complaint_form, self).__init__(*args, **kwargs)
-            if user != 0:
-                self.fields['supp_order'].queryset = SuppOrder.objects.filter(_creation_user=user)
+            if len(suppliers) == 1:
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=True)
             else:
-                self.fields['supp_order'].queryset = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
-                
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=False)
 
 
 class Cust_complaint_det_form(ModelForm):

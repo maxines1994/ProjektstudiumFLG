@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf,Supp_order_det_form
-from django.db.models import Q
+from gtapp.models import LiveSettings
 from gtapp.constants.groups import *
 from gtapp.models import Timers
 
@@ -14,6 +14,7 @@ class Supp_order_create_view(CreateView):
 
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
+        
         if self.request.user.groups.filter(name='supplier 100').exists():
             form.instance.supplier_id = 1
         elif self.request.user.groups.filter(name='supplier 200').exists():
@@ -21,12 +22,10 @@ class Supp_order_create_view(CreateView):
         elif self.request.user.groups.filter(name='supplier 300').exists():
             form.instance.supplier_id = 3
         
-        if self.request.user.groups.filter(name=SUPPLIERS).exists():
+        if self.request.user.groups.filter(name='suppliers').exists():
             form.instance.external_system = True
             
         new_supp_order = form.save()
-
-        
 
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
 
@@ -144,7 +143,7 @@ class Supp_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (False):
+        if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name='supplier 100').exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
@@ -157,12 +156,12 @@ class Supp_order_view(TemplateView):
         else:
             # 2. Digitalisierungsstufe
             if self.request.user.groups.filter(name='supplier 100').exists():
-                context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 20)
+                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1, external_system=True)
             elif self.request.user.groups.filter(name='supplier 200').exists():
-                context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 21)
+                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2, external_system=True)
             elif self.request.user.groups.filter(name='supplier 300').exists():
-                context['orders'] = SuppOrder.objects.all().filter(_creation_user_id = 22)
+                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3, external_system=True)
             else:
-                context['orders'] = SuppOrder.objects.all().exclude(Q(_creation_user_id = 20) | Q(_creation_user_id = 21) | Q(_creation_user_id = 22))
+                context['orders'] = SuppOrder.objects.all().filter(external_system=False)
        
         return context
