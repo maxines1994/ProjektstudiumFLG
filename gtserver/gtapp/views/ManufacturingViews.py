@@ -20,9 +20,12 @@ def manufacturing_release_view(request,**kwargs):
 
 def manufacturing_testing_view(request,**kwargs):
     c = {}
-    needs = CustOrderDet.auto_needs()
+    needs = CustOrderDet.objects.filter(pk=kwargs["id"])[0].auto_needs()
     if Stock.reserve_test(needs):
+        print("ERFOLGREICH")
         CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='2')
+    else:
+        print("FEHLGESCHLAGEN")
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 
@@ -158,3 +161,4 @@ def goods_receipt_view(request, **kwargs):
                 initial.append({"supp_complaint_det":i.pk,"quantity":i.quantity})
         formset = MyFormSet(initial=initial, queryset=goods_receipt.objects.none(), prefix='form1')
     return render(request, template, {'formset':formset})
+
