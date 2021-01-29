@@ -60,3 +60,9 @@ main.loggedin {
   padding-right: 0;
   width: 100%;
 }
+
+.collapsible li.active i {
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
