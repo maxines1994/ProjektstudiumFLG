@@ -96,7 +96,7 @@
 
 {% elif info == 'Rolle' %}
     {% if request.user|has_group:"customer service" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle Kundendienst (KD)</div>
@@ -131,10 +131,19 @@
             <div class="collapsible-body">
                 <span>
                     <h6>Kundenbetreuung und Verkauf</h6><p></p>
-                    Aufgabe des Kundendienst ist sowohl das aktive Verkaufen, als auch die Kundenbetreuung. Der Kunde ist grundsätzlich König und sollte vom den Kundenbetreuern regelmäßig kontaktiert werden. Verkaufsverhandlungen finden meistens bei den Kunden vor Ort statt. Versuchen Sie nach „allen Regeln der Kunst“ Ihre Produkte zu verkaufen. Falls der Kunde extrem günstige Konditionen verlangt, holen Sie sich vor der Vertragsunterzeichnung lieber das „OK“ der Geschäftsleitung. <p></p>
-                    Die Aufträge der Kunden nehmen Sie im System unter "Aufträge" durch Neuerstellung auf. Nachdem der Kunde unterschrieben hat geben Sie ihm eine Kopie des Auftrages. Fügen Sie anschließend den Auftrag in den Kapazitätsplan (Flip-Chart) ein. Das Auftragsformular geben Sie dann unverzüglich an das Team Produktionsdienstleistungen PDL weitergeben. <p></p>
-                    Erkundigen Sie sich während der Bearbeitung des Kundenauftrages in der Abteilung Produktionsdienstleistungen PDL nach dem Stand des Auftrages. <p></p>
-                    Nach Produktion der benötigten Hubwagen bekommen Sie das Auftrags-Formular mit der dazugehörigen Ware von Team Produktion PRO. <p></p>
+                    Aufgabe des Kundendienstes ist sowohl das aktive Verkaufen, als auch die Kundenbetreuung. Der Kunde ist grundsätzlich König und sollte vom den Kundenbetreuern regelmäßig kontaktiert werden. Verkaufsverhandlungen finden meistens bei den Kunden vor Ort statt. Versuchen Sie nach „allen Regeln der Kunst“ Ihre Produkte zu verkaufen. Falls der Kunde extrem günstige Konditionen verlangt, holen Sie sich vor der Vertragsunterzeichnung lieber das „OK“ der Geschäftsleitung. <p></p>
+                    Die Aufträge der Kunden nehmen Sie im System unter "Aufträge" auf, indem Sie einen Auftrag erstellen. Dieser kann abgespeichert werden, um ihn später noch ändern zu können. Sind die Angaben des Kundenauftrages final, geben Sie den Auftrag frei, damit dieser in die Bearbeitung kommt. Im Anschluss informieren Sie den Kunden über eine Nachricht, dass sein Auftrag angelegt wurde.<p></p>
+                    Erkundigen Sie sich während der Bearbeitung des Kundenauftrages bei der Abteilung Produktionsdienstleistungen (PDL) nach dem aktuellen Stand des Auftrages. <p></p>
+                    Nach der Produktion des benötigten Hubwagens bekommen Sie den Hubwagen in einer Transportbox von dem Team Produktion (PRO). Für die Annahme des Hubwagens scannen Sie den Barcode auf der Transportbox oder geben manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein. <p></p>
+                    Der Transport von Teilen/ Produkten erfolgt vom Team Interne Dienstleistungen (IDL). Sprechen Sie das Team an. <br></br>
+
+                    <h6>Auslieferung der Ware an die Kunden</h6><p></p>
+                    Sie organisieren in Zusammenarbeit mit dem Mitarbeiter der Internen Dienstleistungen IDL den Versand der Hubwagen. Versuchen Sie zusammen mit dem Mitarbeiter der Internen Dienstleistungen IDL ein Verfahren für die Bewältigung dieser Aufgabe abzusprechen. <p></p>
+                    Da Sie keinen LKW besitzen, können Sie das Produkt nicht selber ausliefern.<p></p>
+                    Bedenken Sie, dass die Materiallogistik als interner Dienstleistung immer genügend Arbeit nachweisen muss, um nicht von einem externen Dienstleister verdrängt zu werden.<br></br>
+
+                    <h6>Rücklieferung fehlerhafter Hubwagen</h6><p></p>
+                    Wenn Sie von einem Kunden die Information erhalten, dass ein Hubwagen nicht in Ordnung ist und der Kunde diesen reklamieren möchte, erstellen Sie eine Reklamation im System. Wie bei dem Auftrag gilt hier ebenso das Prinzip, dass die Reklamation erst in Bearbeitung kommt, wenn die Reklamation freigegeben wurde. Soll die Reklamation zunächst bearbeitbar bleiben, so speichern Sie die angelegte Reklamation ab anstatt diese sofort freizugeben. Nach der Freigabe informieren Sie Ihren Kunden per Nachricht über die erfolgreiche Weiterleitung des Reklamationsfalles. Ebenso kümmern Sie sich um den Transport des Hubwagens an die Produktion, indem Sie das Team Interne Dienstleistung hinzuziehen, da Sie ja keinen LKW besitzen.
                 </span>
             </div>
         </li>
@@ -152,7 +161,7 @@
     </ul>
 
     {% elif request.user|has_group:"production service" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle Produktionsdienstleistung (PDL)</div>
@@ -184,8 +193,17 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Bearbeitung von Fertigungsaufträgen</h6><p></p>
+                    Das Team Produktionsdienstleistung erhält von dem Team Kundendienst (KD) die Kundenaufträge. Das Team prüft, wie der Kundenauftrag in die Kapazitätsplanung der Produktion passt. Es informiert das Leitungsteam laufend über die Kapazitätssituation und mögliche Engpässe.<p></p>
+                    Für jeden Kundenauftrag werden die notwendigen A-Teile bestimmt (T10-T15) und auftragsbezogen über das System bestellt. Dafür legen Sie eine Bestellung mit Angabe der entsprechenden Teile und des Lieferanten L300 an. Anschließend informieren Sie den Lieferanten L300 über Ihre Bestellung, indem Sie eine Nachricht, deren Text die Angabe der bestellten Teile beinhaltet, verfassen.<p></p>
+                    Für den Transport von Teilen/ Produktion ist das Team Interne Dienstleistung (IDL) zuständig.<br></br>
+
+                    <h6>Führen des Rohteilelagers</h6><p></p>
+                    Die bestellten Teile erhält das Team Produktionsdienstleistungen (PDL) in einer Transportbox von dem Lieferanten L300 über die Interne Dienstleistung. Für die Annahme der Teile scannen Sie den Barcode auf der Transportbox oder geben manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein. Im Anschluss führen Sie eine Qualitätskontrolle durch. <p></p>
+                    Bei Mängeln erstellen Sie eine Reklamation im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
+                    Nachdem für einen Kundenauftrag alle A-Teile (T10-T15) vorliegen, werden diese in eine leere Transportbox gelegt und die Transportboxnummer im Kopf des Kundenauftrages angegeben. Der Kundenauftrag wird danach freigegeben und die gepackte Transportbox an die Produktion (über IDL) transportiert.<p></p>
+                    Eine geringe Anzahl von A-Teilen haben Sie im Lager, um "Lieferengpässe" auszugleichen.<p></p>
+                    Die B-Teile (T1-T5) werden durch ein KANBAN System vom Lieferanten L100 beschafft. Leere Transportbehälter für B-Teile senden Sie über das Team Interne Dienstleistungen an den Lieferanten L100. Dieser tauscht diese leeren Behälter sofort gegen volle aus. Die B-Teile liefern Sie durch ein KANBAN System an die Gruppe Produktion. Hierzu erhalten Sie vom Team Produktion leere Transportbehälter für B-Teile, die Sie unverzüglich gegen volle Behälter aus dem Rohteilelager austauschen. 
                 </span>
             </div>
         </li>
@@ -202,7 +220,7 @@
     </ul>
 
     {% elif request.user|has_group:"production" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle Produktion (PRO)</div>
@@ -236,8 +254,19 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Fertigung und Montage</h6>
+                    Nach Eingang der Transportbox mit den auftragsbezogenen A-Teilen, scannen Sie den Barcode auf der Transportbox oder geben manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein, um den Bezug zum Kundenauftrag zu erhalten. Anschließend können Sie anhand der Anleitung zu den einzelnen Produktionsschritten den gewünschen Hubwagen bauen. <p></p>
+                    Fertige Hubwagen werden nach der Qualitätskontrolle in eine leere Transportbox gelegt. Die Transportboxnummer wird in den Kopf des Kundenauftrages eingegeben und der Kundenauftrag wird freigegben. Die Transportbox wird an das Team Kundendienst (KD) geliefert. Für den Transport von Teilen/ Produkten ist das Team Interne Dienstleistungen (IDL) zuständig.<p></p>
+                    Die leeren Behälter für A-Teile (nur diese!) senden Sie unaufgefordert an den Lieferanten L 300 zurück. <p></p> 
+
+                    <h6>Materialversorgung</h6>
+                    Ihren Materialbedarf an C-Teilen (T6-T9) decken Sie direkt beim Lieferant L200 durch ein einstufiges KANBAN-System. Der Lieferant L200 liefert Ihnen die C-Teile in gewissen Abständen durch den Austausch von Leerbehältern gegen volle Behälter. <p></p>
+                    Ihren Materialbedarf an B-Teilen (T1-T5) decken Sie im Team Produktionsdienstleistungen. Liefern Sie über das Team Interne Dienstleistungen leere B-Teilebehälter an das Team Produktionsdienstleistungen. Das Team Produktionsdienstleistungen liefert Ihnen die B-Teile durch den Austausch der Leerbehälter gegen volle Behälter.<p></p>
+                    A-Teile (T10-T15) erhalten Sie auftragsbezogen von dem Team Produktionsdienstleistung über Transportboxen, welche das Team Interne Dienstleistungen zu Ihnen liefert.
+
+                    <h6>Qualitätskontrolle</h6>
+                    Bei fehlerhaften Teilen erfolgt eine Rückgabe der Teile an das Team Produktionsdienstleistung (A- und B-Teile) oder an den Lieferanten L300 (C-Teile). Hierzu erstellen Sie eine Reklamation im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie je nach Teil die PDL oder den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
+                    Geprüft werden die fertigen Hubwagen bevor sie an das Team Kundendienst geliefert werden. Werden hier Mängel festgestellt, so werden diese umgehend im eigenen Team beseitigt.
                 </span>
             </div>
         </li>
@@ -255,7 +284,7 @@
     </ul>
 
     {% elif request.user|has_group:"internal service" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle interne Dienstleistung (IDL)</div>
@@ -269,7 +298,7 @@
                 <div style="font-weight: bold;">Rolle der IDL</div>
             </div>
             <div class="collapsible-body">
-                <span>Das Team Interne Dienstleistungen IDL ist ein Profit-Center. Seine Kunden sind die anderen Teams. Die Dienstleistungen der Materiallogistik müssen den anderen Teams daher aktiv angeboten werden, damit diese sie auch annehmen. Das Team Interne Dienstleistungen IDL sollte daher sehr zuverlässig sein und bestrebt sein, den Transport der Materialboxen der Teams untereinander am Team Interne Dienstleistungen IDL vorbei zu verhindern.
+                <span>Das Team Interne Dienstleistungen IDL ist ein Profit-Center. Seine Kunden sind die anderen Teams. Die Dienstleistungen der Materiallogistik müssen den anderen Teams daher aktiv angeboten werden, damit diese sie auch annehmen. Das Team Interne Dienstleistungen (IDL) sollte daher sehr zuverlässig sein und bestrebt sein, den Transport der Materialboxen der Teams untereinander am Team Interne Dienstleistungen IDL vorbei zu verhindern.
                     <p></p>
                     Die schnelle Materiallogistik ist eine wichtige Funktionen im Unternehmen. Durch die zuverlässige und schnelle Weiterleitung der gesamten Materialien intern und extern unterstützt das Team Interne Dienstleistungen das Erreichen eines reibungslosen Materialflusses.
                     <p></p>
@@ -283,8 +312,9 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Transport von Teilen und Produkten</h6>
+                    Machen Sie mindestens alle 5 Minuten einen Rundgang zu den Teams Produktionsdienstleistungen (PDL), Produktion (PRO) und zu den zwei Lieferanten L100 und L300. Fragen Sie nach Transportaufträgen. Der Lieferant L200 liefert die C-Teile direkt in die Produktion.<p></p>
+                    Ebenfalls sind Sie für die Auslieferung der Produkte an den Kunden zuständig. Setzen Sie sich hierfür mit dem Team Kundendienst (KD) in Verbindung. Achten Sie bei der Auslieferung darauf, dass der Kunde den Erhalt der Ware quittiert und lassen Sie ein zweites Exemplar davon als Lieferschein beim Kunden.
                 </span>
             </div>
         </li>
@@ -295,14 +325,13 @@
             <div class="collapsible-body">
                 <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
                     Wenn Sie platzierte Transportboxen, die nicht Sie dort abgestellt haben, so bedeutet dies, dass Ihre Kollegen selbst Boxen wegbringen. Da Ihnen das nicht gefällt, lassen Sie solche Boxen einfach mal verschwinden, damit jeder sieht, dass der Materialtransport bei Ihnen zuverlässiger ist.
-
                 </span>
             </div>
         </li>
     </ul>
 
     {% elif request.user|has_group:"customer 1" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Kunde 1 (K1)</div>
@@ -322,8 +351,18 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
+                    <h6>Hubwagen bestellen</h6>
+                    Während des Spiels bestellen Sie insgesamt 5-7 Hubwagen in unterschiedlichen Ausführungen. Sie bestellen immer nur einen Hubwagen pro Auftrag. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben.<p></p>
+                    Verlangen Sie für die Aufträge die folgende Lieferzeit: ca. 20-25 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so sind Sie gegebenenfalls kompromissbereit. <p></p>
+                    Versuchen Sie, so wenig wie möglich zu bezahlen.<p></p>
+
+                    <h6>Bestellung überwachen</h6>
+                    Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer zu sich, um ihn über den Auftragsstatus zu befragen. Auch hier möchten Sie am liebsten mit dem Verkäufer über Gott und die Welt sprechen, bevor Sie am Ende des Gespräches kurz nach dem Auftrag fragen.<p></p>
+                    Sie erwarten, daß ein zugesagter Liefertermin in jedem Fall eingehalten wird. Insbesondere wenn Sie dem Verkäufer beim Liefertermin bereits entgegengekommen waren. Nicht eingehaltene Termine werten Sie als Vertrauensbruch und werden daraufhin sehr böse. Drohen Sie mit Konventionalstrafen. <p></p>
                     
+                    <h6>Hubwagen annehmen</h6>
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Im Vertrauen auf die gute Qualität von JOGA-Hubwagen führen Sie die Qualitätskontrolle bei der Lieferung nur sehr oberflächlich durch. Wenn Sie allerdings später einen Mangel feststellen, so wenden sich an die JOGA-Geschäftsführung und erwarten dann eine besonders kulante Reaktion von JOGA -schließlich sind Sie seit Jahren Stammkunde.
                 </span>
             </div>
         </li>
@@ -340,7 +379,7 @@
     </ul>
 
     {% elif request.user|has_group:"customer 2" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Kunde 2 (K2) </div>
@@ -361,8 +400,19 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Hubwagen bestellen</h6>
+                    Während des Spiels bestellen Sie in gewissen Abständen Hubwagen in unterschiedlichen Ausführungen (ca. 5-7 Bestellungen im Laufe des Spiels). Bei jeder Auftragserteilung bestellen Sie einen oder zwei Hubwagen. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.
+                    Bestellen Sie den ersten Hubwagen ohne große Verhandlungen und ohne Sonderwünsche. Wenn Sie nicht bestellen, kann JOGA auch nicht produzieren.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben. Manchmal suchen Sie Ihn aber auch direkt auf.<p></p>
+                    Verlangen Sie für die Aufträge die folgende Lieferzeit: ca.30 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, verlangen Sie mehr Flexibilität von JOGA.<p></p>
+                    Bei einigen Aufträge an JOGA haben Sie Sonderwünsche (nach ca. 30 Minuten Spielzeit). Sonderwünsche sind z.B. ein Hubwagen ohne Räder, die Bestellung einer Baugruppe, oder die Lieferung eines Hubwagens mit zwei Hubelementen.<p></p> 
+                
+                    <h6>Bestellung überwachen</h6>
+                    Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer oder schreiben Sie ihm eine Nachricht. Während des Auftragsdurchlaufs haben Sie bereits wieder neue Ideen gehabt. Fragen Sie den Verkäufer daher auch einmal, ob Sie Aufträge noch ändern können. Daraus resultierende längere Lieferzeiten tolerieren Sie.<p></p>
+                    Auch wenn Sie hart um die Lieferzeiten verhandelt haben - wirklich wichtig sind sie für Sie nicht. Es geht Ihnen mehr um das Prinzip. Eine neue Idee lässt einen laufenden Auftrag und seine Lieferzeiten manchmal unwichtig erscheinen.<p></p>
+                
+                    <h6>Hubwagen abnehmen</h6>
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Bei Ihrer Qualitätskontrolle untersuchen Sie hauptsächlich, ob Ihre Sonderwünsche zu Ihrer Zufriedenheit erfüllt wurden. Ansonsten muß eine Abnahme für Sie - wie alles andere auch - schnell gehen.
                 </span>
             </div>
         </li>
@@ -380,7 +430,7 @@
     </ul>
 
     {% elif request.user|has_group:"customer 3" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Kunde 3 (K3)</div>
@@ -402,8 +452,16 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Hubwagen bestellen</h6>
+                    Während des Spiels bestellen Sie mehrere Hubwagen in unterschiedlichen Ausführungen. Zu welchen Zeitpunkten Sie bestellen, entscheiden Sie selbst. Nur zu Beginn des Spiels sollten Sie schnell und ohne lange Diskussionen bei JOGA bestellen. Bestellen Sie jeweils 1-3 Hubwagen ihrer Wahl. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben.<p></p>
+                    Verlangen Sie für die Aufträge die folgenden Lieferzeiten: ca. 30 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so lassen Sie sich genau erklären, wieso JOGA soviel Zeit braucht. <p></p>
+
+                    <h6>Bestellung überwachen</h6>
+                    Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer an oder schreiben Sie ihm eine Nachricht, um ihn über den Auftragsstatus zu befragen. Lassen Sie sich dabei genau erklären, welchen Status der Auftrag gerade hat. Übertreiben Sie es damit aber nicht.<p></p>
+
+                    <h6>Hubwagen abnehmen</h6>
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Allerdings quittieren Sie erst, nachdem Sie den Hubwagen einer ausführlichen Qualitätskontrolle unterzogen haben. Auch bei kleinen Mängeln nehmen Sie das Produkt nicht an und senden es zurück.
                 </span>
             </div>
         </li>
@@ -423,7 +481,7 @@
     </ul>
 
     {% elif request.user|has_group:"supplier 100" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Lieferant 100 (L1)</div>
@@ -443,8 +501,45 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Kundenbetreuung und Verkauf</h6>
+                    Sie erhalten vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH leere Behälter für die Teile T1 bis T5. Die leeren Behälter gelten für Sie als Bestellauftrag. Tauschen Sie die leeren Behälter sofort gegen volle Behälter mit den jeweiligen Teilen aus. Senden Sie die vollen Behälter über das Team Interne Dienstleistungen (IDL) an die JOGA GmbH (Team Produktionsdienstleistungen) zurück.<p></p>
+                    Da Sie sich aufgrund Ihrer äußerst günstigen Preise keine eigene Qualitätskontrolle leisten können, legen Sie für die Teile T1, T2 und T5 bei jeder zweiten Lieferung jeweils ein fehlerhaftes Teil bei. <p></p>
+                    In jedem Behälter können nur eine gewisse Anzahl von Teilen transportiert werden:<p></p>
+
+                    <p> <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Bezeichnung</th>
+                                    <th>Anzahl Teile pro Behälter</th>
+                                </tr>
+                            </thead>
+                                    <!-- Tabellenzeilen -->
+                                    <tbody id="itembody">
+                                    <tr>
+                                        <td>T1 Welle 80</td>
+                                        <td>5 (inkl. Fehlteil)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T2 Welle 130</td>
+                                        <td>5 (inkl. Fehlteil)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T3 Strebe 230</td>
+                                        <td>6 (keine Fehlteile)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T4 Strebe 280</td>
+                                        <td>6 (keine Fehlteile)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T5 Rad</td>
+                                        <td>7 (inkl. Fehlteil)</td>
+                                    </tr>
+                                    </tbody>
+                        </table> 
+                    </div></p>
+                    Führen Sie eine Liste, in die Sie die Anzahl der jeweils gelieferten Teile und die Lieferzeit eintragen. 
                 </span>
             </div>
         </li>
@@ -453,7 +548,7 @@
                 <div style="font-weight: bold;">Störfälle</div>
             </div>
             <div class="collapsible-body">
-                <span>Informieren Sie das Team Produktionsdienstleistungen PDL der JOGA GmbH über Ihre Produkte. Weisen Sie auf die Zuverlässigkeit und das Preis-/Leistungsverhältnis Ihrer Angebote hin.
+                <span>Informieren Sie das Team Produktionsdienstleistungen (PDL) der JOGA GmbH über Ihre Produkte. Weisen Sie auf die Zuverlässigkeit und das Preis-/Leistungsverhältnis Ihrer Angebote hin.
                     <p></p>
                     Falls Ihr Vorrat bei einem Teil (z.B. T1) erschöpft ist, versuchen Sie in Rücksprache mit dem Team Produktionsdienstleistungen (PDL) das größere/kleinere Teil (T2) zu verkaufen.                     
                 </span>
@@ -462,7 +557,7 @@
     </ul>
 
     {% elif request.user|has_group:"supplier 200" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Lieferant 200 (L2)</div>
@@ -482,8 +577,53 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Lieferungen</h6>
+                    Sie liefern C-Teile (Normteile) in Gebindeeinheiten mit konstanten Mengen je Behälter direkt in die Produktion der JOGA GmbH.<p></p> 
+                    Da Sie sich aufgrund Ihrer äußerst günstigen Preise keine eigene Qualitätskontrolle leisten können, legen Sie für die Teile T7, T8 und T9 bei jeder Lieferung jeweils eine bestimmte Anzahl fehlerhafter Teile bei. Außerdem können in jedem Behälter nur eine gewisse Anzahl von Teilen transportiert werden:
+
+                    <p> <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Bezeichnung</th>
+                                    <th>Anzahl Teile/ Behälter</th>
+                                    <th>gute Teile</th>
+                                    <th>fehlerhafte Teile</th>
+                                </tr>
+                            </thead>
+                                    <!-- Tabellenzeilen -->
+                                    <tbody id="itembody">
+                                    <tr>
+                                        <td>T6 Hülse Hubelement</td>
+                                        <td>5</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T7 Wellenhülse</td>
+                                        <td>10</td>
+                                        <td>9</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T8 Schraube M5x20</td>
+                                        <td>15</td>
+                                        <td>13</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T9 Schraube M6 + Scheibe</td>
+                                        <td>5 + 5</td>
+                                        <td>4 + 5</td>
+                                        <td>1 + 0</td>
+                                    </tr>
+                                    </tbody>
+                        </table> 
+                    </div></p>
+
+                    <h6>Liefertermin</h6>
+                    Sie überprüfen alle 3 Minuten den Bestand an C-Teilen direkt beim Team Produktion (PRO) der JOGA GmbH. Leere Behälter werden von Ihnen sofort gegen volle Behälter gemäß der obigen Liefervorschrift ausgetauscht.<p></p>
+                    Führen Sie eine Liste, in die Sie die Anzahl der jeweils gelieferten Teile und die Lieferzeit eintragen.
                 </span>
             </div>
         </li>
@@ -494,14 +634,14 @@
             <div class="collapsible-body">
                 <span>Liefern Sie mal mehr fehlerhafte Teile als in der Liefervorschrift angegeben.
                     <p></p>
-                    Sagen Sie der JOGA einmal, dass Sie einen Engpaß bei den M5-Schrauben haben und dieses Teil nicht liefern können (auf Druck von JOGA sollten Sie dann aber doch einige Schrauben liefern).                                         
+                    Sagen Sie der JOGA einmal, dass Sie einen Engpass bei den M5-Schrauben haben und dieses Teil nicht liefern können (auf Druck von JOGA sollten Sie dann aber doch einige Schrauben liefern).                                         
                 </span>
             </div>
         </li>
     </ul>
 
     {% elif request.user|has_group:"supplier 300" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Lieferant 300 (L3)</div>
@@ -519,8 +659,14 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Bestellungen</h6>
+                    Da die bei Ihnen bezogenen Teile hochwertig sind, bezieht Ihr Kunde nur seinen jeweiligen exakten Bedarf. Sie wissen, dass kurzfristige Bedarfe Ihres Kunden an der Tagesordnung sind. Deshalb halten Sie immer ausreichend Bestand am Lager.<p></p>
+                    JOGA hat bei A-Teilen fast keine Lagerhandlung, so dass eine Lieferverzögerung die Produktion beeinträchtigen würde.<p></p>
+                    Bei Bestellungen erhalten Sie vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH eine Bedarfsmeldung per Nachricht mit einem festgelegten Liefertermin. Nach Erhalt einer Bedarfsmeldung legen Sie bei sich im System einen passenden Auftrag an.<p></p>
+
+                    <h6>Lieferungen</h6>
+                    Sie liefern termingerecht die angeforderten A-Teile (T10-T15) über das Team Interne Dienstleistungen (IDL) an das Team Produktionsdienstleistungen (PDL). In dem Zuge geben Sie den Auftrag in Ihrem System frei und informieren das Team Produktionsdienstleistung per Nachricht über die Lieferung. In der Nachricht teilen Sie mit, welche Bestellung von der Produktionsdienstleistung sich in welcher Transportbox befindet. Dafür geben Sie die Transportboxnummer, die unter dem Barcode steht, an.<p></p>
+                    Achten Sie darauf, daß Sie Ihre Transportbehälter vom Team Produktion PRO der JOGA wieder zurückbekommen.
                 </span>
             </div>
         </li>
@@ -529,7 +675,7 @@
                 <div style="font-weight: bold;">Störfälle</div>
             </div>
             <div class="collapsible-body">
-                <span>Informieren Sie den Einkäufer der JOGA GmbH über Ihre Produkte, insbesondere über Neuerungen und Weiterentwicklungen. Laden Sie hierzu einen Mitarbeiter des Teams Produktionsdienstleistungen PDL zu sich ein.
+                <span>Informieren Sie den Einkäufer der JOGA GmbH über Ihre Produkte, insbesondere über Neuerungen und Weiterentwicklungen. Laden Sie hierzu einen Mitarbeiter des Teams Produktionsdienstleistungen (PDL) zu sich ein.
                     <p></p>
                     Liefern Sie andere Teile als bestellt.
                     <p></p>
@@ -540,7 +686,7 @@
     </ul>
 
     {% elif request.user|has_group:"management" %}
-    <ul class="collapsible">
+    <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;"> Das Leitungsteam</div>
@@ -574,8 +720,42 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    <u><h6>Kundenbetreuung und Verkauf</h6></u>
-                    
+                    <h6>Programm- und Kapazitätsplanung (Sehr wichtig)</h6>
+                    Das Leitungsteam führt Besprechungen zur aktuellen Situation in der Produktion durch. Dabei geht es sowohl um die bestmögliche Auslastung der Kapazitäten, als auch um das Aufspüren und Beseitigen von Mängeln in der Produktion oder an den Produkten. Die Planungskonferenz versuchen Sie mindestens alle 2 Wochen (30 min.) durchzuführen. <p></p>
+
+                    <h6>Rahmenvorgabe</h6>
+                    Für die Gestaltungsspanne der Preise und Termine geben Sie vor Beginn des Spiels sowie alle zwei Wochen (30min.) eine Rahmenvorgabe an den Kundenservice:<p></p>
+
+                    <p> <div class="table-scrollable">
+                        <table id="itemtable">
+                                     <!-- Tabellenzeilen -->
+                                    <tbody id="itembody">
+                                    <tr>
+                                        <td>Preisrahmen:</td>
+                                        <td>+/- 15%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Termin</td>
+                                        <td>ca. 25 Minuten pro Hubwagen</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kapazitäten:</td>
+                                        <td>ca. 7 Hubwagen pro 30min/ 2 Wochen</td>
+                                    </tr>
+                                    </tbody>
+                        </table> 
+                    </div></p>
+                    Im weiteren Verlauf des Spiels können Sie die Rahmenvorgaben situativ ändern.<p></p> 
+
+                    <h6>Multimomentaufnahmen (Sehr wichtig)</h6>
+                    //noch ausfüllen!!!!!
+
+                    <h6>QM-Zertifizierung (wichtig)</h6>
+                    //noch ausfüllen!!!!!
+
+                    <h6>Ablauforganisation aufnehmen (nicht so wichtig)</h6>
+                    Sie sollen den Weg des Auftrages von der Auftragsannahme bis zur Auslieferung nachvollziehen und in einem Diagramm aufzeichnen. <p></p>
+                    Sie versuchen daher während des Spiels, einen oder mehrere Aufträge im Unternehmen zu verfolgen und den Ablauf in einem Diagramm darzustellen. Nutzen Sie hierfür das Formblatt Ablaufdiagramm und skizzieren Sie den Ablauf. 
                 </span>
             </div>
         </li>
