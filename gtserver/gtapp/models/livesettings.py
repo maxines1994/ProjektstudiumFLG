@@ -10,6 +10,7 @@ Usage: "LiveSettings.load()"
 class LiveSettings(models.Model):
     debugflag = models.BooleanField(default=True)
     timeactive = models.BooleanField(default=False)
+    phase_3 = models.BooleanField(default=False)
 
 
     def save(self, *args, **kwargs):

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max
 from gtapp.constants.groups import *
+from gtapp.models import LiveSettings
 
 
 # CustOrder von Joga und Bestellungen der Kunden
@@ -17,6 +18,7 @@ class Cust_order_create_view(CreateView):
     # Umleitung auf die Alter View
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
+        
         if self.request.user.groups.filter(name='customer 1').exists():
             form.instance.customer_id = 1
         elif self.request.user.groups.filter(name='customer 2').exists():
@@ -24,7 +26,7 @@ class Cust_order_create_view(CreateView):
         elif self.request.user.groups.filter(name='customer 3').exists():
             form.instance.customer_id = 3
 
-        if self.request.user.groups.filter(name=CUSTOMERS).exists():
+        if self.request.user.groups.filter(name='customers').exists():
             form.instance.external_system = True
 
         new_cust_order = form.save()
@@ -159,7 +161,7 @@ class Cust_order_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if (False):
+        if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name=C1).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=1)
