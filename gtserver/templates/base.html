@@ -52,7 +52,8 @@
             <li><a id="currenttime"><i class="material-icons left">today</i>Tag {{day}}</a>
             {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>{% endif %}
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
-            {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}"><i class="material-icons">notifications</i></a></li>{% endif %}
+            <!--<li><a class="dropdown-trigger-tasks" href="#" data-target='tasks'><i class="material-icons">notifications_outline</i></a></li>-->
+            {% if perms.gtapp.view_todo %}<li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;"><i class="material-icons">notifications_none</i></a></li>{% endif %}
           </ul>
           {% else %}
           <ul class="right">
@@ -66,7 +67,7 @@
 
     {% if user.is_authenticated %}
     <!-- Sidenav-->
-    <ul class="sidenav sidenav-fixed" id="sidenav" >
+    <ul class="sidenav sidenav-fixed sidenav-left" id="sidenav" >
       <li class="hide-on-med-and-down" style="height: 64px"></li>
       <li><div class="user-view">
         <div class="background">
@@ -96,6 +97,23 @@
     </ul>
     {% endif %}
 
+    {% if perms.gtapp.view_todo %}
+    <!-- Tasks-->
+    <ul id="tasks" class="sidenav">
+      <li class="hide-on-med-and-down" style="height: 64px"></li>
+      {#<li><a class="sidenav-close"><i class="material-icons">arrow_back</i>ZURÜCK</a></li>#}
+      <li><a href="{% url 'tasks' %}">Aufgabenübersicht öffnen</a></li>
+      <li><div class="divider"></div></li>
+      <li><a class="subheader">Mir zugewiesen</a></li>
+      <li id="tasks_user">
+      </li>
+      <li><div class="divider"></div></li>
+      <li><a class="subheader">Nicht zugewiesen</a></li>
+      <li id="tasks_group">
+      </li>
+    </ul>
+    {% endif %}
+
     <!-- Content-->
     {% block overwritebody %}
     <main {% if user.is_authenticated %}class="loggedin"{% endif %}>
@@ -112,30 +130,99 @@
     {% endblock %}
 
     <!-- Scripts-->
-    <script type="text/javascript">
+    <script>
         $(document).ready(function(){
-          $('.sidenav').sidenav();
-          $(".dropdown-trigger").dropdown();
+          $('.sidenav-left').sidenav();
+          $('.dropdown-trigger').dropdown();
+          $('.collapsible').collapsible();
+
+          {% if perms.gtapp.view_todo %}
+          var options = {
+            'edge': 'right',
+            'onOpenStart': getTasks
+          }
+          M.Sidenav.init($("#tasks"), options);
+          {% endif %}
         });
-    </script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        setInterval(getasyncinformation, 5000);
-      });
-      function getasyncinformation(){
+
+        {% if perms.gtapp.view_todo %}
+        function getTasks(){
           var request = new XMLHttpRequest();
-          request.open("GET","/api/");
+          request.open("GET","{% url 'api_tasks' %}");
           request.addEventListener('load', function(event) {
             if (request.status >= 200 && request.status < 300) {
               var obj = JSON.parse(request.responseText);
-              // Werte setzen
-              $('#currenttime')[0].innerHTML = '<i class="material-icons left">today</i>Tag ' + obj['time']
+              // Nicht zugewiesen
+              var out = '';
+              if (obj.tasks_group.length>0){
+                for(let i=0; i<obj.tasks_group.length; i++){
+                  task = obj.tasks_group[i];
+                  out += '<li class="no-padding"><ul class="collapsible collapsible-accordion"><li>\
+                    <a class="collapsible-header"><i class="material-icons">expand_more</i>' + task.title + '</a>\
+                    <div class="collapsible-body"><ul>\
+                        <li><a href=""><i class="material-icons left">info</i>' + task.ref + '</a></li>\
+                        <li><a href="/tasks_assign/' + task.id + '/"><i class="material-icons left">launch</i>Mir zuweisen</a></li>\
+                        <li><a href="/tasks_detail/' + task.id + '/"><i class="material-icons left">subject</i>Detailseite aufrufen</a></li>\
+                      </ul></div>\
+                  </li></ul></li>';
+                }
+                $('#tasks_group')[0].innerHTML = out;
+              } else {
+                $('#tasks_group')[0].innerHTML = '<li><a><i class="material-icons left">done_all</i>Keine</a></li>';
+              }
+              // Mir zugewiesen
+              out = '';
+              if (obj.tasks_user.length>0){
+                for(let i=0; i<obj.tasks_user.length; i++){
+                  task = obj.tasks_user[i];
+                  out += '<li class="no-padding"><ul class="collapsible collapsible-accordion"><li>\
+                    <a class="collapsible-header"><i class="material-icons">expand_more</i>' + task.title + '</a>\
+                    <div class="collapsible-body"><ul>\
+                        <li><a href=""><i class="material-icons left">info</i>' + task.ref + '</a></li>\
+                        <li><a href="/tasks_finish/' + task.id + '/"><i class="material-icons left">done</i>Fertig</a></li>\
+                        <li><a href="/tasks_detail/' + task.id + '/"><i class="material-icons left">subject</i>Detailseite aufrufen</a></li>\
+                      </ul></div>\
+                  </li></ul></li>';
+                }
+                $('#tasks_user')[0].innerHTML = out;
+              } else {
+                $('#tasks_user')[0].innerHTML = '<li><a><i class="material-icons left">done_all</i>Keine</a></li>';
+              }
+              $('.collapsible').collapsible();
             } else {
               console.warn(request.statusText, request.responseText);
             }
           });
           request.send();
         }
+        {% endif %}
+            
+    </script>
+    <script>
+      $(document).ready(function(){
+        getStatus();
+        setInterval(getStatus, 10000);
+      });
+      function getStatus(){
+        var request = new XMLHttpRequest();
+        request.open("GET","{% url 'api_status' %}");
+        request.addEventListener('load', function(event) {
+          if (request.status >= 200 && request.status < 300) {
+            var obj = JSON.parse(request.responseText);
+            $('#currenttime')[0].innerHTML = '<i class="material-icons left">today</i>Tag ' + obj['time'];
+
+            {% if perms.gtapp.view_todo %}
+            if (obj['has_unassigned']) $("#notificationicon")[0].innerHTML='<i class="material-icons">notifications_active</i>';
+            else $("#notificationicon")[0].innerHTML='<i class="material-icons">notifications_none</i>';
+            {% endif %}
+
+          } else {
+            console.warn(request.statusText, request.responseText);
+          }
+        });
+        request.send();
+      }
+      
     </script>
     {% block scripts %}
     {% endblock %}
