@@ -20,18 +20,18 @@
 
 <p> 
     {% if step == 1 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons left">chevron_left</i></a>
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons left">chevron_left</i></a>
     {% endif %}
     {% if step != 1 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons left">chevron_left</i></a>  
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons left">chevron_left</i></a>  
     {% endif %}
     {% if step != 8 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons">chevron_right</i></a> 
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons">chevron_right</i></a> 
     {% endif %}
     {% if step == 8 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons">chevron_right</i></a>
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons">chevron_right</i></a>
     {% endif %}
-    <a href="/Production_steps_3D_Models/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> 3D-Modell</a>
+    <a href="/production_steps_3D_models/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> 3D-Modell</a>
 </p>
 
 <!-- Tabellen Kopfzeile -->

@@ -3,7 +3,7 @@ from gtapp.views import change_user_view, change_user_to_view, get_async_informa
 from gtapp.views import binView, inboxView, outboxView, msgWriteView, delete_message_view, msgDetailsView, add_order_view
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_edit,tasks_finish, tasks_list_finished_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
 from gtapp.views.stdViews import home_information_pages
-from gtapp.views.ProductionViews import Production_steps, Production_steps_single, Production_steps_3D_Models
+from gtapp.views.ProductionViews import production_steps, production_steps_single, production_steps_3D_models
 from gtapp.views.CustComplaintViews import Cust_complaint_view, Cust_complaint_create_view, Cust_complaint_alter_view, Cust_complaint_delete_view, Cust_complaint_det_create_view, Cust_complaint_det_alter_view, Cust_complaint_det_delete_view
 from gtapp.views.SuppOrderViews import Supp_order_view, Supp_order_create_view, Supp_order_alter_view, Supp_order_delete_view, Supp_order_det_create_view, Supp_order_det_alter_view, Supp_order_det_delete_view
 from gtapp.views.SuppComplaintViews import Supp_complaint_view, Supp_complaint_create_view, Supp_complaint_alter_view, Supp_complaint_delete_view, Supp_complaint_det_create_view, Supp_complaint_det_alter_view, Supp_complaint_det_delete_view
@@ -46,9 +46,9 @@ urlpatterns = [
     path('cust_order_det/alter/<int:id>/', Cust_order_det_alter_view.as_view(), name="cust_order_det_alter"),
     path('cust_order_det/delete/<int:id>/', Cust_order_det_delete_view.as_view(), name="cust_order_det_delete"),
 
-    path('Production_steps', Production_steps, name="Production_steps"),
-    path('Production_steps_single/<str:product>/<int:step>', Production_steps_single.as_view(), name="Production_steps_single"),
-    path('Production_steps_3D_Models/<str:product>/<int:step>', Production_steps_3D_Models.as_view(), name="Production_steps_3D_Models"),
+    path('production_steps', production_steps, name="production_steps"),
+    path('production_steps_single/<str:product>/<int:step>', production_steps_single.as_view(), name="production_steps_single"),
+    path('production_steps_3D_models/<str:product>/<int:step>', production_steps_3D_models.as_view(), name="production_steps_3D_models"),
     
     path('cust_complaint/', Cust_complaint_view.as_view(), name="cust_complaint"),
     path('cust_complaint/create/', Cust_complaint_create_view.as_view(), name='cust_complaint_create'),

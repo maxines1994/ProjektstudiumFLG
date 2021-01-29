@@ -11,20 +11,20 @@ import json
 
 # Anlegen von Views mit dictionary TITEL und Markierung für den User wo er sich gerade befindet.
 
-def Production_steps (request):
+def production_steps (request):
     c = get_context("Produktionsschritte","Produktionsschritte")
-    return render(request, "ProductionSteps.html", c)
+    return render(request, "productionsteps.html", c)
 
-class Production_steps_single(TemplateView):
-    template_name = "ProductionStepsSingle.html"
+class production_steps_single(TemplateView):
+    template_name = "productionstepssingle.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['productionsteps_list']= ProductionSteps.objects.all()
         return context
 
-class Production_steps_3D_Models(TemplateView):
-    template_name = "ProductionSteps3DModels.html"
+class production_steps_3D_models(TemplateView):
+    template_name = "productionsteps3Dmodels.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
