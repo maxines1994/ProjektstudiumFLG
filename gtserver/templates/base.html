@@ -78,6 +78,7 @@
       </div></li>
       <li><a href="{% url 'home' %}">Startseite</a></li>
       {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
+      <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == 'customer' %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
@@ -103,6 +104,8 @@
         {% block content %}
         {% endblock %}
       </div>
+      {% block containerless_content %}
+      {% endblock%}
     </main>
     {% endblock %}
 
