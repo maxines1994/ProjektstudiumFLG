@@ -104,8 +104,10 @@
         {% block content %}
         {% endblock %}
       </div>
+      {% if user.is_authenticated %}
       {% block containerless_content %}
       {% endblock%}
+      {% endif %}
     </main>
     {% endblock %}
 
