@@ -59,7 +59,7 @@ class Todo(GtModel):
     def set_todo_supp(cls, order, number, day):
         mylist = list(Todo.objects.filter(supp_order_id = order,todo_type_id=number))
         if not mylist:
-                Todo.objects.create(supp_order_id=order, todo_type_id=number, active = 1, start_on= day)
+                Todo.objects.create(supp_order=order, todo_type_id=number, active = 1, start_on= day)
         else:
             pass  
     
@@ -68,6 +68,6 @@ class Todo(GtModel):
     def set_todo_supp_det(cls, orderdet, number, day):
         mylist = list(Todo.objects.filter(supp_order_det_id = orderdet,todo_type_id=number))
         if not mylist:
-                Todo.objects.create(supp_order_det_id=orderdet, todo_type_id=number, active = 1, start_on= day)
+                Todo.objects.create(supp_order_det=orderdet, todo_type_id=number, active = 1, start_on= day)
         else:
             pass
