@@ -1,5 +1,5 @@
 from django.urls import path, include
-from gtapp.views import change_user_view, change_user_to_view, get_async_information
+from gtapp.views import change_user_view, change_user_to_view, get_api_status, get_api_tasks
 from gtapp.views import binView, inboxView, outboxView, msgWriteView, delete_message_view, msgDetailsView, add_order_view
 from gtapp.views import home_view, tasks_view, tasks_list_assigned_view, tasks_edit,tasks_finish, tasks_list_finished_view, tasks_list_notassigned_view, Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view, Tasks_detail_view, tasks_assign_to_me_view, tasks_share_to_team_view
 from gtapp.views.stdViews import home_information_pages
@@ -13,7 +13,8 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('home_information_pages/<str:info>/', home_information_pages.as_view(), name="home_information_pages"),
 
-    path('api/', get_async_information, name="apicall"),
+    path('api/status/', get_api_status, name="api_status"),
+    path('api/tasks/', get_api_tasks, name="api_tasks"),
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/change_user/', change_user_view, name='change_user'),
