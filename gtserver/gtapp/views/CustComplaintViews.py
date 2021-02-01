@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import CustComplaint, CustComplaintDet, Article, CustOrder, CustOrderDet
 from gtapp.forms import Cust_complaint_form, Cust_complaint_det_form
 from gtapp.models import LiveSettings
+from gtapp.constants import *
 
 class Cust_complaint_create_view(CreateView):
     template_name = "CustComplaintForm.html"

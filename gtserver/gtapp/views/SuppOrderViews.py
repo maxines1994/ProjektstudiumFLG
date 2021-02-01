@@ -5,7 +5,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock, Todo
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf,Supp_order_det_form
 from gtapp.models import LiveSettings
-from gtapp.constants.groups import *
+from gtapp.constants import *
 from gtapp.models import Timers
 
 

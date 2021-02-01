@@ -6,6 +6,7 @@ from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder
 from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
 from django import forms
 from gtapp.models import LiveSettings
+from gtapp.constants import *
 
 
 class Supp_complaint_create_view(CreateView):

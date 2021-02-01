@@ -7,7 +7,7 @@ from gtapp.models import CustOrder, CustOrderDet, Todo, Timers
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max
-from gtapp.constants.groups import *
+from gtapp.constants import *
 from gtapp.models import LiveSettings
 
 

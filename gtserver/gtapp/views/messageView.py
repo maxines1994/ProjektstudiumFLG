@@ -6,6 +6,7 @@ from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_f
 from gtapp.models import MessageUser, Message, Timers, CustOrder, CustOrderDet
 from django.contrib.auth.models import Group, User
 import json
+from gtapp.constants import *
 
 
 class inboxView(TemplateView):
