@@ -57,12 +57,14 @@ def box_search_view(request):
             pass
             
     else:
-        pass
+        return render(request, "box.html")
 
     if boxno_found == 1: 
         return HttpResponseRedirect(reverse("tasks_notassigned"))
     else:
-        return render(request, "box.html")
+        c = {}
+        c["FEHLER"] = 1
+        return render(request, "box.html",c)
 
 #Status und Todo setzten
 def set_status_todo (request, **kwargs):

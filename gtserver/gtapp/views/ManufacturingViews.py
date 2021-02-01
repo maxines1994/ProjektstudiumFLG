@@ -7,6 +7,7 @@ from gtapp.constants import *
 from django.forms import modelformset_factory, ModelChoiceField, NumberInput, Select
 from gtapp.forms import formset_goods_cust, formset_goods_cust_c, formset_goods_supp, formset_goods_supp_c
 
+
 def manufacturing_list_view(request):
     c = {}
     c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False,status='2')
