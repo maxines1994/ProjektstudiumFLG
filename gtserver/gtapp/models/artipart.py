@@ -1,5 +1,5 @@
 from django.db import models
-from . import GtModel, Status, Article, Part
+from . import GtModel, Article, Part
 
 class ArtiPart(GtModel):
     """

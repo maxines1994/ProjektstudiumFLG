@@ -12,16 +12,12 @@ class Migration(migrations.Migration):
     atomic = False
         
     def insert_customers(apps, schema_editor):
-        
-        defaultCustomerStatus = Status.objects.get(code=CUSTOMER_ACTIVE,table='CUSTOMER')
-        
+                
         Customer.objects.create(name='K100')
         Customer.objects.create(name='K200')
         Customer.objects.create(name='K300')
 
     def insert_suppliers(apps, schema_editor):
-        
-        defaultSupplierStatus = Status.objects.get(code=SUPPLIER_ACTIVE,table='SUPPLIER')
         
         Supplier.objects.create(name='L100')
         Supplier.objects.create(name='L200')
@@ -29,7 +25,6 @@ class Migration(migrations.Migration):
 
     def insert_parts(apps, schema_editor):
 
-        defaultPartStatus = Status.objects.get(code=PART_ACTIVE,table='PART')
         supplier_L100 = Supplier.objects.get(name='L100')
         supplier_L200 = Supplier.objects.get(name='L200')
         supplier_L300 = Supplier.objects.get(name='L300')    
@@ -66,9 +61,7 @@ class Migration(migrations.Migration):
 
 
     def insert_articles(apps, schema_editor):
-       
-        defaultArticleStatus = Status.objects.get(code=ARTICLE_ACTIVE,table='ARTICLE')
-                  
+                         
         mobStandard150  = Article(article_no=1, description='Mob Standard 150')
         mobStandard200  = Article(article_no=2, description='Mob Standard 200')
         mobHigh150      = Article(article_no=3, description='High Mob 150')
@@ -334,8 +327,7 @@ class Migration(migrations.Migration):
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_translations'),
         ('gtapp', '0003_insert_usergroups'),
-        ('gtapp', '0005_insert_unknowns'),
-        ('gtapp', '0004_insert_statuses'),
+        ('gtapp', '0004_insert_unknowns'),
     ]
 
     operations = [
