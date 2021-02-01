@@ -2,5 +2,6 @@ from gtapp.views.stdViews import home_view, tasks_view, tasks_list_assigned_view
 from gtapp.views.authViews import change_user_view, change_user_to_view
 from gtapp.views.CustOrderViews import Cust_order_create_view, Cust_order_alter_view, Cust_order_det_create_view, Cust_order_det_alter_view, Cust_order_view, Cust_order_det_delete_view, Cust_order_delete_view
 from gtapp.views.messageView import binView, inboxView, outboxView, msgWriteView, msgDetailsView, delete_message_view, add_order_view
-from gtapp.views.ManufacturingViews import manufacturing_list_view, manufacturing_release_view, manufacturing_supporder_view, manufacturing_testing_view, manufacturing_stock_view
 from gtapp.views.apiViews import get_api_status, get_api_tasks
+from gtapp.views.ManufacturingViews import manufacturing_list_view, manufacturing_release_view, manufacturing_supporder_view, manufacturing_testing_view, manufacturing_stock_view, goods_receipt_view
+

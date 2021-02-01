@@ -8,10 +8,12 @@ class SuppOrder(Order):
     """   
     class Status(models.TextChoices):
 
-        DEFAULT                = '0', ('Standard')
-        BEING_ORDERED          = '1', ('Wird bestellt')
-        ORDERED                = '2', ('Bestellt')
-        DELIVERED              = '3', ('Geliefert')
+        DEFAULT                 = '0', ('Standard')
+        CAPTURED                = '1', ('Erfasst')
+        INVENTORY_OUTSTANDING   = '2', ('Bestandsprüfung ausstehend')
+        OUTSTANDING_DELIVERY    = '3', ('Lieferung an JOGA ausstehend')
+        DELIVERED               = '4', ('Geliefert')
+        ORDERED                 = '5', ("Bestellt")
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     
@@ -44,7 +46,7 @@ class SuppOrder(Order):
                         no_str = 'B-'+str(no)
                     else:
                         pass
-            #Kunden        
+            #Lieferanten        
             else:
                 mylist = list(SuppOrder.objects.filter(external_system = self.external_system,supplier_id=self.supplier_id).order_by('-id'))
                 if not mylist:
@@ -65,13 +67,5 @@ class SuppOrder(Order):
                         pass
             self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
-
-    def auto_needs(self):
-        cod = CustOrderDet.objects.get(pk=self.pk)
-        needs = list()
-        atpt = ArtiPart.objects.filter(article_id=cod.article.id, part__supplier_id=3)
-        for p in atpt:
-            needs.append((p.part, p.quantity))
-        return needs
     
     

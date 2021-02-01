@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+<!-- Title-->
+{% block title %}Boxnummer{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4>Boxnummer</h4>
+    
+    <form method="post" action= "{% url 'box_search_view' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title"><b>Boxnummer eintragen</b></span>
+                        <input id="boxnr" name="boxnr">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+$(document).ready(function () {
+        $("#boxnr").focus();
+});
+
+</script>
+{% if FEHLER %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        color = null;
+        rnd = Math.floor(Math.random()*8);
+        switch (rnd) {
+            case 0:
+                color = "red accent-3";
+                break;
+            case 1:
+                color = "pink darken-3";
+                break;
+            case 2:
+                color = "deep-purple";
+                break;
+            case 3:
+                color = "indigo lighten-1";
+                break;
+            case 4:
+                color = "teal darken-3";
+                break;
+            case 5:
+                color = "light-green accent-3";
+                break;
+            case 6:
+                color = "yellow";
+                break;
+            case 7:
+                color = "deep-orange";
+                break;
+        };
+
+        myFun = "rounded " + color;
+        M.toast({html: '<b>Boxnummer nicht eindeutig oder nicht gefunden!</b>',classes:myFun});
+    });
+</script>
+{% endif %}
+{% endblock %}

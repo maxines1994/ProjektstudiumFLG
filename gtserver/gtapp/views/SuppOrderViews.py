@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock
+from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock, Todo
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf,Supp_order_det_form
 from gtapp.models import LiveSettings
 from gtapp.constants.groups import *
@@ -26,6 +26,12 @@ class Supp_order_create_view(CreateView):
             form.instance.external_system = True
             
         new_supp_order = form.save()
+        
+        if self.request.user.groups.filter(name='supplier 300').exists():
+            Todo.set_todo_supp(new_supp_order, 20, Timers.get_current_day())
+        elif self.request.user.groups.filter(name='JOGA').exists():
+            Todo.set_todo_supp(new_supp_order, 19, Timers.get_current_day())
+        
 
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
 
@@ -57,6 +63,7 @@ class Supp_order_alter_view(UpdateView):
             supp_order=self.get_object().pk)
         context['supp_order_no'] = self.get_object().pk
         context["order_no"] = self.get_object().order_no
+        context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
         return context
 

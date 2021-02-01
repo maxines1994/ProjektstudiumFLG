@@ -7,3 +7,4 @@ class CustComplaint(Complaint):
     Dieses Model enthaelt die Kopfdaten von Kundenreklamationen
     """
     cust_order = models.ForeignKey(CustOrder,on_delete=models.CASCADE)
+

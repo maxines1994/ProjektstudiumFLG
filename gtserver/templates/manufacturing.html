@@ -25,9 +25,9 @@
             <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
             {% for m in manufacturing %}
                 <tr>
-                    <td>{{ m.cust_order }}{{ m }}</td>
+                    <td>{{ m.cust_order }}-{{ m.pos }}</td>
                     <td>{{ m.article }}</td>
-                    <td>{{ c.status }}</td>
+                    <td>{{ m.get_status_display }}</td>
                     <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{m.id}}'><i
                                 class="material-icons">more_vert</i></a></td>
                 </tr>
@@ -43,6 +43,7 @@
 <ul id='a{{m.id}}' class='dropdown-content'>
     <li><a href="{% url 'manufacturing_testing' m.id %}"><i class="material-icons">create</i>Bestandsreservierung</a></li>
     <li><a href="{% url 'manufacturing_release' m.id %}"><i class="material-icons">delete</i>Freigeben</a></li>
+    <li><a href="{% url 'cust_order_det_alter' m.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
 </ul>
 {% endfor %}
 {% endblock %}

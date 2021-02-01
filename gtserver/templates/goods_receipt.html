@@ -1,0 +1,62 @@
+{% extends "forms.html" %}
+{% load materializecss %}
+
+<!-- Title-->
+{% block title %}Wareneingang buchen{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h3>Wareneingang</h3>
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <form id="form" method="POST">
+          {% csrf_token %}
+          {{ day_form }}
+          {{ formset.management_form }}
+          {% for form in formset %}
+          <div class="row" style="margin-bottom: 0px;">
+            {% for field in form.visible_fields %}
+            <div class="col s3" style="padding: 0">
+              {{ field|materializecss }}
+            </div>
+            {% endfor %}
+            {% for field in form.hidden_fields %}
+            {{ field }}
+            {% endfor %}
+          </div>
+          {% endfor %}
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    $('input#input_text, textarea#textarea2').characterCounter();
+    $('select').formSelect();
+  });
+  $('form').on('submit', function() {
+    $('input, select').prop('disabled', false);
+});
+</script>
+{% endblock %}
