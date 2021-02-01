@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}
@@ -14,62 +15,720 @@
 
 <!-- Content-->
 {% block content %}
+<!-- Zurueck-Button wird nur gebraucht, wenn Stellenbeschreibung hinter Button auf d. Startseite
 <p>   </p>
-<a class="btn-flat" href="{% url 'home' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+<a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+-->
 
-<h4> Informationen über {% if info == 'Unternehmen' %} das {{info}} JOGA
-                        {% elif info == 'Planspiel' %} die Planspielphasen
-                        <p>{% elif info == 'Rolle' %} deine Stelle {{ user.groups.first.name_de }} </p> und deine {{info}} {{ user.username }}
+<h4> Informationen über  {% if info == 'Rolle' %} Ihre Stelle 
+                            {% if request.user|has_group:"customer service" %}
+                                Kundendienst
+                            {% elif request.user|has_group:"internal service" %}
+                                interne Dienstleistung
+                            {% elif request.user|has_group:"production service" %}
+                                Produktionsdienstleistung
+                            {% elif request.user|has_group:"management" %}
+                                Leitungsteam
+                            {% elif request.user|has_group:"production" %}
+            	                Produktion
+                            {% elif request.user|has_group:"customer 1" %}
+                                Kunde 1
+                            {% elif request.user|has_group:"customer 2" %}
+                                Kunde 2
+                            {% elif request.user|has_group:"customer 3" %}
+                                Kunde 3
+                            {% elif request.user|has_group:"supplier 100" %}
+                                Lieferant 100
+                            {% elif request.user|has_group:"supplier 200" %}
+                                Lieferant 200
+                            {% elif request.user|has_group:"supplier 300" %}
+                                Lieferant 300
+                            {% endif %}
+                        
                         {% endif %}
 </h4>
 
+<p></p>
 
+{% if info == 'Rolle' %}
+    {% if request.user|has_group:"customer service" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle Kundendienst (KD)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Kundenbetreuer Großkunden, Kundenbetreuer Spezialkunden, Versand, Fertigteilelager</span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle {{ user.username }}</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                {% if user.username == 'KD1' %}
+                    Sie sind seit acht Jahren bei der JOHA GmbH, die letzten vier Jahre davon in der Funktion als Teamleiter Kundendienst. Sie sind erfahren im Verkauf. Ihre Kunden versuchen Sie auf der Beziehungsebene für sich einzunehmen.
+                {% elif user.username == 'KD2' %}
+                    Sie sind im Verkauf ein Neuling. Sie überzeugen Ihre Kunden durch Begeisterung und logische Argumente. Bei den Verhandlungen der anderen Kundenbetreuer sind sie oft freiweillig mit dabei, um das Geschäft noch besser zu lernen.
+                {% elif user.username == 'KD3' %}
+                    Sie sind in ständiger Sorge um Ihren Arbeitsplatz. Gegebenenfalls sind sie gerade bei Ihrem Rechtsanwalt.
+                {% else %}
+                    Sie machen zur Zeit einen LKW-Führerschein, da die Kundenbetreuer zukünftig die Auslieferung der Ware an die Kunden durch das Team Kundendienst durchführen lassen wollen. "One team to the costumer" lautet die Devise. Gegebenenfalls sind Sie gerade in der Fahrschule.
+                {% endif %}
+                <p></p>Alle Kundenbetreuer bestreiten den Hauptteil Ihres Einkommens durch Provisionen. Alle Provisionen fließen in einen gemeinsamen Provisionstopf, der dann geteilt wird.
+            </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Kundenbetreuung und Verkauf</h6><p></p>
+                    Aufgabe des Kundendienstes ist sowohl das aktive Verkaufen, als auch die Kundenbetreuung. Der Kunde ist grundsätzlich König und sollte vom den Kundenbetreuern regelmäßig kontaktiert werden. Verkaufsverhandlungen finden meistens bei den Kunden vor Ort statt. Versuchen Sie nach „allen Regeln der Kunst“ Ihre Produkte zu verkaufen. Falls der Kunde extrem günstige Konditionen verlangt, holen Sie sich vor der Vertragsunterzeichnung lieber das „OK“ der Geschäftsleitung. <p></p>
+                    Die Aufträge der Kunden nehmen Sie im System unter "Aufträge" auf, indem Sie einen Auftrag erstellen. Dieser kann abgespeichert werden, um ihn später noch ändern zu können. Sind die Angaben des Kundenauftrages final, geben Sie den Auftrag frei, damit dieser in die Bearbeitung kommt. Im Anschluss informieren Sie den Kunden über eine Nachricht, dass sein Auftrag angelegt wurde.<p></p>
+                    Erkundigen Sie sich während der Bearbeitung des Kundenauftrages bei der Abteilung Produktionsdienstleistungen (PDL) nach dem aktuellen Stand des Auftrages. <p></p>
+                    Nach der Produktion des benötigten Hubwagens bekommen Sie den Hubwagen in einer Transportbox von dem Team Produktion (PRO). Für die Annahme des Hubwagens scannen Sie den Barcode auf der Transportbox oder geben manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein. <p></p>
+                    Der Transport von Teilen/ Produkten erfolgt vom Team Interne Dienstleistungen (IDL). Sprechen Sie das Team an. <br></br>
 
-{% if info == 'Unternehmen' %}
-<div class="col s12"></div>
-    <div class="card">
-        <div class="card-content">
-            <p><i class="medium material-icons" style="vertical-align: middle">business</i> </p>
-            <font size="+1"> 1933 als Werkstatt von Maschinenbau-Ingenieur Johann Garbade gegründet </font>
-            <br>   </br>
+                    <h6>Auslieferung der Ware an die Kunden</h6><p></p>
+                    Sie organisieren in Zusammenarbeit mit dem Mitarbeiter der Internen Dienstleistungen IDL den Versand der Hubwagen. Versuchen Sie zusammen mit dem Mitarbeiter der Internen Dienstleistungen IDL ein Verfahren für die Bewältigung dieser Aufgabe abzusprechen. <p></p>
+                    Da Sie keinen LKW besitzen, können Sie das Produkt nicht selber ausliefern.<p></p>
+                    Bedenken Sie, dass die Materiallogistik als interner Dienstleistung immer genügend Arbeit nachweisen muss, um nicht von einem externen Dienstleister verdrängt zu werden.<br></br>
 
-            <p><i class="medium material-icons" style="vertical-align: middle">person</i></p>
-            <font size="+1"> Familiengeführtes Unternehmen in der vierten Generation</font>
-            <br>   </br>
+                    <h6>Rücklieferung fehlerhafter Hubwagen</h6><p></p>
+                    Wenn Sie von einem Kunden die Information erhalten, dass ein Hubwagen nicht in Ordnung ist und der Kunde diesen reklamieren möchte, erstellen Sie eine Reklamation im System. Wie bei dem Auftrag gilt hier ebenso das Prinzip, dass die Reklamation erst in Bearbeitung kommt, wenn die Reklamation freigegeben wurde. Soll die Reklamation zunächst bearbeitbar bleiben, so speichern Sie die angelegte Reklamation ab anstatt diese sofort freizugeben. Nach der Freigabe informieren Sie Ihren Kunden per Nachricht über die erfolgreiche Weiterleitung des Reklamationsfalles. Ebenso kümmern Sie sich um den Transport des Hubwagens an die Produktion, indem Sie das Team Interne Dienstleistung hinzuziehen, da Sie ja keinen LKW besitzen.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Wenn es bei den Verhandlungen mit den Kunden eng wird, so gewähren Sie einmal mehr Rabatt, als es Ihnen von der Geschäftsleitung erlaubt wurde.
+                    Verlangen Sie auch einmal Unmögliches vom Team Produktion und verweisen Sie dabei auf den Kundenwunsch.
+                </span>
+            </div>
+        </li>
+    </ul>
 
-            <p><i class="medium material-icons" style="vertical-align: middle">shopping_basket</i></p>
-                <font size="+1"> <p>Das Produktsortiment begann mit Flaschenzügen und Hebezeugen.</p>1990 entstand nach Vergrößerungen des Unternehmens und nach Aktualisierungen der Produktion: die zeitgemäße Hub-technik, der zuverlässige Service, die aktuelle Unternehmensstruktur & ein zweckmäßiges Unternehmensgebäude</font>
-            <br>   </br>
+    {% elif request.user|has_group:"production service" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle Produktionsdienstleistung (PDL)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Einkäufer, Arbeitsvorbereitung, Rohteilelager </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle {{ user.username }}</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                {% if user.username == 'PDL1' %}
+                    Sie sind seit vielen Jahren mit dem Verkäufer von Lieferant L 300 freundschaftlich verbunden. Im letzten Sommer wurden Sie gemeinsam mit seiner Ehefrau sogar zu einem zweiwöchigen Florida-Urlaub eingeladen. Dies blieb nicht ohne Folgen...
+                {% elif user.username == 'PDL2' %}
+                    Sie sind stets sehr gut über das Unternehmen informiert und verfügt über einen großen Erfahrungsschatz. Mit großer Sorge betrachten Sie alle Aktivitäten des Leitungsteams, die auf Veränderungen ausgerichtet sind.
+                {% elif user.username == 'PDL3' %}
+                    Sie haben bereits Ihre Lehre bei JOGA absolviert. Sie finden Ihre Aufgabe großartig und sind stets mit viel Freude bei der Arbeit.
+                {% endif %}
+                <p></p>Bei der Kommunikation und den Verhandlungen mit den Lieferanten L 100, L200 und L 300 sind dem Team Produktionsdienstleistungen PDL die Termintreue und das Funktionieren des KANBAN-Systems sehr wichtig.
+            </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Bearbeitung von Fertigungsaufträgen</h6><p></p>
+                    Das Team Produktionsdienstleistung erhält von dem Team Kundendienst (KD) die Kundenaufträge. Das Team prüft, wie der Kundenauftrag in die Kapazitätsplanung der Produktion passt. Es informiert das Leitungsteam laufend über die Kapazitätssituation und mögliche Engpässe.<p></p>
+                    Für jeden Kundenauftrag werden die notwendigen A-Teile bestimmt (T10-T15) und auftragsbezogen über das System bestellt. Dafür legen Sie eine Bestellung mit Angabe der entsprechenden Teile und des Lieferanten L300 an. Anschließend informieren Sie den Lieferanten L300 über Ihre Bestellung, indem Sie eine Nachricht, deren Text die Angabe der bestellten Teile beinhaltet, verfassen.<p></p>
+                    Für den Transport von Teilen/ Produktion ist das Team Interne Dienstleistung (IDL) zuständig.<br></br>
 
-            <p></p><i class="medium material-icons" style="vertical-align: middle">build</i></p>
-                <font size="+1"> Spezialisierung auf die Konstruktion, die Herstellung und den Vertrieb von Hebegeräten für gewerbliche und industrielle Zwecke</font>
-            <br>   </br>
+                    <h6>Führen des Rohteilelagers</h6><p></p>
+                    Die bestellten Teile erhält das Team Produktionsdienstleistungen (PDL) in einer Transportbox von dem Lieferanten L300 über die Interne Dienstleistung. Für die Annahme der Teile scannen Sie den Barcode auf der Transportbox oder geben Sie manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein. Im Anschluss führen Sie eine Qualitätskontrolle durch. <p></p>
+                    Bei Mängeln erstellen Sie eine Reklamation im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
+                    Nachdem für einen Kundenauftrag alle A-Teile (T10-T15) vorliegen, werden diese in eine leere Transportbox gelegt und die Transportboxnummer im System im Kopf des Kundenauftrages angegeben. Der Kundenauftrag wird danach freigegeben und die gepackte Transportbox an die Produktion (über IDL) transportiert.<p></p>
+                    Eine geringe Anzahl von A-Teilen haben Sie im Lager, um "Lieferengpässe" auszugleichen.<p></p>
+                    Die B-Teile (T1-T5) werden durch ein KANBAN System vom Lieferanten L100 beschafft. Leere Transportbehälter für B-Teile senden Sie über das Team Interne Dienstleistungen an den Lieferanten L100. Dieser tauscht diese leeren Behälter sofort gegen volle aus. Die B-Teile liefern Sie durch ein KANBAN System an die Gruppe Produktion. Hierzu erhalten Sie vom Team Produktion leere Transportbehälter für B-Teile, die Sie unverzüglich gegen volle Behälter aus dem Rohteilelager austauschen. 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Geben Sie auch einmal defekte Teile an die Produktion weiter. <p></p>Geben Sie einmal einen Kunden-Auftrag über einen Hubwagen mit den Teilen für ein anderes Modell an das Team Produktion weiter.
+                </span>
+            </div>
+        </li>
+    </ul>
 
-            <p><i class="medium material-icons" style="vertical-align: middle">euro_symbol</i></p>
-                <font size="+1"> Umsatz in Höhe von 1,2 Millionen Euro (letzte Aktualisierung: 2020)</font>
-            <br>   </br>
+    {% elif request.user|has_group:"production" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle Produktion (PRO)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Fertigung und Montage, Qualitätssicherung </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle {{ user.username }}</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                {% if user.username == 'PRO1' %}
+                    Sie sind Schlossermeister und wurden als Teamleiter gewählt. Sie sind ein souveräner Mitarbeiter und behalten auch dann einen kühlen Kopf, wenn die Produktion am Kapazitätslimit arbeitet.
+                {% elif user.username == 'PRO2' %}
+                    Sie sind der Metallfacharbeiter-Geselle im Team und besuchen im Augenblick abends die Meisterschule. Sie wirken manchmal etwas demotiviert.
+                {% elif user.username == 'PRO3' %}
+                    Sie waren früher einmal bei der Qualitätssicherung. Sie verfolgen konsequent Ihr "Null-Fehler-Ziel". Sie verstehen sich sehr gut mit dem Qualitätsmanager aus dem Leitungsteam, bei dem Sie sich stets in ein gutes Licht rücken möchten.
+                {% elif user.username == 'PRO4' %}
+                    Sie sind Deutsch-Russe und kamen erst vor sechs Monaten nach Deutschland. Sie wurden auf Ihre Position angelernt und haben einen auf zwölf Monate befristeten Vertrag. Da Sie auf eine Festanstellung spekulieren, legen Sie sich besonders ins Zeug. Sie arbeiten schnell und zuverlässig.
+                {% endif %}
+                <p></p>Durch innerbetriebliche Qualifizierungsaufgaben können alle Mitarbeiter der Produktion die einzelnen Aufgaben bewältigen.
+            </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Fertigung und Montage</h6>
+                    Nach Eingang der Transportbox mit den auftragsbezogenen A-Teilen, scannen Sie den Barcode auf der Transportbox oder geben manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein, um den Bezug zum Kundenauftrag zu erhalten. Anschließend können Sie anhand der Anleitung zu den einzelnen Produktionsschritten den gewünschen Hubwagen bauen. <p></p>
+                    Fertige Hubwagen werden nach der Qualitätskontrolle in eine leere Transportbox gelegt. Die Transportboxnummer wird im System in den Kopf des Kundenauftrages eingegeben und der Kundenauftrag wird freigegeben. Die Transportbox wird an das Team Kundendienst (KD) geliefert. Für den Transport von Teilen/ Produkten ist das Team Interne Dienstleistungen (IDL) zuständig.<p></p>
+                    Die leeren Behälter für A-Teile (nur diese!) senden Sie unaufgefordert an den Lieferanten L300 zurück. <p></p> 
 
-            <p><i class="medium material-icons" style="vertical-align: middle">widgets</i></p>
-                <font size="+1"> Langjährig erfahrene, belastbare und solidarische Mitarbeiter stärken das Unternehmen</font>
-        </div>
-    </div>
-</div>
+                    <h6>Materialversorgung</h6>
+                    Ihren Materialbedarf an C-Teilen (T6-T9) decken Sie direkt beim Lieferant L200 durch ein einstufiges KANBAN-System. Der Lieferant L200 liefert Ihnen die C-Teile in gewissen Abständen durch den Austausch von Leerbehältern gegen volle Behälter. <p></p>
+                    Ihren Materialbedarf an B-Teilen (T1-T5) decken Sie im Team Produktionsdienstleistungen. Liefern Sie über das Team Interne Dienstleistungen leere B-Teilebehälter an das Team Produktionsdienstleistungen. Das Team Produktionsdienstleistungen liefert Ihnen die B-Teile durch den Austausch der Leerbehälter gegen volle Behälter.<p></p>
+                    A-Teile (T10-T15) erhalten Sie auftragsbezogen von dem Team Produktionsdienstleistung über Transportboxen, welche das Team Interne Dienstleistungen zu Ihnen liefert.
 
-{% elif info == 'Planspiel' %}
-<div class="col s12"></div>
-    <div class="card">
-        <div class="card-content">
-            <font size="+1"> Das Spiel erfolgt in drei Spielphasen. In jeder Phase erreicht die Durchführung eine weitere Digitalisierungsstufe, welche einen gewissen Grad an digitalisierten Prozessen und Tätigkeiten aufweist.
-            <br> </br>
-            Der Aufbau einer Phase kann der folgenden Grafik entnommen werden:
-            </font>
-            <img src="{% static 'img/Grafik_Homepage_Spielphase.svg' %}" width="100%" height="auto">
-        </div>
-    </div>
-</div>
+                    <h6>Qualitätskontrolle</h6>
+                    Bei fehlerhaften Teilen erfolgt eine Rückgabe der Teile an das Team Produktionsdienstleistung (A- und B-Teile) oder an den Lieferanten L300 (C-Teile). Hierzu erstellen Sie eine Reklamation im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie je nach Teil die PDL oder den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
+                    Geprüft werden die fertigen Hubwagen bevor sie an das Team Kundendienst geliefert werden. Werden hier Mängel festgestellt, so werden diese umgehend im eigenen Team beseitigt.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Geben Sie einmal einen fehlerhaften Hubwagen an das Team Kundendienst weiter. Lassen Sie einmal völlig intakte Teile als fehlerhaft an das Team Produktionsdienstleistungen zurückgehen.
 
+                </span>
+            </div>
+        </li>
+    </ul>
 
-{% elif info == 'Rolle' %}
+    {% elif request.user|has_group:"internal service" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Stelle interne Dienstleistung (IDL)</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Materiallogistik </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Rolle der IDL</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Das Team Interne Dienstleistungen IDL ist ein Profit-Center. Seine Kunden sind die anderen Teams. Die Dienstleistungen der Materiallogistik müssen den anderen Teams daher aktiv angeboten werden, damit diese sie auch annehmen. Das Team Interne Dienstleistungen (IDL) sollte daher sehr zuverlässig sein und bestrebt sein, den Transport der Materialboxen der Teams untereinander am Team Interne Dienstleistungen IDL vorbei zu verhindern.
+                    <p></p>
+                    Die schnelle Materiallogistik ist eine wichtige Funktionen im Unternehmen. Durch die zuverlässige und schnelle Weiterleitung der gesamten Materialien intern und extern unterstützt das Team Interne Dienstleistungen das Erreichen eines reibungslosen Materialflusses.
+                    <p></p>
+                    Um die Kunden zu halten, pflegen die Mitarbeiter der Internen Dienstleistungen zu allen Kollegen einen guten Kontakt. Besonders eng arbeiten Sie mit dem Team Kundendienst zusammen. 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Transport von Teilen und Produkten</h6>
+                    Machen Sie mindestens alle 5 Minuten einen Rundgang zu den Teams Produktionsdienstleistungen (PDL), Produktion (PRO) und zu den zwei Lieferanten L100 und L300. Fragen Sie nach Transportaufträgen. Der Lieferant L200 liefert die C-Teile direkt in die Produktion.<p></p>
+                    Ebenfalls sind Sie für die Auslieferung der Produkte an den Kunden zuständig. Setzen Sie sich hierfür mit dem Team Kundendienst (KD) in Verbindung. Achten Sie bei der Auslieferung darauf, dass der Kunde den Erhalt der Ware quittiert und lassen Sie ein zweites Exemplar davon als Lieferschein beim Kunden.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Erfahrungsgemäß müssen Sie während des Spiels mit Störfallen (Störungen im Ablauf) rechnen. Bei Störfällen informieren Sie sofort die Geschäftsführung. <p></p>
+                    Wenn Sie platzierte Transportboxen auffinden, die nicht Sie dort abgestellt haben, so bedeutet dies, dass Ihre Kollegen selbst Boxen wegbringen. Da Ihnen das nicht gefällt, lassen Sie solche Boxen einfach mal verschwinden, damit jeder sieht, dass der Materialtransport bei Ihnen zuverlässiger ist.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"customer 1" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Kunde 1 (K1)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie sind bereits seit vielen Jahren Kunde bei JOGA Hubtechnik GmbH. Eine gute persönliche Beziehung zu dem Verkäufer von JOGA und Ihnen ist Ihnen sehr wichtig und Sie tun alles, um diese zu pflegen. 
+                    <p></p>
+                    Ein gutes Gespräch bedeutet für Sie, dass Sie die meiste Zeit über Privates reden, um am Ende des Gespräches in einigen kurzen Sätzen das Geschäftliche abzuhandeln. Eine gute Beziehung ist Ihnen wichtiger als ein niedriger Preis.
+                    <p></p>
+                    Solange Ihnen der Verkäufer sympathisch ist, sind Sie in allen Verhandlungen sehr kulant. Wenn Sie allerdings merken, dass Sie dem Verkäufer völlig egal sind, und er nur auf das schnelle Geschäft aus ist, so sagen Sie ihm offen, was Sie von ihm erwarten. Zeigt er keine Einsicht, so zögern Sie nicht, mit der JOGA-Geschäftsführung zu sprechen.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Hubwagen bestellen</h6>
+                    Während des Spiels bestellen Sie insgesamt 5-7 Hubwagen in unterschiedlichen Ausführungen. Sie bestellen immer nur einen Hubwagen pro Auftrag. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben.<p></p>
+                    Verlangen Sie für die Aufträge die folgende Lieferzeit: ca. 20-25 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so sind Sie gegebenenfalls kompromissbereit. <p></p>
+                    Versuchen Sie, so wenig wie möglich zu bezahlen.<p></p>
+
+                    <h6>Bestellung überwachen</h6>
+                    Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer zu sich, um ihn über den Auftragsstatus zu befragen. Auch hier möchten Sie am liebsten mit dem Verkäufer über Gott und die Welt sprechen, bevor Sie am Ende des Gespräches kurz nach dem Auftrag fragen.<p></p>
+                    Sie erwarten, dass ein zugesagter Liefertermin in jedem Fall eingehalten wird. Insbesondere, wenn Sie dem Verkäufer beim Liefertermin bereits entgegengekommen waren. Nicht eingehaltene Termine werten Sie als Vertrauensbruch und werden daraufhin sehr böse. Drohen Sie mit Konventionalstrafen. <p></p>
+                    
+                    <h6>Hubwagen annehmen</h6>
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Im Vertrauen auf die gute Qualität von JOGA-Hubwagen führen Sie die Qualitätskontrolle bei der Lieferung nur sehr oberflächlich durch. Wenn Sie allerdings später einen Mangel feststellen, so wenden sich an die JOGA-Geschäftsführung und erwarten dann eine besonders kulante Reaktion von JOGA - schließlich sind Sie seit Jahren Stammkunde.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Versuchen Sie stets, so viel Zeit des Verkäufers wie möglich für sich zu beanspruchen - schließlich sind Sie Stammkunde!
+                    Versuchen Sie eine Terminänderung durchzusetzen (5 Minuten schneller). Bei Problemen richten Sie sich an die Geschäftsführung.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"customer 2" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Kunde 2 (K2) </div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie sind als Einkäufer des Kunden K2 sehr produktorientiert. Ständig haben 
+                    Sie gute Ideen über Modifikationen von Hubwagen und möchten vom zuständigen JOGA-Verkäufer immer möglichst schnell wissen, ob Ihre Vorstellungen zu realisieren sind und wenn ja, wann und zu welchem Preis. Oft haben Sie schon die nächste Idee, bevor Sie auf Ihre vorherige Anfrage einen Preis erfahren haben. 
+                    <p></p>
+                    Sie sind ein sehr spontaner, flexibler Mensch. In Verhandlungen sprechen Sie stets ganz offen aus, was Sie gerade denken und legen dabei ein hohes Tempo vor. Sie denken laut und schnell, so daß Ihre Gesprächspartner manchmal Probleme haben, Ihren Gedanken zu folgen.
+                    <p></p>
+                    Preisverhandlungen sind für Sie nicht so wichtig, sofern JOGA nur möglichst flexibel und kundenorientiert auf Ihre Sonderwünsche eingeht. Sie reagieren sehr empfindlich, wenn Zusagen nicht erfüllt werden. Insbesondere wenn JOGA einen zugesagten Liefertermin nicht einhalten kann, werden Sie zu einem unangenehmen Gesprächspartner.            
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Hubwagen bestellen</h6>
+                    Während des Spiels bestellen Sie in gewissen Abständen Hubwagen in unterschiedlichen Ausführungen (ca. 5-7 Bestellungen im Laufe des Spiels). Bei jeder Auftragserteilung bestellen Sie einen oder zwei Hubwagen. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.
+                    Bestellen Sie den ersten Hubwagen ohne große Verhandlungen und ohne Sonderwünsche. Wenn Sie nicht bestellen, kann JOGA auch nicht produzieren.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben. Manchmal suchen Sie Ihn aber auch direkt auf.<p></p>
+                    Verlangen Sie für die Aufträge die folgende Lieferzeit: ca.30 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, verlangen Sie mehr Flexibilität von JOGA.<p></p>
+                    Bei einigen Aufträgen an JOGA haben Sie Sonderwünsche (nach ca. 30 Minuten Spielzeit). Sonderwünsche sind z.B. ein Hubwagen ohne Räder, die Bestellung einer Baugruppe oder die Lieferung eines Hubwagens mit zwei Hubelementen.<p></p> 
+                
+                    <h6>Bestellung überwachen</h6>
+                    Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer oder schreiben Sie ihm eine Nachricht. Während des Auftragsdurchlaufs haben Sie bereits wieder neue Ideen gehabt. Fragen Sie den Verkäufer daher auch einmal, ob Sie Aufträge noch ändern können. Daraus resultierende längere Lieferzeiten tolerieren Sie.<p></p>
+                    Auch wenn Sie hart um die Lieferzeiten verhandelt haben - wirklich wichtig sind sie für Sie nicht. Es geht Ihnen mehr um das Prinzip. Eine neue Idee lässt einen laufenden Auftrag und seine Lieferzeiten manchmal unwichtig erscheinen.<p></p>
+                
+                    <h6>Hubwagen abnehmen</h6>
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Bei Ihrer Qualitätskontrolle untersuchen Sie hauptsächlich, ob Ihre Sonderwünsche zu Ihrer Zufriedenheit erfüllt wurden. Ansonsten muss eine Abnahme für Sie - wie alles andere auch - schnell gehen.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Versuchen Sie einmal, einen Auftrag, der sich bereits in der Produktion befindet, noch zu ändern. Erwarten Sie Flexibilität von JOGA. Jeder Sonderwunsch Ihrerseits ist für JOGA ein „Störfall“.
+                    <p></p>
+                    Bei Problemen richten Sie sich an die Geschäftsführung.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"customer 3" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Kunde 3 (K3)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Die Beziehung zum Verkäufer von JOGA ist Ihnen völlig egal. Als streng rational denkender Mensch treffen Sie Ihre Kaufentscheidung sehr sorgfältig. Bei einem Kauf möchten Sie sich gegen alle Eventualitäten absichern. Das Preis-/Leistungsverhältnis ist für Sie das ausschlaggebende Kaufkriterium. 
+                    <p></p>
+                    Sie erwarten von JOGA stets sehr günstige Preise. Die gekaufte Ware begutachten Sie besonders kritisch, um jeden eventuellen Mangel aufzudecken. Um sicher sein zu können, dass Liefertermine eingehalten werden, erkundigen Sie sich oft bei JOGA über den Auftragsstatus.
+                    <p></p>
+                    Am liebsten möchten Sie mit Ihrer Qualitätskontrolle bereits in der Produktion bei JOGA beginnen. Daher stellen Sie Ihrem zuständigen Verkäufer auch manchmal die Frage, von welchen Lieferanten JOGA seine Rohstoffe bezieht. 
+                    <p></p>
+                    Sie sind ein sehr penibler Mensch. Zusagen des JOGA-Verkäufers möchten Sie am liebsten immer schriftlich.          
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Hubwagen bestellen</h6>
+                    Während des Spiels bestellen Sie mehrere Hubwagen in unterschiedlichen Ausführungen. Zu welchen Zeitpunkten Sie bestellen, entscheiden Sie selbst. Nur zu Beginn des Spiels sollten Sie schnell und ohne lange Diskussionen bei JOGA bestellen. Bestellen Sie jeweils 1-3 Hubwagen Ihrer Wahl. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben.<p></p>
+                    Verlangen Sie für die Aufträge die folgenden Lieferzeiten: ca. 30 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so lassen Sie sich genau erklären, wieso JOGA soviel Zeit braucht. <p></p>
+
+                    <h6>Bestellung überwachen</h6>
+                    Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer an oder schreiben Sie ihm eine Nachricht, um ihn über den Auftragsstatus zu befragen. Lassen Sie sich dabei genau erklären, welchen Status der Auftrag gerade hat. Übertreiben Sie es damit aber nicht.<p></p>
+
+                    <h6>Hubwagen abnehmen</h6>
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Allerdings quittieren Sie erst, nachdem Sie den Hubwagen einer ausführlichen Qualitätskontrolle unterzogen haben. Auch bei kleinen Mängeln nehmen Sie das Produkt nicht an und senden es zurück.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie möchten über alles schriftliche Belege haben. Zusagen des Verkäufers akzeptieren Sie nur schriftlich. Lassen Sie sich noch einmal das Original einer Bestellung von Ihnen zeigen. Versuchen Sie bei dieser Gelegenheit, weitere Zusagen zu erhalten (z.B. über die Stabilität des Hubwagens etc.).
+                    <p></p>
+                    Fragen Sie, ob Sie eine Betriebsbesichtigung bei JOGA machen können.                     
+                    <p></p>
+                    Bei Problemen richten Sie sich an die Geschäftsführung.
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"supplier 100" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Lieferant 100 (L1)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie sind erst seit einem Jahr Lieferant der B-Teile (Teile mit mittlerem Wert) der JOGA GmbH. Ihre Bindung zum Kunden JOGA ist noch nicht so eng. Daher versuchen Sie, die mit JOGA vereinbarte KANBAN-Anlieferung der B-Teile so gut wie möglich zu realisieren, um als möglichst zuverlässiger Lieferant zu gelten. 
+                    <p></p>
+                    Im Augenblick sind Sie bei Gesprächen mit JOGA noch sehr kompromißbereit. Wenn Sie eines Tages eine zuverlässige Bindung zum Kunden haben, möchten Sie sich auf ihren Lorbeeren ausruhen.
+                    <p></p>
+                    Sie sind ein sehr spontaner Mensch und entwickeln immer wieder Ideen, wie Sie Ihren Wert für JOGA noch steigern können.                            
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Kundenbetreuung und Verkauf</h6>
+                    Sie erhalten vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH leere Behälter für die Teile T1 bis T5. Die leeren Behälter gelten für Sie als Bestellauftrag. Tauschen Sie die leeren Behälter sofort gegen volle Behälter mit den jeweiligen Teilen aus. Senden Sie die vollen Behälter über das Team Interne Dienstleistungen (IDL) an die JOGA GmbH (Team Produktionsdienstleistungen) zurück.<p></p>
+                    Da Sie sich aufgrund Ihrer äußerst günstigen Preise keine eigene Qualitätskontrolle leisten können, legen Sie für die Teile T1, T2 und T5 bei jeder zweiten Lieferung jeweils ein fehlerhaftes Teil bei. <p></p>
+                    In jedem Behälter können nur eine gewisse Anzahl von Teilen transportiert werden:<p></p>
+
+                    <p> <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Bezeichnung</th>
+                                    <th>Anzahl Teile pro Behälter</th>
+                                </tr>
+                            </thead>
+                                    <!-- Tabellenzeilen -->
+                                    <tbody id="itembody">
+                                    <tr>
+                                        <td>T1 Welle 80</td>
+                                        <td>5 (inkl. Fehlteil)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T2 Welle 130</td>
+                                        <td>5 (inkl. Fehlteil)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T3 Strebe 230</td>
+                                        <td>6 (keine Fehlteile)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T4 Strebe 280</td>
+                                        <td>6 (keine Fehlteile)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T5 Rad</td>
+                                        <td>7 (inkl. Fehlteil)</td>
+                                    </tr>
+                                    </tbody>
+                        </table> 
+                    </div></p>
+                    Führen Sie eine Liste, in die Sie die Anzahl der jeweils gelieferten Teile und die Lieferzeit eintragen. 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Informieren Sie das Team Produktionsdienstleistungen (PDL) der JOGA GmbH über Ihre Produkte. Weisen Sie auf die Zuverlässigkeit und das Preis-/Leistungsverhältnis Ihrer Angebote hin.
+                    <p></p>
+                    Falls Ihr Vorrat bei einem Teil (z.B. T1) erschöpft ist, versuchen Sie in Rücksprache mit dem Team Produktionsdienstleistungen (PDL) das größere/kleinere Teil (T2) zu verkaufen.                     
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"supplier 200" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Lieferant 200 (L2)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie haben sich seit Jahren im Markt einen Namen als günstigster Anbieter gemacht. Tatsächlich liegen Ihre Preise deutlich unter denen der Wettbewerber. Ihr Unternehmen arbeitet so günstig, dass Sie aus jedem Preiskampf als Sieger hervorgehen würden.
+                    <p></p>
+                    Natürlich hat diese Geschäftspolitik ihren Preis. Bei der Qualität müssen die Kunden einfach Abstriche machen. Da Sie „nur“ Schrauben und Hülsen, also typische C-Teile liefern, sind die meisten Kunden bereit, hier auf hohe Qualität zu verzichten. Sie sagen Ihren Kunden immer wieder Ihren Wahlspruch: „Wer nur den Preis für einen Skoda zahlt, kann ja auch keinen Mercedes verlangen!“.
+                    <p></p>
+                    Auch beim Service müssen Sie sparen, um Ihre Preise halten zu können. Da JOGA Ihr einziger KANBAN-Kunde ist, haben Sie mit der Anlieferung im KANBAN-System manchmal Probleme. Ihre eigene Lagerhaltung ist so gering, dass es schon einmal passieren kann, dass Sie gerade keine Teile verfügbar haben.                                                 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Lieferungen</h6>
+                    Sie liefern C-Teile (Normteile) in Gebindeeinheiten mit konstanten Mengen je Behälter direkt in die Produktion der JOGA GmbH.<p></p> 
+                    Da Sie sich aufgrund Ihrer äußerst günstigen Preise keine eigene Qualitätskontrolle leisten können, legen Sie für die Teile T7, T8 und T9 bei jeder Lieferung jeweils eine bestimmte Anzahl fehlerhafter Teile bei. Außerdem können in jedem Behälter nur eine gewisse Anzahl von Teilen transportiert werden:
+
+                    <p> <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Bezeichnung</th>
+                                    <th>Anzahl Teile/ Behälter</th>
+                                    <th>gute Teile</th>
+                                    <th>fehlerhafte Teile</th>
+                                </tr>
+                            </thead>
+                                    <!-- Tabellenzeilen -->
+                                    <tbody id="itembody">
+                                    <tr>
+                                        <td>T6 Hülse Hubelement</td>
+                                        <td>5</td>
+                                        <td>5</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T7 Wellenhülse</td>
+                                        <td>10</td>
+                                        <td>9</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T8 Schraube M5x20</td>
+                                        <td>15</td>
+                                        <td>13</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>T9 Schraube M6 + Scheibe</td>
+                                        <td>5 + 5</td>
+                                        <td>4 + 5</td>
+                                        <td>1 + 0</td>
+                                    </tr>
+                                    </tbody>
+                        </table> 
+                    </div></p>
+
+                    <h6>Liefertermin</h6>
+                    Sie überprüfen alle 3 Minuten den Bestand an C-Teilen direkt beim Team Produktion (PRO) der JOGA GmbH. Leere Behälter werden von Ihnen sofort gegen volle Behälter gemäß der obigen Liefervorschrift ausgetauscht.<p></p>
+                    Führen Sie eine Liste, in die Sie die Anzahl der jeweils gelieferten Teile und die Lieferzeit eintragen.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Liefern Sie mal mehr fehlerhafte Teile als in der Liefervorschrift angegeben.
+                    <p></p>
+                    Sagen Sie der JOGA einmal, dass Sie einen Engpass bei den M5-Schrauben haben und dieses Teil nicht liefern können (auf Druck von JOGA sollten Sie dann aber doch einige Schrauben liefern).                                         
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"supplier 300" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Rolle Lieferant 300 (L3)</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Sie beliefern die JOGA GmbH bereits seit vielen Jahren mit A-Teilen. Mit dem Einkäufer von JOGA verbindet Sie mittlerweile eine Freundschaft. Auch privat haben Sie schon so manchen Skatabend verbracht. Im letzten Frühling haben Sie den Einkäufer und seine Ehefrau zu einem 2-wöchigen Florida-Urlaub eingeladen. Natürlich haben Sie die Erwartung, dass diese „kleine Geste“ zu ständigen Aufträgen zu den von Ihnen genannten Preisen führt.
+                    <p></p>
+                    Da Sie die Bindung zum Kunden JOGA als sehr fest betrachten, haben Sie im Laufe der Jahre Ihre Preise angehoben, so dass Sie nun zu den teuersten Anbietern zählen. Daher fürchten Sie, JOGA könnte bei einer Marktrecherche herausfinden, dass Ihre Preise zu hoch sind. Wegen der guten Beziehung zu Ihnen hat der Einkäufer von JOGA allerdings seit längerer Zeit keine Marktrecherche mehr durchgeführt.                                                                     
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Bestellungen</h6>
+                    Da die bei Ihnen bezogenen Teile hochwertig sind, bezieht Ihr Kunde nur seinen jeweiligen exakten Bedarf. Sie wissen, dass kurzfristige Bedarfe Ihres Kunden an der Tagesordnung sind. Deshalb halten Sie immer ausreichend Bestand am Lager.<p></p>
+                    JOGA hat bei A-Teilen fast keine Lagerhandlung, sodass eine Lieferverzögerung die Produktion beeinträchtigen würde.<p></p>
+                    Bei Bestellungen erhalten Sie vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH eine Bedarfsmeldung per Nachricht mit einem festgelegten Liefertermin. Nach Erhalt einer Bedarfsmeldung legen Sie bei sich im System einen passenden Auftrag an.<p></p>
+
+                    <h6>Lieferungen</h6>
+                    Sie liefern termingerecht die angeforderten A-Teile (T10-T15) über das Team Interne Dienstleistungen (IDL) an das Team Produktionsdienstleistungen (PDL). In dem Zuge geben Sie den Auftrag in Ihrem System frei und informieren das Team Produktionsdienstleistung per Nachricht über die Lieferung. In der Nachricht teilen Sie mit, welche Bestellung von der Produktionsdienstleistung sich in welcher Transportbox befindet. Dafür geben Sie die Transportboxnummer, die unter dem Barcode steht, an.<p></p>
+                    Achten Sie darauf, daß Sie Ihre Transportbehälter vom Team Produktion PRO der JOGA wieder zurückbekommen.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Informieren Sie den Einkäufer der JOGA GmbH über Ihre Produkte, insbesondere über Neuerungen und Weiterentwicklungen. Laden Sie hierzu einen Mitarbeiter des Teams Produktionsdienstleistungen (PDL) zu sich ein.
+                    <p></p>
+                    Liefern Sie andere Teile als bestellt.
+                    <p></p>
+                    Liefern Sie andere Mengen als bestellt.                                     
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% elif request.user|has_group:"management" %}
+    <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;"> Das Leitungsteam</div>
+            </div>
+            <div class="collapsible-body">
+                <span> Geschäftsführer, Unternehmensberater, Organisationsentwicklung, Qualitätsmanagement </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Die Rollen im Leitungsteam</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Der Geschäftsführer der JOGA GmbH ist in dieser Funktion bereits seit 14 Jahren tätig und wird in zwei Jahren in den Ruhestand gehen. Er hat das Unternehmen bislang erfolgreich geführt und steht Veränderungen zunächst immer sehr kritisch gegenüber. Er weiß aber auch, dass es Veränderungen geben muß, um künftigen Herausforderungen zu begegnen. Alle Entscheidungen sind wohl überlegt und niemals voreilig. 
+                    <p></p>
+                    Seine Kollegen im Leitungsteam bezeichnet er gerne als „junge Wilde“. Ihrem Enthusiasmus für Veränderungen setzt er seine Erfahrung und Souveränität entgegen. Von gut begründeten Veränderungen läßt sich aber auch der Geschäftsführer überzeugen. Er ist bei seinen Mitarbeitern beliebt und führt mit Lob und Anerkennung.
+                    <p></p>
+                    Der externe Unternehmensberater ist seit zwei Jahren ausschließlich für die JOGA GmbH tätig. Er ist grundsätzlich für Veränderungen und möchte für jede Idee Konzepte erarbeiten, da er damit sein Geld verdient. 
+                    <p></p>
+                    Der Mitarbeiter für Organisationsentwicklung ist erst vor 6 Monaten, gleich nach Abschluß seines BWL-Studiums, in das Unternehmen eingetreten. Er ist sehr fleißig und möchte sich unbedingt gegenüber dem Geschäftsführer profilieren. 
+                    <p></p>
+                    Der Mitarbeiter für Qualitätsmanagement ist seit drei Jahren im Unternehmen. Er hat gute Kontakte in die Produktion. Als Dipl.-Ingenieur hat er ein großes Verständnis für alle technischen Belange des Unternehmens. 
+                    <p></p>
+                    Einzelne Mitarbeiter des Leitungsteams sind oft außer Haus. In diesem Fall versuchen die verbliebenen Mitarbeiter, wenigstens die wichtigsten Aufgaben zu bearbeiten.
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Ihre Aufgaben</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                    <h6>Programm- und Kapazitätsplanung (Sehr wichtig)</h6>
+                    Das Leitungsteam führt Besprechungen zur aktuellen Situation in der Produktion durch. Dabei geht es sowohl um die bestmögliche Auslastung der Kapazitäten, als auch um das Aufspüren und Beseitigen von Mängeln in der Produktion oder an den Produkten. Die Planungskonferenz versuchen Sie mindestens alle 2 Wochen (30 min.) durchzuführen. <p></p>
+
+                    <h6>Rahmenvorgabe</h6>
+                    Für die Gestaltungsspanne der Preise und Termine geben Sie vor Beginn des Spiels sowie alle zwei Wochen (30min.) eine Rahmenvorgabe an den Kundenservice:<p></p>
+
+                    <p> <div class="table-scrollable">
+                        <table id="itemtable">
+                                     <!-- Tabellenzeilen -->
+                                    <tbody id="itembody">
+                                    <tr>
+                                        <td>Preisrahmen:</td>
+                                        <td>+/- 15%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Termin</td>
+                                        <td>ca. 25 Minuten pro Hubwagen</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kapazitäten:</td>
+                                        <td>ca. 7 Hubwagen pro 30min/ 2 Wochen</td>
+                                    </tr>
+                                    </tbody>
+                        </table> 
+                    </div></p>
+                    Im weiteren Verlauf des Spiels können Sie die Rahmenvorgaben situativ ändern.<p></p> 
+
+                    <h6>Multimomentaufnahmen (Sehr wichtig)</h6>
+                    //noch ausfüllen!!!!!
+
+                    <h6>QM-Zertifizierung (wichtig)</h6>
+                    //noch ausfüllen!!!!!
+
+                    <h6>Ablauforganisation aufnehmen (nicht so wichtig)</h6>
+                    Sie sollen den Weg des Auftrages von der Auftragsannahme bis zur Auslieferung nachvollziehen und in einem Diagramm aufzeichnen. <p></p>
+                    Sie versuchen daher während des Spiels, einen oder mehrere Aufträge im Unternehmen zu verfolgen und den Ablauf in einem Diagramm darzustellen. Nutzen Sie hierfür das Formblatt Ablaufdiagramm und skizzieren Sie den Ablauf. 
+                </span>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Störfälle</div>
+            </div>
+            <div class="collapsible-body">
+                <span>Bei auftretenden Problemen sind Sie der Ansprechpartner für alle Mitarbeiter. Als Leitungsteam sollten Sie Ihren Kollegen bei der Beseitigung aller Störungen helfen. Selbstverständlich dürfen Sie auch Personal zwischen einzelnen Arbeitsgruppen austauschen. 
+                    Wenn Sie ein mangelhafte Auslastung einzelner Mitarbeiter oder Teams feststellen, so können Sie Zusatzaufgaben vergeben, um die Mitarbeiter wieder zu aktivieren. Gegebenenfalls erhalten Sie zusätzliche Aufgaben durch die Spielleitung.                    
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    {% endif %}
+
 
 {% endif %}
 
@@ -83,4 +742,9 @@
 
 <!-- Scripts-->
 {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.collapsible').collapsible();
+        });
+    </script>
 {% endblock %}

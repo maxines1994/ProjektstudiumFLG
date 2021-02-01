@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static%}
 
 <!-- Title-->
 {% block title %}Startseite{% endblock %}
@@ -9,32 +10,93 @@
 {% endblock %}
 
 <!-- Content-->
-{% block content %}
+{% block containerless_content %}
 
-<h4>Willkommen  {% if company == 'joga' %}bei der JOGA GmbH
+
+
+
+<div class="section white">
+    <div class="row container">
+            <h4 class="header">Willkommen  {% if company == 'joga' %}bei der JOGA GmbH
                 {% else %}{{ user.groups.first.name_de }}
                 {% endif %} 
-</h4>
+            </h4>
 
-{% if user.is_authenticated %}
-<br> </br>
-<div class="row">
-    <p><div class="grid-example col s12 m6">
-        <a class="waves-effect waves-light btn" style="width: auto;" href="{% url 'Home_Information_Pages' info='Unternehmen' %}" class="white-text "> Unternehmensinformationen </a> 
-    </div></p>
-    <br></br>
-
-    <p><div class="grid-example col s12 m6">
-        <a class="waves-effect waves-light btn" style="width: auto;" href="{% url 'Home_Information_Pages' info='Planspiel' %}" class="white-text"> Grundlagen des Planspiels </a>
-    </div></p>
-    <br></br>
-
-    <p><div class="grid-example col s12 m6">
-        <a class="waves-effect waves-light btn" style="width: auto;" href="{% url 'Home_Information_Pages' info='Rolle' %}" class="white-text"> Stellenbeschreibung </a>
-    </div></p>
-    <br></br>
+            <!-- falls Stellenbeschreibung hinter Button auf d. Startseite
+            <p>{% if user.groups.first.name_de != "Spielleitung" %}
+                <a class="left waves-effect waves-light btn" style="width: auto;" href="{% url 'home_information_pages' info='Rolle' %}" class="white-text">Deine Stellenbeschreibung </a>
+                {% endif %}  
+            </p>
+            -->
+    </div>
 </div>
-{% endif %}
+
+<div class="parallax-container">
+    <div class="parallax">
+        <video class="backgroundVideo" autoplay muted loop>
+            <source src="{% static 'vid/IndustrialFootage.mp4' %}" type="video/mp4">
+        </video>
+    </div>
+</div>
+<div class="section white">
+    <div class="row container">
+        <h4 class="header">Das Unternehmen JOGA</h4>
+        <p class="grey-text text-darken-3 lighten-3">
+            <div class="col s12"></div>
+    <div class="card">
+        <div class="card-content">
+            <p><i class="medium material-icons" style="vertical-align: middle">business</i> </p>
+            <font size="+1"> 1933 als Werkstatt von Maschinenbau-Ingenieur Johann Garbade gegründet </font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">person</i></p>
+            <font size="+1"> Familiengeführtes Unternehmen in der vierten Generation</font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">shopping_basket</i></p>
+                <font size="+1"> <p>Das Produktsortiment begann mit Flaschenzügen und Hebezeugen.</p>1990 entstand nach Vergrößerungen des Unternehmens und nach Aktualisierungen der Produktion: die zeitgemäße Hub-technik, der zuverlässige Service, die aktuelle Unternehmensstruktur & ein zweckmäßiges Unternehmensgebäude</font>
+            <br>   </br>
+
+            <p></p><i class="medium material-icons" style="vertical-align: middle">build</i></p>
+                <font size="+1"> Spezialisierung auf die Konstruktion, die Herstellung und den Vertrieb von Hebegeräten für gewerbliche und industrielle Zwecke</font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">euro_symbol</i></p>
+                <font size="+1"> Umsatz in Höhe von 1,2 Millionen Euro (letzte Aktualisierung: 2020)</font>
+            <br>   </br>
+
+            <p><i class="medium material-icons" style="vertical-align: middle">widgets</i></p>
+                <font size="+1"> Langjährig erfahrene, belastbare und solidarische Mitarbeiter stärken das Unternehmen</font>
+        </div>
+    </div>
+</div>
+        </p>
+    </div>
+</div>
+<div class="parallax-container">
+    <div class="parallax">
+
+    </div>
+</div>
+<div class="section white">
+    <div class="row container">
+        <h4 class="header">Die Planspielphasen</h4>
+        <p class="grey-text text-darken-3 lighten-3">
+            <div class="col s12"></div>
+    <div class="card">
+        <div class="card-content">
+            <font size="+1"> Das Spiel erfolgt in drei Spielphasen. In jeder Phase erreicht die Durchführung eine weitere Digitalisierungsstufe, welche einen gewissen Grad an digitalisierten Prozessen und Tätigkeiten aufweist.
+            <br> </br>
+            Der Aufbau einer Phase kann der folgenden Grafik entnommen werden:
+            </font>
+            <img src="{% static 'img/Grafik_Homepage_Spielphase.svg' %}" width="100%" height="auto" class="materialboxed white">
+        </div>
+    </div>
+</div>
+        </p>
+    </div>
+</div>
+
 
 {% endblock %}
 
@@ -45,5 +107,14 @@
 
 <!-- Scripts-->
 {% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.parallax').parallax();
+    });
+    $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+</script>
+
 
 {% endblock %}

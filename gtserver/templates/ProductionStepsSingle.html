@@ -13,25 +13,25 @@
 <!-- Content-->
 {% block content %}
 <p>   </p>
-<a class="btn-flat" href="{% url 'Production_steps' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+<a class="btn-flat" href="{% url 'production_steps' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
 
 <h4> Produktionschritt {{ step }} von Hubwagen {{ product }} </h4>
 <p>   </p>
 
 <p> 
     {% if step == 1 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons left">chevron_left</i></a>
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons left">chevron_left</i></a>
     {% endif %}
     {% if step != 1 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons left">chevron_left</i></a>  
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"-1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons left">chevron_left</i></a>  
     {% endif %}
     {% if step != 8 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons">chevron_right</i></a> 
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light"> <i class="material-icons">chevron_right</i></a> 
     {% endif %}
     {% if step == 8 %}
-        <a href="/Production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons">chevron_right</i></a>
+        <a href="/production_steps_single/{{ product }}/{{ step|add:"1" }}" class="btn-floating btn waves-effect waves-light disabled"> <i class="material-icons">chevron_right</i></a>
     {% endif %}
-    <a href="/Production_steps_3D_Models/{{ product }}/{{ step }}" class="waves-effect waves-light btn" style="float: right;"> 3D-Modell</a>
+    <a href="/production_steps_3D_models/{{ product }}/{{ step }}" class="right btn waves-effect waves-light" style="margin-left: -16px;"><i class="material-icons left">3d_rotation</i> 3D-Modell</a>
 </p>
 
 <!-- Tabellen Kopfzeile -->
@@ -46,6 +46,7 @@
                                         <th>Anzahl</th>
                                         <th>Teilenummer</th>
                                         <th>Bezeichnung</th>
+                                        <th>Grafik</th>
                                     </tr>
                                 </thead>
                                 {% for i in productionsteps_list %}
@@ -57,6 +58,7 @@
                                             <td>{{ i.quantity }}</td>
                                             <td>{{ i.part.part_no}}</td>
                                             <td>{{ i.part.description }}</td>
+                                            <td><img src="{% static i.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
                                         </tr>
                                         </tbody>
                                     {% endif %}
@@ -126,4 +128,9 @@
 
 <!-- Scripts-->
 {% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+</script>
 {% endblock %}

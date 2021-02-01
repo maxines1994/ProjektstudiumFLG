@@ -78,13 +78,14 @@
       </div></li>
       <li><a href="{% url 'home' %}">Startseite</a></li>
       {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
+      <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == 'customer' %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_custcomplaint %}<li><a href="{% url 'cust_complaint' %}">{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_supporder %}<li><a href="{% url 'supp_order' %}">{% if company == 'supplier' %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="{% url 'supp_complaint' %}">{% if company == 'supplier' %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
-      {% if request.user|has_group:"production" %}<li><a href="{% url 'Production_steps' %}">Produktionsschritte</a></li> {% endif %}
+      {% if request.user|has_group:"production" %}<li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li> {% endif %}
       {% if request.user|has_group:"production service" %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
       {% if request.user|has_group:"production service" or request.user|has_group:"suppliers" %}<li><a href="{% url 'manufacturing_stock' %}">Lager</a></li> {% endif %}
       {# <li><div class="divider"></div></li> #}
@@ -103,6 +104,10 @@
         {% block content %}
         {% endblock %}
       </div>
+      {% if user.is_authenticated %}
+      {% block containerless_content %}
+      {% endblock%}
+      {% endif %}
     </main>
     {% endblock %}
 

@@ -16,7 +16,7 @@ def home_view(request):
     return render(request, "home.html", c)
 
 # Startseite Absprünge per Buttons zu Informationsseiten
-class Home_Information_Pages(TemplateView):
+class home_information_pages(TemplateView):
     template_name = "HomeInformationPages.html"
 
 # Task Schaltfläche
