@@ -110,8 +110,9 @@
 {% block body %}
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
-    <li><a href="{% url 'supp_order_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'supp_order_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'supp_order_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'supp_order_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href=""><i class="material-icons">local_shipping</i>Geliefert</a></li>
 </ul>
 {% endfor %}
 {% endblock %}
