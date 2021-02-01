@@ -26,8 +26,11 @@ class Command(BaseCommand):
         else:
             print(str(db_name) + " does not exist. Proceeding...")
         
-        #0001_initial.py loeschen
-        os.remove(migrations_path + '0001_initial.py')
+        initial0001_file = migrations_path + '0001_initial.py'
+        if os.path.exists(initial0001_file):
+            os.remove(migrations_path + '0001_initial.py')
+        else:
+            print(str(initial0001_file) + " does not exist. Proceeding...")
         
         #Alle Dateien im Migrations-Ordner nach _temp verschieben
         move_files(migrations_path, temp_path)

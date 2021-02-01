@@ -322,6 +322,21 @@ class Migration(migrations.Migration):
         for step in steps:
             step.save()
         
+    def insert_bookingcodes(apps, schema_editor):
+        for item in dir(bookingcodes):
+            if not item.startswith("__"):
+
+                translator = Translator(from_lang='en', to_lang='de')
+                Translator()
+                
+                itemBookingcode = str(getattr(bookingcodes,item))               
+                itemDescriptionEN = str(item.split('_',1)[1].replace('_', ' ').casefold().title())
+                itemDescriptionDE = Translation.get_translation(to_language=LANG_DE, to_be_translated=itemDescriptionEN)
+                #itemDescriptionDE = translator.translate(itemDescriptionEN)
+
+
+                BookingCode.objects.create(booking_code=itemBookingcode, description_en=itemDescriptionEN, description_de=itemDescriptionDE)
+
 
     dependencies = [
         ('gtapp', '0001_initial'),
@@ -337,4 +352,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_stocks),
         migrations.RunPython(insert_articles),
         migrations.RunPython(insert_productionsteps),
+        migrations.RunPython(insert_bookingcodes),
     ]
