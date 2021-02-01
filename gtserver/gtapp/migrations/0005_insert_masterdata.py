@@ -324,18 +324,13 @@ class Migration(migrations.Migration):
         
     def insert_bookingcodes(apps, schema_editor):
         for item in dir(bookingcodes):
-            if not item.startswith("__"):
-
-                translator = Translator(from_lang='en', to_lang='de')
-                Translator()
-                
+            if not item.startswith("__"):              
                 itemBookingcode = str(getattr(bookingcodes,item))               
                 itemDescriptionEN = str(item.split('_',1)[1].replace('_', ' ').casefold().title())
-                itemDescriptionDE = Translation.get_translation(to_language=LANG_DE, to_be_translated=itemDescriptionEN)
-                #itemDescriptionDE = translator.translate(itemDescriptionEN)
+                #itemDescriptionDE = Translation.get_translation(to_language=LANG_DE, translate_string=itemDescriptionEN)
 
-
-                BookingCode.objects.create(booking_code=itemBookingcode, description_en=itemDescriptionEN, description_de=itemDescriptionDE)
+                BookingCode.objects.create(code=itemBookingcode, description_en=itemDescriptionEN)
+                #, description_de=itemDescriptionDE)
 
 
     dependencies = [
