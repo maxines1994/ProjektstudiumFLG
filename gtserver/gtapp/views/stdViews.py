@@ -39,7 +39,7 @@ def box_search_view(request):
                     #ToDo beim Kunden für den Wareneingang
                     if request.user.groups.filter(name=C1).exists():
                         Todo.set_todo_cust_det(obj, 11, Timers.get_current_day())
-                    elif request.user.groups.filter(name=C2).exists():
+                    elif request.user.groups.filter(name=K2).exists():
                         Todo.set_todo_cust_det(obj, 12, Timers.get_current_day())
                     elif request.user.groups.filter(name=C3).exists():
                         Todo.set_todo_cust_det(obj, 13, Timers.get_current_day())

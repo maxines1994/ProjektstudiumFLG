@@ -53,13 +53,13 @@ class msgWriteView(CreateView):
         context = get_context_back(context, "Nachricht", "")
 
         # Orders zum anhängen, nur die des benutzers
-        if self.request.user.groups.filter(name='customer 1').exists():
+        if self.request.user.groups.filter(name=K1).exists():
             context['orders'] = CustOrder.objects.filter(customer_id=1)
-        elif self.request.user.groups.filter(name='customer 2').exists():
+        elif self.request.user.groups.filter(name=K2).exists():
             context['orders'] = CustOrder.objects.filter(customer_id=2)
-        elif self.request.user.groups.filter(name='customer 3').exists():
+        elif self.request.user.groups.filter(name=K3).exists():
             context['orders'] = CustOrder.objects.filter(customer_id=3)
-        elif self.request.user.groups.filter(name='JOGA').exists():
+        elif self.request.user.groups.filter(name=JOGA).exists():
             context['orders'] = CustOrder.objects.all()
 
         return context

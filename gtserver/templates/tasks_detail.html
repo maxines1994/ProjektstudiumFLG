@@ -19,15 +19,15 @@
         <div class="card">
             <div class="card-content">
                 {% if object.todo_type.id == 1%}
-                <span class="card-title"><b>Auftrag: {{object.cust_order.order_no}} <br> {{object.todo_type.title_de}}</b></span>
+                <span class="card-title"><b>Auftrag: {{object.cust_order.order_no}} <br> {{object.todo_type.title}}</b></span>
                 {%else%}
-                <span class="card-title"><b>Auftrag: {{object.cust_order_det.cust_order.order_no}} Position: {{object.cust_order_det.pos}} <br> {{object.todo_type.title_de}}</b></span>
+                <span class="card-title"><b>Auftrag: {{object.cust_order_det.cust_order.order_no}} Position: {{object.cust_order_det.pos}} <br> {{object.todo_type.title}}</b></span>
                 {% endif %}
                 <p>
                    <b>Beschreibung:</b> 
                 </p>
                 <p>
-                    {{object.todo_type.description_de}}
+                    {{object.todo_type.description}}
                 </p>
                 <p>
                     <b>Benutzerzuodnung:</b> 

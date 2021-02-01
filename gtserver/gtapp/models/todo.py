@@ -93,4 +93,4 @@ class Todo(GtModel):
         return '-'
 
     def __str__(self):
-        return self.todo_type.title_de + ' (' + self.get_ref() + ')'
+        return self.todo_type.title + ' (' + self.get_ref() + ')'

@@ -7,8 +7,7 @@ class BookingCode(GtModel):
     """
 
     code = models.CharField(max_length=3)
-    description_en = models.CharField(max_length=30)
-    description_de = models.CharField(max_length=30)
+    description = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.description_de
+        return self.description

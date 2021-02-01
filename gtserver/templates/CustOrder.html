@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 <!-- Title-->
-{% block title %}{% if company == 'customer' %}Bestellungen{% else %}Kundenaufträge{% endif %}{% endblock %}
+{% block title %}{% if company == KUNDEN %}Bestellungen{% else %}Kundenaufträge{% endif %}{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -10,7 +10,7 @@
 
 <!-- Content-->
 {% block content %}
-<h4>{% if company == 'customer' %}Bestellungen{% else %}Kundenaufträge{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4>{% if company == KUNDEN %}Bestellungen{% else %}Kundenaufträge{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="col s12">
     <div class="card">
         <div class="card-content">
@@ -18,8 +18,8 @@
                 <table id="itemtable">
                     <thead id="itemhead">
                         <tr>
-                            <th>{% if company == 'customer' %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
-                            {% if company != 'customer' %}<th>Kunde</th>{% endif %}
+                            <th>{% if company == KUNDEN %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
+                            {% if company != KUNDEN %}<th>Kunde</th>{% endif %}
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
                             <th>Status</th>
@@ -28,8 +28,8 @@
                     <tbody id="itembody">
                         {% for o in orders %}
                         <tr>
-                            <td>{% if company == 'customer' %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
-                            {% if company != 'customer' %}<td>{{ o.customer }}</td>{% endif %}
+                            <td>{% if company == KUNDEN %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
+                            {% if company != KUNDEN %}<td>{{ o.customer }}</td>{% endif %}
                             <td>Tag #{{ o.issued_on }}</td>
                             <td>Tag #{{ o.delivery_date }}</td>
                             <td>{{ o.status }}</td>

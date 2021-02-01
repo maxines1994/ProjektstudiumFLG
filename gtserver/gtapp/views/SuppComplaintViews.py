@@ -14,14 +14,14 @@ class Supp_complaint_create_view(CreateView):
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
         
-        if self.request.user.groups.filter(name='supplier 100').exists():
+        if self.request.user.groups.filter(name=L100).exists():
             form.instance.supplier_id = 1
-        elif self.request.user.groups.filter(name='supplier 200').exists():
+        elif self.request.user.groups.filter(name=L200).exists():
             form.instance.supplier_id = 2
-        elif self.request.user.groups.filter(name='supplier 300').exists():
+        elif self.request.user.groups.filter(name=L300).exists():
             form.instance.supplier_id = 3
         
-        if self.request.user.groups.filter(name='suppliers').exists():
+        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
             form.instance.external_system = True
 
         new_supp_order_complaint = form.save()
@@ -34,7 +34,7 @@ class Supp_complaint_create_view(CreateView):
         return context
 
     def get_form(self, form_class=None):
-        #if self.request.user.groups.first().name == "suppliers":
+        #if self.request.user.groups.first().name == "LIEFERANTEN":
         form_class = Supp_complaint_form
         #else:
         #    form_class = Supp_order_form_jg
@@ -49,11 +49,11 @@ class Supp_complaint_create_view(CreateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if self.request.user.groups.filter(name='supplier 100').exists():
+        if self.request.user.groups.filter(name=L100).exists():
             suppliers = [1]
-        elif self.request.user.groups.filter(name='supplier 200').exists():
+        elif self.request.user.groups.filter(name=L200).exists():
             suppliers = [2]
-        elif self.request.user.groups.filter(name='supplier 300').exists():
+        elif self.request.user.groups.filter(name=L300).exists():
             suppliers = [3]
         else:
             suppliers = [1,2,3]
@@ -94,11 +94,11 @@ class Supp_complaint_alter_view(UpdateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if self.request.user.groups.filter(name='supplier 100').exists():
+        if self.request.user.groups.filter(name=L100).exists():
             suppliers = [1]
-        elif self.request.user.groups.filter(name='supplier 200').exists():
+        elif self.request.user.groups.filter(name=L200).exists():
             suppliers = [2]
-        elif self.request.user.groups.filter(name='supplier 300').exists():
+        elif self.request.user.groups.filter(name=L300).exists():
             suppliers = [3]
         else:
             suppliers = [1,2,3]
@@ -199,21 +199,21 @@ class Supp_complaint_view(TemplateView):
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='supplier 100').exists():
+            if self.request.user.groups.filter(name=L100).exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 1))
-            elif self.request.user.groups.filter(name='supplier 200').exists():
+            elif self.request.user.groups.filter(name=L200).exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 2))
-            elif self.request.user.groups.filter(name='supplier 300').exists():
+            elif self.request.user.groups.filter(name=L300).exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 3))
             else:
                 context['complaints'] = SuppComplaint.objects.all()
         else:
             # 2. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='supplier 100').exists():
+            if self.request.user.groups.filter(name=L100).exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 1, external_system=True))
-            elif self.request.user.groups.filter(name='supplier 200').exists():
+            elif self.request.user.groups.filter(name=L200).exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 2, external_system=True))
-            elif self.request.user.groups.filter(name='supplier 300').exists():
+            elif self.request.user.groups.filter(name=L300).exists():
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(supplier_id = 3, external_system=True))
             else:
                 context['complaints'] = SuppComplaint.objects.all().filter(supp_order__in = SuppOrder.objects.all().filter(external_system=False))

@@ -2,7 +2,6 @@ from .gtmodel import GtModel
 from . import groupextension
 from .player import Player
 from .bookingcode import BookingCode
-from .translation import Translation
 from .supplier import Supplier
 from .part import Part
 from .article import Article

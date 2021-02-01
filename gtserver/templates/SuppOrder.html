@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 <!-- Title-->
-{% block title %}{% if company == 'supplier' %}Kundenaufträge{% else %}Bestellungen{% endif %}{% endblock %}
+{% block title %}{% if company == LIEFERANTEN %}Kundenaufträge{% else %}Bestellungen{% endif %}{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -9,7 +9,7 @@
 
 <!-- Content-->
 {% block content %}
-<h4> {% if company == 'supplier' %}Kundenaufträge{% else %}Bestellungen{% endif %} <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4> {% if company == LIEFERANTEN %}Kundenaufträge{% else %}Bestellungen{% endif %} <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="col s12">
     <div class="card">
         <div class="card-content">
@@ -17,8 +17,8 @@
                 <table id="itemtable">
                     <thead id="itemhead">
                         <tr>
-                            <th> {% if company == 'supplier' %} Auftragsnummer {% else %} Bestellnummer {% endif %}</th>
-                            {% if company != 'supplier' %}<th>Lieferant</th> {% endif %}
+                            <th> {% if company == LIEFERANTEN %} Auftragsnummer {% else %} Bestellnummer {% endif %}</th>
+                            {% if company != LIEFERANTEN %}<th>Lieferant</th> {% endif %}
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
                             <th>Status</th>
@@ -29,8 +29,8 @@
                         <!-- Alle orders durchlaufen und anzeigen-->
                         {% for o in orders %}
                             <tr>
-                                <td>{% if company == 'supplier' %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>
-                                {% if company != 'supplier' %}<td>{{o.supplier}}</td>{% endif %}
+                                <td>{% if company == LIEFERANTEN %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>
+                                {% if company != LIEFERANTEN %}<td>{{o.supplier}}</td>{% endif %}
                                 <td>Tag #{{ o.issued_on }}</td>
                                 <td>Tag #{{ o.delivery_date }}</td>
                                 <td>{{ o.status }}</td>

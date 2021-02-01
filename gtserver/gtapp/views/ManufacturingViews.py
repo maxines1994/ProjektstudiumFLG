@@ -37,16 +37,16 @@ def manufacturing_supporder_view(request,**kwargs):
 
 def manufacturing_stock_view(request,**kwargs):
     c = {}
-    if request.user.groups.filter(name='JOGA').exists():
+    if request.user.groups.filter(name=JOGA).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=False)
 
-    if request.user.groups.filter(name='supplier 100').exists():
+    if request.user.groups.filter(name=L100).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=True, part__supplier_id=1)
     
-    if request.user.groups.filter(name='supplier 200').exists():
+    if request.user.groups.filter(name=L200).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=True, part__supplier_id=2)
     
-    if request.user.groups.filter(name='supplier 300').exists():
+    if request.user.groups.filter(name=L300).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=True, part__supplier_id=3)
 
     return render(request,"stock.html",c)

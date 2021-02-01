@@ -10,8 +10,6 @@ class TodoType(GtModel):
     """
 
     type = models.CharField(max_length=3)
-    description_en = models.CharField(max_length=150)
-    description_de = models.CharField(max_length=150)    
+    description = models.CharField(max_length=150)    
     group = models.ForeignKey(Group,null=True, on_delete=models.SET_NULL)
-    title_de = models.CharField(max_length=50)
-    title_en = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)

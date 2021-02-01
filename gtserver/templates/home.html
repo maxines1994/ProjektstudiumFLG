@@ -17,13 +17,13 @@
 
 <div class="section white">
     <div class="row container">
-            <h4 class="header">Willkommen  {% if company == 'joga' %}bei der JOGA GmbH
-                {% else %}{{ user.groups.first.name_de }}
+            <h4 class="header">Willkommen  {% if company == JOGA %}bei der JOGA GmbH
+                {% else %}{{ user.groups.first.name }}
                 {% endif %} 
             </h4>
 
             <!-- falls Stellenbeschreibung hinter Button auf d. Startseite
-            <p>{% if user.groups.first.name_de != "Spielleitung" %}
+            <p>{% if user.groups.first.name != SPIELLEITUNG %}
                 <a class="left waves-effect waves-light btn" style="width: auto;" href="{% url 'home_information_pages' info='Rolle' %}" class="white-text">Deine Stellenbeschreibung </a>
                 {% endif %}  
             </p>

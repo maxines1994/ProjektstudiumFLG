@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'gtapp.context.gtcontext',
+                'gtapp.context.gtconstants',
             ],
         },
     },

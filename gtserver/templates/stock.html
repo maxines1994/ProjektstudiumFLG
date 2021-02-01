@@ -17,15 +17,15 @@
             <tr>
                 <th>Teil</th>
                 <th>Menge</th>
-                {% if company == "joga" %}<th>Reserviert</th>{% endif %}
+                {% if company == JOGA %}<th>Reserviert</th>{% endif %}
             </tr>
         </thead>
         <tbody id="itembody">
             {% for o in stock %}
             <tr>
                 <td>{{o.part.description}}</td>
-                <td>{% if o.part.supplier_id == 3 or request.user|has_group:'suppliers' %}{{o.stock}}{% else %}KANBAN{% endif %}</td>
-                {% if company == "joga" %}<td>{% if o.part.supplier_id != 3 %} KANBAN {% else %}{{o.reserved}}{% endif %}</td>{% endif %}
+                <td>{% if o.part.supplier_id == 3 or request.user|has_group:LIEFERANTEN %}{{o.stock}}{% else %}KANBAN{% endif %}</td>
+                {% if company == JOGA %}<td>{% if o.part.supplier_id != 3 %} KANBAN {% else %}{{o.reserved}}{% endif %}</td>{% endif %}
             </tr>
             {% endfor %}
         </tbody>

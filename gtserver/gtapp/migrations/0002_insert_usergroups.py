@@ -78,35 +78,35 @@ class Migration(migrations.Migration):
                     perm_list.append(item)
                 return perm_list
             
-            if group.name == GAME_MASTER:
+            if group.name == SPIELLEITUNG:
                 for model in app_models:
                     can_change.append(get_content_type_ids_of_models(model)[0])
   
-            if group.name == MANAGEMENT:
+            if group.name == LEITUNGSTEAM:
                 for model in app_models:
                     can_view_only.append(get_content_type_ids_of_models(model)[0])
         
-            if group.name == CUSTOMERS:
+            if group.name == KUNDEN:
                 can_view_only   = get_content_type_ids_of_models(CustContainer)
                 can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet,Message, Todo)
 
-            if group.name == CUSTOMER_SERVICE:
+            if group.name == KUNDENDIENST:
                 can_view_only   = get_content_type_ids_of_models(Article, ArtiPart, Part, CustContainer)
                 can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Todo, Message,)
 
-            if group.name == INTERNAL_SERVICE:
+            if group.name == INTERNE_DIENSTLEISTUNG:
                 #can_view_only   = get_content_type_ids_of_models
                 can_change      = get_content_type_ids_of_models(Todo, Message, CustContainer, SuppContainer)
 
-            if group.name == PRODUCTION_SERVICE:
+            if group.name == PRODUKTIONSDIENSTLEISTUNG:
                 can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Article, ArtiPart, Part, SuppContainer)
                 can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, Todo, Message, Stock, StockMovement)
 
-            if group.name == PRODUCTION:
+            if group.name == PRODUKTION:
                 can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, SuppComplaint, SuppComplaintDet)
                 can_change      = get_content_type_ids_of_models(Todo, Message)
 
-            if group.name == SUPPLIERS:
+            if group.name == LIEFERANTEN:
                 can_view_only   = get_content_type_ids_of_models(SuppContainer)
                 can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer, Todo)
 
@@ -123,7 +123,7 @@ class Migration(migrations.Migration):
         for item in dir(groups):
         #Ignoriere alles, was keine Variable ist.
             if not item.startswith("__"):
-                #Wenn der Name der Konstanten keinen "CODE" enthaelt, ist es der volle Gruppenname, wie "management" oder "customer service"
+                #Wenn der Name der Konstanten keinen "CODE" enthaelt, ist es der volle Gruppenname, wie "LEITUNGSTEAM" oder "customer service"
                 #Speichere den Eintrag in der Gruppenliste
                 if item.find('CODE') == UNKNOWN:
                     group_list.append(item)
@@ -134,24 +134,20 @@ class Migration(migrations.Migration):
         #Initialisiere Index-Zähler
         i = 0                    
         for item in group_list:
-            #Englischer Name ist einfach nur das Attribut des Items aus der Gruppenliste
-            my_name_en = str(getattr(groups, group_list[i]))
-            #Uebersetze den Namen ins Deutsche
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=my_name_en)
+            #Name ist einfach nur das Attribut des Items aus der Gruppenliste
+            my_name = str(getattr(groups, group_list[i]))
             """
-            Der Englische Code ist das Attribut des Items aus der Codeliste. Django liest die Items aus einer Datei immer in alphabetischer Reihenfolge ein.
+            Der Code ist das Attribut des Items aus der Codeliste. Django liest die Items aus einer Datei immer in alphabetischer Reihenfolge ein.
             Die zusammengehoerenden Paare von code_list und group_list haben also den gleichen Index, deswegen wird in dieser Schleife nur 1 Index fuer beide Listen verwendet.
-            Beispiel: Eintrag fuer MANAGEMENT in group_list hat den gleichen Index wie MANAGEMENT_CODE in code_list
+            Beispiel: Eintrag fuer LEITUNGSTEAM in group_list hat den gleichen Index wie LEITUNGSTEAM_CODE in code_list
             """
-            my_code_en = str(getattr(groups, code_list[i]))
-            #Uebersetze Code ins Deutsche
-            my_code_de = Translation.get_translation(to_language=LANG_DE, translate_string=str(getattr(groups,code_list[i])))
+            my_code = str(getattr(groups, code_list[i]))
 
             #Erzeuge Gruppe
-            my_group = Group(name=my_name_en, name_de=my_name_de, code=my_code_en, code_de=my_code_de)
+            my_group = Group(name=my_name, code=my_code)
             my_group.save()
 
-            #if my_group.name == MANAGEMENT:
+            #if my_group.name == LEITUNGSTEAM:
             #Weise der Gruppe die Rechte zu
             my_perms = get_group_permissions(my_group)
             my_group.permissions.set(my_perms)
@@ -183,103 +179,103 @@ class Migration(migrations.Migration):
             print("Superuser was not created because the debug flag in settings.py is not set.")
 
         #Leitungsteam
-        for number in range(1, PLAYER_AMOUNT_MANAGEMENT + 1):
+        for number in range(1, PLAYER_AMOUNT_LEITUNGSTEAM + 1):
             
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=MANAGEMENT_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+            my_name = LEITUNGSTEAM_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=MANAGEMENT)
+            my_group = Group.objects.get(name=LEITUNGSTEAM)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
              
         #Kunden
-        for number in range(1, PLAYER_AMOUNT_CUSTOMERS + 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=CUSTOMERS_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_KUNDEN + 1):
+            my_name = KUNDEN_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=CUSTOMERS)
+            my_group = Group.objects.get(name=KUNDEN)
             newUser.groups.add(my_group)
             if number == 1:
-                my_group = Group.objects.get(name=C1)
+                my_group = Group.objects.get(name=K1)
             if number == 2:
-                my_group = Group.objects.get(name=C2)
+                my_group = Group.objects.get(name=K2)
             if number == 3:
-                my_group = Group.objects.get(name=C3)
+                my_group = Group.objects.get(name=K3)
             if number <= 3:
                 newUser.groups.add(my_group)
 
         #Kundendienst
-        for number in range(1, PLAYER_AMOUNT_CUSTOMER_SERVICE + 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=CUSTOMER_SERVICE_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_KUNDENDIENST + 1):
+            my_name = KUNDENDIENST_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=CUSTOMER_SERVICE)
+            my_group = Group.objects.get(name=KUNDENDIENST)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Interne Dienstleistung
-        for number in range(1, PLAYER_AMOUNT_INTERNAL_SERVICE + 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=INTERNAL_SERVICE_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_INTERNE_DIENSTLEISTUNG + 1):
+            my_name = INTERNE_DIENSTLEISTUNG_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=INTERNAL_SERVICE)
+            my_group = Group.objects.get(name=INTERNE_DIENSTLEISTUNG)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Produktionsdienstleistung
-        for number in range(1, PLAYER_AMOUNT_PRODUCTION_SERVICE + 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=PRODUCTION_SERVICE_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_PRODUKTIONSDIENSTLEISTUNG + 1):
+            my_name = PRODUKTIONSDIENSTLEISTUNG_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=PRODUCTION_SERVICE)
+            my_group = Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Produktion
-        for number in range(1, PLAYER_AMOUNT_PRODUCTION + 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=PRODUCTION_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_PRODUKTION + 1):
+            my_name = PRODUKTION_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=PRODUCTION)
+            my_group = Group.objects.get(name=PRODUKTION)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
 
         #Lieferanten
-        for number in range(1, PLAYER_AMOUNT_SUPPLIERS+ 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=SUPPLIERS_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_LIEFERANTEN+ 1):
+            my_name = LIEFERANTEN_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=SUPPLIERS)
+            my_group = Group.objects.get(name=LIEFERANTEN)
             newUser.groups.add(my_group)
 
             if number == 1:
-                my_group = Group.objects.get(name=S100)
+                my_group = Group.objects.get(name=L100)
             if number == 2:
-                my_group = Group.objects.get(name=S200)
+                my_group = Group.objects.get(name=L200)
             if number == 3:
-                my_group = Group.objects.get(name=S300)
+                my_group = Group.objects.get(name=L300)
             if number <= 3:
                 newUser.groups.add(my_group)
 
         #Spielleitung
-        for number in range(1, PLAYER_AMOUNT_GAME_MASTER + 1):
-            my_name_de = Translation.get_translation(to_language=LANG_DE, translate_string=GAME_MASTER_CODE)
-            newUser = User(username=my_name_de + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name_de + str(number))
+        for number in range(1, PLAYER_AMOUNT_SPIELLEITUNG + 1):
+            my_name = SPIELLEITUNG_CODE
+            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
+            newUser.set_password(my_name + str(number))
             newUser.save()
-            my_group = Group.objects.get(name=GAME_MASTER)
+            my_group = Group.objects.get(name=SPIELLEITUNG)
             newUser.groups.add(my_group)
         
         #Einstellungen
@@ -288,7 +284,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('gtapp', '0001_initial'),  
-        ('gtapp', '0002_insert_translations'),
     ]           
     
     operations = [
