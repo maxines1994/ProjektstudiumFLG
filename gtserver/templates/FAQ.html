@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- Title-->
+{% block title %}
+FAQ
+{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4>FAQ  <a href="#!" class="btn-floating btn waves-effect waves-light"><i class="material-icons" style="transform: rotate(180deg); cursor: default;">priority_high</i></a></h4>
+<div class="col s12">
+    <ul class="collapsible popout">
+        <li {% if content == 1 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo verschicke ich Nachrichten?</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf das Nachrichten-Symbol in der Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Nachrichten_01.png' %}">
+                <div class="divider"></div>
+                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Nachrichten_02.png' %}">
+                <div class="divider"></div>
+            </div>
+        </li>
+        <li {% if content == 2 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Aufträge an?</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf den Reiter Aufträge in der Seiten-Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_01.png' %}">
+                <div class="divider"></div>
+                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
+                <div class="divider"></div>
+            </div>
+        </li>
+        <li {% if content == 3 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Auftragsreklamationen an?</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf den Reiter Auftragsreklamationen in der Seiten-Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_Reklamationen_01.png' %}">
+                <div class="divider"></div>
+                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_Reklamationen_02.png' %}">
+                <div class="divider"></div>
+            </div>
+        </li>
+        <li {% if content == 4 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Bestellungen an?</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf den Reiter Bestellungen in der Seiten-Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_01.png' %}">
+                <div class="divider"></div>
+                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_02.png' %}">
+                <div class="divider"></div>
+            </div>
+        </li>
+        <li {% if content == 5 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Bestellreklamationen an?</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf den Reiter Bestellreklamationen in der Seiten-Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_Reklamationen_01.png' %}">
+                <div class="divider"></div>
+                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_Reklamationen_02.png' %}">
+                <div class="divider"></div>
+            </div>
+        </li>
+        <li {% if content == 6 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo finde ich meine Aufgaben?</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie auf den Reiter Aufgaben in der Seiten-Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Aufgaben_01.png' %}">
+                <div class="divider"></div>
+            </div>
+        </li>
+        <li {% if content == 7 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>G</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 8 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>H</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 9 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>I</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 10 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>J</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.collapsible').collapsible();
+    $('.materialboxed').materialbox();
+  });
+</script>
+{% endblock %}

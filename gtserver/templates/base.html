@@ -89,6 +89,8 @@
       {% if request.user|has_group:"production" %}<li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li> {% endif %}
       {% if request.user|has_group:"production service" %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
       {% if request.user|has_group:"production service" or request.user|has_group:"suppliers" %}<li><a href="{% url 'manufacturing_stock' %}">Lager</a></li> {% endif %}
+      <li><a href="{% url 'faq' content=0  %}"> FAQ </a></li>
+      
       {# <li><div class="divider"></div></li> #}
       {% if user.is_authenticated %}
           <li><div class="divider"></div></li>

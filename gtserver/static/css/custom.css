@@ -70,3 +70,9 @@ main.loggedin {
   min-width: 100%;
   min-height: 56.25vw; /* 100 * 9 / 16 */
 }
+
+.collapsible li.active i {
+  -ms-transform: rotate(180deg); /* IE 9 */
+  -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}

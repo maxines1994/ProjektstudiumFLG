@@ -130,6 +130,10 @@ def home_view(request):
 class home_information_pages(TemplateView):
     template_name = "HomeInformationPages.html"
 
+# FAQ
+class faq_view(TemplateView):
+    template_name = "FAQ.html"
+
 # Task Schaltfläche
 def tasks_view(request):
     c = get_context("Aufgaben","Aufgaben")
