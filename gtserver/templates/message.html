@@ -8,6 +8,12 @@
 
 <!-- Content-->
 {% block content %}
+
+{%if title == 'Nachricht' %}
+<p>   </p>
+<a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+{% endif %}
+
 <div class="row">
     <div class="col s12">
         <h4 class="left">{{title}}</h4>

@@ -15,7 +15,7 @@
 <!-- Content-->
 {% block content %}
 <p>   </p>
-<a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+<a class="btn-flat" href="{% url 'home' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
 
 <h4> Informationen über {% if info == 'Unternehmen' %} das {{info}} JOGA
                         {% elif info == 'Planspiel' %} die Planspielphasen
@@ -23,7 +23,7 @@
                         {% endif %}
 </h4>
 
-<br>   </br>
+
 
 {% if info == 'Unternehmen' %}
 <div class="col s12"></div>

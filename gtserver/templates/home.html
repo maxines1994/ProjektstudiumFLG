@@ -16,7 +16,7 @@
                 {% endif %} 
 </h4>
 
-
+{% if user.is_authenticated %}
 <br> </br>
 <div class="row">
     <p><div class="grid-example col s12 m6">
@@ -34,6 +34,7 @@
     </div></p>
     <br></br>
 </div>
+{% endif %}
 
 {% endblock %}
 
