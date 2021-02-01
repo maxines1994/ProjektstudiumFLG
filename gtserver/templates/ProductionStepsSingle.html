@@ -46,6 +46,7 @@
                                         <th>Anzahl</th>
                                         <th>Teilenummer</th>
                                         <th>Bezeichnung</th>
+                                        <th>Grafik</th>
                                     </tr>
                                 </thead>
                                 {% for i in productionsteps_list %}
@@ -57,6 +58,7 @@
                                             <td>{{ i.quantity }}</td>
                                             <td>{{ i.part.part_no}}</td>
                                             <td>{{ i.part.description }}</td>
+                                            <td><img src="{% static i.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
                                         </tr>
                                         </tbody>
                                     {% endif %}
@@ -126,4 +128,9 @@
 
 <!-- Scripts-->
 {% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+</script>
 {% endblock %}
