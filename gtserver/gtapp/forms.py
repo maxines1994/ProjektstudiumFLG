@@ -24,27 +24,15 @@ class Cust_order_form_kd(ModelForm):
 
     issued_on = IntegerField(
         label=_("Bestelltag"),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
     )
     delivery_date = IntegerField(
         label=_('Liefertag'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
     )
     
     memo = CharField(
         label=_('Kommentar'),
         required = False,
         widget=Textarea,
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
     )
 
     class Meta:
@@ -150,27 +138,15 @@ class Supp_order_form_lf(ModelForm):
 
     issued_on =  IntegerField(
         label=_("Bestelltag"),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
     )
     delivery_date =  IntegerField(
         label=_('Liefertag'),
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
     )
 
     memo = CharField(
         label=_('Kommentar'),
         required = False,
         widget=Textarea,
-        error_messages={
-            'required': "Dieses Feld ist ein Pflichtfeld!",
-            'invalid': "Dieses Feld wurde nicht korrekt ausgefüllt!"
-        }
     )
 
     class Meta:
