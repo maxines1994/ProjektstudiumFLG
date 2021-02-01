@@ -68,7 +68,6 @@ def box_search_view(request):
 
 #Status und Todo setzten
 def set_status_todo (request, **kwargs):
-    print("HIER? WIESO?")
     set_status(kwargs["id"],kwargs["type"],kwargs["status"])
     #custorder
     if kwargs["type_for_todo"] == 1:
@@ -78,6 +77,7 @@ def set_status_todo (request, **kwargs):
         Todo.set_todo_cust_det(kwargs["id"], kwargs["todotype"], Timers.get_current_day())
     #supporder
     elif kwargs["type_for_todo"] == 3:
+        print("HALLO " + str(kwargs["id"]))
         Todo.set_todo_supp(kwargs["id"], kwargs["todotype"], Timers.get_current_day())
     #supporderdet
     elif kwargs["type_for_todo"] == 4:
@@ -89,7 +89,6 @@ def set_status_todo (request, **kwargs):
 
 #Status und Todo setzten, Da für jede Position ein Todo angelegt werden muss, gibt es hier eine spezielle Funktion dafür
 def set_status_todo_share (request, **kwargs):
-    print ("Oder doch hier?")
     set_status(kwargs["id"],kwargs["type"],kwargs["status"])
     mylist = list(CustOrderDet.objects.filter(cust_order_id = kwargs["id"]))
     for i in mylist:

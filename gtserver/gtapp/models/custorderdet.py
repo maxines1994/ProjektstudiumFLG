@@ -1,6 +1,6 @@
 from django.db import models
 from django.apps import apps
-from . import OrderDet, CustOrder, Article
+from . import OrderDet, CustOrder, Article, ArtiPart
 
 class CustOrderDet(OrderDet):
     """
