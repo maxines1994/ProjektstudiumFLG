@@ -57,7 +57,7 @@ class Supp_complaint_create_view(CreateView):
         elif self.request.user.groups.filter(name=L300).exists():
             suppliers = [3]
         else:
-            suppliers = [1,2,3]
+            suppliers = [1, 2, 3]
         kwargs.update({'suppliers': suppliers})
         return kwargs
 
@@ -102,7 +102,7 @@ class Supp_complaint_alter_view(UpdateView):
         elif self.request.user.groups.filter(name=L300).exists():
             suppliers = [3]
         else:
-            suppliers = [1,2,3]
+            suppliers = [1, 2, 3]
         kwargs.update({'suppliers': suppliers})
         return kwargs
 

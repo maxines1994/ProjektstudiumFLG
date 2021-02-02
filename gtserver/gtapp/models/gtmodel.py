@@ -13,10 +13,10 @@ class GtModel(models.Model):
     """
     _creation_date = models.DateTimeField(auto_now_add=True)
     _creation_gameday = models.SmallIntegerField(auto_created=True, default=0)
-    _creation_user = models.ForeignKey(User, related_name='%(class)s_creation_user',null=True, on_delete=models.SET_NULL)
+    _creation_user = models.ForeignKey(User, related_name='%(class)s_creation_user', null=True, on_delete=models.SET_NULL)
     _update_date = models.DateTimeField(auto_now=True)
     _update_gameday = models.SmallIntegerField(null=True)
-    _update_user = models.ForeignKey(User, related_name='%(class)s_update_user',null=True, on_delete=models.SET_NULL)
+    _update_user = models.ForeignKey(User, related_name='%(class)s_update_user', null=True, on_delete=models.SET_NULL)
 
     class Meta:
         abstract = True

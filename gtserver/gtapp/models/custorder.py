@@ -35,7 +35,7 @@ class CustOrder(Order):
                         pass
             #Kunden        
             else:
-                mylist = list(CustOrder.objects.filter(external_system = self.external_system,customer_id=self.customer_id).order_by('-id'))
+                mylist = list(CustOrder.objects.filter(external_system = self.external_system, customer_id=self.customer_id).order_by('-id'))
                 if not mylist:
                     no_str = 'K' + str(self.customer_id) +'-001'
                 else:

@@ -19,8 +19,8 @@ class Message(GtModel):
     text = models.TextField()
     subject = models.CharField(max_length=100)
     sent_on = models.SmallIntegerField()
-    sender =  models.ForeignKey(User,default=UNKNOWN, related_name='sender', on_delete=models.SET_DEFAULT)
-    receiver = models.ForeignKey(Group,default=UNKNOWN, related_name='receiver', on_delete=models.SET_DEFAULT)
+    sender =  models.ForeignKey(User, default=UNKNOWN, related_name='sender', on_delete=models.SET_DEFAULT)
+    receiver = models.ForeignKey(Group, default=UNKNOWN, related_name='receiver', on_delete=models.SET_DEFAULT)
 
     status = models.CharField(
         max_length = 1,

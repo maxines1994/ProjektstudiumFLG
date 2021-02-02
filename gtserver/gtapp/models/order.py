@@ -8,14 +8,14 @@ class Order(GtModel):
     """
 
     order_no = models.CharField(max_length=8)
-    ref_no = models.CharField(null=True,blank=True, max_length=10)
+    ref_no = models.CharField(null=True, blank=True, max_length=10)
     issued_on = models.SmallIntegerField()
     delivery_date = models.SmallIntegerField()
     received_on = models.SmallIntegerField(null=True)
     memo = models.TextField(null=True, blank=True)
-    user = models.ForeignKey(User,null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     external_system = models.BooleanField(default=False)
-    box_no = models.CharField(max_length=8,blank=True,null=True)
+    box_no = models.CharField(max_length=8, blank=True, null=True)
 
     class Meta:
         abstract = True

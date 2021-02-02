@@ -24,14 +24,14 @@ class goods_receipt(GtModel):
             pass
 
         elif self.supp_det is not None:
-            Stock.objects.filter(is_supplier_stock=external_system,part=self.supp_det.part)[0].change(self.delivered)
+            Stock.objects.filter(is_supplier_stock=external_system, part=self.supp_det.part)[0].change(self.delivered)
 
         elif self.cust_complaint_det is not None:
             # TBD
             pass
 
         elif self.supp_complaint_det is not None:
-            Stock.objects.filter(is_supplier_stock=external_system,part=self.supp_det.part)[0].change(self.delivered)
+            Stock.objects.filter(is_supplier_stock=external_system, part=self.supp_det.part)[0].change(self.delivered)
         
         # STATUS SETZEN
 

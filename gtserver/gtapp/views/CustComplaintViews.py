@@ -55,7 +55,7 @@ class Cust_complaint_create_view(CreateView):
         elif self.request.user.groups.filter(name=K3).exists():
             customers = [3]
         else:
-            customers = [1,2,3]
+            customers = [1, 2, 3]
         kwargs.update({KUNDEN: customers})
         return kwargs
 
@@ -99,7 +99,7 @@ class Cust_complaint_alter_view(UpdateView):
         elif self.request.user.groups.filter(name=K3).exists():
             customers = [3]
         else:
-            customers = [1,2,3]
+            customers = [1, 2, 3]
         kwargs.update({KUNDEN: customers})
         return kwargs
     

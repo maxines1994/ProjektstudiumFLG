@@ -100,7 +100,7 @@
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
             {% if action != "create" %}
             {%if company == LIEFERANTEN %}
-                <a class="waves-effect waves-light btn" href="{% url 'set_status_todo' object.pk 3 2 3 20%}">Freigeben</a>
+                <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 3 2 3 20%}">Freigeben</a>
             {%else%}
                 <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Freigeben</a>
             {% endif %}

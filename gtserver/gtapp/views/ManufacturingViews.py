@@ -10,16 +10,16 @@ from gtapp.forms import formset_goods_cust, formset_goods_cust_c, formset_goods_
 
 def manufacturing_list_view(request):
     c = {}
-    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False,status='2')
-    return render(request,"manufacturing.html",c)
+    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False, status='2')
+    return render(request, "manufacturing.html", c)
 
-def manufacturing_release_view(request,**kwargs):
+def manufacturing_release_view(request, **kwargs):
     c = {}
     if CustOrderDet.objects.get(pk=kwargs['id']).status=='0':
         CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='1')
     return HttpResponseRedirect(reverse("cust_order"))
 
-def manufacturing_testing_view(request,**kwargs):
+def manufacturing_testing_view(request, **kwargs):
     c = {}
     needs = CustOrderDet.objects.filter(pk=kwargs["id"])[0].auto_needs()
     if Stock.reserve_test(needs):
@@ -30,12 +30,12 @@ def manufacturing_testing_view(request,**kwargs):
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 
-def manufacturing_supporder_view(request,**kwargs):
+def manufacturing_supporder_view(request, **kwargs):
     c = {}
     
     return HttpResponseRedirect(reverse(""))
 
-def manufacturing_stock_view(request,**kwargs):
+def manufacturing_stock_view(request, **kwargs):
     c = {}
     if request.user.groups.filter(name=JOGA).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=False)
@@ -49,7 +49,7 @@ def manufacturing_stock_view(request,**kwargs):
     if request.user.groups.filter(name=L300).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=True, part__supplier_id=3)
 
-    return render(request,"stock.html",c)
+    return render(request, "stock.html", c)
 
 
 def goods_receipt_view(request, **kwargs):
@@ -61,7 +61,7 @@ def goods_receipt_view(request, **kwargs):
         myextra = CustOrderDet.objects.filter(cust_order_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
             goods_receipt,
-            fields=['cust_det','quantity','delivered','trash'],
+            fields=['cust_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
                 'quantity': NumberInput(attrs={'readonly':True}),
@@ -72,7 +72,7 @@ def goods_receipt_view(request, **kwargs):
         myextra = CustComplaintDet.objects.filter(cust_complaint_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
             goods_receipt,
-            fields=['cust_complaint_det','quantity','delivered','trash'],
+            fields=['cust_complaint_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
                 'quantity': NumberInput(attrs={'readonly':True}),
@@ -83,7 +83,7 @@ def goods_receipt_view(request, **kwargs):
         myextra = SuppOrderDet.objects.filter(supp_order_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
             goods_receipt,
-            fields=['supp_det','quantity','delivered','trash'],
+            fields=['supp_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
                 'quantity': NumberInput(attrs={'readonly':True}),
@@ -94,7 +94,7 @@ def goods_receipt_view(request, **kwargs):
         myextra = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
             goods_receipt,
-            fields=['supp_complaint_det','quantity','delivered','trash'],
+            fields=['supp_complaint_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
                 'quantity': NumberInput(attrs={'readonly':True}),
@@ -129,14 +129,14 @@ def goods_receipt_view(request, **kwargs):
             if kwargs['typeofdet'] == 3:
                 bo = False
                 for i in doc:
-                    if goods_receipt.objects.filter(pk=i)[0] is not 0:
+                    if goods_receipt.objects.filter(pk=i)[0] != 0:
                         bo = True
                 if bo:
                     c = SuppComplaint.objects.create(supp_order_id=kwargs['idofdet'])
                     for i in doc:
                         rd = goods_receipt.objects.get(pk=i)
-                        if rd.trash is not 0: # POSNR AUTOMATISCH ?!
-                            SuppComplaintDet.objects.create(pos=i,supp_complaint_id=c.pk,supp_order_det_id=kwargs["idofdet"],quantity=rd.trash)
+                        if rd.trash != 0: # POSNR AUTOMATISCH ?!
+                            SuppComplaintDet.objects.create(pos=i, supp_complaint_id=c.pk, supp_order_det_id=kwargs["idofdet"], quantity=rd.trash)
             if kwargs['typeofdet'] == 4:
                 pass
 
@@ -147,19 +147,19 @@ def goods_receipt_view(request, **kwargs):
         if kwargs['typeofdet'] == 1:
             qset = CustOrderDet.objects.filter(cust_order_id=kwargs['idofdet'])
             for i in qset:
-                initial.append({"cust_det":i.pk,"quantity":1})
+                initial.append({"cust_det":i.pk, "quantity":1})
         if kwargs['typeofdet'] == 2:
             qset = CustComplaintDet.objects.filter(cust_complaint_id=kwargs['idofdet'])
             for i in qset:
-                initial.append({"cust_complaint_det":i.pk,"quantity":1})
+                initial.append({"cust_complaint_det":i.pk, "quantity":1})
         if kwargs['typeofdet'] == 3:
             qset = SuppOrderDet.objects.filter(supp_order_id=kwargs['idofdet'])
             for i in qset:
-                initial.append({"supp_det":i.pk,"quantity":i.quantity})
+                initial.append({"supp_det":i.pk, "quantity":i.quantity})
         if kwargs['typeofdet'] == 4:
             qset = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['idofdet'])
             for i in qset:
-                initial.append({"supp_complaint_det":i.pk,"quantity":i.quantity})
+                initial.append({"supp_complaint_det":i.pk, "quantity":i.quantity})
         formset = MyFormSet(initial=initial, queryset=goods_receipt.objects.none(), prefix='form1')
     return render(request, template, {'formset':formset})
 

@@ -17,7 +17,7 @@ class Cust_order_form_jg(ModelForm):
 
     class Meta:
         model = CustOrder
-        fields = ["ref_no","customer", "issued_on",
+        fields = ["ref_no", "customer", "issued_on",
                   "delivery_date", "memo"]
 
 class Cust_order_form_kd(ModelForm):
@@ -93,7 +93,7 @@ class Cust_complaint_form(ModelForm):
 
     class Meta:
         model = CustComplaint
-        fields = ["cust_order","memo","finished_on", "box_no"]
+        fields = ["cust_order", "memo", "finished_on", "box_no"]
         labels = {
             'cust_order': _('Auftrag'),
             'memo': _('Kommentar'),
@@ -124,7 +124,7 @@ class Supp_order_form_jg(ModelForm):
 
     class Meta:
         model = SuppOrder
-        fields = ["ref_no","issued_on","supplier","delivery_date","memo", "box_no"]
+        fields = ["ref_no", "issued_on", "supplier", "delivery_date", "memo", "box_no"]
         labels = {
             "order_no": _("Referenznummer"),
             "issued_on": _("Bestelldatum"),
@@ -152,7 +152,7 @@ class Supp_order_form_lf(ModelForm):
 
     class Meta:
         model = SuppOrder
-        fields = ["ref_no","issued_on","delivery_date","memo"]
+        fields = ["ref_no", "issued_on", "delivery_date", "memo"]
         labels = {
             'memo': _('Kommentar'),
         }
@@ -165,7 +165,7 @@ class Supp_order_det_form(ModelForm):
 
     class Meta:
         model = SuppOrderDet
-        fields = ["pos","part","quantity","unit_price","memo"]
+        fields = ["pos", "part", "quantity", "unit_price", "memo"]
         labels = {
             'pos': _('Positionsnummer'),
             'part': _('Artikel'),
@@ -182,7 +182,7 @@ class Supp_complaint_form(ModelForm):
 
     class Meta:
         model = SuppComplaint
-        fields = ["supp_order","memo", "finished_on", "box_no"]
+        fields = ["supp_order", "memo", "finished_on", "box_no"]
         labels = {
             'supp_order': _('Bestellung'),
             'memo': _('Kommentar'),
@@ -215,7 +215,7 @@ class Cust_complaint_det_form(ModelForm):
 
     class Meta:
         model = CustComplaintDet
-        fields = ["pos","cust_order_det","memo", "box_no"]
+        fields = ["pos", "cust_order_det", "memo", "box_no"]
         labels = {
             'pos': _('Position'),
             'cust_oder_det': _('Position'),
@@ -233,7 +233,7 @@ class Supp_complaint_det_form(ModelForm):
 
     class Meta:
         model = SuppComplaintDet
-        fields = ["pos","supp_order_det","quantity","memo", "finished_on", "box_no"]
+        fields = ["pos", "supp_order_det", "quantity", "memo", "finished_on", "box_no"]
         labels = {
             'pos': _('Position'),
             'supp_oder_det': _('Teil'),
@@ -259,7 +259,7 @@ class formset_goods_cust(ModelForm):
             self.fields['quantity'].disabled = True
 
     class Meta:
-        fields = ['cust_det','quantity','delivered','trash']
+        fields = ['cust_det', 'quantity', 'delivered', 'trash']
 
 
 class formset_goods_cust_c(ModelForm):
@@ -272,7 +272,7 @@ class formset_goods_cust_c(ModelForm):
             self.fields['quantity'].disabled = True
 
     class Meta:
-        fields = ['cust_complaint_det','quantity','delivered','trash']
+        fields = ['cust_complaint_det', 'quantity', 'delivered', 'trash']
 
 
 class formset_goods_supp(ModelForm):
@@ -285,7 +285,7 @@ class formset_goods_supp(ModelForm):
             self.fields['quantity'].widget.attrs['readonly'] = True
 
     class Meta:
-        fields = ['supp_det','quantity','delivered','trash']
+        fields = ['supp_det', 'quantity', 'delivered', 'trash']
 
 
 class formset_goods_supp_c(ModelForm):
@@ -298,4 +298,4 @@ class formset_goods_supp_c(ModelForm):
             self.fields['quantity'].widget.attrs['readonly'] = True
 
     class Meta:
-        fields = ['supp_complaint_det','quantity','delivered','trash']
+        fields = ['supp_complaint_det', 'quantity', 'delivered', 'trash']

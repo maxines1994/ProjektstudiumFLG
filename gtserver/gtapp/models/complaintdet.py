@@ -13,7 +13,7 @@ class ComplaintDet(GtModel):
 
     pos = models.SmallIntegerField()
     memo = models.TextField()
-    box_no = models.CharField(max_length=8,null=True,blank=True)
+    box_no = models.CharField(max_length=8, null=True, blank=True)
 
     status = models.CharField(
         max_length = 1,

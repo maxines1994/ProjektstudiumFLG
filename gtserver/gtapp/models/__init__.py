@@ -25,8 +25,8 @@ from .supporderdet import SuppOrderDet
 from .suppcontainer import SuppContainer
 from .stock import Stock
 from .stockmovement import StockMovement
-from .todotype import TodoType
-from .todo import Todo
+from .tasktype import TaskType
+from .task import Task
 from .custcomplaintdet import CustComplaintDet
 from .suppcomplaintdet import SuppComplaintDet
 from .timer import Timers

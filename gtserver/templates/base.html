@@ -9,13 +9,13 @@
 
     <!--Import materialize.css-->
     {% if company == JOGA %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_light-blue.min.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_light-blue.min.css' %}"  media="screen, projection"/>
     {% elif company == LIEFERANTEN %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_green.min.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_green.min.css' %}"  media="screen, projection"/>
     {% elif company == KUNDEN %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_red.min.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_red.min.css' %}"  media="screen, projection"/>
     {% else %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_grey.min.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_grey.min.css' %}"  media="screen, projection"/>
     {% endif %}
     
     <!--Import materialize.js-->
@@ -53,7 +53,7 @@
             {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>{% endif %}
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href=""><i class="material-icons">qr_code</i></a></li>{% endif %}
             <!--<li><a class="dropdown-trigger-tasks" href="#" data-target='tasks'><i class="material-icons">notifications_outline</i></a></li>-->
-            {% if perms.gtapp.view_todo %}<li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;"><i class="material-icons">notifications_none</i></a></li>{% endif %}
+            {% if perms.gtapp.view_task %}<li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;"><i class="material-icons">notifications_none</i></a></li>{% endif %}
           </ul>
           {% else %}
           <ul class="right">
@@ -78,7 +78,7 @@
         <a><span class="white-text email">{{ user.groups.first.name }}</span></a>
       </div></li>
       <li><a href="{% url 'home' %}">Startseite</a></li>
-      {% if perms.gtapp.view_todo %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
+      {% if perms.gtapp.view_task %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
       <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
@@ -100,7 +100,7 @@
     </ul>
     {% endif %}
 
-    {% if perms.gtapp.view_todo %}
+    {% if perms.gtapp.view_task %}
     <!-- Tasks-->
     <ul id="tasks" class="sidenav">
       <li class="hide-on-med-and-down" style="height: 64px"></li>
@@ -143,7 +143,7 @@
           $('.dropdown-trigger').dropdown();
           $('.collapsible').collapsible();
 
-          {% if perms.gtapp.view_todo %}
+          {% if perms.gtapp.view_task %}
           var options = {
             'edge': 'right',
             'onOpenStart': getTasks
@@ -152,10 +152,10 @@
           {% endif %}
         });
 
-        {% if perms.gtapp.view_todo %}
+        {% if perms.gtapp.view_task %}
         function getTasks(){
           var request = new XMLHttpRequest();
-          request.open("GET","{% url 'api_tasks' %}");
+          request.open("GET", "{% url 'api_tasks' %}");
           request.addEventListener('load', function(event) {
             if (request.status >= 200 && request.status < 300) {
               var obj = JSON.parse(request.responseText);
@@ -212,13 +212,13 @@
       });
       function getStatus(){
         var request = new XMLHttpRequest();
-        request.open("GET","{% url 'api_status' %}");
+        request.open("GET", "{% url 'api_status' %}");
         request.addEventListener('load', function(event) {
           if (request.status >= 200 && request.status < 300) {
             var obj = JSON.parse(request.responseText);
             $('#currenttime')[0].innerHTML = '<i class="material-icons left">today</i>Tag ' + obj['time'];
 
-            {% if perms.gtapp.view_todo %}
+            {% if perms.gtapp.view_task %}
             if (obj['has_unassigned']) $("#notificationicon")[0].innerHTML='<i class="material-icons">notifications_active</i>';
             else $("#notificationicon")[0].innerHTML='<i class="material-icons">notifications_none</i>';
             {% endif %}

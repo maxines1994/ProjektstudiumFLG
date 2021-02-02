@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         
         for app_config in apps.get_app_configs():
             app_config.models_module = True
-            create_permissions(app_config=app_config,verbosity=0)
+            create_permissions(app_config=app_config, verbosity=0)
             apps.models_module = None
 
 
@@ -88,27 +88,27 @@ class Migration(migrations.Migration):
         
             if group.name == KUNDEN:
                 can_view_only   = get_content_type_ids_of_models(CustContainer)
-                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet,Message, Todo)
+                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Message, Task)
 
             if group.name == KUNDENDIENST:
                 can_view_only   = get_content_type_ids_of_models(Article, ArtiPart, Part, CustContainer)
-                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Todo, Message,)
+                can_change      = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Task, Message, )
 
             if group.name == INTERNE_DIENSTLEISTUNG:
                 #can_view_only   = get_content_type_ids_of_models
-                can_change      = get_content_type_ids_of_models(Todo, Message, CustContainer, SuppContainer)
+                can_change      = get_content_type_ids_of_models(Task, Message, CustContainer, SuppContainer)
 
             if group.name == PRODUKTIONSDIENSTLEISTUNG:
                 can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Article, ArtiPart, Part, SuppContainer)
-                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, Todo, Message, Stock, StockMovement)
+                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, Task, Message, Stock, StockMovement)
 
             if group.name == PRODUKTION:
                 can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, SuppComplaint, SuppComplaintDet)
-                can_change      = get_content_type_ids_of_models(Todo, Message)
+                can_change      = get_content_type_ids_of_models(Task, Message)
 
             if group.name == LIEFERANTEN:
                 can_view_only   = get_content_type_ids_of_models(SuppContainer)
-                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer, Todo)
+                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer, Task)
 
             perms_list = get_perms(can_view_only, VIEW)
             perms_list = perms_list + get_perms(can_change, CHANGE)        

@@ -7,4 +7,4 @@ class SuppComplaint(Complaint):
     """
     Dieses Model enthaelt die Kopfdaten von Lieferanten-Reklamationen.
     """
-    supp_order = models.ForeignKey(SuppOrder,on_delete=models.CASCADE)
+    supp_order = models.ForeignKey(SuppOrder, on_delete=models.CASCADE)

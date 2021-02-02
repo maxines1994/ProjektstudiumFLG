@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from gtapp.constants.general import *
-from . import GtModel, CustOrderDet, CustOrder, TodoType, GtModel, SuppOrder, SuppOrderDet
+from . import GtModel, CustOrderDet, CustOrder, TaskType, GtModel, SuppOrder, SuppOrderDet
 import time
 
-class Todo(GtModel):
+class Task(GtModel):
     """
-    Dieses Model enthaelt die einzelnen Todos. Es identifiziert den Todo-Typ und den Sachbearbeiter des Todos.
+    Dieses Model enthaelt die einzelnen Tasks. Es identifiziert den Task-Typ und den Sachbearbeiter des Tasks.
     Ausserdem enthaelt es die Zuordnung zur Bestellposition, sowie ein Notizfeld.
     """
     
@@ -21,7 +21,7 @@ class Todo(GtModel):
     
     start_on = models.SmallIntegerField(null=True, blank=True)
     finished_on = models.SmallIntegerField(null=True, blank=True)
-    todo_type = models.ForeignKey(TodoType, on_delete=models.CASCADE)
+    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
     cust_order = models.ForeignKey(CustOrder, null= True, on_delete=models.SET_NULL)
     cust_order_det = models.ForeignKey(CustOrderDet, null= True, on_delete=models.SET_NULL)
     supp_order = models.ForeignKey(SuppOrder, null= True, on_delete=models.SET_NULL)
@@ -36,54 +36,54 @@ class Todo(GtModel):
     )
     
 
-    #Todo für CusOrders
+    #Task für CusOrders
     @classmethod
-    def set_todo_cust(cls, order, number, day):
-        mylist = list(Todo.objects.filter(cust_order_id = order, todo_type_id=number))
+    def set_task_cust(cls, order, number, day):
+        mylist = list(Task.objects.filter(cust_order_id = order, task_type_id=number))
         if not mylist:
-                Todo.objects.create(cust_order=order, todo_type_id=number, active=1, start_on=day)
+                Task.objects.create(cust_order=order, task_type_id=number, active=1, start_on=day)
         else:
             pass 
 
-    #Todo für CusOrderDets
+    #Task für CusOrderDets
     @classmethod
-    def set_todo_cust_det(cls, orderdet, number, day):
-        mylist = list(Todo.objects.filter(cust_order_det_id = orderdet,todo_type_id=number))
+    def set_task_cust_det(cls, orderdet, number, day):
+        mylist = list(Task.objects.filter(cust_order_det_id = orderdet, task_type_id=number))
         if not mylist:
-                Todo.objects.create(cust_order_det=orderdet, todo_type_id=number, active=1, start_on=day)
+                Task.objects.create(cust_order_det=orderdet, task_type_id=number, active=1, start_on=day)
         else:
             pass
 
-    #Todo für SuppOrders
+    #Task für SuppOrders
     @classmethod
-    def set_todo_supp(cls, order, number, day):
-        mylist = list(Todo.objects.filter(supp_order_id = order,todo_type_id=number))
+    def set_task_supp(cls, order, number, day):
+        mylist = list(Task.objects.filter(supp_order_id = order, task_type_id=number))
         if not mylist:
-                Todo.objects.create(supp_order=order, todo_type_id=number, active = 1, start_on= day)
+                Task.objects.create(supp_order=order, task_type_id=number, active = 1, start_on= day)
         else:
             pass  
     
-    #Todo für SuppOrderDets
+    #Task für SuppOrderDets
     @classmethod
-    def set_todo_supp_det(cls, orderdet, number, day):
-        mylist = list(Todo.objects.filter(supp_order_det_id = orderdet,todo_type_id=number))
+    def set_task_supp_det(cls, orderdet, number, day):
+        mylist = list(Task.objects.filter(supp_order_det_id = orderdet, task_type_id=number))
         if not mylist:
-                Todo.objects.create(supp_order_det=orderdet, todo_type_id=number, active = 1, start_on= day)
+                Task.objects.create(supp_order_det=orderdet, task_type_id=number, active = 1, start_on= day)
         else:
             pass
             pass 
     
     @classmethod
     def get_tasks_of_user(self, user):
-        return Todo.objects.filter(user=user, active=1)
+        return Task.objects.filter(user=user, active=1)
 
     @classmethod
     def get_unassigned_tasks(self, user):
-        return Todo.objects.filter(user=None, active=1, todo_type__group__in=user.groups.all())
+        return Task.objects.filter(user=None, active=1, task_type__group__in=user.groups.all())
 
     @classmethod
     def has_unassigned(self, user):
-        return Todo.get_unassigned_tasks(user).exists()
+        return Task.get_unassigned_tasks(user).exists()
 
     def get_ref(self):
         if self.cust_order_det:
@@ -93,4 +93,4 @@ class Todo(GtModel):
         return '-'
 
     def __str__(self):
-        return self.todo_type.title + ' (' + self.get_ref() + ')'
+        return self.task_type.title + ' (' + self.get_ref() + ')'

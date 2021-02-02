@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_form_create
-from gtapp.models import CustOrder, CustOrderDet, Todo, Timers
+from gtapp.models import CustOrder, CustOrderDet, Task, Timers
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max
@@ -33,13 +33,13 @@ class Cust_order_create_view(CreateView):
         
         if form.instance.external_system == True:
             if self.request.user.groups.filter(name=K1).exists():
-                Todo.set_todo_cust(new_cust_order, 16, Timers.get_current_day())
+                Task.set_task_cust(new_cust_order, 16, Timers.get_current_day())
             elif self.request.user.groups.filter(name=K2).exists():
-                Todo.set_todo_cust(new_cust_order, 17, Timers.get_current_day())
+                Task.set_task_cust(new_cust_order, 17, Timers.get_current_day())
             elif self.request.user.groups.filter(name=K3).exists():
-                Todo.set_todo_cust(new_cust_order, 18, Timers.get_current_day())
+                Task.set_task_cust(new_cust_order, 18, Timers.get_current_day())
         else:
-            Todo.set_todo_cust(new_cust_order, 1, Timers.get_current_day())
+            Task.set_task_cust(new_cust_order, 1, Timers.get_current_day())
         
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
 

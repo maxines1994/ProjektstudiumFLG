@@ -27,8 +27,8 @@
 {% for task in tasks %}
 <tr id="newposition">
     <td>{{task.id}}</td>
-    <td>{{task.todo_type.title}}</td>
-    <td>{{task.todo_type.description}}</td>
+    <td>{{task.task_type.title}}</td>
+    <td>{{task.task_type.description}}</td>
     <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
 </tr>
 {% endfor %}

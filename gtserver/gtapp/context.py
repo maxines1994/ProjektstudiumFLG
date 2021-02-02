@@ -25,7 +25,7 @@ def gtconstants(request):
     for item in dir(constants):
         if not item.startswith("__") and item.isupper():
             #Fuege den Eintrag dem Dictionary hinzu
-            my_dict.update({item : str(getattr(constants,item))})
+            my_dict.update({item : str(getattr(constants, item))})
     
     #Liefere das gebildete Dictionary zurueck. Es enthaelt alle Konstanten aus dem constants-Ordner
     return my_dict   
