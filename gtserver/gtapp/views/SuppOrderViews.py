@@ -2,10 +2,10 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock, Todo
-from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf,Supp_order_det_form
+from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock, Task
+from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
 from gtapp.models import LiveSettings
-from gtapp.constants.groups import *
+from gtapp.constants import *
 from gtapp.models import Timers
 
 
@@ -15,22 +15,22 @@ class Supp_order_create_view(CreateView):
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
         
-        if self.request.user.groups.filter(name='supplier 100').exists():
+        if self.request.user.groups.filter(name=L100).exists():
             form.instance.supplier_id = 1
-        elif self.request.user.groups.filter(name='supplier 200').exists():
+        elif self.request.user.groups.filter(name=L200).exists():
             form.instance.supplier_id = 2
-        elif self.request.user.groups.filter(name='supplier 300').exists():
+        elif self.request.user.groups.filter(name=L300).exists():
             form.instance.supplier_id = 3
         
-        if self.request.user.groups.filter(name='suppliers').exists():
+        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
             form.instance.external_system = True
             
         new_supp_order = form.save()
         
-        if self.request.user.groups.filter(name='supplier 300').exists():
-            Todo.set_todo_supp(new_supp_order, 20, Timers.get_current_day())
-        elif self.request.user.groups.filter(name='JOGA').exists():
-            Todo.set_todo_supp(new_supp_order, 19, Timers.get_current_day())
+        if self.request.user.groups.filter(name=L300).exists():
+            Task.set_task_supp(new_supp_order, 20, Timers.get_current_day())
+        elif self.request.user.groups.filter(name=JOGA).exists():
+            Task.set_task_supp(new_supp_order, 19, Timers.get_current_day())
         
 
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")
@@ -41,7 +41,7 @@ class Supp_order_create_view(CreateView):
         return context
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.filter(name='suppliers').exists():
+        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
             form_class = Supp_order_form_lf
         else:
             form_class = Supp_order_form_jg
@@ -73,7 +73,7 @@ class Supp_order_alter_view(UpdateView):
         return HttpResponseRedirect("/supp_order/")
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.filter(name='suppliers').exists():
+        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
             form_class = Supp_order_form_lf
         else:
             form_class = Supp_order_form_jg
@@ -152,21 +152,21 @@ class Supp_order_view(TemplateView):
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='supplier 100').exists():
+            if self.request.user.groups.filter(name=L100).exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
-            elif self.request.user.groups.filter(name='supplier 200').exists():
+            elif self.request.user.groups.filter(name=L200).exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
-            elif self.request.user.groups.filter(name='supplier 300').exists():
+            elif self.request.user.groups.filter(name=L300).exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
             else:
                 context['orders'] = SuppOrder.objects.all()
         else:
             # 2. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='supplier 100').exists():
+            if self.request.user.groups.filter(name=L100).exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1, external_system=True)
-            elif self.request.user.groups.filter(name='supplier 200').exists():
+            elif self.request.user.groups.filter(name=L200).exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2, external_system=True)
-            elif self.request.user.groups.filter(name='supplier 300').exists():
+            elif self.request.user.groups.filter(name=L300).exists():
                 context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3, external_system=True)
             else:
                 context['orders'] = SuppOrder.objects.all().filter(external_system=False)

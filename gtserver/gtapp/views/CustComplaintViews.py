@@ -5,6 +5,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import CustComplaint, CustComplaintDet, Article, CustOrder, CustOrderDet
 from gtapp.forms import Cust_complaint_form, Cust_complaint_det_form
 from gtapp.models import LiveSettings
+from gtapp.constants import *
 
 class Cust_complaint_create_view(CreateView):
     template_name = "CustComplaintForm.html"
@@ -12,14 +13,14 @@ class Cust_complaint_create_view(CreateView):
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
         
-        if self.request.user.groups.filter(name='customer 1').exists():
+        if self.request.user.groups.filter(name=K1).exists():
             form.instance.customer_id = 1
-        elif self.request.user.groups.filter(name='customer 2').exists():
+        elif self.request.user.groups.filter(name=K2).exists():
             form.instance.customer_id = 2
-        elif self.request.user.groups.filter(name='customer 3').exists():
+        elif self.request.user.groups.filter(name=K3).exists():
             form.instance.customer_id = 3
 
-        if self.request.user.groups.filter(name='customers').exists():
+        if self.request.user.groups.filter(name=KUNDEN).exists():
             form.instance.external_system = True
 
         new_cust_order_complaint = form.save()
@@ -47,15 +48,15 @@ class Cust_complaint_create_view(CreateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if self.request.user.groups.filter(name='customer 1').exists():
+        if self.request.user.groups.filter(name=K1).exists():
             customers = [1]
-        elif self.request.user.groups.filter(name='customer 2').exists():
+        elif self.request.user.groups.filter(name=K2).exists():
             customers = [2]
-        elif self.request.user.groups.filter(name='customer 3').exists():
+        elif self.request.user.groups.filter(name=K3).exists():
             customers = [3]
         else:
-            customers = [1,2,3]
-        kwargs.update({'customers': customers})
+            customers = [1, 2, 3]
+        kwargs.update({KUNDEN: customers})
         return kwargs
 
 
@@ -91,15 +92,15 @@ class Cust_complaint_alter_view(UpdateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if self.request.user.groups.filter(name='customer 1').exists():
+        if self.request.user.groups.filter(name=K1).exists():
             customers = [1]
-        elif self.request.user.groups.filter(name='customer 2').exists():
+        elif self.request.user.groups.filter(name=K2).exists():
             customers = [2]
-        elif self.request.user.groups.filter(name='customer 3').exists():
+        elif self.request.user.groups.filter(name=K3).exists():
             customers = [3]
         else:
-            customers = [1,2,3]
-        kwargs.update({'customers': customers})
+            customers = [1, 2, 3]
+        kwargs.update({KUNDEN: customers})
         return kwargs
     
         
@@ -197,21 +198,21 @@ class Cust_complaint_view(TemplateView):
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='customer 1').exists():
+            if self.request.user.groups.filter(name=K1).exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 1))
-            elif self.request.user.groups.filter(name='customer 2').exists():
+            elif self.request.user.groups.filter(name=K2).exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 2))
-            elif self.request.user.groups.filter(name='customer 3').exists():
+            elif self.request.user.groups.filter(name=K3).exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 3))
             else:
                 context['complaints'] = CustComplaint.objects.all()
         else:
             # 2. Digitalisierungsstufe
-            if self.request.user.groups.filter(name='customer 1').exists():
+            if self.request.user.groups.filter(name=K1).exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 1, external_system=True))
-            elif self.request.user.groups.filter(name='customer 2').exists():
+            elif self.request.user.groups.filter(name=K2).exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 2, external_system=True))
-            elif self.request.user.groups.filter(name='customer 3').exists():
+            elif self.request.user.groups.filter(name=K3).exists():
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(customer_id = 3, external_system=True))
             else:
                 context['complaints'] = CustComplaint.objects.all().filter(cust_order__in = CustOrder.objects.all().filter(external_system=False))

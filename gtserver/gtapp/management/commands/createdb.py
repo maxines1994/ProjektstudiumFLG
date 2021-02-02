@@ -16,7 +16,7 @@ class Command(BaseCommand):
                     os.replace(origin + file, target + file)
 
 
-        migrations_path = os.path.dirname(migrations.__file__).replace("\\" ,"/") + "/"
+        migrations_path = os.path.dirname(migrations.__file__).replace("\\" , "/") + "/"
         temp_path = migrations_path + "_temp/"
         db_name = settings.DATABASES['default']['NAME']
         

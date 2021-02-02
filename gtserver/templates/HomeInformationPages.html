@@ -21,27 +21,27 @@
 -->
 
 <h4> Informationen über  {% if info == 'Rolle' %} Ihre Stelle 
-                            {% if request.user|has_group:"customer service" %}
+                            {% if request.user|has_group:KUNDENDIENST %}
                                 Kundendienst
-                            {% elif request.user|has_group:"internal service" %}
+                            {% elif request.user|has_group:INTERNE_DIENSTLEISTUNG %}
                                 interne Dienstleistung
-                            {% elif request.user|has_group:"production service" %}
+                            {% elif request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                                 Produktionsdienstleistung
-                            {% elif request.user|has_group:"management" %}
+                            {% elif request.user|has_group:LEITUNGSTEAM %}
                                 Leitungsteam
-                            {% elif request.user|has_group:"production" %}
+                            {% elif request.user|has_group:PRODUKTION %}
             	                Produktion
-                            {% elif request.user|has_group:"customer 1" %}
+                            {% elif request.user|has_group:K1 %}
                                 Kunde 1
-                            {% elif request.user|has_group:"customer 2" %}
+                            {% elif request.user|has_group:K2 %}
                                 Kunde 2
-                            {% elif request.user|has_group:"customer 3" %}
+                            {% elif request.user|has_group:K3 %}
                                 Kunde 3
-                            {% elif request.user|has_group:"supplier 100" %}
+                            {% elif request.user|has_group:L100 %}
                                 Lieferant 100
-                            {% elif request.user|has_group:"supplier 200" %}
+                            {% elif request.user|has_group:L200 %}
                                 Lieferant 200
-                            {% elif request.user|has_group:"supplier 300" %}
+                            {% elif request.user|has_group:L300 %}
                                 Lieferant 300
                             {% endif %}
                         
@@ -51,7 +51,7 @@
 <p></p>
 
 {% if info == 'Rolle' %}
-    {% if request.user|has_group:"customer service" %}
+    {% if request.user|has_group:KUNDENDIENST %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -116,7 +116,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"production service" %}
+    {% elif request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -175,7 +175,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"production" %}
+    {% elif request.user|has_group:PRODUKTION %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -239,7 +239,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"internal service" %}
+    {% elif request.user|has_group:INTERNE_DIENSTLEISTUNG %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -286,7 +286,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"customer 1" %}
+    {% elif request.user|has_group:K1 %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -334,7 +334,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"customer 2" %}
+    {% elif request.user|has_group:K2 %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -385,7 +385,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"customer 3" %}
+    {% elif request.user|has_group:K3 %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -512,7 +512,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"supplier 200" %}
+    {% elif request.user|has_group:L200 %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -641,7 +641,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"management" %}
+    {% elif request.user|has_group:LEITUNGSTEAM %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">

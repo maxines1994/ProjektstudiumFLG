@@ -32,7 +32,7 @@
 
       <script type="text/javascript">
 
-        function getNewElement(id,pos,label,qtty){
+        function getNewElement(id, pos, label, qtty){
           newitem = '<tr><td hidden>' + id + '</td><td>' + pos + '</td><td>' + label + '</td><td>' + qtty + '</td><td><button onclick="delposition(this)" class="btn waves-effect waves-light">Delete</button></td></tr>';
           return newitem;
         }
@@ -42,7 +42,7 @@
         });
 
         function newposition() {
-          $("#newposition").before(getNewElement("1","2","3","4"))
+          $("#newposition").before(getNewElement("1", "2", "3", "4"))
         }
 
         function delposition(ele) {

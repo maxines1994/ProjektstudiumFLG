@@ -8,7 +8,7 @@ class CustOrderDet(OrderDet):
     """   
     class Status(models.TextChoices):
 
-        DEFAULT                 =  '0',('Standard')
+        DEFAULT                 =  '0', ('Standard')
         CAPTURED                 = '1', ('Erfasst')
         INVENTORY                = '2', ('Bestandsprüfung ausstehend')
         ORDER_RELEASE            = '3', ('Auftrag freigegeben')

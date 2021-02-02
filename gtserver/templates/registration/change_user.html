@@ -28,7 +28,7 @@
                         <span class="title">{{ user_login.username }}</span>
                         <p>
                             {% for group in user_login.groups.all %}
-                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name_de }}</span>
+                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name }}</span>
                                 {% if not forloop.last %}<br />{% endif %}
                             {% empty %}
                                 keine Gruppen zugewiesen
@@ -40,7 +40,7 @@
                         <span class="title">{{ user_login.username }}</span>
                         <p>
                             {% for group in user_login.groups.all %}
-                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name_de }}</span>
+                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name }}</span>
                                 {% if not forloop.last %}<br />{% endif %}
                             {% empty %}
                                 keine Gruppen zugewiesen

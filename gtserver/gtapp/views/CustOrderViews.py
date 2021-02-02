@@ -3,11 +3,11 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_form_create
-from gtapp.models import CustOrder, CustOrderDet, Todo, Timers
+from gtapp.models import CustOrder, CustOrderDet, Task, Timers
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max
-from gtapp.constants.groups import *
+from gtapp.constants import *
 from gtapp.models import LiveSettings
 
 
@@ -19,27 +19,27 @@ class Cust_order_create_view(CreateView):
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
         
-        if self.request.user.groups.filter(name='customer 1').exists():
+        if self.request.user.groups.filter(name=K1).exists():
             form.instance.customer_id = 1
-        elif self.request.user.groups.filter(name='customer 2').exists():
+        elif self.request.user.groups.filter(name=K2).exists():
             form.instance.customer_id = 2
-        elif self.request.user.groups.filter(name='customer 3').exists():
+        elif self.request.user.groups.filter(name=K3).exists():
             form.instance.customer_id = 3
 
-        if self.request.user.groups.filter(name='customers').exists():
+        if self.request.user.groups.filter(name=KUNDEN).exists():
             form.instance.external_system = True
 
         new_cust_order = form.save()
         
         if form.instance.external_system == True:
-            if self.request.user.groups.filter(name='customer 1').exists():
-                Todo.set_todo_cust(new_cust_order, 16, Timers.get_current_day())
-            elif self.request.user.groups.filter(name='customer 2').exists():
-                Todo.set_todo_cust(new_cust_order, 17, Timers.get_current_day())
-            elif self.request.user.groups.filter(name='customer 3').exists():
-                Todo.set_todo_cust(new_cust_order, 18, Timers.get_current_day())
+            if self.request.user.groups.filter(name=K1).exists():
+                Task.set_task_cust(new_cust_order, 16, Timers.get_current_day())
+            elif self.request.user.groups.filter(name=K2).exists():
+                Task.set_task_cust(new_cust_order, 17, Timers.get_current_day())
+            elif self.request.user.groups.filter(name=K3).exists():
+                Task.set_task_cust(new_cust_order, 18, Timers.get_current_day())
         else:
-            Todo.set_todo_cust(new_cust_order, 1, Timers.get_current_day())
+            Task.set_task_cust(new_cust_order, 1, Timers.get_current_day())
         
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
 
@@ -53,7 +53,7 @@ class Cust_order_create_view(CreateView):
         return context
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.filter(name='customers').exists():
+        if self.request.user.groups.filter(name=KUNDEN).exists():
             form_class = Cust_order_form_kd
         else:
             form_class = Cust_order_form_jg
@@ -80,7 +80,7 @@ class Cust_order_alter_view(UpdateView):
         return context
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.filter(name='customers').exists():
+        if self.request.user.groups.filter(name=KUNDEN).exists():
             form_class = Cust_order_form_kd
         else:
             form_class = Cust_order_form_jg
@@ -174,21 +174,21 @@ class Cust_order_view(TemplateView):
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
-            if self.request.user.groups.filter(name=C1).exists():
+            if self.request.user.groups.filter(name=K1).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=1)
-            elif self.request.user.groups.filter(name=C2).exists():
+            elif self.request.user.groups.filter(name=K2).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=2)
-            elif self.request.user.groups.filter(name=C3).exists():
+            elif self.request.user.groups.filter(name=K3).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=3)
             else:
                 context['orders'] = CustOrder.objects.all()
         else:
             # 2. Digitalisierungsstufe
-            if self.request.user.groups.filter(name=C1).exists():
+            if self.request.user.groups.filter(name=K1).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=1, external_system=True)
-            elif self.request.user.groups.filter(name=C2).exists():
+            elif self.request.user.groups.filter(name=K2).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=2, external_system=True)
-            elif self.request.user.groups.filter(name=C3).exists():
+            elif self.request.user.groups.filter(name=K3).exists():
                 context['orders'] = CustOrder.objects.filter(customer_id=3, external_system=True)
             else:
                 context['orders'] = CustOrder.objects.filter(external_system=False)

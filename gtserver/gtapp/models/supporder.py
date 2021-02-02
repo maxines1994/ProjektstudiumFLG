@@ -48,7 +48,7 @@ class SuppOrder(Order):
                         pass
             #Lieferanten        
             else:
-                mylist = list(SuppOrder.objects.filter(external_system = self.external_system,supplier_id=self.supplier_id).order_by('-id'))
+                mylist = list(SuppOrder.objects.filter(external_system = self.external_system, supplier_id=self.supplier_id).order_by('-id'))
                 if not mylist:
                     no_str = 'L' + str(self.supplier_id) +'-001'
                 else:

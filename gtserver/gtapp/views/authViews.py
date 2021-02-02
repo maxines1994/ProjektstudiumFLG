@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 def change_user_view(request):
-    c = get_context("Benutzer wechseln","Benutzer wechseln")
+    c = get_context("Benutzer wechseln", "Benutzer wechseln")
     c['users'] = get_user_model().objects.all()
     return render(request, "registration/change_user.html", c)
 

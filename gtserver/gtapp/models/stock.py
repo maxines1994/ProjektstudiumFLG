@@ -43,7 +43,7 @@ class Stock(GtModel):
                 nq = q - reservable
             else:
                 nq = 0
-            newNeeds.append((p,nq))
+            newNeeds.append((p, nq))
 
         for i in newNeeds:
             p, q = i

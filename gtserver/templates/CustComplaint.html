@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 <!-- Title-->
-{% block title %}{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}{% endblock %}
+{% block title %}{% if company == KUNDEN %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -10,7 +10,7 @@
 
 <!-- Content-->
 {% block content %}
-<h4>{% if company == 'customer' %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %} <a href="{% url 'cust_complaint_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4>{% if company == KUNDEN %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %} <a href="{% url 'cust_complaint_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
 <div class="col s12">
     <div class="card">
         <div class="card-content">
@@ -19,7 +19,7 @@
                     <thead id="itemhead">
                         <tr>
                             <th>Reklamationsnummer</th>
-                            {% if company != 'customer' %}<th>Kunde</th>{% endif %}
+                            {% if company != KUNDEN %}<th>Kunde</th>{% endif %}
                             <th>Beschreibung</th>
                             <th>Status</th>
                             <th>Abgeschlossen am</th>
@@ -31,7 +31,7 @@
                         {% for c in complaints %}
                             <tr>
                                 <td>Bestellreklamation #{{ c.id }}</td>
-                                {% if company != 'customer' %} <td>{{c.cust_order.customer}}</td>{% endif %}
+                                {% if company != KUNDEN %} <td>{{c.cust_order.customer}}</td>{% endif %}
                                 <td>{{ c.memo }}</td>
                                 <td>{{ c.status }}</td>
                                 <td>Tag #{{ c.finished_on }}</td>

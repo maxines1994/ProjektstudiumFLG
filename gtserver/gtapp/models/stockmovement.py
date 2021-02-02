@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from gtapp.constants import *
-from . import GtModel, Stock, BookingCode, Translation
+from . import GtModel, Stock, BookingCode
 
 class StockMovement(GtModel):
     """

@@ -2,7 +2,7 @@
 {% load materializecss %}
 
 <!-- Title-->
-{% block title %}{% if company == 'customer' %}Bestellreklamation{% else %}Auftragsreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}{% endblock %}
+{% block title %}{% if company == KUNDEN %}Bestellreklamation{% else %}Auftragsreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -20,7 +20,7 @@
     <div class="row section">
         <div class="col s12">
             <a class="btn-flat" href="{% url 'cust_complaint' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-            <h4>{% if company == 'customer' %}Bestellreklamation{% else %}Auftragsreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}</h4>
+            <h4>{% if company == KUNDEN %}Bestellreklamation{% else %}Auftragsreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}</h4>
         </div>
     {% if action == "alter" %}
         <div class="col s12">
