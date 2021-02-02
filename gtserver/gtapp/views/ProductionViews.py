@@ -13,10 +13,10 @@ import json
 
 def production_steps (request):
     c = get_context("Produktionsschritte", "Produktionsschritte")
-    return render(request, "productionsteps.html", c)
+    return render(request, "ProductionSteps.html", c)
 
 class production_steps_single(TemplateView):
-    template_name = "productionstepssingle.html"
+    template_name = "ProductionStepsSingle.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -24,7 +24,7 @@ class production_steps_single(TemplateView):
         return context
 
 class production_steps_3D_models(TemplateView):
-    template_name = "productionsteps3Dmodels.html"
+    template_name = "ProductionSteps3DModels.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
