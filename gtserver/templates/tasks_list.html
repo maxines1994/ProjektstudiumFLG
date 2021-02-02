@@ -14,26 +14,33 @@
 <a class="btn-flat" href="{% url 'tasks' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
 
 <h4>{{Headline}}</h4>
-<table id="itemtable">
-    <thead id="itemhead">
-      <tr>
-          <th>ID</th>
-          <th>Aufgabenname</th>
-          <th>Aufgabenbeschreibung</th>
-          <th></th>
-      </tr>
-    </thead>
-    <tbody id="itembody"></tbody>
-{% for task in tasks %}
-<tr id="newposition">
-    <td>{{task.id}}</td>
-    <td>{{task.task_type.title}}</td>
-    <td>{{task.task_type.description}}</td>
-    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
-</tr>
-{% endfor %}
-  </tbody>
-</table>
+
+<div class="col s12"></div>
+    <div class="card">
+        <div class="card-content">
+            <p> <div class="table-scrollable">
+                <table id="itemtable">
+                    <thead id="itemhead">
+                    <tr>
+                        <th>ID</th>
+                        <th>Aufgabenname</th>
+                        <th>Aufgabenbeschreibung</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="itembody"></tbody>
+                    {% for task in tasks %}
+                    <tr id="newposition">
+                        <td>{{task.id}}</td>
+                        <td>{{task.task_type.title}}</td>
+                        <td>{{task.task_type.description}}</td>
+                        <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div></p>
+        </div>
+    </div>
 {% endblock %}
 
 <!-- Body-->
