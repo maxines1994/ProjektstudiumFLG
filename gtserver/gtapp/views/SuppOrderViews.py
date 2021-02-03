@@ -22,7 +22,7 @@ class Supp_order_create_view(CreateView):
         elif self.request.user.groups.filter(name=L300).exists():
             form.instance.supplier_id = 3
         
-        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             form.instance.external_system = True
             
         new_supp_order = form.save()
@@ -41,7 +41,7 @@ class Supp_order_create_view(CreateView):
         return context
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             form_class = Supp_order_form_lf
         else:
             form_class = Supp_order_form_jg
