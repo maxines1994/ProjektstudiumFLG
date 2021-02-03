@@ -8,10 +8,6 @@ nav .brand-logo {
     align-items: center;
 }
 
-.dropdown-content {
-    width: auto !important;
-}
-
 .li-content {
   min-width: 200px !important;
 }

@@ -8,19 +8,20 @@ class SuppOrder(Order):
     """   
     class Status(models.TextChoices):
 
-        DEFAULT                 = '0', ('Standard')
-        CAPTURED                = '1', ('Erfasst')
-        INVENTORY_OUTSTANDING   = '2', ('Bestandsprüfung ausstehend')
-        OUTSTANDING_DELIVERY    = '3', ('Lieferung an JOGA ausstehend')
-        DELIVERED               = '4', ('Geliefert')
-        ORDERED                 = '5', ("Bestellt")
+        STANDARD                        = '0', ('Standard')
+        ERFASST                         = '1', ('Erfasst')
+        BESTANDSPRUEFUNG_AUSSTEHEND     = '2', ('Bestandsprüfung ausstehend')
+        LIEFERUNG_AN_JOGA_AUSSTEHEND    = '3', ('Lieferung an JOGA ausstehend')
+        BESTELLT                        = '4', ("Bestellt")
+        GELIEFERT                       = '5', ('Geliefert')
+        
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     
     status = models.CharField(
         max_length = 1,
         choices = Status.choices,
-        default = Status.DEFAULT,
+        default = Status.STANDARD,
     )
     
     def __str__(self):

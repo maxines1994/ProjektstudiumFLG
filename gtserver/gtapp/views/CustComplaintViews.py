@@ -56,7 +56,7 @@ class Cust_complaint_create_view(CreateView):
             customers = [3]
         else:
             customers = [1, 2, 3]
-        kwargs.update({KUNDEN: customers})
+        kwargs.update({'customers': customers})
         return kwargs
 
 
@@ -100,7 +100,7 @@ class Cust_complaint_alter_view(UpdateView):
             customers = [3]
         else:
             customers = [1, 2, 3]
-        kwargs.update({KUNDEN: customers})
+        kwargs.update({'customers': customers})
         return kwargs
     
         

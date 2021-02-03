@@ -38,7 +38,7 @@ class Cust_order_form_kd(ModelForm):
 
     class Meta:
         model = CustOrder
-        fields = ["issued_on", "delivery_date", "memo"]
+        fields = ["issued_on", "delivery_date", "memo", "box_no"]
 
 
 
@@ -152,7 +152,7 @@ class Supp_order_form_lf(ModelForm):
 
     class Meta:
         model = SuppOrder
-        fields = ["ref_no", "issued_on", "delivery_date", "memo"]
+        fields = ["ref_no", "issued_on", "delivery_date", "memo", "box_no"]
         labels = {
             'memo': _('Kommentar'),
         }

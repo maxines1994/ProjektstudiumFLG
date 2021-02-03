@@ -46,9 +46,9 @@ def box_search_view(request):
                     boxno_found = 1
         elif SuppOrder.objects.filter(box_no = str(number)).exists() and len(SuppOrder.objects.filter(box_no = str(number))) < 2:
             #Status-Abfrage -> Joga Bestellung auf Bestellt
-            obj = SuppOrder.objects.get(box_no = str(number))
+            mylist = SuppOrder.objects.filter(box_no = str(number))
             for obj in mylist:
-                if obj.status == 5:
+                if obj.status == SuppOrder.Status.BESTELLT:
                     Task.set_task_supp(obj, 4, Timers.get_current_day())
                     set_status(obj.id, 3, 4)
                     boxno_found = 1
@@ -71,17 +71,17 @@ def set_status_task (request, **kwargs):
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
     #custorder
     if kwargs["type_for_task"] == 1:
-        Task.set_task_cust(kwargs["id"], kwargs["tasktype"], Timers.get_current_day())
+        Task.set_task_cust(CustOrderDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
     #custorderdet
     elif kwargs["type_for_task"] == 2:
-        Task.set_task_cust_det(kwargs["id"], kwargs["tasktype"], Timers.get_current_day())
+        Task.set_task_cust_det(CustOrderDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
     #supporder
     elif kwargs["type_for_task"] == 3:
         print("HALLO " + str(kwargs["id"]))
-        Task.set_task_supp(kwargs["id"], kwargs["tasktype"], Timers.get_current_day())
+        Task.set_task_supp(SuppOrder.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
     #supporderdet
     elif kwargs["type_for_task"] == 4:
-        Task.set_task_supp_det(kwargs["id"], kwargs["tasktype"], Timers.get_current_day())
+        Task.set_task_supp_det(SuppOrderDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
     else:
         pass
     return HttpResponseRedirect(reverse("tasks_notassigned"))
@@ -93,13 +93,14 @@ def set_status_task_share (request, **kwargs):
     mylist = list(CustOrderDet.objects.filter(cust_order_id = kwargs["id"]))
     for i in mylist:
         Task.set_task_cust_det(i, kwargs["tasktype"], Timers.get_current_day())
-    return render(request, "home.html")
+    return HttpResponseRedirect(reverse("home"))
 
 
 # Status setzen bei Auftrag freigeben
 def set_status_call(request, **kwargs):
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
-    return render(request, "home.html")
+    return HttpResponseRedirect(reverse("home"))
+
 
 #Status setzen keine view
 def set_status(id, type, status):
