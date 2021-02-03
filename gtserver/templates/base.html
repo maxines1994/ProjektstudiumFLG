@@ -79,7 +79,7 @@
       <li><a href="{% url 'home' %}">Startseite</a></li>
       
       {% if perms.gtapp.view_task %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
-      
+      {% if user.groups.first.name != "Spielleitung" %}<li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>{% endif %}
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}

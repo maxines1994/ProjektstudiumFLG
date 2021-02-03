@@ -15,11 +15,6 @@
 
 <!-- Content-->
 {% block content %}
-<!-- Zurueck-Button wird nur gebraucht, wenn Stellenbeschreibung hinter Button auf d. Startseite
-<p>   </p>
-<a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
--->
-
 <h4> Informationen über  {% if info == 'Rolle' %} Ihre Stelle 
                             {% if request.user|has_group:KUNDENDIENST %}
                                 Kundendienst
@@ -88,7 +83,7 @@
                 <span>
                     <h6>Kundenbetreuung und Verkauf</h6><p></p>
                     Aufgabe des Kundendienstes ist sowohl das aktive Verkaufen, als auch die Kundenbetreuung. Der Kunde ist grundsätzlich König und sollte vom den Kundenbetreuern regelmäßig kontaktiert werden. Verkaufsverhandlungen finden meistens bei den Kunden vor Ort statt. Versuchen Sie nach „allen Regeln der Kunst“ Ihre Produkte zu verkaufen. Falls der Kunde extrem günstige Konditionen verlangt, holen Sie sich vor der Vertragsunterzeichnung lieber das „OK“ der Geschäftsleitung. <p></p>
-                    Die Aufträge der Kunden nehmen Sie im System unter "Aufträge" auf, indem Sie einen Auftrag erstellen. Dieser kann abgespeichert werden, um ihn später noch ändern zu können. Sind die Angaben des Kundenauftrages final, geben Sie den Auftrag frei, damit dieser in die Bearbeitung kommt. Im Anschluss informieren Sie den Kunden über eine Nachricht, dass sein Auftrag angelegt wurde.<p></p>
+                    Die Aufträge der Kunden nehmen Sie im System auf, indem Sie einen <a href="{% url 'faq' content=2 %}">Auftrag erstellen</a>. Dieser kann abgespeichert werden, um ihn später noch ändern zu können. Sind die Angaben des Kundenauftrages final, geben Sie den Auftrag frei, damit dieser in die Bearbeitung kommt. Im Anschluss informieren Sie den Kunden über eine <a href="{% url 'faq' content=1 %}"> Nachricht,</a> dass sein Auftrag angelegt wurde.<p></p>
                     Erkundigen Sie sich während der Bearbeitung des Kundenauftrages bei der Abteilung Produktionsdienstleistungen (PDL) nach dem aktuellen Stand des Auftrages. <p></p>
                     Nach der Produktion des benötigten Hubwagens bekommen Sie den Hubwagen in einer Transportbox von dem Team Produktion (PRO). Für die Annahme des Hubwagens scannen Sie den Barcode auf der Transportbox oder geben manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein. <p></p>
                     Der Transport von Teilen/ Produkten erfolgt vom Team Interne Dienstleistungen (IDL). Sprechen Sie das Team an. <br></br>
@@ -99,7 +94,7 @@
                     Bedenken Sie, dass die Materiallogistik als interner Dienstleistung immer genügend Arbeit nachweisen muss, um nicht von einem externen Dienstleister verdrängt zu werden.<br></br>
 
                     <h6>Rücklieferung fehlerhafter Hubwagen</h6><p></p>
-                    Wenn Sie von einem Kunden die Information erhalten, dass ein Hubwagen nicht in Ordnung ist und der Kunde diesen reklamieren möchte, erstellen Sie eine Reklamation im System. Wie bei dem Auftrag gilt hier ebenso das Prinzip, dass die Reklamation erst in Bearbeitung kommt, wenn die Reklamation freigegeben wurde. Soll die Reklamation zunächst bearbeitbar bleiben, so speichern Sie die angelegte Reklamation ab anstatt diese sofort freizugeben. Nach der Freigabe informieren Sie Ihren Kunden per Nachricht über die erfolgreiche Weiterleitung des Reklamationsfalles. Ebenso kümmern Sie sich um den Transport des Hubwagens an die Produktion, indem Sie das Team Interne Dienstleistung hinzuziehen, da Sie ja keinen LKW besitzen.
+                    Wenn Sie von einem Kunden die Information erhalten, dass ein Hubwagen nicht in Ordnung ist und der Kunde diesen reklamieren möchte, erstellen Sie eine <a href="{% url 'faq' content=3 %}">Reklamation</a> im System. Wie bei dem Auftrag gilt hier ebenso das Prinzip, dass die Reklamation erst in Bearbeitung kommt, wenn die Reklamation freigegeben wurde. Soll die Reklamation zunächst bearbeitbar bleiben, so speichern Sie die angelegte Reklamation ab anstatt diese sofort freizugeben. Nach der Freigabe informieren Sie Ihren Kunden per Nachricht über die erfolgreiche Weiterleitung des Reklamationsfalles. Ebenso kümmern Sie sich um den Transport des Hubwagens an die Produktion, indem Sie das Team Interne Dienstleistung hinzuziehen, da Sie ja keinen LKW besitzen.
                 </span>
             </div>
         </li>
@@ -151,12 +146,12 @@
                 <span>
                     <h6>Bearbeitung von Fertigungsaufträgen</h6><p></p>
                     Das Team Produktionsdienstleistung erhält von dem Team Kundendienst (KD) die Kundenaufträge. Das Team prüft, wie der Kundenauftrag in die Kapazitätsplanung der Produktion passt. Es informiert das Leitungsteam laufend über die Kapazitätssituation und mögliche Engpässe.<p></p>
-                    Für jeden Kundenauftrag werden die notwendigen A-Teile bestimmt (T10-T15) und auftragsbezogen über das System bestellt. Dafür legen Sie eine Bestellung mit Angabe der entsprechenden Teile und des Lieferanten L300 an. Anschließend informieren Sie den Lieferanten L300 über Ihre Bestellung, indem Sie eine Nachricht, deren Text die Angabe der bestellten Teile beinhaltet, verfassen.<p></p>
+                    Für jeden Kundenauftrag werden die notwendigen A-Teile bestimmt (T10-T15) und auftragsbezogen über das System bestellt. Dafür legen Sie eine <a href="{% url 'faq' content=4 %}">Bestellung</a> mit Angabe der entsprechenden Teile und des Lieferanten L300 an. Anschließend informieren Sie den Lieferanten L300 über Ihre Bestellung, indem Sie eine <a href="{% url 'faq' content=1 %}">Nachricht,</a> deren Text die Angabe der bestellten Teile beinhaltet, verfassen.<p></p>
                     Für den Transport von Teilen/ Produktion ist das Team Interne Dienstleistung (IDL) zuständig.<br></br>
 
                     <h6>Führen des Rohteilelagers</h6><p></p>
                     Die bestellten Teile erhält das Team Produktionsdienstleistungen (PDL) in einer Transportbox von dem Lieferanten L300 über die Interne Dienstleistung. Für die Annahme der Teile scannen Sie den Barcode auf der Transportbox oder geben Sie manuell den Zifferncode/ Transportboxnummer (unter dem Barcode) der Transportbox ein. Im Anschluss führen Sie eine Qualitätskontrolle durch. <p></p>
-                    Bei Mängeln erstellen Sie eine Reklamation im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
+                    Bei Mängeln erstellen Sie eine <a href="{% url 'faq' content=5 %}">Bestellreklamation</a> im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
                     Nachdem für einen Kundenauftrag alle A-Teile (T10-T15) vorliegen, werden diese in eine leere Transportbox gelegt und die Transportboxnummer im System im Kopf des Kundenauftrages angegeben. Der Kundenauftrag wird danach freigegeben und die gepackte Transportbox an die Produktion (über IDL) transportiert.<p></p>
                     Eine geringe Anzahl von A-Teilen haben Sie im Lager, um "Lieferengpässe" auszugleichen.<p></p>
                     Die B-Teile (T1-T5) werden durch ein KANBAN System vom Lieferanten L100 beschafft. Leere Transportbehälter für B-Teile senden Sie über das Team Interne Dienstleistungen an den Lieferanten L100. Dieser tauscht diese leeren Behälter sofort gegen volle aus. Die B-Teile liefern Sie durch ein KANBAN System an die Gruppe Produktion. Hierzu erhalten Sie vom Team Produktion leere Transportbehälter für B-Teile, die Sie unverzüglich gegen volle Behälter aus dem Rohteilelager austauschen. 
@@ -221,7 +216,7 @@
                     A-Teile (T10-T15) erhalten Sie auftragsbezogen von dem Team Produktionsdienstleistung über Transportboxen, welche das Team Interne Dienstleistungen zu Ihnen liefert.
 
                     <h6>Qualitätskontrolle</h6>
-                    Bei fehlerhaften Teilen erfolgt eine Rückgabe der Teile an das Team Produktionsdienstleistung (A- und B-Teile) oder an den Lieferanten L300 (C-Teile). Hierzu erstellen Sie eine Reklamation im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie je nach Teil die PDL oder den Lieferanten über die Reklamation per Nachricht. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
+                    Bei fehlerhaften Teilen erfolgt eine Rückgabe der Teile an das Team Produktionsdienstleistung (A- und B-Teile) oder an den Lieferanten L300 (C-Teile). Hierzu erstellen Sie eine <a href="{% url 'faq' content=5 %}">Reklamation</a> im System. Während der Erstellung legen Sie die Fehlteile in eine Transportbox und geben die Transportboxnummer bei der Reklamation im System an. Die Reklamation kann abgespeichert werden, um sie später noch ändern zu können. Sind die Angaben der Reklamation final, geben Sie diese frei, damit sie in die Bearbeitung kommt. Im Anschluss informieren Sie je nach Teil die PDL oder den Lieferanten über die Reklamation per <a href="{% url 'faq' content=1 %}">Nachricht</a>. In der Nachricht äußern Sie Ihre Bitte, neue Teile zu erhalten und geben zudem an, welche Teile Sie in welcher Transportbox (Transportboxnummer angeben) an ihn zurück liefern lassen. Den Transport übernimmt wieder die Interne Dienstleistung.<p></p>
                     Geprüft werden die fertigen Hubwagen bevor sie an das Team Kundendienst geliefert werden. Werden hier Mängel festgestellt, so werden diese umgehend im eigenen Team beseitigt.
                 </span>
             </div>
@@ -308,8 +303,8 @@
             <div class="collapsible-body">
                 <span>
                     <h6>Hubwagen bestellen</h6>
-                    Während des Spiels bestellen Sie insgesamt 5-7 Hubwagen in unterschiedlichen Ausführungen. Sie bestellen immer nur einen Hubwagen pro Auftrag. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.<p></p>
-                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben.<p></p>
+                    Während des Spiels bestellen Sie insgesamt 5-7 Hubwagen in unterschiedlichen Ausführungen. Sie bestellen immer nur einen Hubwagen pro Auftrag. Eine <a href="{% url 'faq' content=4 %}">Bestellung</a> legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine <a href="{% url 'faq' content=1 %}">Nachricht</a> schreiben.<p></p>
                     Verlangen Sie für die Aufträge die folgende Lieferzeit: ca. 20-25 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so sind Sie gegebenenfalls kompromissbereit. <p></p>
                     Versuchen Sie, so wenig wie möglich zu bezahlen.<p></p>
 
@@ -318,7 +313,9 @@
                     Sie erwarten, dass ein zugesagter Liefertermin in jedem Fall eingehalten wird. Insbesondere, wenn Sie dem Verkäufer beim Liefertermin bereits entgegengekommen waren. Nicht eingehaltene Termine werten Sie als Vertrauensbruch und werden daraufhin sehr böse. Drohen Sie mit Konventionalstrafen. <p></p>
                     
                     <h6>Hubwagen annehmen</h6>
-                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Im Vertrauen auf die gute Qualität von JOGA-Hubwagen führen Sie die Qualitätskontrolle bei der Lieferung nur sehr oberflächlich durch. Wenn Sie allerdings später einen Mangel feststellen, so wenden sich an die JOGA-Geschäftsführung und erwarten dann eine besonders kulante Reaktion von JOGA - schließlich sind Sie seit Jahren Stammkunde.
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Im Vertrauen auf die gute Qualität von JOGA-Hubwagen führen Sie die Qualitätskontrolle bei der Lieferung nur sehr oberflächlich durch.<p></p> 
+                    
+                    Wenn Sie allerdings später einen Mangel feststellen, so wenden sich an die JOGA-Geschäftsführung und erwarten dann eine besonders kulante Reaktion von JOGA - schließlich sind Sie seit Jahren Stammkunde. Zusätzlich legen Sie für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=5 %}">Reklamation</a> in Ihrem System an.
                 </span>
             </div>
         </li>
@@ -357,9 +354,9 @@
             <div class="collapsible-body">
                 <span>
                     <h6>Hubwagen bestellen</h6>
-                    Während des Spiels bestellen Sie in gewissen Abständen Hubwagen in unterschiedlichen Ausführungen (ca. 5-7 Bestellungen im Laufe des Spiels). Bei jeder Auftragserteilung bestellen Sie einen oder zwei Hubwagen. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.
+                    Während des Spiels bestellen Sie in gewissen Abständen Hubwagen in unterschiedlichen Ausführungen (ca. 5-7 Bestellungen im Laufe des Spiels). Bei jeder Auftragserteilung bestellen Sie einen oder zwei Hubwagen. Eine <a href="{% url 'faq' content=4 %}">Bestellung</a> legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress.
                     Bestellen Sie den ersten Hubwagen ohne große Verhandlungen und ohne Sonderwünsche. Wenn Sie nicht bestellen, kann JOGA auch nicht produzieren.<p></p>
-                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben. Manchmal suchen Sie Ihn aber auch direkt auf.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine <a href="{% url 'faq' content=1 %}">Nachricht</a> schreiben. Manchmal suchen Sie Ihn aber auch direkt auf.<p></p>
                     Verlangen Sie für die Aufträge die folgende Lieferzeit: ca.30 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, verlangen Sie mehr Flexibilität von JOGA.<p></p>
                     Bei einigen Aufträgen an JOGA haben Sie Sonderwünsche (nach ca. 30 Minuten Spielzeit). Sonderwünsche sind z.B. ein Hubwagen ohne Räder, die Bestellung einer Baugruppe oder die Lieferung eines Hubwagens mit zwei Hubelementen.<p></p> 
                 
@@ -369,6 +366,7 @@
                 
                     <h6>Hubwagen abnehmen</h6>
                     Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Bei Ihrer Qualitätskontrolle untersuchen Sie hauptsächlich, ob Ihre Sonderwünsche zu Ihrer Zufriedenheit erfüllt wurden. Ansonsten muss eine Abnahme für Sie - wie alles andere auch - schnell gehen.
+                    Wenn Sie allerdings eine fehlende oder falsche Umsetzung feststellen, so nehmen Sie den Hubwagen nicht an und senden Ihn zurück. Legen Sie in dem Falle für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=5 %}">Reklamation</a> in Ihrem System an.
                 </span>
             </div>
         </li>
@@ -409,15 +407,16 @@
             <div class="collapsible-body">
                 <span>
                     <h6>Hubwagen bestellen</h6>
-                    Während des Spiels bestellen Sie mehrere Hubwagen in unterschiedlichen Ausführungen. Zu welchen Zeitpunkten Sie bestellen, entscheiden Sie selbst. Nur zu Beginn des Spiels sollten Sie schnell und ohne lange Diskussionen bei JOGA bestellen. Bestellen Sie jeweils 1-3 Hubwagen Ihrer Wahl. Einen Auftrag legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an.<p></p>
-                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine Nachricht schreiben.<p></p>
+                    Während des Spiels bestellen Sie mehrere Hubwagen in unterschiedlichen Ausführungen. Zu welchen Zeitpunkten Sie bestellen, entscheiden Sie selbst. Nur zu Beginn des Spiels sollten Sie schnell und ohne lange Diskussionen bei JOGA bestellen. Bestellen Sie jeweils 1-3 Hubwagen Ihrer Wahl. Eine <a href="{% url 'faq' content=4 %}">Bestellung</a> legen Sie nach einer Vereinbarung mit dem Kundendienst selbstständig für die eigene Dokumentation in Ihrem System an.<p></p>
+                    Für ein Verkaufsgespräch lassen Sie den Verkäufer der JOGA zu sich kommen. Zur Terminanfrage könnten Sie dem Kundendienst eine <a href="{% url 'faq' content=1 %}">Nachricht</a> schreiben.<p></p>
                     Verlangen Sie für die Aufträge die folgenden Lieferzeiten: ca. 30 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so lassen Sie sich genau erklären, wieso JOGA soviel Zeit braucht. <p></p>
 
                     <h6>Bestellung überwachen</h6>
                     Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer an oder schreiben Sie ihm eine Nachricht, um ihn über den Auftragsstatus zu befragen. Lassen Sie sich dabei genau erklären, welchen Status der Auftrag gerade hat. Übertreiben Sie es damit aber nicht.<p></p>
 
                     <h6>Hubwagen abnehmen</h6>
-                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Allerdings quittieren Sie erst, nachdem Sie den Hubwagen einer ausführlichen Qualitätskontrolle unterzogen haben. Auch bei kleinen Mängeln nehmen Sie das Produkt nicht an und senden es zurück.
+                    Nehmen Sie den fertigen Hubwagen an und quittieren Sie den Erhalt. Allerdings quittieren Sie erst, nachdem Sie den Hubwagen einer ausführlichen Qualitätskontrolle unterzogen haben.<p></p> 
+                    Auch bei kleinen Mängeln nehmen Sie das Produkt nicht an und senden es zurück. Legen Sie in dem Falle für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=5 %}">Reklamation</a> in Ihrem System an.
                 </span>
             </div>
         </li>
@@ -436,7 +435,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"supplier 100" %}
+    {% elif request.user|has_group:L100 %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -596,7 +595,7 @@
         </li>
     </ul>
 
-    {% elif request.user|has_group:"supplier 300" %}
+    {% elif request.user|has_group:L300 %}
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
@@ -618,7 +617,7 @@
                     <h6>Bestellungen</h6>
                     Da die bei Ihnen bezogenen Teile hochwertig sind, bezieht Ihr Kunde nur seinen jeweiligen exakten Bedarf. Sie wissen, dass kurzfristige Bedarfe Ihres Kunden an der Tagesordnung sind. Deshalb halten Sie immer ausreichend Bestand am Lager.<p></p>
                     JOGA hat bei A-Teilen fast keine Lagerhandlung, sodass eine Lieferverzögerung die Produktion beeinträchtigen würde.<p></p>
-                    Bei Bestellungen erhalten Sie vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH eine Bedarfsmeldung per Nachricht mit einem festgelegten Liefertermin. Nach Erhalt einer Bedarfsmeldung legen Sie bei sich im System einen passenden Auftrag an.<p></p>
+                    Bei Bestellungen erhalten Sie vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH eine Bedarfsmeldung per <a href="{% url 'faq' content=1 %}">Nachricht</a> mit einem festgelegten Liefertermin. Nach Erhalt einer Bedarfsmeldung legen Sie bei sich im System einen passenden <a href="{% url 'faq' content=2 %}">Auftrag</a> an.<p></p>
 
                     <h6>Lieferungen</h6>
                     Sie liefern termingerecht die angeforderten A-Teile (T10-T15) über das Team Interne Dienstleistungen (IDL) an das Team Produktionsdienstleistungen (PDL). In dem Zuge geben Sie den Auftrag in Ihrem System frei und informieren das Team Produktionsdienstleistung per Nachricht über die Lieferung. In der Nachricht teilen Sie mit, welche Bestellung von der Produktionsdienstleistung sich in welcher Transportbox befindet. Dafür geben Sie die Transportboxnummer, die unter dem Barcode steht, an.<p></p>

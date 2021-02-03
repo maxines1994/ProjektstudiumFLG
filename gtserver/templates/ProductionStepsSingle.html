@@ -36,40 +36,41 @@
 
 <!-- Tabellen Kopfzeile -->
 
-<div class="col s12"></div>
-                <div class="card">
-                    <div class="card-content">
-                        <p> <div class="table-scrollable">
-                            <table id="itemtable">
-                                <thead id="itemhead">
-                                    <tr>
-                                        <th>Anzahl</th>
-                                        <th>Teilenummer</th>
-                                        <th>Bezeichnung</th>
-                                        <th>Grafik</th>
-                                    </tr>
-                                </thead>
-                                {% for i in productionsteps_list %}
-                                    {% if i.production_step == step %}
-                                    {% if i.article_id|stringformat:"s" in product|stringformat:"s" %}
-                                    <!-- Tabellenzeilen -->
-                                        <tbody id="itembody">
-                                        <tr>
-                                            <td>{{ i.quantity }}</td>
-                                            <td>{{ i.part.part_no}}</td>
-                                            <td>{{ i.part.description }}</td>
-                                            <td><img src="{% static i.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
-                                        </tr>
-                                        </tbody>
-                                    {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <p> <div class="table-scrollable">
+                <table id="itemtable">
+                    <thead id="itemhead">
+                        <tr>
+                            <th>Anzahl</th>
+                            <th>Teilenummer</th>
+                            <th>Bezeichnung</th>
+                            <th>Grafik</th>
+                        </tr>
+                    </thead>
+                    {% for i in productionsteps_list %}
+                        {% if i.production_step == step %}
+                        {% if i.article_id|stringformat:"s" in product|stringformat:"s" %}
+                        <!-- Tabellenzeilen -->
+                            <tbody id="itembody">
+                            <tr>
+                                <td>{{ i.quantity }}</td>
+                                <td>{{ i.part.part_no}}</td>
+                                <td>{{ i.part.description }}</td>
+                                <td><img src="{% static i.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
+                            </tr>
+                            </tbody>
+                        {% endif %}
+                        {% endif %}
+                    {% endfor %}
 
-                            </table> 
-                        </div></p>
-                    </div>
-                </div>
-            
+                </table> 
+            </div></p>
+        </div>
+    </div>
+</div>            
+
  <!-- Einbindung Videos über Bauanleitung -->
 <div class="col s12"></div>
     <div class="card">
