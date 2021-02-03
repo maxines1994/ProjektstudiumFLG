@@ -336,37 +336,37 @@ class Migration(migrations.Migration):
     def insert_tasktypes(apps, schema_editor):
         
         #JOGA
-        TaskType.objects.create(id=1, title = "Auftrag freigeben", description ="Bitte geben Sie den Auftrag frei!", group_id=6)
-        TaskType.objects.create(id=2, title = "Bestand prüfen", description ="Bitte prüfen Sie den Bestand", group_id=12)
-        TaskType.objects.create(id=3, title = "Bestellung erstellen", description ="Bitte bestellen Sie die nich vorrätigen Teile bei dem Lieferanten 100!", group_id=12)
-        TaskType.objects.create(id=4, title = "Wareneingang", description ="Bitte führen Sie den Wareingang durch und prüfen Sie dabei die eingetroffenen Teile.", group_id=12)
-        TaskType.objects.create(id=5, title = "Teilelieferung an Produktion", description ="Bitte liefern Sie die Teile an die Produktion!", group_id=12)
-        TaskType.objects.create(id=6, title = "Hebebühne produzieren", description ="Bitte bauen Sie die Hebebühne nach der ANleitung und führen Sie am Ende eine Qualitätsprüfung durch.", group_id=11)
-        TaskType.objects.create(id=7, title = "Hebebühne an Kundendienst leifern", description ="Bitte liefern Sie die Hebebühne an den Kundendienst", group_id=11)
-        TaskType.objects.create(id=8, title = "Hebebühne an Kunden leifern", description ="Bitte liefern Sie die Hebebühne an den Kunden", group_id=6)
+        TaskType.objects.create(id=1, title = "Auftrag freigeben", description ="Bitte geben Sie den Auftrag frei!", group=Group.objects.get(name=KUNDENDIENST))
+        TaskType.objects.create(id=2, title = "Bestand prüfen", description ="Bitte prüfen Sie den Bestand", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=3, title = "Bestellung erstellen", description ="Bitte bestellen Sie die nich vorrätigen Teile bei dem Lieferanten 300!", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=4, title = "Wareneingang", description ="Bitte führen Sie den Wareingang durch und prüfen Sie dabei die eingetroffenen Teile.", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=5, title = "Teilelieferung an Produktion", description ="Bitte liefern Sie die Teile an die Produktion!", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=6, title = "Hebebühne produzieren", description ="Bitte bauen Sie die Hebebühne nach der ANleitung und führen Sie am Ende eine Qualitätsprüfung durch.", group=Group.objects.get(name=PRODUKTION))
+        TaskType.objects.create(id=7, title = "Hebebühne an Kundendienst leifern", description ="Bitte liefern Sie die Hebebühne an den Kundendienst", group=Group.objects.get(name=PRODUKTION))
+        TaskType.objects.create(id=8, title = "Hebebühne an Kunden leifern", description ="Bitte liefern Sie die Hebebühne an den Kunden", group=Group.objects.get(name=KUNDENDIENST))
         
         #Lieferant 300
-        TaskType.objects.create(id=9, title = "Bestand prüfen", description ="Bitte prüfen Sie den Bestand!", group_id=15)
-        TaskType.objects.create(id=10, title = "Lieferung versenden", description ="Bitte stellen Sie die Box mit den bestellten Teilen fertg und senden Sie diese an JOGA. Denken Sie daran eine E-Mail mit der Box-Nummer an JOGA zu senden.", group_id=15)
+        TaskType.objects.create(id=9, title = "Bestand prüfen", description ="Bitte prüfen Sie den Bestand!", group=Group.objects.get(name=L300))
+        TaskType.objects.create(id=10, title = "Lieferung versenden", description ="Bitte stellen Sie die Box mit den bestellten Teilen fertg und senden Sie diese an JOGA. Denken Sie daran eine E-Mail mit der Box-Nummer an JOGA zu senden.", group=Group.objects.get(name=L300))
 
         #Bestellung Kunde 1, 2, 3, Joga
-        TaskType.objects.create(id=11, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group_id=2)
-        TaskType.objects.create(id=12, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group_id=3)
-        TaskType.objects.create(id=13, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group_id=4)
-        TaskType.objects.create(id=14, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group_id=12)
+        TaskType.objects.create(id=11, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group=Group.objects.get(name=K1))
+        TaskType.objects.create(id=12, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group=Group.objects.get(name=K2))
+        TaskType.objects.create(id=13, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group=Group.objects.get(name=K3))
+        TaskType.objects.create(id=14, title = "Wareneingang buchen", description ="Bitte buchen Sie den Wareneingang und führen Sie gleichzeitig eine Qualitätsprüfung durch.", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
 
         #weitere von JOGA
-        TaskType.objects.create(id=15, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group_id=12)
+        TaskType.objects.create(id=15, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
 
         #Bestellung freigeben Kunden (Kunde 1, 2, 3, PDL)
-        TaskType.objects.create(id=16, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group_id=2)
-        TaskType.objects.create(id=17, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group_id=3)
-        TaskType.objects.create(id=18, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group_id=4)
-        TaskType.objects.create(id=19, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group_id=12)
+        TaskType.objects.create(id=16, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group=Group.objects.get(name=K1))
+        TaskType.objects.create(id=17, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group=Group.objects.get(name=K2))
+        TaskType.objects.create(id=18, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei",group=Group.objects.get(name=K3))
+        TaskType.objects.create(id=19, title = "Bestellung freigeben", description ="Bitte geben Sie die Bestellung frei", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
 
 
         #Lieferant 300
-        TaskType.objects.create(id=20, title = "Auftrag freigeben", description ="Bitte geben Sie den Auftrag frei.", group_id=15)
+        TaskType.objects.create(id=20, title = "Auftrag freigeben", description ="Bitte geben Sie den Auftrag frei.", group=Group.objects.get(name=L300))
 
     dependencies = [
         ('gtapp', '0001_initial'),
