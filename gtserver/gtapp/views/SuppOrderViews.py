@@ -73,7 +73,7 @@ class Supp_order_alter_view(UpdateView):
         return HttpResponseRedirect("/supp_order/")
 
     def get_form(self, form_class=None):
-        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             form_class = Supp_order_form_lf
         else:
             form_class = Supp_order_form_jg
@@ -153,22 +153,22 @@ class Supp_order_view(TemplateView):
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name=L100).exists():
-                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 1)
             elif self.request.user.groups.filter(name=L200).exists():
-                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 2)
             elif self.request.user.groups.filter(name=L300).exists():
-                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 3)
             else:
                 context['orders'] = SuppOrder.objects.all()
         else:
             # 2. Digitalisierungsstufe
             if self.request.user.groups.filter(name=L100).exists():
-                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 1, external_system=True)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 1, external_system=True)
             elif self.request.user.groups.filter(name=L200).exists():
-                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 2, external_system=True)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 2, external_system=True)
             elif self.request.user.groups.filter(name=L300).exists():
-                context['orders'] = SuppOrder.objects.all().filter(supplier_id = 3, external_system=True)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 3, external_system=True)
             else:
-                context['orders'] = SuppOrder.objects.all().filter(external_system=False)
+                context['orders'] = SuppOrder.objects.filter(external_system=False)
        
         return context
