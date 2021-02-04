@@ -1,5 +1,5 @@
 from django.conf import settings
-from gtapp.models import Timers
+from gtapp.models import Timers, Task
 from gtapp import constants
 from gtapp.constants import *
 
@@ -16,7 +16,7 @@ def gtcontext(request):
         company = 'none' # grey
 
 
-    return {"debug_flag": settings.DEBUG, "company": company, "day": Timers.get_current_day()}
+    return {"debug_flag": settings.DEBUG, "company": company, "day": Timers.get_current_day(), "has_unassigned_tasks": Task.has_unassigned(request.user)}
 
 def gtconstants(request):
     my_dict = {}
