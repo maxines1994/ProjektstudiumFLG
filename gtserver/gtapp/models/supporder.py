@@ -11,7 +11,7 @@ class SuppOrder(Order):
         STANDARD                        = '0', ('Standard')
         ERFASST                         = '1', ('Erfasst')
         BESTANDSPRUEFUNG_AUSSTEHEND     = '2', ('Bestandsprüfung ausstehend')
-        LIEFERUNG_AN_JOGA_AUSSTEHEND    = '3', ('Lieferung an JOGA ausstehend')
+        LIEFERUNG_AN_JOGA_AUSSTEHEND    = '3', ('Lieferung ausstehend')
         BESTELLT                        = '4', ("Bestellt")
         GELIEFERT                       = '5', ('Geliefert')
         
@@ -25,7 +25,7 @@ class SuppOrder(Order):
     )
     
     def __str__(self):
-        return ("Bestellung " + self.order_no)
+        return self.order_no
     
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -68,5 +68,3 @@ class SuppOrder(Order):
                         pass
             self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
-    
-    

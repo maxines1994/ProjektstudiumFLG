@@ -1,6 +1,7 @@
 from django.db import models
 from gtapp.models import GtModel
 from gtapp.models import SuppOrderDet, CustOrderDet, CustComplaintDet, SuppComplaintDet, Stock, BookingCode
+from gtapp.constants import *
 
 class goods_receipt(GtModel):
     cust_det = models.ForeignKey(CustOrderDet, null=True, on_delete=models.CASCADE, verbose_name="Ware")
@@ -13,7 +14,7 @@ class goods_receipt(GtModel):
 
     def save(self, *args, **kwargs):
         external_system = True
-        if self._creation_user.groups.filter(name="Joga").exists():
+        if self._creation_user.groups.filter(name=JOGA).exists():
             external_system = False
         
         bc = BookingCode.objects.filter(code="REC")[0]
@@ -24,14 +25,14 @@ class goods_receipt(GtModel):
             pass
 
         elif self.supp_det is not None:
-            Stock.objects.filter(is_supplier_stock=external_system, part=self.supp_det.part)[0].change(self.delivered)
+            Stock.objects.filter(is_supplier_stock=external_system, part=self.supp_det.part)[0].change(self.delivered-self.trash)
 
         elif self.cust_complaint_det is not None:
             # TBD
             pass
 
         elif self.supp_complaint_det is not None:
-            Stock.objects.filter(is_supplier_stock=external_system, part=self.supp_det.part)[0].change(self.delivered)
+            Stock.objects.filter(is_supplier_stock=external_system, part=self.supp_det.part)[0].change(self.delivered-self.trash)
         
         # STATUS SETZEN
 
@@ -39,4 +40,3 @@ class goods_receipt(GtModel):
         
 
         return super(goods_receipt, self).save(*args, **kwargs)
-        

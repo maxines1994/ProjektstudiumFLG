@@ -65,7 +65,7 @@
                             <select id="orderno">
                                 <option value="">---------</option>
                                 {% for o in orders %}
-                                <option value="{{ o.pk }}">Bestellung #{{ o.pk }}</option>
+                                <option value="{{ o.pk }}">{{ o }}</option>
                                 {% endfor %}
                             </select>
                             <label for="orderno">Bestellungen</label>
@@ -105,7 +105,7 @@
                 // Werte setzen
                 s = "\nBestellung: " + obj["no"] + "\nKunde: " + obj["customer"] + "\n" + "Bestelltag: " + obj["issued"] + "\n";
                 for (i=1;i<=obj["posl"];i++) {
-                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tArtikel: " + obj[i]["article"] + "\n\tPreis: " + obj[i]["price"] + "\n";
+                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tArtikel: " + obj[i]["article"] + "\n\tMenge: " + obj[i]["quantity"] + "\n";
                 }
                 $('#id_text').val($('#id_text').val() + s);
                 M.textareaAutoResize($('#id_text'));

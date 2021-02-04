@@ -129,7 +129,7 @@ def goods_receipt_view(request, **kwargs):
             if kwargs['typeofdet'] == 3:
                 bo = False
                 for i in doc:
-                    if goods_receipt.objects.filter(pk=i)[0] != 0:
+                    if goods_receipt.objects.filter(pk=i)[0].trash != 0:
                         bo = True
                 if bo:
                     c = SuppComplaint.objects.create(supp_order_id=kwargs['idofdet'])
@@ -137,10 +137,9 @@ def goods_receipt_view(request, **kwargs):
                         rd = goods_receipt.objects.get(pk=i)
                         if rd.trash != 0: # POSNR AUTOMATISCH ?!
                             SuppComplaintDet.objects.create(pos=i, supp_complaint_id=c.pk, supp_order_det_id=kwargs["idofdet"], quantity=rd.trash)
+                return HttpResponseRedirect(reverse("supp_order_alter",args=[kwargs['idofdet'],]))
             if kwargs['typeofdet'] == 4:
-                pass
-
-            return HttpResponseRedirect(reverse("cust_order"))
+                return HttpResponseRedirect(reverse("supp_complaint_alter",args=[kwargs['idofdet'],]))
     else:
         initial = []
         qset = None
