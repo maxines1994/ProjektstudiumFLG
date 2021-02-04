@@ -25,17 +25,17 @@ def box_search_view(request):
         elif CustOrderDet.objects.filter(box_no = str(number)).exists() and len(CustOrderDet.objects.filter(box_no = str(number))) < 2:
             mylist = CustOrderDet.objects.filter(box_no = str(number))
             for obj in mylist:
-                if obj.status == str(3):
+                if obj.status == CustOrderDet.Status.AUFTRAG_FREIGEGEBEN:
                     #Task erscheint bei dem Boxscan in der Produktion, wo dann die Hebebühne gebaut werden soll & der Status wird auf 4 gesetzt
                     Task.set_task_cust_det(obj, 6, Timers.get_current_day())
                     set_status(obj.id, 2, 4)
                     boxno_found = 1
-                elif obj.status == str(5):
+                elif obj.status == CustOrderDet.Status.LIEFERUNG_AN_KD_AUSSTEHEND:
                     #Task erscheint bei dem Boxscan beim Kundendienst, wo dann die Hebebühne an den Kunden übergeben werden soll und der Status wird auf 6 gesetzt
                     Task.set_task_cust_det(obj, 8, Timers.get_current_day())
                     set_status(obj.id, 2, 6)
                     boxno_found = 1   
-                elif obj.status == str(9):
+                elif obj.status == CustOrderDet.Status.BESTELLT:
                     #Task beim Kunden für den Wareneingang
                     if request.user.groups.filter(name=C1).exists():
                         Task.set_task_cust_det(obj, 11, Timers.get_current_day())
@@ -45,7 +45,7 @@ def box_search_view(request):
                         Task.set_task_cust_det(obj, 13, Timers.get_current_day())
                     boxno_found = 1
         elif SuppOrder.objects.filter(box_no = str(number)).exists() and len(SuppOrder.objects.filter(box_no = str(number))) < 2:
-            #Status-Abfrage -> Joga Bestellung auf Bestellt
+            #Status-Abfrage -> Joga Bestellung auf Bestellt um dann den Task "Wareneingang" auszulösen
             mylist = SuppOrder.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == SuppOrder.Status.BESTELLT:
@@ -68,6 +68,7 @@ def box_search_view(request):
 
 #Status und Task setzten
 def set_status_task (request, **kwargs):
+    
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
     #custorder
     if kwargs["type_for_task"] == 1:
@@ -88,6 +89,7 @@ def set_status_task (request, **kwargs):
 
 
 #Status und Task setzten, Da für jede Position ein Task angelegt werden muss, gibt es hier eine spezielle Funktion dafür
+# Durchläuft alle Positionen
 def set_status_task_share (request, **kwargs):
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
     mylist = list(CustOrderDet.objects.filter(cust_order_id = kwargs["id"]))
@@ -104,7 +106,7 @@ def set_status_call(request, **kwargs):
 
 #Status setzen keine view
 def set_status(id, type, status):
-    #custorder
+    #custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
     if type == 1:
         mylist = list(CustOrderDet.objects.filter(cust_order_id = id))
         for i in mylist:
