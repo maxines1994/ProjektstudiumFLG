@@ -141,7 +141,10 @@ class Migration(migrations.Migration):
             Die zusammengehoerenden Paare von code_list und group_list haben also den gleichen Index, deswegen wird in dieser Schleife nur 1 Index fuer beide Listen verwendet.
             Beispiel: Eintrag fuer LEITUNGSTEAM in group_list hat den gleichen Index wie LEITUNGSTEAM_CODE in code_list
             """
-            my_code = str(getattr(groups, code_list[i]))
+            my_code = ''
+            for item in code_list:
+                if item == group_list[i] + '_CODE':
+                    my_code = str(getattr(groups, item))
 
             #Erzeuge Gruppe
             my_group = Group(name=my_name, code=my_code)
