@@ -7,14 +7,18 @@ from django.contrib.auth.models import Group, User
 from gtapp.constants import *
 from gtapp.models import Timers
 from django import forms
+from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 import json
 
 # Anlegen von Views mit dictionary TITEL und Markierung für den User wo er sich gerade befindet.
 
 #Boxnummer eintragen
-class box_view(TemplateView):
+class box_view(PermissionRequiredMixin, TemplateView):
     template_name = "box.html"
+    permission_required = 'gtapp.view_container'
 
+@permission_required('gtapp.view_container')
 def box_search_view(request):
     boxno_found = 0
     if request.method == "POST":
@@ -67,6 +71,7 @@ def box_search_view(request):
         return render(request, "box.html", c)
 
 #Status und Task setzten
+@login_required
 def set_status_task (request, **kwargs):
     
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
@@ -90,6 +95,7 @@ def set_status_task (request, **kwargs):
 
 #Status und Task setzten, Da für jede Position ein Task angelegt werden muss, gibt es hier eine spezielle Funktion dafür
 # Durchläuft alle Positionen
+@login_required
 def set_status_task_share (request, **kwargs):
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
     mylist = list(CustOrderDet.objects.filter(cust_order_id = kwargs["id"]))
@@ -99,12 +105,14 @@ def set_status_task_share (request, **kwargs):
 
 
 # Status setzen bei Auftrag freigeben
+@login_required
 def set_status_call(request, **kwargs):
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
     return HttpResponseRedirect(reverse("home"))
 
 
 #Status setzen keine view
+@login_required
 def set_status(id, type, status):
     #custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
     if type == 1:
@@ -125,24 +133,27 @@ def set_status(id, type, status):
     
 
 # Startseite
+@login_required
 def home_view(request):
     c = get_context("Startseite", "Startseite")
     return render(request, "home.html", c)
 
 # Startseite Absprünge per Buttons zu Informationsseiten
-class home_information_pages(TemplateView):
+class home_information_pages(LoginRequiredMixin, TemplateView):
     template_name = "HomeInformationPages.html"
 
 # FAQ
-class faq_view(TemplateView):
+class faq_view(LoginRequiredMixin, TemplateView):
     template_name = "FAQ.html"
 
 # Task Schaltfläche
+@login_required
 def tasks_view(request):
     c = get_context("Aufgaben", "Aufgaben")
     return render(request, "tasks.html", c)
 
 # Zugewiesene Tasks View
+@permission_required('gtapp.view_task')
 def tasks_list_assigned_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
     c['tasks'] = Task.objects.filter(user=request.user)
@@ -151,6 +162,7 @@ def tasks_list_assigned_view(request):
     return render(request, "tasks_list.html", c)
 
 # Nicht-zugewiesene Tasks View
+@permission_required('gtapp.view_task')
 def tasks_list_notassigned_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
     myList = list()
@@ -164,6 +176,7 @@ def tasks_list_notassigned_view(request):
     return render(request, "tasks_list.html", c)
 
 # Bearbeitete Tasks View
+@permission_required('gtapp.view_task')
 def tasks_list_finished_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
     c['tasks'] = Task.objects.filter(user=request.user, active=0)
@@ -172,16 +185,19 @@ def tasks_list_finished_view(request):
     return render(request, "tasks_list.html", c)
 
 # Weise Task User zu
+@permission_required('gtapp.change_task')
 def tasks_assign_to_me_view(request, **kwargs):
     Task.objects.filter(pk=kwargs["id"]).update(user=request.user)
     return HttpResponseRedirect(reverse("tasks_assigned"))
 
 # Weise Task Team zu
+@permission_required('gtapp.change_task')
 def tasks_share_to_team_view(request, **kwargs):
     Task.objects.filter(pk=kwargs["id"]).update(user_id = '')
     return HttpResponseRedirect(reverse("tasks_assigned"))
 
 # Beende Task
+@permission_required('gtapp.change_task')
 def tasks_finish(request, **kwargs):
     
     Task.objects.filter(pk=kwargs["id"]).update(active=0, finished_on=Timers.get_current_day())
@@ -189,6 +205,7 @@ def tasks_finish(request, **kwargs):
     
 
 # Bearbeite Task
+@permission_required('gtapp.change_task')
 def tasks_edit(request, **kwargs):
     mytask = Task.objects.filter(pk=kwargs["id"])[0]
     if mytask.task_type_id==1 or mytask.task_type_id == 16 or mytask.task_type_id == 17 or mytask.task_type_id == 18:
@@ -202,18 +219,12 @@ def tasks_edit(request, **kwargs):
         return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytask.supp_order.pk}))
 
 # Task Detail View
-class Tasks_detail_view(DetailView):
+class Tasks_detail_view(PermissionRequiredMixin, DetailView):
     template_name = "tasks_detail.html"
     model = Task
+    permission_required = 'gtapp.view_task'
 
       # Objekt für Alter view getten
     def get_object(self, queryset=None):
         obj = Task.objects.get(id=self.kwargs['id'])
         return obj
-
-
-# Zentrale View für Async Javascript
-def get_async_information(request, **kwargs):
-    List = {}
-    List["time"] = Timers.get_current_day()
-    return HttpResponse(json.dumps(List))

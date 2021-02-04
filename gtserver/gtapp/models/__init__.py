@@ -11,7 +11,7 @@ from .customer import Customer
 from .custorder import CustOrder
 from .orderdet import OrderDet
 from .container import Container
-from .custorderdet import CustOrderDet
+from .custorderdet import CustOrderDet, PermManufacturingList
 from .suppcomplaint import SuppComplaint
 from .complaint import Complaint
 from .complaintdet import ComplaintDet
@@ -32,3 +32,4 @@ from .suppcomplaintdet import SuppComplaintDet
 from .timer import Timers
 from .livesettings import LiveSettings
 from .goods_receipt import goods_receipt
+from .productionsteps import ProductionSteps

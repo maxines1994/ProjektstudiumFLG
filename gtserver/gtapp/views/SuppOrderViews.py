@@ -7,10 +7,12 @@ from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_f
 from gtapp.models import LiveSettings
 from gtapp.constants import *
 from gtapp.models import Timers
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-class Supp_order_create_view(CreateView):
+class Supp_order_create_view(PermissionRequiredMixin, CreateView):
     template_name = "SuppOrderForm.html"
+    permission_required = 'gtapp.add_supporder'
 
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
@@ -50,8 +52,11 @@ class Supp_order_create_view(CreateView):
     def get_initial(self):
         return {"issued_on":Timers.get_current_day()}
 
-class Supp_order_alter_view(UpdateView):
+
+
+class Supp_order_alter_view(PermissionRequiredMixin, UpdateView):
     template_name = "SuppOrderForm.html"
+    permission_required = 'gtapp.change_supporder'
 
     def get_object(self, queryset=None):
         obj = SuppOrder.objects.get(id=self.kwargs['id'])
@@ -80,8 +85,9 @@ class Supp_order_alter_view(UpdateView):
         return form_class(**self.get_form_kwargs())
 
 
-class Supp_order_delete_view(DeleteView):
+class Supp_order_delete_view(PermissionRequiredMixin, DeleteView):
     template_name = "delete.html"
+    permission_required = 'gtapp.delete_supporder'
 
     def get_object(self, queryset=None):
         obj = SuppOrder.objects.get(id=self.kwargs['id'])
@@ -93,9 +99,10 @@ class Supp_order_delete_view(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class Supp_order_det_create_view(CreateView):
+class Supp_order_det_create_view(PermissionRequiredMixin, CreateView):
     form_class = Supp_order_det_form
     template_name = "SuppOrderDetForm.html"
+    permission_required = 'gtapp.add_supporderdet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -110,9 +117,10 @@ class Supp_order_det_create_view(CreateView):
         return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["supp_order"]) + "/")
 
 
-class Supp_order_det_alter_view(UpdateView):
+class Supp_order_det_alter_view(PermissionRequiredMixin, UpdateView):
     form_class = Supp_order_det_form
     template_name = "SuppOrderDetForm.html"
+    permission_required = 'gtapp.change_supporderdet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -129,8 +137,9 @@ class Supp_order_det_alter_view(UpdateView):
         return HttpResponseRedirect("/supp_order/alter/" + str(self.object.supp_order.pk) + "/")
 
 
-class Supp_order_det_delete_view(DeleteView):
+class Supp_order_det_delete_view(PermissionRequiredMixin, DeleteView):
     template_name = "delete.html"
+    permission_required = 'gtapp.delete_supporderdet'
 
     def get_object(self, queryset=None):
         obj = SuppOrderDet.objects.get(id=self.kwargs['id'])
@@ -144,8 +153,9 @@ class Supp_order_det_delete_view(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class Supp_order_view(TemplateView):
+class Supp_order_view(PermissionRequiredMixin, TemplateView):
     template_name = "SuppOrder.html"
+    permission_required = 'gtapp.view_supporder'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -100,15 +100,15 @@ class Migration(migrations.Migration):
 
             if group.name == PRODUKTIONSDIENSTLEISTUNG:
                 can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Article, ArtiPart, Part, SuppContainer)
-                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, Task, Message, Stock, StockMovement)
+                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, PermManufacturingList, Task, Message, Stock, StockMovement)
 
             if group.name == PRODUKTION:
-                can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, SuppComplaint, SuppComplaintDet)
+                can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, SuppComplaint, SuppComplaintDet, ProductionSteps)
                 can_change      = get_content_type_ids_of_models(Task, Message)
 
             if group.name == LIEFERANTEN:
                 can_view_only   = get_content_type_ids_of_models(SuppContainer)
-                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer, Task)
+                can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, SuppContainer, Message, Task, Stock, StockMovement)
 
             perms_list = get_perms(can_view_only, VIEW)
             perms_list = perms_list + get_perms(can_change, CHANGE)        

@@ -38,3 +38,10 @@ class CustOrderDet(OrderDet):
         for p in atpt:
             needs.append((p.part, p.quantity))
         return needs
+
+
+
+# Liste der Fertigungsaufträge-Berechtigung
+# Django bietet custom Permissions, diese würden aber nicht mit unserer Migration funktionieren, daher ein Model als simpler Workaround
+class PermManufacturingList(models.Model):
+    pass
