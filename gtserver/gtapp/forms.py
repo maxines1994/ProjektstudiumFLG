@@ -93,7 +93,7 @@ class Cust_complaint_form(ModelForm):
 
     class Meta:
         model = CustComplaint
-        fields = ["cust_order", "memo", "finished_on", "box_no"]
+        fields = ["cust_order", "memo", "finished_on"]
         labels = {
             'cust_order': _('Auftrag'),
             'memo': _('Kommentar'),

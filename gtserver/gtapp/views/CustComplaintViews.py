@@ -72,6 +72,11 @@ class Cust_complaint_alter_view(UpdateView):
         context['items'] = CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk)
         context['cust_complaint_no'] = self.get_object().pk
         context["action"] = "alter"
+
+        context['fix_done'] = not CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk).exclude(status=5).exists()
+        context['box_no_done'] = not CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk, box_no__isnull=True).exists()
+        context['status'] = self.get_object().status
+
         return context
     
     def form_valid(self, form):
