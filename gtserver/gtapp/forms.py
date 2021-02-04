@@ -233,11 +233,12 @@ class Supp_complaint_det_form(ModelForm):
 
     class Meta:
         model = SuppComplaintDet
-        fields = ["pos", "supp_order_det", "quantity", "memo", "finished_on", "box_no"]
+        fields = ["pos", "supp_order_det", "quantity","redelivery", "memo", "finished_on"]
         labels = {
             'pos': _('Position'),
             'supp_oder_det': _('Teil'),
             'quantity': _('Menge'),
+            'redelivery': _('Neulieferung'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am'),            
         }

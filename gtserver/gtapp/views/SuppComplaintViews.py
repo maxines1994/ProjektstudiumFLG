@@ -74,6 +74,18 @@ class Supp_complaint_alter_view(UpdateView):
         context['items'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk)
         context['supp_complaint_no'] = self.get_object().pk
         context["action"] = "alter"
+
+        context['group_pro'] = self.request.user.groups.filter(name='Produktion').exists()
+        context['group_pro_service'] = self.request.user.groups.filter(name='Produktionsdienstleistung').exists()
+
+        context['status'] = self.get_object().status
+
+        context['box_no_done'] = self.get_object().box_no
+
+        # Nur bei BoxScan implementieren? vv
+        # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()
+
+
         return context
     
     def form_valid(self, form):

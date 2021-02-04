@@ -97,14 +97,14 @@
     
     <div class="row section">
         <div class="col s12 right-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
             {% if action != "create" %}
-            {%if company == LIEFERANTEN %}
-                <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 3 2 3 9%}">Freigeben</a>
-            {%else%}
-                <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Freigeben</a>
+                {%if company == LIEFERANTEN %}
+                    <button class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 3 2 3 9%}"><i class="material-icons left">done_all</i>Freigeben</button>
+                {%else%}
+                    <button class="btn waves-effect waves-light" href="{% url 'set_status_call' object.pk 3 5%}"><i class="material-icons left">done_all</i>Freigeben</button>
+                {% endif %}
             {% endif %}
-        {% endif %}
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
         </div>
     </div>
 </form>
