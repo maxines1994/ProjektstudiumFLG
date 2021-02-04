@@ -79,7 +79,6 @@
       <li><a href="{% url 'home' %}">Startseite</a></li>
       
       {% if perms.gtapp.view_task %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
-      {% if user.groups.first.name != "Spielleitung" %}<li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>{% endif %}
       <li><div class="divider"></div></li>
       {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
@@ -87,7 +86,7 @@
       {% if perms.gtapp.view_supporder %}<li><a href="{% url 'supp_order' %}">{% if company == LIEFERANTEN %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="{% url 'supp_complaint' %}">{% if company == LIEFERANTEN %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_productionsteps %}<li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li> {% endif %}
-      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
+      {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
       {% if perms.gtapp.view_stock %}<li><a href="{% url 'manufacturing_stock' %}">Lager</a></li> {% endif %}
 
       <li><div class="divider"></div></li>
