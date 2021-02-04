@@ -97,7 +97,7 @@
         <div class="col s12 right-align">
             {% if fix_done and status == '4' %}
             <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  -->
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Reparatur abschließen</button>
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Anpassung abschließen</button>
             {% endif %}
             {% if box_no_done and status == '5' %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation versandfertig</button>
@@ -125,7 +125,7 @@
     <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
     <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
     {% elif i.cust_complaint.status == '4' %}
-    <li><a href="#!" class="li-content"><i class="material-icons">build</i>Reparatur abschließen</a></li>
+    <li><a href="#!" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
     {% elif i.cust_complaint.status == '5' %}
     <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Box Nr. eintragen</a></li>
     {% endif %}
