@@ -18,6 +18,9 @@ class Complaint(GtModel):
     memo = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     box_no = models.CharField(max_length=8, null=True, blank=True)
+    order_no = models.CharField(max_length=8)
+    external_system = models.BooleanField(default=False)
+    ref_no = models.CharField(null=True, blank=True, max_length=10)
    
     status = models.CharField(
         max_length = 1,

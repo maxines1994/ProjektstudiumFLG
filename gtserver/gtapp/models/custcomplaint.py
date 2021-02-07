@@ -1,6 +1,7 @@
 from django.db import models
 from .complaint import Complaint
 from .custorder import CustOrder
+from . import Customer
 
 class CustComplaint(Complaint):
     """
@@ -15,9 +16,8 @@ class CustComplaint(Complaint):
         REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben')
         IN_ANPASSUNG                    = '4', ('In Anpassung')
         ANPASSUNG_ABGESCHLOSSEN         = '5', ('Anpassung abgeschlossen')
-        LIEFERUNG_AN_KUNDENDIENST       = '6', ('Lieferung an Kundendienst')
-        LIEFERUNG_AN_KUNDE              = '7', ('Lieferung an Kunde')
-        GELIEFERT                       = '8', ('Geliefert')
+        LIEFERUNG_AN_KUNDE              = '6', ('Lieferung an Kunde')
+        GELIEFERT                       = '7', ('Geliefert')
 
     status = models.CharField(
         max_length = 1,
@@ -26,4 +26,51 @@ class CustComplaint(Complaint):
     )
 
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,null=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return (self.order_no)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            #JOGA
+            if self.external_system == False:
+                mylist = list(CustComplaint.objects.filter(external_system = self.external_system).order_by('-id'))
+                if not mylist:
+                    no_str = 'RA-001'
+                else:
+                    tmp = mylist[0].order_no
+                    mytmp=tmp.split('-')
+                    no = int(mytmp[1])
+                    no = no+1
+                    if (no<10):
+                        no_str = 'RA-00'+str(no)
+                    elif(no<100):
+                        no_str = 'RA-0'+str(no)
+                    elif(no<1000):
+                        no_str = 'RA-'+str(no)
+                    else:
+                        pass
+            #Kunden , customer_id=self.cust_order.customer.pk        
+            else:
+                mylist = list(CustComplaint.objects.filter(external_system = self.external_system, customer_id=self.cust_order.customer.pk).order_by('-id'))
+                if not mylist:
+                    no_str = 'RK' + str(self.cust_order.customer.pk) +'-001'
+                else:
+                    #Bestimmung der neuen Orderno
+                    tmp = mylist[0].order_no
+                    mytmp=tmp.split('-')
+                    no = int(mytmp[1])
+                    no = no+1
+                    if (no<10):
+                        no_str = 'RK' + str(self.cust_order.customer.pk) +'-00'+str(no)
+                    elif(no<100):
+                        no_str = 'RK' + str(self.cust_order.customer.pk) +'-0'+str(no)
+                    elif(no<1000):
+                        no_str = 'RK' + str(self.cust_order.customer.pk) +str(no)
+                    else:
+                        pass
+
+               
+            self.order_no=no_str
+        super(Complaint, self).save(*args, **kwargs)

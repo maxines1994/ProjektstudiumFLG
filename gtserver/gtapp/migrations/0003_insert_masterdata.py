@@ -368,6 +368,31 @@ class Migration(migrations.Migration):
         #Lieferant 300
         TaskType.objects.create(id=20, title = "Auftrag freigeben", description ="Bitte geben Sie den Auftrag frei.", group=Group.objects.get(name=L300))
 
+        #Auftragsreklamationen (Kunde)
+        TaskType.objects.create(id=21, title = "Bestellreklamation freigeben", description ="Bitte geben Sie den Bestellreklamation frei.", group=Group.objects.get(name=K1))
+        TaskType.objects.create(id=22, title = "Bestellreklamation freigeben", description ="Bitte geben Sie den Bestellreklamation frei.", group=Group.objects.get(name=K2))
+        TaskType.objects.create(id=23, title = "Bestellreklamation freigeben", description ="Bitte geben Sie den Bestellreklamation frei.", group=Group.objects.get(name=K3))
+        TaskType.objects.create(id=24, title = "Bestellreklamation versenden", description ="Bitte versenden Sie die Bestellreklamation.", group=Group.objects.get(name=K1))
+        TaskType.objects.create(id=25, title = "Bestellreklamation versenden", description ="Bitte versenden Sie die Bestellreklamation.", group=Group.objects.get(name=K2))
+        TaskType.objects.create(id=26, title = "Bestellreklamation versenden", description ="Bitte versenden Sie die Bestellreklamation.", group=Group.objects.get(name=K3))
+        TaskType.objects.create(id=27, title = "Bestellreklamation an Produktion senden", description ="Bitte versenden Sie die den Hubwagen an die Produktion. tragen sie die Boxnummer ein.", group=Group.objects.get(name=KUNDENDIENST))
+        TaskType.objects.create(id=28, title = "Reklamation bearbeiten", description ="Bitte bearbeiten Sie die Reklamation.", group=Group.objects.get(name=PRODUKTION))
+        TaskType.objects.create(id=29, title = "Boxnummer eintragen", description ="Bitte tragen Sie die Boxnummer in die Reklamation ein und senden Sie die den Hubwagen an den Kundendienst", group=Group.objects.get(name=PRODUKTION))
+        #TaskType.objects.create(id=30, title = "Hubwagen an Kundendienst senden", description ="Bitte senden Sie den Hubwagen an den Kundendienst", group=Group.objects.get(name=PRODUKTION))
+        TaskType.objects.create(id=31, title = "Hubwagen an Kunden senden", description ="Bitte senden Sie den Hubwagen an den Kunden.", group=Group.objects.get(name=KUNDENDIENST))
+
+        #Bestellreklamation (Lieferant)
+        TaskType.objects.create(id=32, title = "Bestellreklamation freigeben", description ="Bitte geben Sie die Bestellreklamation frei.", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=33, title = "Bestellreklamation versenden", description ="Bitte tragen Sie die Boxnumemr ein.Bitte schreiben Sie eine Mail an den Lieferanten und versenden die Bestellreklamation", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=34, title = "Bestellreklamtion an Lieferant weitersenden", description ="Bitte stun Sie die Teile in die entsprechende Lieferantenbox und senden Sie diese an den Lieferanten", group=Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG))
+        TaskType.objects.create(id=35, title = "Fehlteile an PDL senden", description ="Bitte tragen Sie eine Boxnummer ein und senden Sie die Box an die Produktionsdienstleistung", group=Group.objects.get(name=PRODUKTION))
+        TaskType.objects.create(id=36, title = "Bestand prüfen", description ="Bitte prüfen Sie den Bestand", group=Group.objects.get(name=L300))
+        TaskType.objects.create(id=37, title = "Neuteile an JOGA senden", description ="Bitte senden Sie die Neuteile an die JOGA. Schreiben Sie eine NAchricht mit der Boxnummer and die JOGA.", group=Group.objects.get(name=L300))
+
+
+
+
+
     dependencies = [
         ('gtapp', '0001_initial'),
         ('gtapp', '0002_insert_usergroups'),

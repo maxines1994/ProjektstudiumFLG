@@ -99,14 +99,12 @@
     <div class="row section">
         <div class="col s12 right-align">
             {% if action != 'create' and status <= '1' and group_pro_service  %}
-                <!--##LUXI##     Status auf '4' && Task "Box Nr. eintragen" -->
-                <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</button>
+                <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 4 7 33%}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
             {% elif action != 'create' and status <= '1' and group_pro %}
-                <!--##LUXI##     Status auf '3' && Task "Reklamierte Teile an PDL schicken & Box_no angeben" -->
-                <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</button>
-            {% elif action != 'create' and status == '4' and box_no_done and group_pro_service %}
+                <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 3 7 35%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
+                <!-- {% elif action != 'create' and status == '4' and box_no_done and group_pro_service %}-->
                 <!--##LUXI##     Status auf '5' && Task "Reklamierte Teile an Lieferanten schicken & Lieferanten Nachricht schreiben"-->
-                <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation Versandfertig</button>
+                <!--<a class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation Versandfertig</a>-->
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
         </div>

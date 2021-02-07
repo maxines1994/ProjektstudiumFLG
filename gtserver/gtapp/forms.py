@@ -165,13 +165,16 @@ class Supp_order_det_form(ModelForm):
 
     class Meta:
         model = SuppOrderDet
-        fields = ["pos", "part", "quantity", "unit_price", "memo"]
+        fields = ["part", "quantity", "unit_price", "memo"]
         labels = {
-            'pos': _('Positionsnummer'),
+            #'pos': _('Positionsnummer'),
             'part': _('Artikel'),
             'quantity': _('Menge'),
             'unit_price': _('Preis'),
             'memo': _('Kommentar'),
+        }
+        widgets = {
+            'pos': TextInput(attrs={'disabled': True}),
         }
 
 
@@ -215,11 +218,14 @@ class Cust_complaint_det_form(ModelForm):
 
     class Meta:
         model = CustComplaintDet
-        fields = ["pos", "cust_order_det", "memo", "box_no"]
+        fields = ["cust_order_det", "memo", "box_no"]
         labels = {
-            'pos': _('Position'),
+           # 'pos': _('Position'),
             'cust_oder_det': _('Position'),
             'memo': _('Kommentar')
+        }
+        widgets = {
+            'pos': TextInput(attrs={'disabled': True}),
         }
     
     def __init__(self, cust_order_id, *args, **kwargs):
@@ -233,17 +239,17 @@ class Supp_complaint_det_form(ModelForm):
 
     class Meta:
         model = SuppComplaintDet
-        fields = ["pos", "supp_order_det", "quantity","redelivery", "memo", "finished_on"]
+        fields = [ "supp_order_det", "quantity", "memo", "finished_on","redelivery"]
         labels = {
-            'pos': _('Position'),
+            #'pos': _('Position'),
             'supp_oder_det': _('Teil'),
             'quantity': _('Menge'),
-            'redelivery': _('Neulieferung'),
             'memo': _('Kommentar'),
-            'finished_on': _('Abgeschlossen am'),            
+            'finished_on': _('Abgeschlossen am'),
+            'redelivery': _('Neulieferung'),            
         }
         widgets = {
-            #'order_no': IntegerField()
+            'pos': TextInput(attrs={'disabled': True}),
         }
 
     def __init__(self, supp_order_id, *args, **kwargs):

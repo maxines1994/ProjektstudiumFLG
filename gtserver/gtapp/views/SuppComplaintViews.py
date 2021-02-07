@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder
+from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder, Task, Timers
 from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
 from django import forms
 from gtapp.models import LiveSettings
@@ -22,10 +22,13 @@ class Supp_complaint_create_view(CreateView):
         elif self.request.user.groups.filter(name=L300).exists():
             form.instance.supplier_id = 3
         
-        if self.request.user.groups.filter(name='LIEFERANTEN').exists():
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             form.instance.external_system = True
 
         new_supp_order_complaint = form.save()
+
+        if self.request.user.groups.filter(name=JOGA).exists():
+            Task.set_task_suppComplaint(new_supp_order_complaint, 32, Timers.get_current_day())
 
         return HttpResponseRedirect("/supp_complaint/alter/" + str(new_supp_order_complaint.pk) + "/")
     
@@ -144,6 +147,13 @@ class Supp_complaint_det_create_view(CreateView):
     def form_valid(self, form):
         form.instance.supp_complaint = SuppComplaint.objects.get(id=self.kwargs["supp_complaint"])
         form.instance._creation_user_id = self.request.user.id
+
+        # Position vergeben
+        try:
+            form.instance.pos = SuppComplaintDet.objects.filter(supp_complaint=form.instance.supp_complaint).latest('_creation_date').pos + 1
+        except SuppComplaintDet.DoesNotExist:
+            form.instance.pos = 1
+
         form.save()
         return HttpResponseRedirect("/supp_complaint/alter/" + str(self.kwargs["supp_complaint"]) + "/")
 
