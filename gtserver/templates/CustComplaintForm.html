@@ -106,7 +106,7 @@
             {% if action != 'create' and status <= '2' %}
                 {% if company == KUNDEN %}
                     {% if  request.user|has_group:K1 %}
-                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 2 6 24%}"><i class="material-icons left">done_all</i>Freigeben Anna</a>
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 2 6 24%}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% elif request.user|has_group:K2 %}
                     <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 2 6 25%}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% elif request.user|has_group:K3 %}
