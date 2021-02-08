@@ -2,10 +2,11 @@ from django.views.generic import CreateView, UpdateView, TemplateView, DeleteVie
 from gtapp.models import CustOrder, CustOrderDet
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Stornierung CustOrder Position
-class Cust_order_det_cancel_view(UpdateView):
+class Cust_order_det_cancel_view(LoginRequiredMixin, UpdateView):
     fields = []
     template_name = "cancel.html"
 
@@ -20,7 +21,7 @@ class Cust_order_det_cancel_view(UpdateView):
         return HttpResponseRedirect("/cust_order/alter/" + str(form.instance.cust_order.id) + "/")
 
 # Stornierung CustOrder
-class Cust_order_cancel_view(UpdateView):
+class Cust_order_cancel_view(LoginRequiredMixin, UpdateView):
     fields = []
     template_name = "cancel.html"
 
@@ -41,7 +42,7 @@ class Cust_order_cancel_view(UpdateView):
 
 
 # Stornierung CustOrder
-class Supp_order_cancel_view(UpdateView):
+class Supp_order_cancel_view(LoginRequiredMixin, UpdateView):
     fields = []
     template_name = "cancel.html"
 

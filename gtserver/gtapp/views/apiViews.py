@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from gtapp.models import Task, TaskType
 #from gtapp.constants import *
 from gtapp.models import Timers
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 
 # Status alle x Sekunden (Tag, hatBenachrichtigungen)
 @login_required
@@ -12,7 +12,7 @@ def get_api_status(request, **kwargs):
     return JsonResponse(dict(time=time, has_unassigned=has_unassigned))
 
 # Tasks laden
-@permission_required('gtapp.view_task')
+@login_required
 def get_api_tasks(request, **kwargs):
 
     tasks_user = list()

@@ -7,13 +7,13 @@ from gtapp.models import MessageUser, Message, Timers, CustOrder, CustOrderDet, 
 from django.contrib.auth.models import Group, User
 import json
 from gtapp.constants import *
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
-class inboxView(PermissionRequiredMixin, TemplateView):
+class inboxView(LoginRequiredMixin, TemplateView):
     template_name = "inbox.html"
-    permission_required = 'gtapp.view_message'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -24,9 +24,9 @@ class inboxView(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class outboxView(PermissionRequiredMixin, TemplateView):
+class outboxView(LoginRequiredMixin, TemplateView):
     template_name = "inbox.html"
-    permission_required = 'gtapp.view_message'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -37,9 +37,9 @@ class outboxView(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class binView(PermissionRequiredMixin, TemplateView):
+class binView(LoginRequiredMixin, TemplateView):
     template_name = "inbox.html"
-    permission_required = 'gtapp.view_message'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,10 +50,10 @@ class binView(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class msgWriteView(PermissionRequiredMixin, CreateView):
+class msgWriteView(LoginRequiredMixin, CreateView):
     template_name = "message.html"
     form_class = Msg_write_form
-    permission_required = 'gtapp.add_message'
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,10 +84,10 @@ class msgWriteView(PermissionRequiredMixin, CreateView):
         return HttpResponseRedirect(reverse("inbox"))
 
 
-class msgDetailsView(PermissionRequiredMixin, DetailView):
+class msgDetailsView(LoginRequiredMixin, DetailView):
     template_name = "message_detail.html"
     model = Message
-    permission_required = 'gtapp.view_message'
+
 
     def get_object(self, queryset=None):
         mu = MessageUser.objects.filter(pk=self.kwargs['id'])[0]
@@ -101,7 +101,7 @@ class msgDetailsView(PermissionRequiredMixin, DetailView):
 
 # Weise Task User zu
 
-@permission_required('gtapp.delete_message')
+@login_required
 def delete_message_view(request, **kwargs):
     if MessageUser.objects.filter(message_id=kwargs["id"], user=request.user, user_is_sender=False)[0].is_trash == False:
         MessageUser.objects.filter(
@@ -112,7 +112,7 @@ def delete_message_view(request, **kwargs):
     return HttpResponseRedirect(reverse("inbox"))
 
 
-@permission_required('gtapp.add_message')
+@login_required
 def add_order_view(request, **kwargs):
     o = SuppOrder.objects.filter(pk=kwargs["id"])[0]
     order = {

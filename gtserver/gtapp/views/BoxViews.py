@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, DetailView
 from gtapp.models import Task, TaskType, CustOrder, SuppOrder, CustOrderDet, SuppOrderDet, GtModel
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group, User
 from gtapp.constants import *
 from gtapp.models import Timers
@@ -10,7 +11,9 @@ from django import forms
 from gtapp.forms import *
 import json
 
-class Box_assign_view(UpdateView):
+
+
+class Box_assign_view(LoginRequiredMixin, UpdateView):
     template_name = "BoxAssign.html"
     form_class = Box_form
 
@@ -39,7 +42,7 @@ class Box_assign_view(UpdateView):
             return CustComplaintDet.Status.ERLEDIGT
         else:
             return obj.Status
-      
+
     def form_valid(self, form):
         my_obj = self.get_object()
         form.instance.status = self.get_new_status(my_obj)

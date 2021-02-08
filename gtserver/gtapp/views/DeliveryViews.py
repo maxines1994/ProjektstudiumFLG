@@ -10,7 +10,9 @@ from django import forms
 from gtapp.forms import *
 import json
 from django.urls import resolve
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def stock_check_view2(request, **kwargs):
     c = {}
     demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
@@ -23,6 +25,7 @@ def stock_check_view2(request, **kwargs):
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 
+@login_required
 def delivery_view(request, **kwargs):
     template = 'Delivery.html'
     MyFormSet = None

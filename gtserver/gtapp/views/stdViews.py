@@ -7,18 +7,18 @@ from django.contrib.auth.models import Group, User
 from gtapp.constants import *
 from gtapp.models import Timers
 from django import forms
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 # Anlegen von Views mit dictionary TITEL und Markierung für den User wo er sich gerade befindet.
 
 #Boxnummer eintragen
-class box_view(PermissionRequiredMixin, TemplateView):
+class box_view(LoginRequiredMixin, TemplateView):
     template_name = "box.html"
-    permission_required = 'gtapp.view_container'
 
-@permission_required('gtapp.view_container')
+
+@login_required
 def box_search_view(request):
     boxno_found = 0
     ext_sys = request.user.groups.filter(name=JOGA).exists()
@@ -210,7 +210,7 @@ def tasks_view(request):
     return render(request, "tasks.html", c)
 
 # Zugewiesene Tasks View
-@permission_required('gtapp.view_task')
+@login_required
 def tasks_list_assigned_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
     c['tasks'] = Task.objects.filter(user=request.user, active=1)
@@ -219,7 +219,7 @@ def tasks_list_assigned_view(request):
     return render(request, "tasks_list.html", c)
 
 # Nicht-zugewiesene Tasks View
-@permission_required('gtapp.view_task')
+@login_required
 def tasks_list_notassigned_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
     myList = list()
@@ -233,7 +233,7 @@ def tasks_list_notassigned_view(request):
     return render(request, "tasks_list.html", c)
 
 # Bearbeitete Tasks View
-@permission_required('gtapp.view_task')
+@login_required
 def tasks_list_finished_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
     c['tasks'] = Task.objects.filter(user=request.user, active=0)
@@ -242,19 +242,19 @@ def tasks_list_finished_view(request):
     return render(request, "tasks_list.html", c)
 
 # Weise Task User zu
-@permission_required('gtapp.change_task')
+@login_required
 def tasks_assign_to_me_view(request, **kwargs):
     Task.objects.filter(pk=kwargs["id"]).update(user=request.user)
     return HttpResponseRedirect(reverse("tasks_assigned"))
 
 # Weise Task Team zu
-@permission_required('gtapp.change_task')
+@login_required
 def tasks_share_to_team_view(request, **kwargs):
     Task.objects.filter(pk=kwargs["id"]).update(user_id = '')
     return HttpResponseRedirect(reverse("tasks_assigned"))
 
 # Beende Task
-@permission_required('gtapp.change_task')
+@login_required
 def tasks_finish(request, **kwargs):
     
     Task.objects.filter(pk=kwargs["id"]).update(active=0, finished_on=Timers.get_current_day())
@@ -262,7 +262,7 @@ def tasks_finish(request, **kwargs):
     
 
 # Bearbeite Task
-@permission_required('gtapp.change_task')
+@login_required
 def tasks_edit(request, **kwargs):
     mytask = Task.objects.filter(pk=kwargs["id"]).first()
     if mytask.task_type_id in [1, 16, 17, 18]:#==1 or mytask.task_type_id == 16 or mytask.task_type_id == 17 or mytask.task_type_id == 18:
@@ -308,10 +308,10 @@ def tasks_edit(request, **kwargs):
 
 
 # Task Detail View
-class Tasks_detail_view(PermissionRequiredMixin, DetailView):
+class Tasks_detail_view(LoginRequiredMixin, DetailView):
     template_name = "tasks_detail.html"
     model = Task
-    permission_required = 'gtapp.view_task'
+
 
       # Objekt für Alter view getten
     def get_object(self, queryset=None):

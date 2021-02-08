@@ -6,7 +6,10 @@ from gtapp.constants import *
 from gtapp.forms import *
 from gtapp.utils import get_context, get_context_back
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, FormView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def stock_view(request, **kwargs):
     c = {}
     if request.user.groups.filter(name=JOGA).exists():
@@ -23,6 +26,7 @@ def stock_view(request, **kwargs):
 
     return render(request, "Stock.html", c)
 
+@login_required
 def stock_check_view(request, **kwargs):
     c = {}
     c["stock"] = Stock.objects.filter(is_supplier_stock=False, part__supplier_id=3)
@@ -45,7 +49,7 @@ def stock_check_view(request, **kwargs):
     return HttpResponseRedirect(reverse("manufacturing_list"))
     """
 
-class StockmovementView(TemplateView):
+class StockmovementView(LoginRequiredMixin, TemplateView):
     template_name = "StockMovement.html"
 
     def get_context_data(self, **kwargs):
@@ -56,7 +60,7 @@ class StockmovementView(TemplateView):
         context["stockmovement"] = StockMovement.objects.filter(stock_id=my_part_id)
         return context
 
-class Stock_alter_view(UpdateView):
+class Stock_alter_view(LoginRequiredMixin, UpdateView):
     template_name = "StockForm.html"
     form_class = Stock_form 
 
