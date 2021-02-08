@@ -162,7 +162,6 @@ def set_status_call(request, **kwargs):
 
 
 #Status setzen keine view
-@login_required
 def set_status(id, type, status):
     #custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
     if type == 1:
