@@ -98,11 +98,13 @@ class Cust_complaint_alter_view(LoginRequiredMixin, UpdateView):
             if not item.startswith("__") and not item == 'STANDARD':
                 context["status_count"] += 1
 
-        context["STATUS"] = CustComplaintDet.Status.__members__
+        context["POS_STATUS"] = CustComplaintDet.Status.__members__
+        context["STATUS"] = CustComplaint.Status.__members__
+        context['OBJ_STATUS'] = self.get_object().status
 
         context['fix_done'] = not CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk).exclude(status=5).exists()
         context['box_no_done'] = not CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk, box_no__isnull=True).exists()
-        context['status'] = self.get_object().status
+        
 
         return context
     
