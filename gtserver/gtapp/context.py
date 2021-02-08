@@ -15,8 +15,12 @@ def gtcontext(request):
     else:
         company = 'none' # grey
 
+    group = []
 
-    return {"debug_flag": settings.DEBUG, "company": company, "day": Timers.get_current_day()}
+    for item in request.user.groups.all():
+        group.append(item.name)
+
+    return {"debug_flag": settings.DEBUG, "company": company, "group": group, "day": Timers.get_current_day()}
 
 def gtconstants(request):
     my_dict = {}

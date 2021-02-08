@@ -50,7 +50,7 @@
           {% if user.is_authenticated %}
           <ul class="right">
             <li><a id="currenttime"><i class="material-icons left">today</i>Tag {{day}}</a>
-            {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>{% endif %}
+            <li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href="{% url 'box_search_view' %}"><i class="material-icons">qr_code</i></a></li>{% endif %}
             {% if perms.gtapp.view_task %}<li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;"><i class="material-icons">notifications_none</i></a></li>{% endif %}
           </ul>
@@ -87,12 +87,13 @@
       {% if perms.gtapp.view_supporder %}<li><a href="{% url 'supp_order' %}">{% if company == LIEFERANTEN %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="{% url 'supp_complaint' %}">{% if company == LIEFERANTEN %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
       {% if request.user|has_group:PRODUKTION %}<li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li> {% endif %}
-      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
-      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:LIEFERANTEN %}<li><a href="{% url 'manufacturing_stock' %}">Lager</a></li> {% endif %}
-
+      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
+      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION %}<li><a href="{% url 'manufacturing_complaints' %}">Reklamationsaufträge</a></li> {% endif %}
+      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:LIEFERANTEN %}<li><a href="{% url 'stock' %}">Lager</a></li> {% endif %}
       <li><div class="divider"></div></li>
       <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><a href="{% url 'faq' content=0  %}">FAQ</a></li>
+
       {% if user.is_authenticated %}
           <li><div class="divider"></div></li>
           <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Ausloggen</a></li>

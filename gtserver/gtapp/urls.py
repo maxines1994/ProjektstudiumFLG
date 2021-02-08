@@ -42,6 +42,7 @@ urlpatterns = [
     path('box/', box_view.as_view(), name="box_view"),
     path('box/<int:error>', box_view.as_view(), name="box_view_error"),
     path('box_search/', box_search_view, name='box_search_view'),
+    path('box_assign/<str:model>/<int:id>/', Box_assign_view.as_view(), name='box_assign'),
 
     # Task Status
     path('status_call<int:id>/<int:type>/<int:status>', set_status_call, name='set_status_call'),
@@ -55,7 +56,7 @@ urlpatterns = [
     path('cust_order/delete/<int:id>/', Cust_order_delete_view.as_view(), name='cust_order_delete'),
     path('cust_order_det/create/<int:cust_order>/', Cust_order_det_create_view.as_view(), name="cust_order_det_create"),
     path('cust_order_det/alter/<int:id>/', Cust_order_det_alter_view.as_view(), name="cust_order_det_alter"),
-    path('cust_order_det/delete/<int:id>/', Cust_order_det_delete_view.as_view(), name="cust_order_det_delete"),
+    path('cust_order_det/delete/<int:id>/', Cust_order_det_delete_view.as_view(), name="cust_order_det_delete"),    
 
     # Supp Order
     path('supp_order/', Supp_order_view.as_view(), name="supp_order"),
@@ -68,13 +69,24 @@ urlpatterns = [
 
     # PDL
     path('manufacturing/', manufacturing_list_view, name="manufacturing_list"),
+    path('manufacturing_complaints/', manufacturing_list_view, name="manufacturing_complaints"),
     path('manufacturing/release/<int:id>/', manufacturing_release_view, name="manufacturing_release"),
     path('manufacturing/supporder/<int:id>/', manufacturing_supporder_view, name="manufacturing_supporder"),
-    path('manufacturing/testing/<int:id>/', manufacturing_testing_view, name="manufacturing_testing"),
-    path('manufacturing/stock/', manufacturing_stock_view, name="manufacturing_stock"),
+    #path('manufacturing/testing/<int:id>/', stock_check_view, name="manufacturing_testing"),
+    
+    # Lager
+    path('stock/', stock_view, name="stock"),
+    path('stock/alter/<int:id>/', Stock_alter_view.as_view(), name="stock_alter"),
+    path('stock/movements/<int:id>/', StockmovementView.as_view(), name="stockmovement"),
+    path('stock/check/<int:id>/', stock_check_view, name="stock_check"),
 
     # Wareneingang
     path('goods_receipt/<int:typeofdet>/<int:idofdet>/', goods_receipt_view, name="goods_receipt"),
+
+    # Warenausgang
+    path('goods_receipt/<str:model>/<int:id>/', delivery_view, name="goods_receipt"),
+    path('goods_shipping/<str:model>/<int:id>/', delivery_view, name="goods_shipping"),
+    #path('goods_shipping/<str:model>/<int:id>/', Delivery_create_view.as_view(), name="goods_shipping"),
 
     # Produktionsschritte
     path('production_steps', production_steps, name="production_steps"),

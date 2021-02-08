@@ -1,14 +1,12 @@
 from django import forms
 from django.core import validators
 from django.forms import *
-from gtapp.models import Article, CustOrder, CustOrderDet, Customer, Message, CustComplaint, CustComplaintDet
-from gtapp.models import Part, ArtiPart, SuppOrder, SuppOrderDet, Supplier
-from gtapp.models import SuppComplaint, SuppComplaintDet
+from gtapp.models import *
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 from gtapp.models import LiveSettings
 from django.db.models import Q
-from gtapp.models import goods_receipt
+from gtapp.models import Delivery
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
@@ -174,6 +172,9 @@ class Supp_order_det_form(ModelForm):
             'memo': _('Kommentar'),
         }
 
+    def __init__(self, parts, *args, **kwargs):
+        super(Supp_order_det_form, self).__init__(*args, **kwargs)
+        self.fields['part'].queryset = parts
 
 class Supp_complaint_form(ModelForm):
     use_required_attribute = False
@@ -299,3 +300,26 @@ class formset_goods_supp_c(ModelForm):
 
     class Meta:
         fields = ['supp_complaint_det', 'quantity', 'delivered', 'trash']
+
+class Stock_form(ModelForm):
+    use_required_attribute = False
+
+    class Meta:
+        model = Stock
+        fields = ["stock"]
+        labels = {
+            'stock': _('Bestand'),
+        }
+
+class Box_form(ModelForm):
+    use_required_attribute = False
+
+    class Meta:
+        model = CustOrderDet
+        fields = ["box_no"]
+        labels = {
+            'box_no': _('Boxnummer'),
+        }
+        widgets = {
+            'box_no': TextInput(attrs={'autofocus': True}),
+        }

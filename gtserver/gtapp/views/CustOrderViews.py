@@ -77,6 +77,12 @@ class Cust_order_alter_view(UpdateView):
         context["order_no"] = self.get_object().order_no
         context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
+        context["status_count"] = 0
+        for item in CustOrderDet.Status.__members__:
+            if not item.startswith("__") and not item == 'STANDARD':
+                context["status_count"] += 1
+
+        context["STATUS"] = CustOrderDet.Status.__members__
         return context
 
     def get_form(self, form_class=None):
@@ -171,6 +177,13 @@ class Cust_order_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context["status_count"] = 0
+        for item in CustOrder.Status.__members__:
+            if not item.startswith("__") and not item == 'STANDARD':
+                context["status_count"] += 1
+
+        context["STATUS"] = CustOrder.Status.__members__
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe

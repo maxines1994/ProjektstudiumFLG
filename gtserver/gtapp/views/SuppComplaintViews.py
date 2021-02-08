@@ -198,6 +198,13 @@ class Supp_complaint_view(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context["status_count"] = 0
+        for item in SuppComplaint.Status.__members__:
+            if not item.startswith("__") and not item == 'STANDARD':
+                context["status_count"] += 1
+
+        context["STATUS"] = SuppComplaint.Status.__members__
+
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
             if self.request.user.groups.filter(name=L100).exists():

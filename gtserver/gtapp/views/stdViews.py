@@ -35,13 +35,13 @@ def box_search_view(request):
                     Task.set_task_cust_det(obj, 8, Timers.get_current_day())
                     set_status(obj.id, 2, 6)
                     boxno_found = 1   
-                elif obj.status == str(9):
+                elif obj.status == CustOrderDet.Status.VERSANDT_AN_KD:
                     #Task beim Kunden für den Wareneingang
-                    if request.user.groups.filter(name=C1).exists():
+                    if request.user.groups.filter(name=K1).exists():
                         Task.set_task_cust_det(obj, 11, Timers.get_current_day())
                     elif request.user.groups.filter(name=K2).exists():
                         Task.set_task_cust_det(obj, 12, Timers.get_current_day())
-                    elif request.user.groups.filter(name=C3).exists():
+                    elif request.user.groups.filter(name=K3).exists():
                         Task.set_task_cust_det(obj, 13, Timers.get_current_day())
                     boxno_found = 1
         elif SuppOrder.objects.filter(box_no = str(number)).exists() and len(SuppOrder.objects.filter(box_no = str(number))) < 2:
@@ -99,7 +99,10 @@ def set_status_task_share (request, **kwargs):
 # Status setzen bei Auftrag freigeben
 def set_status_call(request, **kwargs):
     set_status(kwargs["id"], kwargs["type"], kwargs["status"])
-    return HttpResponseRedirect(reverse("home"))
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    #return HttpResponseRedirect(reverse("home"))
 
 
 #Status setzen keine view
@@ -143,7 +146,7 @@ def tasks_view(request):
 # Zugewiesene Tasks View
 def tasks_list_assigned_view(request):
     c = get_context("Zugewiesene Aufgaben", "Aufgaben")
-    c['tasks'] = Task.objects.filter(user=request.user)
+    c['tasks'] = Task.objects.filter(user=request.user, active=1)
     c['Headline'] = "Mir zugewiesene Aufgaben"
     c['assigned'] = 1
     return render(request, "tasks_list.html", c)
@@ -188,17 +191,21 @@ def tasks_finish(request, **kwargs):
 
 # Bearbeite Task
 def tasks_edit(request, **kwargs):
-    mytask = Task.objects.filter(pk=kwargs["id"])[0]
-    if mytask.task_type_id==1 or mytask.task_type_id == 16 or mytask.task_type_id == 17 or mytask.task_type_id == 18:
+    mytask = Task.objects.filter(pk=kwargs["id"]).first()
+    if mytask.task_type_id in [1, 16, 17, 18]:#==1 or mytask.task_type_id == 16 or mytask.task_type_id == 17 or mytask.task_type_id == 18:
         return HttpResponseRedirect(reverse("cust_order_alter", kwargs={'id':mytask.cust_order.pk}))
     elif mytask.task_type_id == 2:
         #Bestandsprüfungsseite eintragen
         pass
-    elif mytask.task_type_id == 19:
+    elif mytask.task_type_id in [8]:
+        my_cust_order = CustOrderDet.objects.get(id=mytask.cust_order_det.pk).cust_order.id
+        return HttpResponseRedirect(reverse("cust_order_alter", kwargs={'id':my_cust_order}))
+    elif mytask.task_type_id in [7]:
+        return HttpResponseRedirect(reverse("manufacturing_list"))
+    elif mytask.task_type_id in [19, 20]:
         return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytask.supp_order.pk}))
-    elif mytask.task_type_id == 20:
-        return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytask.supp_order.pk}))
-
+    elif mytask.task_type_id in [9]:
+        return HttpResponseRedirect(reverse("supp_order"))
 # Task Detail View
 class Tasks_detail_view(DetailView):
     template_name = "tasks_detail.html"

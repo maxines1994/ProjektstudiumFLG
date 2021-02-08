@@ -28,7 +28,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody id="itembody"></tbody>
+                    <tbody id="itembody">
                     {% for task in tasks %}
                     <tr id="newposition">
                         <td>{{task.id}}</td>
@@ -37,6 +37,7 @@
                         <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </div></p>
         </div>

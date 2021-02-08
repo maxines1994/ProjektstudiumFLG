@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load custom_tags %}
 <!-- Title-->
 {% block title %}{% if company == KUNDEN %}Bestellungen{% else %}Kundenaufträge{% endif %}{% endblock %}
 
@@ -33,7 +33,12 @@
                                 <td>{% if company == LIEFERANTEN %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} #{{ c.id }}</td>
                                 {% if company != LIEFERANTEN %}<td>{{c.supp_order.supplier}}</td>{% endif %}
                                 <td>{{ c.memo }}</td>
-                                <td>{{ c.status }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ c.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ c.get_status_display }} 
+                                </td>
                                 <td>Tag #{{ c.finished_on }}</td>
                                 <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i
                                             class="material-icons">more_vert</i></a></td>
@@ -53,15 +58,16 @@
 <ul id='a{{c.id}}' class='dropdown-content'>
     <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
     <li><a href="{% url 'supp_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+    {% if company == JOGA %} 
+        <li><a href="{% url 'goods_receipt' c|to_class_name c.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen
+    {% elif company == LIEFERANTEN %}
+        <li><a href="{% url 'goods_shipping' c|to_class_name c.id%}" class="li-content"><i class="material-icons">unarchive</i> Warenentnahme</a></li>
+        <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kunden liefern</a></li>
+    {% endif %}
 </ul>
 {% endfor %}
 {% endblock %}
 
 <!-- Scripts-->
 {% block scripts %}
-<script>
-    $(document).ready(function () {
-        $('.dropdown-trigger').dropdown();
-    });
-</script>
 {% endblock %}

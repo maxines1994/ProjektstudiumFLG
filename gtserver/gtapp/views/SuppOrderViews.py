@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock, Task
+from gtapp.models import SuppOrder, SuppOrderDet, CustOrderDet, ArtiPart, Stock, Task, Part, Supplier
 from gtapp.forms import Supp_order_form_jg, Supp_order_form_lf, Supp_order_det_form
 from gtapp.models import LiveSettings
 from gtapp.constants import *
@@ -65,6 +65,7 @@ class Supp_order_alter_view(UpdateView):
         context["order_no"] = self.get_object().order_no
         context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
+        context["STATUS"] = SuppOrder.Status.__members__
         return context
 
     def form_valid(self, form):
@@ -96,11 +97,28 @@ class Supp_order_delete_view(DeleteView):
 class Supp_order_det_create_view(CreateView):
     form_class = Supp_order_det_form
     template_name = "SuppOrderDetForm.html"
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["action"] = "create"
         return context
+    
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(Supp_order_det_create_view, self).get_form_kwargs()
+
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+
+        if self.request.user.groups == LIEFERANTEN:
+            parts = Part.objects.filter(supplier__name=self.request.user.groups.first())
+        else:
+            parts = Part.objects.all()
+        kwargs.update({'parts': parts})
+        return kwargs
 
     def form_valid(self, form):
         form.instance.supp_order = SuppOrder.objects.get(
@@ -108,6 +126,8 @@ class Supp_order_det_create_view(CreateView):
         form.instance._creation_user_id = self.request.user.id
         form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["supp_order"]) + "/")
+        
+
 
 
 class Supp_order_det_alter_view(UpdateView):
@@ -122,6 +142,21 @@ class Supp_order_det_alter_view(UpdateView):
     def get_object(self, queryset=None):
         obj = SuppOrderDet.objects.get(id=self.kwargs['id'])
         return obj
+    
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(Supp_order_det_alter_view, self).get_form_kwargs()
+
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+        print("test")
+
+        parts = Part.objects.filter(supplier__name=self.request.user.groups.first())
+        kwargs.update({'parts': parts})
+        return kwargs
+
 
     def form_valid(self, form):
         form.instance._update_user_id = self.request.user.id
@@ -149,6 +184,13 @@ class Supp_order_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        context["status_count"] = 0
+        for item in SuppOrder.Status.__members__:
+            if not item.startswith("__") and not item == 'STANDARD':
+                context["status_count"] += 1
+
+        context["STATUS"] = SuppOrder.Status.__members__
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe

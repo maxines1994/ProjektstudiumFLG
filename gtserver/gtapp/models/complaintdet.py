@@ -7,18 +7,18 @@ class ComplaintDet(GtModel):
     """
     class Status(models.TextChoices):
 
-        DEFAULT                = '0', ('Standard')
-        RECEIVED               = '1', ('Empfangen')
-        DONE                   = '2', ('Erledigt')
+        ERFASST                = 1, ('Erfasst')
+        EMPFANGEN              = 2, ('Empfangen')
+        ERLEDIGT               = 3, ('Erledigt')
 
     pos = models.SmallIntegerField()
     memo = models.TextField()
     box_no = models.CharField(max_length=8, null=True, blank=True)
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
-        default = Status.DEFAULT,
+        default = Status.ERFASST,
     )
 
     class Meta:
