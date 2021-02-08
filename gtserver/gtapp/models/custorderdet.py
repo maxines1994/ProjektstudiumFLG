@@ -44,3 +44,10 @@ class CustOrderDet(OrderDet):
     def part_demand(self):
         return ArtiPart.objects.filter(article_id=self.article.id, part__supplier_id=3)
 
+
+
+
+# Liste der Fertigungsaufträge-Berechtigung
+# Django bietet custom Permissions, diese würden aber nicht mit unserer Migration funktionieren, daher ein Model als simpler Workaround
+class PermManufacturingList(models.Model):
+    pass

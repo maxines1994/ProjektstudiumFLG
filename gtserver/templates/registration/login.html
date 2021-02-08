@@ -49,10 +49,39 @@
 
 <!-- Body-->
 {% block body %}
-
+    {% if user.is_authenticated %}
+    <!-- Modal Berechtigung fehlt -->
+    <div id="modal_permission" class="modal">
+        <div class="modal-content">
+        <i class='material-icons red-text large'>block</i>
+        <h4>Berechtigung fehlt</h4>
+        <p>
+            Wenn Sie automatisch auf diese Seite weitergeleitet wurden, fehlt Ihrem Benutzer '{{ user.username }}' vermutlich eine Berechtigung.
+            <br />
+            <ul class="browser-default">
+                <li>Um es erneut zu versuchen, klicken Sie auf <a href="#" onclick="history.back();">zurück</a>.</li>
+                <li>Alternativ können Sie auf der <a href="{% url 'home' %}">Startseite</a> beginnen.</li>
+                <li>Wenn Ihnen ein Benutzerzugang mit weiterreichenden Berechtigungen zur Verfügung steht, können Sie die Meldung <a href="#" class="modal-close">schließen</a> und sich anmelden.</li>
+            </ul>
+            <br />
+            Sollten Sie diese Seite über die Browserverlauf aufgerufen haben, können Sie diese Meldung ignorieren.
+        </p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect btn-flat">Schließen</a>
+            <a href="{% url 'home' %}" class="waves-effect btn-flat">Startseite</a>
+            <a href="#" onclick="history.back();" class="waves-effect btn">Zurück</a>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
 
 <!-- Scripts-->
 {% block scripts %}
-
+    {% if user.is_authenticated %}
+    <script>
+        M.Modal.init($('.modal')[0], {});
+        M.Modal.getInstance($('.modal')[0]).open();
+    </script>
+    {% endif %}
 {% endblock %}

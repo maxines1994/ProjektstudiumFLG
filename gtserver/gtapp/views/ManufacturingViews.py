@@ -7,8 +7,9 @@ from gtapp.constants import *
 from django.forms import modelformset_factory, ModelChoiceField, NumberInput, Select
 from gtapp.forms import formset_goods_cust, formset_goods_cust_c, formset_goods_supp, formset_goods_supp_c
 from django.urls import resolve
+from django.contrib.auth.decorators import permission_required
 
-
+@permission_required('gtapp.view_permmanufacturinglist')
 def manufacturing_list_view(request):
     c = {}
     c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False, status__gte=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND, status__lte=CustOrderDet.Status.LIEFERUNG_AN_K_AUSSTEHEND)
@@ -20,6 +21,7 @@ def manufacturing_list_view(request):
         if not item.startswith("__"):
             c["status_count"] += 1
 
+@permission_required('gtapp.view_permmanufacturinglist')
     c["complaint_status_count"] = 0
     for item in CustComplaintDet.Status.__members__:
         if not item.startswith("__"):
@@ -39,6 +41,7 @@ def manufacturing_release_view(request, **kwargs):
         CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='1')
     return HttpResponseRedirect(reverse("cust_order"))
 
+@permission_required('gtapp.view_permmanufacturinglist')
 def manufacturing_testing_view(request, **kwargs):
     c = {}
     demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
@@ -50,11 +53,13 @@ def manufacturing_testing_view(request, **kwargs):
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 
+@permission_required('gtapp.view_permmanufacturinglist')
 def manufacturing_supporder_view(request, **kwargs):
     c = {}
     
     return HttpResponseRedirect(reverse(""))
 
+@permission_required('gtapp.view_stock')
 def manufacturing_stock_view(request, **kwargs):
     c = {}
     if request.user.groups.filter(name=JOGA).exists():
@@ -71,7 +76,7 @@ def manufacturing_stock_view(request, **kwargs):
 
     return render(request, "stock.html", c)
 
-
+@permission_required('gtapp.view_goodsreceipt')
 def goods_receipt_view(request, **kwargs):
     template = 'goods_receipt.html'
     MyFormSet = None

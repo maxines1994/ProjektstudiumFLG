@@ -7,10 +7,11 @@ from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
 from django import forms
 from gtapp.models import LiveSettings
 from gtapp.constants import *
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
-
-class Supp_complaint_create_view(CreateView):
+class Supp_complaint_create_view(PermissionRequiredMixin, CreateView):
     template_name = "SuppComplaintForm.html"
+    permission_required = 'gtapp.add_suppcomplaint'
     
     def form_valid(self, form):
         form.instance._creation_user_id = self.request.user.id
@@ -62,8 +63,10 @@ class Supp_complaint_create_view(CreateView):
         return kwargs
 
 
-class Supp_complaint_alter_view(UpdateView):
+
+class Supp_complaint_alter_view(PermissionRequiredMixin, UpdateView):
     template_name = "SuppComplaintForm.html"
+    permission_required = 'gtapp.change_suppcomplaint'
 
     def get_object(self, queryset=None):
         obj = SuppComplaint.objects.get(id=self.kwargs['id'])
@@ -107,8 +110,9 @@ class Supp_complaint_alter_view(UpdateView):
         return kwargs
 
         
-class Supp_complaint_delete_view(DeleteView):
+class Supp_complaint_delete_view(PermissionRequiredMixin, DeleteView):
     template_name = "delete.html"
+    permission_required = 'gtapp.delete_suppcomplaint'
 
     def get_object(self, queryset=None):
         obj = SuppComplaint.objects.get(id=self.kwargs['id'])
@@ -120,9 +124,10 @@ class Supp_complaint_delete_view(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
 
-class Supp_complaint_det_create_view(CreateView):
+class Supp_complaint_det_create_view(PermissionRequiredMixin, CreateView):
     form_class = Supp_complaint_det_form
     template_name = "SuppComplaintDetForm.html"
+    permission_required = 'gtapp.add_suppcomplaintdet'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,9 +153,10 @@ class Supp_complaint_det_create_view(CreateView):
         return kwargs
 
 
-class Supp_complaint_det_alter_view(UpdateView):
+class Supp_complaint_det_alter_view(PermissionRequiredMixin, UpdateView):
     form_class = Supp_complaint_det_form
     template_name = "SuppComplaintDetForm.html"
+    permission_required = 'gtapp.change_suppcomplaintdet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -179,8 +185,9 @@ class Supp_complaint_det_alter_view(UpdateView):
         kwargs.update({'supp_order_id': SuppComplaint.objects.get(pk=supp_complaint_id).supp_order.id})
         return kwargs
 
-class Supp_complaint_det_delete_view(DeleteView):
+class Supp_complaint_det_delete_view(PermissionRequiredMixin, DeleteView):
     template_name = "delete.html"
+    permission_required = 'gtapp.delete_suppcomplaintdet'
 
     def get_object(self, queryset=None):
         obj = SuppComplaintDet.objects.get(id=self.kwargs['id'])
@@ -192,8 +199,9 @@ class Supp_complaint_det_delete_view(DeleteView):
         self.object.delete()
         return HttpResponseRedirect(success_url)
     
-class Supp_complaint_view(TemplateView):
+class Supp_complaint_view(PermissionRequiredMixin, TemplateView):
     template_name = "SuppComplaint.html"
+    permission_required = 'gtapp.view_suppcomplaint'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

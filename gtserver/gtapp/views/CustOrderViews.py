@@ -9,11 +9,13 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max
 from gtapp.constants import *
 from gtapp.models import LiveSettings
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_create_view(CreateView):
+class Cust_order_create_view(PermissionRequiredMixin, CreateView):
     template_name = "CustOrderForm.html"
+    permission_required = 'gtapp.add_custorder'
 
     # Umleitung auf die Alter View
     def form_valid(self, form):
@@ -60,9 +62,10 @@ class Cust_order_create_view(CreateView):
         return form_class(**self.get_form_kwargs()) 
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_alter_view(UpdateView):
+class Cust_order_alter_view(PermissionRequiredMixin, UpdateView):
     template_name = "CustOrderForm.html"
     success_url = "/cust_order/"
+    permission_required = 'gtapp.change_custorder'
 
     # Objekt für Alter view getten
     def get_object(self, queryset=None):
@@ -93,9 +96,10 @@ class Cust_order_alter_view(UpdateView):
         return form_class(**self.get_form_kwargs()) 
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_delete_view(DeleteView):
+class Cust_order_delete_view(PermissionRequiredMixin, DeleteView):
     template_name = "delete.html"
     success_url = "/cust_order/"
+    permission_required = 'gtapp.delete_custorder'
 
     def get_object(self, queryset=None):
         obj = CustOrder.objects.get(id=self.kwargs['id'])
@@ -108,9 +112,10 @@ class Cust_order_delete_view(DeleteView):
         return HttpResponseRedirect(success_url)
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_det_create_view(CreateView):
+class Cust_order_det_create_view(PermissionRequiredMixin, CreateView):
     form_class = Cust_order_det_form_create
     template_name = "CustOrderDetForm.html"
+    permission_required = 'gtapp.add_custorderdet'
     
 #    def get(self, request, *args, **kwargs):
 #        #Feld pos ausblenden
@@ -135,9 +140,10 @@ class Cust_order_det_create_view(CreateView):
         return HttpResponseRedirect("/cust_order/alter/" + str(self.kwargs["cust_order"]) + "/")
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_det_alter_view(UpdateView):
+class Cust_order_det_alter_view(PermissionRequiredMixin, UpdateView):
     form_class = Cust_order_det_form
     template_name = "CustOrderDetForm.html"
+    permission_required = 'gtapp.change_custorderdet'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -157,8 +163,9 @@ class Cust_order_det_alter_view(UpdateView):
 #//self.kwargs["id"]
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_det_delete_view(DeleteView):
+class Cust_order_det_delete_view(PermissionRequiredMixin, DeleteView):
     template_name = "delete.html"
+    permission_required = 'gtapp.delete_custorderdet'
 
     def get_object(self, queryset=None):
         obj = CustOrderDet.objects.get(id=self.kwargs['id'])
@@ -172,8 +179,9 @@ class Cust_order_det_delete_view(DeleteView):
 
 
 # CustOrder von Joga und Bestellungen der Kunden
-class Cust_order_view(TemplateView):
+class Cust_order_view(PermissionRequiredMixin, TemplateView):
     template_name = "CustOrder.html"
+    permission_required = 'gtapp.view_custorder'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

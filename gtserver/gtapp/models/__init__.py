@@ -11,7 +11,7 @@ from .customer import Customer
 from .custorder import CustOrder
 from .orderdet import OrderDet
 from .container import Container
-from .custorderdet import CustOrderDet
+from .custorderdet import CustOrderDet, PermManufacturingList
 from .suppcomplaint import SuppComplaint
 from .complaint import Complaint
 from .complaintdet import ComplaintDet
@@ -31,3 +31,4 @@ from .custcomplaintdet import CustComplaintDet
 from .suppcomplaintdet import SuppComplaintDet
 from .livesettings import LiveSettings
 from .delivery import Delivery
+from .productionsteps import ProductionSteps
