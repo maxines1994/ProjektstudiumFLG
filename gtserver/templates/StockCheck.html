@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load static %}
+<!-- Title-->
+{% block title %}Bestandsprüfung{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<div class="row section">
+    <div class="col s12">
+        <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+        <h4>Bestandsprüfung für {{ custorderdet.article }}</h4>
+    </div>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="table-scrollable">
+            <table id="itemtable">
+                <thead id="itemhead">
+                    <tr>
+                        <th>Teil</th>
+                        <th>Grafik</th>
+                        <th>Bedarf</th>
+                        <th>Verfügbarer Bestand</th>
+                        <th>Noch benötigt</th>
+                    </tr>
+                </thead>
+                <tbody id="itembody">
+                    {% for o, d in stock_demand_list %}
+                    <tr>
+                        <td>{{o.part.description}}</td>
+                        <td><img src="{% static o.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
+                        <td>{{ d.quantity }}</td>
+                        <td>
+                        {% if  o.stock|substract:o.reserved > 0 %}
+                            {{ o.stock|substract:o.reserved }}
+                        {% else %}
+                            0
+                        {% endif %}
+                        </td>
+                        <td>
+                        {% if o.stock|substract:o.reserved < d.quantity %}
+                            {% if o.stock|substract:o.reserved > 0 %}
+                                {{ d.quantity|substract:o.stock|add:o.reserved }}
+                            {% else %}
+                                {{ d.quantity }}
+                            {% endif %}
+                        {% else %}
+                            0
+                        {% endif %}
+                        </td>
+                        <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='s{{o.id}}'><i class="material-icons">more_vert</i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row section">
+        <div class="col s12 right-align"> 
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">add_shopping_cart</i>Benötigte Teile bestellen</button>
+            <button class="btn waves-effect waves-light"  name="action"><i class="material-icons left">hotel</i>Reservieren</button>
+            <a class="waves-effect waves-light btn" href="{% url 'set_status_call' custorderdet.id 2 STATUS.IN_PRODUKTION %}"><i class="material-icons left">check</i>Bestandsprüfung abschließen</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% for o in stock %}
+<ul id='s{{o.id}}' class='dropdown-content'>
+    <li><a href="{% url 'stock_alter' o.id %}" class="li-content"><i class="material-icons left">edit</i>Bestand anpassen</a></li>
+    <li><a href="{% url 'stockmovement' o.id %}" class="li-content"><i class="material-icons left">remove_red_eye</i>Lagerbewegungen</a></li>
+</ul>
+{% endfor %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}

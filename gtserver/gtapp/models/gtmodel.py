@@ -4,6 +4,7 @@ from gtapp.constants import *
 from django.contrib import admin
 from crum import get_current_user
 from .timer import Timers
+from django.apps import apps
 
 class GtModel(models.Model):
     """
@@ -35,3 +36,9 @@ class GtModel(models.Model):
         self._update_user = user
         self._update_gameday = gameday
         super().save(*args, **kwargs)
+
+    def str_to_gtmodel(string: str):
+        """
+        Erwartet den Namen eines Models als String und liefert das Model zurück
+        """
+        return apps.get_model(app_label='gtapp', model_name=string)

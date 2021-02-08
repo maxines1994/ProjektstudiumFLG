@@ -9,10 +9,9 @@ class Complaint(GtModel):
 
     class Status(models.TextChoices):
 
-        DEFAULT                = '0', ('Standard')
-        BEING_CREATED          = '1', ('Wird erstellt')
-        RECEIVED               = '2', ('Empfangen')
-        DONE                   = '3', ('Erledigt')
+        ERFASST                 = 1, ('Erfasst')
+        EMPFANGEN               = 2, ('Empfangen')
+        ERLEDIGT                = 3, ('Erledigt')
 
     finished_on = models.SmallIntegerField(null=True, blank=True)
     memo = models.TextField(null=True, blank=True)
@@ -20,9 +19,9 @@ class Complaint(GtModel):
     box_no = models.CharField(max_length=8, null=True, blank=True)
    
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
-        default = Status.DEFAULT,
+        default = Status.ERFASST,
     )
 
     class Meta:

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+
+<!-- Title-->
+{% block title %}Reklamationsaufträge{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<h4>Reklamationsaufträge</h4>
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <div class="table-scrollable">
+                <table id="itemtable">
+                    <thead id="itemhead">
+                        <tr>
+                            <th>Reklamationsauftrag</th>
+                            <th>Artikel</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itembody">
+                        <!-- Alle orders durchlaufen und in Abhängigkeit des eingeloggten Benutzers anzeigen-->
+                        {% for o, c in mylist %}
+                            <tr>
+                                <td>{{ o.cust_order }}-{{ o.pos }}</td>
+                                <td>{{ o.article }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ c.status|multiply:100|divide:complaint_status_count }}%"></div>
+                                    </div>
+                                    {{ c.get_status_display }}</td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i class="material-icons">more_vert</i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% for c in complaints %}
+<ul id='a{{c.id}}' class='dropdown-content'>
+    <li><a href="" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
+    <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+</ul>
+{% endfor %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}

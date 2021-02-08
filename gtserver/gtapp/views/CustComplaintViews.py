@@ -72,6 +72,12 @@ class Cust_complaint_alter_view(UpdateView):
         context['items'] = CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk)
         context['cust_complaint_no'] = self.get_object().pk
         context["action"] = "alter"
+        context["status_count"] = 0
+        for item in CustComplaintDet.Status.__members__:
+            if not item.startswith("__") and not item == 'STANDARD':
+                context["status_count"] += 1
+
+        context["STATUS"] = CustComplaintDet.Status.__members__
         return context
     
     def form_valid(self, form):
@@ -195,6 +201,13 @@ class Cust_complaint_view(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context["status_count"] = 0
+        for item in CustComplaint.Status.__members__:
+            if not item.startswith("__"):
+                context["status_count"] += 1
+
+        context["STATUS"] = CustComplaint.Status.__members__
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe

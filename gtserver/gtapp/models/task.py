@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from gtapp.constants.general import *
-from . import GtModel, CustOrderDet, CustOrder, TaskType, GtModel, SuppOrder, SuppOrderDet
+from . import GtModel, CustOrderDet, CustOrder, TaskType, GtModel, SuppOrder, SuppOrderDet, Timers
 import time
 
 class Task(GtModel):
@@ -12,11 +12,10 @@ class Task(GtModel):
     
     class Status(models.TextChoices):
 
-        DEFAULT                = '0', ('Standard')
-        UNASSIGNED             = '1', ('Nicht zugewiesen')
-        ASSIGNED               = '2', ('Zugewiesen')
-        IN_PRORESS             = '3', ('In Bearbeitung')
-        DONE                   = '4', ('Erledigt')
+        NICHT_ZUGEWIESEN           = 1, ('Nicht zugewiesen')
+        ZUGEWIESEN                 = 2, ('Zugewiesen')
+        IN_BEARBEITUNG             = 3, ('In Bearbeitung')
+        ERLEDIGT                   = 4, ('Erledigt')
 
     
     start_on = models.SmallIntegerField(null=True, blank=True)
@@ -30,15 +29,15 @@ class Task(GtModel):
     active = models.SmallIntegerField(null=True)
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
-        default = Status.DEFAULT,
+        default = Status.NICHT_ZUGEWIESEN,
     )
     
 
     #Task für CusOrders
     @classmethod
-    def set_task_cust(cls, order, number, day):
+    def set_task_cust(cls, order, number, day=Timers.get_current_day()):
         mylist = list(Task.objects.filter(cust_order_id = order, task_type_id=number))
         if not mylist:
                 Task.objects.create(cust_order=order, task_type_id=number, active=1, start_on=day)
@@ -47,7 +46,7 @@ class Task(GtModel):
 
     #Task für CusOrderDets
     @classmethod
-    def set_task_cust_det(cls, orderdet, number, day):
+    def set_task_cust_det(cls, orderdet, number, day=Timers.get_current_day()):
         mylist = list(Task.objects.filter(cust_order_det_id = orderdet, task_type_id=number))
         if not mylist:
                 Task.objects.create(cust_order_det=orderdet, task_type_id=number, active=1, start_on=day)
@@ -56,7 +55,7 @@ class Task(GtModel):
 
     #Task für SuppOrders
     @classmethod
-    def set_task_supp(cls, order, number, day):
+    def set_task_supp(cls, order, number, day=Timers.get_current_day()):
         mylist = list(Task.objects.filter(supp_order_id = order, task_type_id=number))
         if not mylist:
                 Task.objects.create(supp_order=order, task_type_id=number, active = 1, start_on= day)
@@ -65,7 +64,7 @@ class Task(GtModel):
     
     #Task für SuppOrderDets
     @classmethod
-    def set_task_supp_det(cls, orderdet, number, day):
+    def set_task_supp_det(cls, orderdet, number, day=Timers.get_current_day()):
         mylist = list(Task.objects.filter(supp_order_det_id = orderdet, task_type_id=number))
         if not mylist:
                 Task.objects.create(supp_order_det=orderdet, task_type_id=number, active = 1, start_on= day)

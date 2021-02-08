@@ -5,7 +5,19 @@ from . import Order, Customer
 class CustOrder(Order):
     """
     Diese Model enthaelt die Kopfdaten der Kundenauftraege.
-    """    
+    """  
+    class Status(models.TextChoices):
+
+        ERFASST                             = 1, ('Erfasst')
+        TEILGELIEFERT                       = 2, ('Bestandsprüfung ausstehend')
+        GELIEFERT                           = 3, ('Geliefert')
+        
+    
+    status = models.CharField(
+        max_length = 2,
+        choices = Status.choices,
+        default = Status.ERFASST,
+    )  
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)

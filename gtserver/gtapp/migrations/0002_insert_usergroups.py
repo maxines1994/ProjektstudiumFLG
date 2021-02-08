@@ -104,7 +104,7 @@ class Migration(migrations.Migration):
 
             if group.name == PRODUKTION:
                 can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, SuppComplaint, SuppComplaintDet)
-                can_change      = get_content_type_ids_of_models(Task, Message)
+                can_change      = get_content_type_ids_of_models(Task, Message, SuppContainer, CustContainer)
 
             if group.name == LIEFERANTEN:
                 can_view_only   = get_content_type_ids_of_models(SuppContainer)

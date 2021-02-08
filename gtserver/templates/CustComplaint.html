@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}{% if company == KUNDEN %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}{% endblock %}
@@ -33,7 +34,12 @@
                                 <td>Bestellreklamation #{{ c.id }}</td>
                                 {% if company != KUNDEN %} <td>{{c.cust_order.customer}}</td>{% endif %}
                                 <td>{{ c.memo }}</td>
-                                <td>{{ c.status }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ c.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ c.get_status_display }} 
+                                </td>
                                 <td>Tag #{{ c.finished_on }}</td>
                                 <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i
                                             class="material-icons">more_vert</i></a></td>

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load materializecss %}
+
+<!-- Title-->
+{% block title %}Boxnummer{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+{% if user.is_authenticated %}
+    <h4>Barcode zuweisen</h4>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Bitte Scannen Sie den Barcode und übergeben Sie die Ware an den Versand</span>
+                    {{ form.box_no|materializecss }}
+                    <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
+                </div>
+                <div class="row section">
+                    <div class="col s12 m12 l6 left-align">
+                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
+                        <a href="{% url 'stock' %}" class="btn waves-effect waves-light"><i class="material-icons left">block</i>Abbrechen</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+{% endblock %}

@@ -1,5 +1,6 @@
 {% extends "forms.html" %}
 {% load materializecss %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}{% if company == KUNDEN %}Bestellung{% else %}Auftrag{% endif %} {% if action == 'create' %}erstellen{% else %} {{order_no}} ändern{% endif %}{% endblock %}
@@ -67,7 +68,7 @@
                                 <th>Position</th>
                                 <th>Artikel</th>
                                 <th>Preis</th>
-                                <th></th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="itembody">
@@ -76,6 +77,13 @@
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.article.description }}</td>
                                 <td>{{ i.unit_price }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ i.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ i.get_status_display }}
+                                </td>
+                                <input type="hidden" name="next" value="{{ request.path }}">
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
@@ -111,8 +119,15 @@
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
     <li><a href="{% url 'cust_order_det_alter' i.id %}"><i class="material-icons left">create</i>Bearbeiten</a></li>
+    {% if KUNDEN in group %}
+        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.GELIEFERT %}"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
+    {% elif KUNDENDIENST in group %}
+        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.VERSANDT_AN_K %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a></li>
+        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Vom Kunden abgenommen</a></li>
+    {% elif PRODUKTION in group %}
+        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND %}"><i class="material-icons left">local_shipping</i>An Kundendienst liefern</a></li>
+    {% endif %}
     <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>
-    <li><a href=""><i class="material-icons left">local_shipping</i>Geliefert</a></li>
 </ul>
 {% endfor %}
 {% endblock %}

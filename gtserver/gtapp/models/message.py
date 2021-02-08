@@ -10,11 +10,10 @@ class Message(GtModel):
     """  
     class Status(models.TextChoices):
 
-        DEFAULT                = '0', ('Standard')
-        BEING_COMPOSED         = '1', ('Wird verfasst')
-        SENT                   = '2', ('Versendet')
-        RECEIVED               = '3', ('Empfangen')
-        READ                   = '4', ('Gelesen')  
+        ERFASST              = 1, ('Erfasst')
+        VERSENDET            = 2, ('Versendet')
+        EMPFANGEN            = 3, ('Empfangen')
+        GELESEN              = 4, ('Gelesen')  
 
     text = models.TextField()
     subject = models.CharField(max_length=100)
@@ -23,8 +22,8 @@ class Message(GtModel):
     receiver = models.ForeignKey(Group, default=UNKNOWN, related_name='receiver', on_delete=models.SET_DEFAULT)
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
-        default = Status.DEFAULT,
+        default = Status.ERFASST,
     )
 

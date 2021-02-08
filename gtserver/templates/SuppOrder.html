@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}{% if company == LIEFERANTEN %}Kundenaufträge{% else %}Bestellungen{% endif %}{% endblock %}
@@ -22,7 +23,6 @@
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
                             <th>Status</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="itembody">
@@ -33,9 +33,13 @@
                                 {% if company != LIEFERANTEN %}<td>{{o.supplier}}</td>{% endif %}
                                 <td>Tag #{{ o.issued_on }}</td>
                                 <td>Tag #{{ o.delivery_date }}</td>
-                                <td>{{ o.status }}</td>
-                                <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
-                                            class="material-icons">more_vert</i></a></td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ o.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ o.get_status_display }} 
+                                </td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -52,15 +56,19 @@
 <ul id='a{{o.id}}' class='dropdown-content'>
     <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
     <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-</ul>
+    {% if company == JOGA %} 
+        <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen
+    {% endif %}
+    <li><a href="{% url 'goods_shipping' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>
+    {% if company == LIEFERANTEN %} 
+        An JOGA liefern
+    {% else %}
+        An Produktion liefern
+    {% endif %}</a></li>
+    </ul>
 {% endfor %}
 {% endblock %}
 
 <!-- Scripts-->
 {% block scripts %}
-<script>
-    $(document).ready(function () {
-        $('.dropdown-trigger').dropdown();
-    });
-</script>
 {% endblock %}

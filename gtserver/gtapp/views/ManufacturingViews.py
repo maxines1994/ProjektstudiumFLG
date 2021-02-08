@@ -1,17 +1,37 @@
 from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
-from gtapp.models import CustOrderDet, Stock, ArtiPart, SuppOrderDet, goods_receipt, CustComplaintDet, SuppComplaintDet, SuppComplaint, SuppOrder
+from gtapp.models import CustOrderDet, Stock, ArtiPart, SuppOrderDet, Delivery, CustComplaintDet, SuppComplaintDet, SuppComplaint, SuppOrder
 from django.views.generic import CreateView
 from gtapp.constants import *
 from django.forms import modelformset_factory, ModelChoiceField, NumberInput, Select
 from gtapp.forms import formset_goods_cust, formset_goods_cust_c, formset_goods_supp, formset_goods_supp_c
+from django.urls import resolve
 
 
 def manufacturing_list_view(request):
     c = {}
-    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False, status='2')
-    return render(request, "manufacturing.html", c)
+    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False, status__gte=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND, status__lte=CustOrderDet.Status.LIEFERUNG_AN_K_AUSSTEHEND)
+    c["manufacturing_complaints"] = CustOrderDet.objects.filter(id__in=CustComplaintDet.objects.filter(status__gte=CustComplaintDet.Status.ERFASST).values('cust_order_det_id'),cust_order__external_system=False)
+    c["complaints"] = CustComplaintDet.objects.filter(cust_order_det__in=c["manufacturing_complaints"])
+    c["mylist"] = zip(c["manufacturing_complaints"], c["complaints"])
+    c["status_count"] = 0
+    for item in CustOrderDet.Status.__members__:
+        if not item.startswith("__"):
+            c["status_count"] += 1
+
+    c["complaint_status_count"] = 0
+    for item in CustComplaintDet.Status.__members__:
+        if not item.startswith("__"):
+            c["complaint_status_count"] += 1
+
+    if 'complaint' not in resolve(request.path_info).url_name:
+        template = "manufacturing.html"
+        c["STATUS"] = CustOrderDet.Status.__members__
+    else:
+        template = "ManufacturingComplaints.html"
+        c["STATUS"] = CustComplaintDet.Status.__members__
+    return render(request, template, c)
 
 def manufacturing_release_view(request, **kwargs):
     c = {}
@@ -21,8 +41,8 @@ def manufacturing_release_view(request, **kwargs):
 
 def manufacturing_testing_view(request, **kwargs):
     c = {}
-    needs = CustOrderDet.objects.filter(pk=kwargs["id"])[0].auto_needs()
-    if Stock.reserve_test(needs):
+    demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
+    if Stock.reserve_test(demand):
         print("ERFOLGREICH")
         CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='2')
     else:
@@ -60,7 +80,7 @@ def goods_receipt_view(request, **kwargs):
     if kwargs['typeofdet'] == 1: # CustOrderDet
         myextra = CustOrderDet.objects.filter(cust_order_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
-            goods_receipt,
+            Delivery,
             fields=['cust_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
@@ -71,7 +91,7 @@ def goods_receipt_view(request, **kwargs):
     if kwargs['typeofdet'] == 2: # CustComplaintDet
         myextra = CustComplaintDet.objects.filter(cust_complaint_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
-            goods_receipt,
+            Delivery,
             fields=['cust_complaint_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
@@ -82,7 +102,7 @@ def goods_receipt_view(request, **kwargs):
     if kwargs['typeofdet'] == 3: # SuppOrderDet
         myextra = SuppOrderDet.objects.filter(supp_order_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
-            goods_receipt,
+            Delivery,
             fields=['supp_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
@@ -93,7 +113,7 @@ def goods_receipt_view(request, **kwargs):
     if kwargs['typeofdet'] == 4: # SuppComplaintDet
         myextra = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['idofdet']).count()
         MyFormSet = modelformset_factory(
-            goods_receipt,
+            Delivery,
             fields=['supp_complaint_det', 'quantity', 'delivered', 'trash'],
             extra=myextra,
             widgets={
@@ -104,7 +124,7 @@ def goods_receipt_view(request, **kwargs):
 
     # Verarbeitung des Post Requests zur Speicherung der abgeschickten Form
     if request.method == 'POST':
-        fs = MyFormSet(request.POST, queryset=goods_receipt.objects.none(), prefix="form1")
+        fs = MyFormSet(request.POST, queryset=Delivery.objects.none(), prefix="form1")
         # Form Valid?
         if fs.is_valid():
             fsets = fs.save(commit=False)
@@ -129,18 +149,17 @@ def goods_receipt_view(request, **kwargs):
             if kwargs['typeofdet'] == 3:
                 bo = False
                 for i in doc:
-                    if goods_receipt.objects.filter(pk=i)[0] != 0:
+                    if Delivery.objects.filter(pk=i)[0] != 0:
                         bo = True
                 if bo:
                     c = SuppComplaint.objects.create(supp_order_id=kwargs['idofdet'])
                     for i in doc:
-                        rd = goods_receipt.objects.get(pk=i)
+                        rd = Delivery.objects.get(pk=i)
                         if rd.trash != 0: # POSNR AUTOMATISCH ?!
                             SuppComplaintDet.objects.create(pos=i, supp_complaint_id=c.pk, supp_order_det_id=kwargs["idofdet"], quantity=rd.trash)
+                return HttpResponseRedirect(reverse("supp_order_alter",args=[kwargs['idofdet'],]))
             if kwargs['typeofdet'] == 4:
-                pass
-
-            return HttpResponseRedirect(reverse("cust_order"))
+                return HttpResponseRedirect(reverse("supp_complaint_alter",args=[kwargs['idofdet'],]))
     else:
         initial = []
         qset = None
@@ -160,6 +179,9 @@ def goods_receipt_view(request, **kwargs):
             qset = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['idofdet'])
             for i in qset:
                 initial.append({"supp_complaint_det":i.pk, "quantity":i.quantity})
-        formset = MyFormSet(initial=initial, queryset=goods_receipt.objects.none(), prefix='form1')
+        formset = MyFormSet(initial=initial, queryset=Delivery.objects.none(), prefix='form1')
     return render(request, template, {'formset':formset})
 
+def goods_shipping_view(request, **kwargs):
+    template = 'Goods_Shipping.html'
+    MyFormSet = None

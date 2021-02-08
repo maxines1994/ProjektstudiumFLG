@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load static %}
+<!-- Title-->
+{% block title %}Lager{% endblock %}
+
+<!-- Header-->
+{% block head %}
+
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+<div class="row section">
+    <div class="col s12">
+        <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+        <h4>Lagerbewegungen von {{part.description}}</h4> 
+        <img src="{% static part.image %}" display="inline" width="90px" height="auto" class="materialboxed white">
+    </div>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="table-scrollable">
+            <table id="itemtable">
+                <thead id="itemhead">
+                    <tr>
+                        <th>Datum</th>
+                        <th>Vorgang</th>
+                        <th>Bestand Alt</th>
+                        <th>Buchungsmenge</th>
+                        <th>Bestand Neu</th>
+                    </tr>
+                </thead>
+                <tbody id="itembody">
+                    {% for o in stockmovement %}
+                    <tr>
+                        <td>{{o.date}}</td>
+                        <td>{{o.booking_code.description}}</td>
+                        <td>{{o.previous_stock}}</td>
+                        <td>{{o.booking_quantity}}</td>
+                        <td>{{o.new_stock}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+{% endblock %}

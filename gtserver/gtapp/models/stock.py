@@ -14,14 +14,14 @@ class Stock(GtModel):
     reserved = models.SmallIntegerField(default=0)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
 
-    def change(self, booking_quantity: BookingCode, booking_code=BOOKING_UNKNOWN):
+    def change(self, booking_quantity: BookingCode, booking_code=BUCHUNG_UNBEKANNT):
         """
         Aendert den Bestand und schreibt eine entsprechende Lagerbewegung. Der booking_code muss nur uebergeben werden, wenn es sich um eine 
         besondere Buchung, wie eine Inventur oder eine Systemkorrektur handelt. Diese Methode ermittelt anhand der booking_quantity, ob es sich um eine 
         Entnahme oder einen Wareneingang handelt. Ist die booking_quantity >= 0 ist es ein Wareneingang, sonst eine Entnahme.
 
         Beispiel:
-            mystock.change(BOOKING_INVENTORY_CORRECTION, 2)
+            mystock.change(BUCHUNG_KORREKTURBUCHUNG, 2)
         Erhoeht den Bestand um 2 und schreibt eine entsprechende Lagerbewegung mit dem Buchungscode INV.
         """
 
@@ -51,3 +51,12 @@ class Stock(GtModel):
                 return False
         return True
 
+    def reserve(demand: ArtiPart):
+        """
+        Reserviert alle Bestaende der gebrauchten Teile
+        """
+        for item in demand:
+            my_stock = Stock.objects.get(is_supplier_stock=False, part=item.part)
+            my_stock.reserved += item.quantity
+            my_stock.save()
+        return True

@@ -10,9 +10,10 @@
 
 <!-- Content-->
 {% block content %}
-<h4>Boxnummer</h4>
-    
-    <form method="post" action= "{% url 'box_search_view' %}">
+{% if user.is_authenticated %}
+    <h4>Boxnummer</h4>
+{% endif %}
+        <form method="post" action= "{% url 'box_search_view' %}">
         {% csrf_token %}
         <div class="row">
             <div class="col s12 m6">

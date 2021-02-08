@@ -13,21 +13,21 @@ class Migration(migrations.Migration):
         
     def insert_customers(apps, schema_editor):
                 
-        Customer.objects.create(name='K100')
-        Customer.objects.create(name='K200')
-        Customer.objects.create(name='K300')
+        Customer.objects.create(name=K1)
+        Customer.objects.create(name=K2)
+        Customer.objects.create(name=K3)
 
     def insert_suppliers(apps, schema_editor):
         
-        Supplier.objects.create(name='L100')
-        Supplier.objects.create(name='L200')
-        Supplier.objects.create(name='L300')
+        Supplier.objects.create(name=L100)
+        Supplier.objects.create(name=L200)
+        Supplier.objects.create(name=L300)
 
     def insert_parts(apps, schema_editor):
 
-        supplier_L100 = Supplier.objects.get(name='L100')
-        supplier_L200 = Supplier.objects.get(name='L200')
-        supplier_L300 = Supplier.objects.get(name='L300')    
+        supplier_L100 = Supplier.objects.get(name=L100)
+        supplier_L200 = Supplier.objects.get(name=L200)
+        supplier_L300 = Supplier.objects.get(name=L300)  
 
         Part.objects.create(supplier=supplier_L100, part_no='T1', description='Welle 80', pack_quantity=8, install_quantity=4, initial_stock=6, total_stock=50, image='img/parts/07.png')
         Part.objects.create(supplier=supplier_L100, part_no='T2', description='Welle 130', pack_quantity=8, install_quantity=4, initial_stock=3, total_stock=50, image='img/parts/07.png') 
@@ -329,10 +329,6 @@ class Migration(migrations.Migration):
                 itemDescription = str(item.split('_', 1)[1].replace('_', ' ').casefold().title())
                 BookingCode.objects.create(code=itemBookingcode, description=itemDescription)
 
-    def insert_unknowns(apps, schema_editor):
-      
-        BookingCode.objects.create(id=UNKNOWN, code=BOOKING_UNKNOWN, description='Unbekannt')
-    
     def insert_tasktypes(apps, schema_editor):
         
         #JOGA
@@ -381,6 +377,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_articles),
         migrations.RunPython(insert_productionsteps),
         migrations.RunPython(insert_bookingcodes),
-        migrations.RunPython(insert_unknowns),
         migrations.RunPython(insert_tasktypes),
     ]

@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, FormView, DetailView
 from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_form_create, Msg_write_form
-from gtapp.models import MessageUser, Message, Timers, CustOrder, CustOrderDet
+from gtapp.models import MessageUser, Message, Timers, CustOrder, CustOrderDet, SuppOrder, SuppOrderDet
 from django.contrib.auth.models import Group, User
 import json
 from gtapp.constants import *
@@ -55,13 +55,13 @@ class msgWriteView(CreateView):
 
         # Orders zum anhängen, nur die des benutzers
         if self.request.user.groups.filter(name=K1).exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=1)
+            context['orders'] = SuppOrder.objects.filter(customer_id=1, external_system=True)
         elif self.request.user.groups.filter(name=K2).exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=2)
+            context['orders'] = SuppOrder.objects.filter(customer_id=2, external_system=True)
         elif self.request.user.groups.filter(name=K3).exists():
-            context['orders'] = CustOrder.objects.filter(customer_id=3)
+            context['orders'] = SuppOrder.objects.filter(customer_id=3, external_system=True)
         elif self.request.user.groups.filter(name=JOGA).exists():
-            context['orders'] = CustOrder.objects.all()
+            context['orders'] = SuppOrder.objects.filter(external_system=False)
 
         return context
 
@@ -106,20 +106,20 @@ def delete_message_view(request, **kwargs):
 
 
 def add_order_view(request, **kwargs):
-    o = CustOrder.objects.filter(pk=kwargs["id"])[0]
+    o = SuppOrder.objects.filter(pk=kwargs["id"])[0]
     order = {
-        "customer": o.customer.name,
-        "no": o.pk,
+        "customer": o.supplier.name,
+        "no": o.order_no,
         "issued": o.issued_on,
-        "posl": CustOrderDet.objects.filter(cust_order=kwargs["id"]).count(),
+        "posl": SuppOrderDet.objects.filter(supp_order=kwargs["id"]).count(),
     }
     s=0
-    for i in CustOrderDet.objects.filter(cust_order=kwargs["id"]):
+    for i in SuppOrderDet.objects.filter(supp_order=kwargs["id"]):
         s = s+1
         pos = {
-            "article": i.article.description,
-            "price": i.unit_price,
-            "posno": i.pos
+            "article": i.part.description,
+            "posno": i.pos,
+            "quantity": i.quantity
         }
         order[s] = pos
     return HttpResponse(json.dumps(order))

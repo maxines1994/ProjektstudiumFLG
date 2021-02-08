@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}Fertigungsaufträge{% endblock %}
@@ -11,29 +12,37 @@
 <!-- Content-->
 {% block content %}
 <h4>Fertigungsaufträge</h4>
-<div class="table-scrollable">
-    <table id="itemtable">
-        <thead id="itemhead">
-            <tr>
-                <th>Fertigungsauftrag</th>
-                <th>Artikel</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="itembody">
-            <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
-            {% for m in manufacturing %}
-                <tr>
-                    <td>{{ m.cust_order }}-{{ m.pos }}</td>
-                    <td>{{ m.article }}</td>
-                    <td>{{ m.get_status_display }}</td>
-                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{m.id}}'><i
-                                class="material-icons">more_vert</i></a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <div class="table-scrollable">
+                <table id="itemtable">
+                    <thead id="itemhead">
+                        <tr>
+                            <th>Fertigungsauftrag</th>
+                            <th>Artikel</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itembody">
+                        <!-- Alle orders durchlaufen und in Abhängigkeit des eingeloggten Benutzers anzeigen-->
+                        {% for m in manufacturing %}
+                            <tr>
+                                <td>{{ m.cust_order }}-{{ m.pos }}</td>
+                                <td>{{ m.article }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ m.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ m.get_status_display }}</td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{m.id}}'><i class="material-icons">more_vert</i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -41,18 +50,21 @@
 {% block body %}
 {% for m in manufacturing %}
 <ul id='a{{m.id}}' class='dropdown-content'>
-    <li><a href="{% url 'manufacturing_testing' m.id %}"><i class="material-icons">create</i>Bestandsreservierung</a></li>
-    <li><a href="{% url 'manufacturing_release' m.id %}"><i class="material-icons">delete</i>Freigeben</a></li>
-    <li><a href="{% url 'cust_order_det_alter' m.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_order_det_alter' m.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+    {% if PRODUKTIONSDIENSTLEISTUNG in group %}
+        <li><a href="{% url 'stock_check' m.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
+    {% endif %}
+    {% if PRODUKTION in group %}
+    <li><a href="{% url 'set_status_task' m.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND TASK_CUSTORDERDET 7 %}" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
+    <li><a href="{% url 'box_assign' m|to_class_name m.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+    {% endif %}
+    <li><a href="{% url 'manufacturing_release' m.id %}" class="li-content"><i class="material-icons">delete</i>Freigeben</a></li>
+
+
 </ul>
 {% endfor %}
 {% endblock %}
 
 <!-- Scripts-->
 {% block scripts %}
-<script>
-    $(document).ready(function () {
-        $('.dropdown-trigger').dropdown();
-    });
-</script>
 {% endblock %}

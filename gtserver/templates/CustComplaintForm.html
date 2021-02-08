@@ -1,5 +1,6 @@
 {% extends "forms.html" %}
 {% load materializecss %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}{% if company == KUNDEN %}Bestellreklamation{% else %}Auftragsreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}{% endblock %}
@@ -67,7 +68,7 @@
                                 <th>Position</th>
                                 <th>Reklamierte Artikel</th>
                                 <th>Beschreibung</th>
-                                <th></th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="itembody">
@@ -76,6 +77,12 @@
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.cust_order_det.article }}</td>
                                 <td>{{ i.memo }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ i.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ i.get_status_display }} 
+                                </td>
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
@@ -107,8 +114,15 @@
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
     <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+    {% if company == PRODUKTIONSDIENSTLEISTUNG %}
+        <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst liefern</a></li>
+    {% elif company == JOGA and company != PRODUKTIONSDIENSTLEISTUNG %}
+        <li><a href="" class="li-content"><i class="material-icons">local_shipping</i>An Kunden schicken</a></li>    
+    {% elif company == KUNDEN %}
+        <li><a href="" class="li-content"><i class="material-icons">local_shipping</i>An Lieferanten schicken</a></li>
+        <li><a href=""class="li-content"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
+    {% endif %}
     <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-</ul>
 {% endfor %}
 {% endblock %}
 

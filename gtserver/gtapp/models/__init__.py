@@ -1,6 +1,6 @@
+from .timer import Timers
 from .gtmodel import GtModel
 from . import groupextension
-from .player import Player
 from .bookingcode import BookingCode
 from .supplier import Supplier
 from .part import Part
@@ -29,6 +29,5 @@ from .tasktype import TaskType
 from .task import Task
 from .custcomplaintdet import CustComplaintDet
 from .suppcomplaintdet import SuppComplaintDet
-from .timer import Timers
 from .livesettings import LiveSettings
-from .goods_receipt import goods_receipt
+from .delivery import Delivery
