@@ -65,7 +65,9 @@
     {% else %}
         An Produktion liefern
     {% endif %}</a></li>
-    </ul>
+    <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+    {# {% if o.status == o.Status.ERFASST %}<li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>{% endif %} #}
+</ul>
 {% endfor %}
 {% endblock %}
 

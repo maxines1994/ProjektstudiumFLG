@@ -55,8 +55,8 @@
 {% block body %}
 {% for o in orders %}
 <ul id='a{{o.id}}' class='dropdown-content'>
-    <li><a href="{% url 'cust_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'cust_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'cust_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+    {#<li><a href="{% url 'cust_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>#}
 </ul>
 {% endfor %}
 {% endblock %}

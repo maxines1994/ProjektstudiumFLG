@@ -48,10 +48,11 @@ class Cust_order_create_view(PermissionRequiredMixin, CreateView):
     def get_initial(self):
         return {"issued_on":Timers.get_current_day()}
 
-    # Navbar Context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["action"] = "create"
+        context["status"] = None
+        context["statuses"] = CustOrderDet.Status.__members__
         return context
 
     def get_form(self, form_class=None):
@@ -75,10 +76,11 @@ class Cust_order_alter_view(PermissionRequiredMixin, UpdateView):
     # Context zum Templating hinzufügen 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['items'] = CustOrderDet.objects.filter(cust_order=self.get_object().pk)
-        context["cust_order_no"] = self.get_object().pk
-        context["order_no"] = self.get_object().order_no
-        context["box_no"] = self.get_object().box_no
+        obj = self.get_object()
+        context['items'] = CustOrderDet.objects.filter(cust_order=obj.pk)
+        context["cust_order_no"] = obj.pk
+        context["order_no"] = obj.order_no
+        context["box_no"] = obj.box_no
         context["action"] = "alter"
         context["status_count"] = 0
         for item in CustOrderDet.Status.__members__:
@@ -86,6 +88,8 @@ class Cust_order_alter_view(PermissionRequiredMixin, UpdateView):
                 context["status_count"] += 1
 
         context["STATUS"] = CustOrderDet.Status.__members__
+        context["can_cancel"] = CustOrderDet.objects.filter(cust_order=obj.id).count() > 0 and not CustOrderDet.objects.filter(cust_order=obj.id).exclude(status=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND).exclude(status=CustOrderDet.Status.STORNIERT).exists()
+        context["can_delete"] = CustOrderDet.objects.filter(cust_order=obj.id).count() == 0 or not CustOrderDet.objects.filter(cust_order=obj.id).exclude(status=CustOrderDet.Status.ERFASST).exists()
         return context
 
     def get_form(self, form_class=None):

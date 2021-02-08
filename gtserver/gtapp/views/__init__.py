@@ -2,6 +2,7 @@
 from gtapp.views.apiViews import *
 from gtapp.views.authViews import *
 from .BoxViews import *
+from gtapp.views.cancelViews import *
 from gtapp.views.CustComplaintViews import *
 from gtapp.views.CustOrderViews import *
 from .DeliveryViews import *
