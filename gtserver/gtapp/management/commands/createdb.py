@@ -19,19 +19,18 @@ class Command(BaseCommand):
         migrations_path = os.path.dirname(migrations.__file__).replace("\\" , "/") + "/"
         temp_path = migrations_path + "_temp/"
         db_name = settings.DATABASES['default']['NAME']
-        
+
         #Datenbank loeschen
         if os.path.exists(db_name):
             os.remove(db_name)
         else:
             print(str(db_name) + " does not exist. Proceeding...")
-        
+
         initial0001_file = migrations_path + '0001_initial.py'
         if os.path.exists(initial0001_file):
             os.remove(migrations_path + '0001_initial.py')
         else:
             print(str(initial0001_file) + " does not exist. Proceeding...")
-        
         #Alle Dateien im Migrations-Ordner nach _temp verschieben
         move_files(migrations_path, temp_path)
 

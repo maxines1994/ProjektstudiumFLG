@@ -60,12 +60,12 @@ class msgWriteView(PermissionRequiredMixin, CreateView):
         context = get_context_back(context, "Nachricht", "")
 
         # Orders zum anhängen, nur die des benutzers
-        if self.request.user.groups.filter(name=K1).exists():
-            context['orders'] = SuppOrder.objects.filter(customer_id=1, external_system=True)
-        elif self.request.user.groups.filter(name=K2).exists():
-            context['orders'] = SuppOrder.objects.filter(customer_id=2, external_system=True)
-        elif self.request.user.groups.filter(name=K3).exists():
-            context['orders'] = SuppOrder.objects.filter(customer_id=3, external_system=True)
+        if self.request.user.groups.filter(name=L100).exists():
+            context['orders'] = SuppOrder.objects.filter(supplier_id=1, external_system=True)
+        elif self.request.user.groups.filter(name=L200).exists():
+            context['orders'] = SuppOrder.objects.filter(supplier_id=2, external_system=True)
+        elif self.request.user.groups.filter(name=L300).exists():
+            context['orders'] = SuppOrder.objects.filter(supplier_id=3, external_system=True)
         elif self.request.user.groups.filter(name=JOGA).exists():
             context['orders'] = SuppOrder.objects.filter(external_system=False)
 

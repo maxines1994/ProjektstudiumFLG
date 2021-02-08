@@ -20,8 +20,6 @@ def manufacturing_list_view(request):
     for item in CustOrderDet.Status.__members__:
         if not item.startswith("__"):
             c["status_count"] += 1
-
-@permission_required('gtapp.view_permmanufacturinglist')
     c["complaint_status_count"] = 0
     for item in CustComplaintDet.Status.__members__:
         if not item.startswith("__"):
@@ -35,6 +33,7 @@ def manufacturing_list_view(request):
         c["STATUS"] = CustComplaintDet.Status.__members__
     return render(request, template, c)
 
+@permission_required('gtapp.view_permmanufacturinglist')
 def manufacturing_release_view(request, **kwargs):
     c = {}
     if CustOrderDet.objects.get(pk=kwargs['id']).status=='0':
