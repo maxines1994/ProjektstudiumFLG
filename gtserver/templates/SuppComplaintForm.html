@@ -98,8 +98,13 @@
     
     <div class="row section">
         <div class="col s12 right-align">
-            {% if action != 'create' %}
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</button>
+            {% if action != 'create' and status <= '1' and group_pro_service  %}
+                <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 4 7 33%}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
+            {% elif action != 'create' and status <= '1' and group_pro %}
+                <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 3 7 35%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
+                <!-- {% elif action != 'create' and status == '4' and box_no_done and group_pro_service %}-->
+                <!--##LUXI##     Status auf '5' && Task "Reklamierte Teile an Lieferanten schicken & Lieferanten Nachricht schreiben"-->
+                <!--<a class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation Versandfertig</a>-->
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
         </div>
@@ -112,8 +117,10 @@
 {% block body %}
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
-    <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+    {% if status <= '1' %}
+        <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+        <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+    {% endif %}
 </ul>
 {% endfor %}
 {% endblock %}

@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import CustComplaint, CustComplaintDet, Article, CustOrder, CustOrderDet
+from gtapp.models import CustComplaint, CustComplaintDet, Article, CustOrder, CustOrderDet, Task, Timers
 from gtapp.forms import Cust_complaint_form, Cust_complaint_det_form
 from gtapp.models import LiveSettings
 from gtapp.constants import *
@@ -21,11 +21,29 @@ class Cust_complaint_create_view(PermissionRequiredMixin, CreateView):
             form.instance.customer_id = 2
         elif self.request.user.groups.filter(name=K3).exists():
             form.instance.customer_id = 3
+        
+
+        
+
+        
 
         if self.request.user.groups.filter(name=KUNDEN).exists():
             form.instance.external_system = True
-
+            print("ich bin ein kunde")
+    
         new_cust_order_complaint = form.save()
+
+
+        
+        if form.instance.external_system == True:
+            if self.request.user.groups.filter(name=K1).exists():
+                Task.set_task_custComplaint(new_cust_order_complaint, 21, Timers.get_current_day())
+            elif self.request.user.groups.filter(name=K2).exists():
+                Task.set_task_custComplaint(new_cust_order_complaint, 22, Timers.get_current_day())
+            elif self.request.user.groups.filter(name=K3).exists():
+                Task.set_task_custComplaint(new_cust_order_complaint, 23, Timers.get_current_day())
+        else:
+           Task.set_task_custComplaint(new_cust_order_complaint, 23, Timers.get_current_day())
 
         return HttpResponseRedirect("/cust_complaint/alter/" + str(new_cust_order_complaint.pk) + "/")
     
@@ -81,6 +99,11 @@ class Cust_complaint_alter_view(PermissionRequiredMixin, UpdateView):
                 context["status_count"] += 1
 
         context["STATUS"] = CustComplaintDet.Status.__members__
+
+        context['fix_done'] = not CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk).exclude(status=5).exists()
+        context['box_no_done'] = not CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk, box_no__isnull=True).exists()
+        context['status'] = self.get_object().status
+
         return context
     
     def form_valid(self, form):
@@ -140,6 +163,14 @@ class Cust_complaint_det_create_view(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.cust_complaint = CustComplaint.objects.get(id=self.kwargs["cust_complaint"])
         form.instance._creation_user_id = self.request.user.id
+         # Position vergeben
+        try:
+            form.instance.pos = CustComplaintDet.objects.filter(cust_complaint=form.instance.cust_complaint).latest('_creation_date').pos + 1
+        except CustComplaintDet.DoesNotExist:
+            form.instance.pos = 1
+        
+        #newCustComplaintDet=form.save()
+
         form.save()
         return HttpResponseRedirect("/cust_complaint/alter/" + str(self.kwargs["cust_complaint"]) + "/")
 

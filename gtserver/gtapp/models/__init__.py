@@ -26,9 +26,10 @@ from .suppcontainer import SuppContainer
 from .stock import Stock
 from .stockmovement import StockMovement
 from .tasktype import TaskType
-from .task import Task
 from .custcomplaintdet import CustComplaintDet
 from .suppcomplaintdet import SuppComplaintDet
+from .task import Task
+from .timer import Timers
 from .livesettings import LiveSettings
 from .delivery import Delivery
 from .productionsteps import ProductionSteps

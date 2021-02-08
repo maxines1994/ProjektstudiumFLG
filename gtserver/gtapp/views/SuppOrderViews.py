@@ -130,6 +130,14 @@ class Supp_order_det_create_view(PermissionRequiredMixin, CreateView):
         form.instance.supp_order = SuppOrder.objects.get(
             id=self.kwargs["supp_order"])
         form.instance._creation_user_id = self.request.user.id
+
+        # Position vergeben
+        try:
+            form.instance.pos = SuppOrderDet.objects.filter(supp_order=form.instance.supp_order).latest('_creation_date').pos + 1
+        except SuppOrderDet.DoesNotExist:
+            form.instance.pos = 1
+
+
         form.save()
         return HttpResponseRedirect("/supp_order/alter/" + str(self.kwargs["supp_order"]) + "/")
         

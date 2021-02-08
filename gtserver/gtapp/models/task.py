@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from gtapp.constants.general import *
-from . import GtModel, CustOrderDet, CustOrder, TaskType, GtModel, SuppOrder, SuppOrderDet, Timers
+from gtapp.models import *
 import time
 
 class Task(GtModel):
@@ -25,6 +25,9 @@ class Task(GtModel):
     cust_order_det = models.ForeignKey(CustOrderDet, null= True, on_delete=models.SET_NULL)
     supp_order = models.ForeignKey(SuppOrder, null= True, on_delete=models.SET_NULL)
     supp_order_det = models.ForeignKey(SuppOrderDet, null= True, on_delete=models.SET_NULL)
+    cust_complaint = models.ForeignKey(CustComplaint, null= True, on_delete=models.SET_NULL)
+    cust_complaint_det = models.ForeignKey(CustComplaintDet, null= True, on_delete=models.SET_NULL)
+    supp_complaint = models.ForeignKey(SuppComplaint, null= True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     active = models.SmallIntegerField(null=True)
 
@@ -71,6 +74,34 @@ class Task(GtModel):
         else:
             pass
             pass 
+    
+    #Task für CustComplaint
+    @classmethod
+    def set_task_custComplaint(cls, order, number, day):
+        mylist = list(Task.objects.filter(cust_complaint_id = order, task_type_id=number))
+        if not mylist:
+                Task.objects.create(cust_complaint = order, task_type_id=number, active = 1, start_on= day)
+        else:
+            pass  
+
+    #Task für CustComplaintDet
+    @classmethod
+    def set_task_custComplaintDet(cls, order, number, day):
+        mylist = list(Task.objects.filter(cust_complaint_det_id = order, task_type_id=number))
+        if not mylist:
+                Task.objects.create(cust_complaint_det=order, task_type_id=number, active = 1, start_on= day)
+        else:
+            pass 
+    
+    #Task für SuppComplaint
+    @classmethod
+    def set_task_suppComplaint(cls, order, number, day):
+        mylist = list(Task.objects.filter(supp_complaint_id = order, task_type_id=number))
+        if not mylist:
+                Task.objects.create(supp_complaint=order, task_type_id=number, active = 1, start_on= day)
+        else:
+            pass 
+    
     
     @classmethod
     def get_tasks_of_user(self, user):
