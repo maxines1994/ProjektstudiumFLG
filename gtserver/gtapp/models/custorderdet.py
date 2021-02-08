@@ -18,12 +18,13 @@ class CustOrderDet(OrderDet):
         BESTELLT                            = '7', ('Bestellt') # für Kundensystem
         GELIEFERT                           = '8', ('Geliefert')
         REKLAMIERT                          = '9', ('Reklamiert')
+        STORNIERT                           = 'S', ('Storniert')
         
     
     status = models.CharField(
         max_length = 1,
         choices = Status.choices,
-        default = Status.STANDARD,
+        default = Status.ERFASST,
     )
 
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)

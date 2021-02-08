@@ -1,6 +1,7 @@
 # Reihenfolge alphabetisch / wie Dateibaum
 from gtapp.views.apiViews import *
 from gtapp.views.authViews import *
+from gtapp.views.cancelViews import *
 from gtapp.views.CustComplaintViews import *
 from gtapp.views.CustOrderViews import *
 from gtapp.views.ManufacturingViews import *

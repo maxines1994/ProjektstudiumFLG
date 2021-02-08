@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 <!-- Title-->
-{% block title %}{{ object }} löschen{% endblock %}
+{% block title %}{{ object }} stornieren{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -12,11 +12,11 @@
 {% block content %}
 <div class="row section">
   <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-  <h4>Löschung</h4>
+  <h4>Stornierung</h4>
   <form method="post">{% csrf_token %}
-      <p>Sind Sie sicher, dass Sie "{{ object }}" löschen möchten?</p>
+      <p>Sind Sie sicher, dass Sie "{{ object }}" stornieren möchten?</p>
       <a class="btn waves-effect waves-light" onclick="history.back();"><i class="material-icons left">arrow_back</i>Abbrechen</a>
-      <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">delete</i>Löschen</button>
+      <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">block</i>Stornieren</button>
   </form>
 </div>
 {% endblock %}

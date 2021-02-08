@@ -33,9 +33,8 @@
                                 {% if company != LIEFERANTEN %}<td>{{o.supplier}}</td>{% endif %}
                                 <td>Tag #{{ o.issued_on }}</td>
                                 <td>Tag #{{ o.delivery_date }}</td>
-                                <td>{{ o.status }}</td>
-                                <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i
-                                            class="material-icons">more_vert</i></a></td>
+                                <td>{{ o.get_status_display }}</td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -50,8 +49,8 @@
 {% block body %}
 {% for o in orders %}
 <ul id='a{{o.id}}' class='dropdown-content'>
-    <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+    <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+    {# {% if o.status == o.Status.ERFASST %}<li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>{% endif %} #}
 </ul>
 {% endfor %}
 {% endblock %}

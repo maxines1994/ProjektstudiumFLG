@@ -66,6 +66,7 @@
                             <tr>
                                 <th>Position</th>
                                 <th>Artikel</th>
+                                <th>Status</th>
                                 <th>Preis</th>
                                 <th></th>
                             </tr>
@@ -75,13 +76,13 @@
                             <tr>
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.article.description }}</td>
+                                <td>{{ i.get_status_display }}</td>
                                 <td>{{ i.unit_price }}</td>
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
-                                    class="material-icons">more_vert</i></a></td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
                             <tr>
-                                <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                <td colspan="5"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -93,7 +94,12 @@
     
     <div class="row section">
         <div class="col s12 right-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
+            {% if can_delete %}
+                <a class="waves-effect waves-light btn" href="{% url 'cust_order_delete' object.pk %}" ><i class="material-icons left">delete</i>Löschen</a>
+            {% endif %}
+            {% if company == JOGA and can_cancel %}
+                <a class="waves-effect waves-light btn" href="{% url 'cust_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
+            {% endif %}
             {% if action != "create" %}
                 {% if company == KUNDEN %}
                     <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 1 7%}"><i class="material-icons left">done_all</i>Freigeben</a>
@@ -101,6 +107,7 @@
                     <a class="waves-effect waves-light btn" href="{% url 'set_status_task_share' object.pk 1 2 2 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
                 {% endif %}
             {% endif %}
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
         </div>
     </div>
 </form>
@@ -111,8 +118,10 @@
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
     <li><a href="{% url 'cust_order_det_alter' i.id %}"><i class="material-icons left">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>
-    <li><a href=""><i class="material-icons left">local_shipping</i>Geliefert</a></li>
+    {% if i.status == i.Status.ERFASST %}<li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>{% endif %}
+    {% if i.status == i.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}<li><a href="{% url 'cust_order_det_cancel' i.id %}"><i class="material-icons">block</i>Stornieren</a></li>{% endif %}
+    {% if i.status == i.Status.LIEFERUNG_AN_KD_AUSSTEHEND %}<li><a href=""><i class="material-icons left">local_shipping</i>Geliefert an Kundendienst</a></li>{% endif %}
+    {% if i.status == i.Status.LIEFERUNG_AN_K_AUSSTEHEND %}<li><a href=""><i class="material-icons left">local_shipping</i>Geliefert an Kunde</a></li>{% endif %}
 </ul>
 {% endfor %}
 {% endblock %}

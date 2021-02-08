@@ -14,6 +14,7 @@ class SuppOrder(Order):
         LIEFERUNG_AN_JOGA_AUSSTEHEND    = '3', ('Lieferung an JOGA ausstehend')
         BESTELLT                        = '4', ("Bestellt")
         GELIEFERT                       = '5', ('Geliefert')
+        STORNIERT                       = 'S', ('Storniert')
         
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
@@ -21,7 +22,7 @@ class SuppOrder(Order):
     status = models.CharField(
         max_length = 1,
         choices = Status.choices,
-        default = Status.STANDARD,
+        default = Status.ERFASST,
     )
     
     def __str__(self):
@@ -43,10 +44,8 @@ class SuppOrder(Order):
                         no_str = 'B-00'+str(no)
                     elif(no<100):
                         no_str = 'B-0'+str(no)
-                    elif(no<1000):
-                        no_str = 'B-'+str(no)
                     else:
-                        pass
+                        no_str = 'B-'+str(no)
             #Lieferanten        
             else:
                 mylist = list(SuppOrder.objects.filter(external_system = self.external_system, supplier_id=self.supplier_id).order_by('-id'))
@@ -62,10 +61,8 @@ class SuppOrder(Order):
                         no_str =  'L' + str(self.supplier_id) +'-00'+str(no)
                     elif(no<100):
                         no_str = 'L' + str(self.supplier_id) +'-0'+str(no)
-                    elif(no<1000):
-                        no_str = 'L' + str(self.supplier_id) +str(no)
                     else:
-                        pass
+                        no_str = 'L' + str(self.supplier_id) +str(no)
             self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
     
