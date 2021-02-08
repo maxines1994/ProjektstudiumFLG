@@ -77,19 +77,18 @@
         <a><span class="white-text name">{{ user.username }}</span></a>
         <a><span class="white-text email">{{ user.groups.first.name }}</span></a>
       </div></li>
+
       <li><a href="{% url 'home' %}">Startseite</a></li>
-      
       {% if perms.gtapp.view_task %}<li><a href="{% url 'tasks' %}">Aufgaben</a></li>{% endif %}
       <li><div class="divider"></div></li>
-      {# <li><a class="subheader">Meine Seiten</a></li> #}
       {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_custcomplaint %}<li><a href="{% url 'cust_complaint' %}">{% if company == KUNDEN %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_supporder %}<li><a href="{% url 'supp_order' %}">{% if company == LIEFERANTEN %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="{% url 'supp_complaint' %}">{% if company == LIEFERANTEN %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_productionsteps %}<li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li> {% endif %}
       {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
-      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:LIEFERANTEN %}<li><a href="{% url 'stock' %}">Lager</a></li> {% endif %}
-      {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION %}<li><a href="{% url 'manufacturing_complaints' %}">Reklamationsaufträge</a></li> {% endif %}
+      {% if perms.gtapp.view_stock %}<li><a href="{% url 'stock' %}">Lager</a></li> {% endif %}
+      {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_complaints' %}">Reklamationsaufträge</a></li>{% endif %}
       <li><div class="divider"></div></li>
       <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><a href="{% url 'faq' content=0  %}">FAQ</a></li>
@@ -97,8 +96,7 @@
       {% if user.is_authenticated %}
           <li><div class="divider"></div></li>
           <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Ausloggen</a></li>
-          {% endif %}
-      {# <li><a href="">Dashboard</a></li> #}
+      {% endif %}
     </ul>
     {% endif %}
 
@@ -127,8 +125,8 @@
         {% endblock %}
       </div>
       {% if user.is_authenticated %}
-      {% block containerless_content %}
-      {% endblock%}
+        {% block containerless_content %}
+        {% endblock%}
       {% endif %}
     </main>
     {% endblock %}
@@ -163,7 +161,7 @@
           var request = new XMLHttpRequest();
           request.open("GET", "{% url 'api_tasks' %}");
 
-          if (window.innerWidth < 992) M.Sidenav.getInstance($('#sidenav')).close();
+          if (window.innerWidth <= 992) M.Sidenav.getInstance($('#sidenav')).close();
           request.addEventListener('load', function(event) {
             if (request.status >= 200 && request.status < 300) {
               var obj = JSON.parse(request.responseText);

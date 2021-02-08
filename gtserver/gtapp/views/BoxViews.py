@@ -11,8 +11,6 @@ from django import forms
 from gtapp.forms import *
 import json
 
-
-
 class Box_assign_view(LoginRequiredMixin, UpdateView):
     template_name = "BoxAssign.html"
     form_class = Box_form

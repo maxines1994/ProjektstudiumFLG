@@ -28,7 +28,7 @@
                         <span class="title">{{ user_login.username }}</span>
                         <p>
                             {% for group in user_login.groups.all %}
-                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name }}</span>
+                                {{ group.name }}
                                 {% if not forloop.last %}<br />{% endif %}
                             {% empty %}
                                 keine Gruppen zugewiesen
@@ -40,14 +40,14 @@
                         <span class="title">{{ user_login.username }}</span>
                         <p>
                             {% for group in user_login.groups.all %}
-                                <span class="tooltip" data-position="left" data-tooltip="<i class='material-icons tiny left'>build</i>{{ group.name }}">{{ group.name }}</span>
+                                {{ group.name }}
                                 {% if not forloop.last %}<br />{% endif %}
                             {% empty %}
                                 keine Gruppen zugewiesen
                             {% endfor %}
                         </p>
                         {% if debug_flag %}
-                            <a href="{% url 'change_user_to' user_login.id %}" class="secondary-content"><i class="material-icons small">login</i></a>
+                            <a href="{% url 'change_user_to' user_login.id %}" class="secondary-content"><i class="material-icons" style="font-size: 3rem">login</i></a>
                         {% endif %}
                     {% endif %}
                     </div>
