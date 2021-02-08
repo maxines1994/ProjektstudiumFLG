@@ -21,12 +21,13 @@ class box_view(PermissionRequiredMixin, TemplateView):
 @permission_required('gtapp.view_container')
 def box_search_view(request):
     boxno_found = 0
+    ext_sys = request.user.groups.filter(name=JOGA).exists()
     if request.method == "POST":
         number = request.POST.get('boxnr')
-        if CustOrder.objects.filter(box_no = str(number)).exists() and len(CustOrder.objects.filter(box_no = str(number))) < 2:
+        if CustOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(CustOrder.objects.filter(box_no = str(number).exclude(external_system = ext_sys))) < 2:
                 #task setzen welches neu entsteht
                 pass
-        elif CustOrderDet.objects.filter(box_no = str(number)).exists() and len(CustOrderDet.objects.filter(box_no = str(number))) < 2:
+        elif CustOrderDet.objects.filter(box_no = str(number)).exclude(cust_order__external_system = ext_sys).exists() and len(CustOrderDet.objects.filter(box_no = str(number)).exclude(cust_order__external_system = ext_sys)) < 2:
             mylist = CustOrderDet.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == CustOrderDet.Status.AUFTRAG_FREIGEGEBEN:
@@ -48,7 +49,7 @@ def box_search_view(request):
                     elif request.user.groups.filter(name=K3).exists():
                         Task.set_task_cust_det(obj, 13, Timers.get_current_day())
                     boxno_found = 1
-        elif SuppOrder.objects.filter(box_no = str(number)).exists() and len(SuppOrder.objects.filter(box_no = str(number))) < 2:
+        elif SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             #Status-Abfrage -> Joga Bestellung auf Bestellt um dann den Task "Wareneingang" auszulösen
             mylist = SuppOrder.objects.filter(box_no = str(number))
             for obj in mylist:
@@ -57,7 +58,7 @@ def box_search_view(request):
                     set_status(obj.id, 3, 4)
                     boxno_found = 1
             
-        elif SuppOrderDet.objects.filter(box_no = str(number)).exists() and len(SuppOrderDet.objects.filter(box_no = str(number))) < 2:
+        elif SuppOrderDet.objects.filter(box_no = str(number)).exclude(supp_order__external_system = ext_sys).exists() and len(SuppOrderDet.objects.filter(box_no = str(number)).exclude(supp_order__external_system = ext_sys)) < 2:
             pass
             
     else:
