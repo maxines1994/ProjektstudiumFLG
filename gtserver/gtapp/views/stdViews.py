@@ -17,6 +17,7 @@ class box_view(TemplateView):
 
 def box_search_view(request):
     boxno_found = 0
+    ext_sys = request.user.groups.filter(name=JOGA).exists()
     if request.method == "POST":
         number = request.POST.get('boxnr')
         if CustOrder.objects.filter(box_no = str(number)).exists() and len(CustOrder.objects.filter(box_no = str(number))) < 2:
@@ -47,7 +48,7 @@ def box_search_view(request):
                         Task.set_task_cust_det(obj, 13, Timers.get_current_day())
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
-        elif SuppOrder.objects.filter(box_no = str(number)).exists() and len(SuppOrder.objects.filter(box_no = str(number))) < 2:
+         elif SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             #Status-Abfrage -> Joga Bestellung auf Bestellt um dann den Task "Wareneingang" auszulösen
             mylist = SuppOrder.objects.filter(box_no = str(number))
             for obj in mylist:
@@ -60,7 +61,7 @@ def box_search_view(request):
         elif SuppOrderDet.objects.filter(box_no = str(number)).exists() and len(SuppOrderDet.objects.filter(box_no = str(number))) < 2:
             pass
 
-        elif CustComplaintDet.objects.filter(box_no = str(number)).exists() and len(CustComplaintDet.objects.filter(box_no = str(number))) < 2:
+        elif CustComplaintDet.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(CustComplaintDet.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             mylist = CustComplaintDet.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
@@ -73,7 +74,7 @@ def box_search_view(request):
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
-        elif SuppComplaint.objects.filter(box_no = str(number)).exists() and len(SuppComplaint.objects.filter(box_no = str(number))) < 2:
+        elif SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             mylist = SuppComplaint.objects.filter(box_no = str(number))
             print("Jo hier bin ich")
             for obj in mylist:
