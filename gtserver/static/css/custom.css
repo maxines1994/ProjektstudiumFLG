@@ -67,10 +67,12 @@ main.loggedin {
   min-height: 56.25vw; /* 100 * 9 / 16 */
 }
 
-.collapsible li.active i {
-  -ms-transform: rotate(180deg); /* IE 9 */
-  -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-  transform: rotate(180deg);
+@keyframes bell {
+  10% { transform: rotate(7deg) }
+  30% { transform: rotate(-15deg) }
+  50% { transform: rotate(15deg) }
+  70% { transform: rotate(-15deg) }
+  90% { transform: rotate(7deg) }
 }
 
 .progress {
@@ -128,4 +130,11 @@ main.loggedin {
   from {
     width: 0;
 }
+}
+
+.notification {
+  animation-name: bell;
+  animation-duration: 1.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
 }
