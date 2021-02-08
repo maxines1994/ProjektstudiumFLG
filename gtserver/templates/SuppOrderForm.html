@@ -104,6 +104,10 @@
             {%else%}    
                 <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk TASK_SUPPORDER STATUS.LIEFERUNG_AN_JOGA_AUSSTEHEND%}">Freigeben</a>
             {% endif %}
+            {% if object.status == '4' %}
+                <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' 3 object.pk %}">Wareneingang buchen</a>
+                <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Beliefert</a>
+            {% endif %}
         {% endif %}
         </div>
     </div>
