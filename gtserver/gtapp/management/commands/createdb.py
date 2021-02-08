@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand, CommandError
 from gtserver import settings
 from gtapp import migrations
 from django.contrib.auth import get_user_model
+from gtapp.models import LiveSettings
 
 class Command(BaseCommand):
 
@@ -19,6 +20,7 @@ class Command(BaseCommand):
         migrations_path = os.path.dirname(migrations.__file__).replace("\\" , "/") + "/"
         temp_path = migrations_path + "_temp/"
         db_name = settings.DATABASES['default']['NAME']
+
         """
         #Datenbank loeschen
         if os.path.exists(db_name):

@@ -8,19 +8,19 @@ class CustOrderDet(OrderDet):
     """ 
     class Status(models.TextChoices):
 
-        ERFASST                             = 1, ('Erfasst')
-        BESTANDSPRUEFUNG_AUSSTEHEND         = 2, ('Bestandsprüfung ausstehend')
-        AUFTRAG_FREIGEGEBEN                 = 3, ('Auftrag freigegeben')
-        IN_PRODUKTION                       = 4, ('In Produktion')
-        LIEFERUNG_AN_KD_AUSSTEHEND          = 5, ('Produktion abgeschlossen')
-        VERSANDT_AN_KD                      = 6, ('An Kundendienst versandt')
-        LIEFERUNG_AN_K_AUSSTEHEND           = 7, ('Lieferung an Kunden ausstehend')
-        BESTELLT                            = 8, ('Bestellt')                       # für Kundensystem
-        VERSANDT_AN_K                       = 9, ('Versandt')
-        GELIEFERT                           = 10, ('Geliefert')
-        REKLAMIERT                          = 11, ('Reklamiert')
-        ABGENOMMEN                          = 12, ('Abgenommen')
-        STORNIERT                           = 13, ('Storniert')
+        ERFASST                             = '1', ('Erfasst')
+        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend')
+        AUFTRAG_FREIGEGEBEN                 = '3', ('Auftrag freigegeben')
+        IN_PRODUKTION                       = '4', ('In Produktion')
+        LIEFERUNG_AN_KD_AUSSTEHEND          = '5', ('Produktion abgeschlossen')
+        VERSANDT_AN_KD                      = '6', ('An Kundendienst versandt')
+        LIEFERUNG_AN_K_AUSSTEHEND           = '7', ('Lieferung an Kunden ausstehend')
+        BESTELLT                            = '8', ('Bestellt')                       # für Kundensystem
+        VERSANDT_AN_K                       = '9', ('Versandt')
+        GELIEFERT                           = '10', ('Geliefert')
+        REKLAMIERT                          = '11', ('Reklamiert')
+        ABGENOMMEN                          = '12', ('Abgenommen')
+        STORNIERT                           = '13', ('Storniert')
         
     
     status = models.CharField(
