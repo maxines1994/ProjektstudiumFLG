@@ -48,7 +48,7 @@ def box_search_view(request):
                         Task.set_task_cust_det(obj, 13, Timers.get_current_day())
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
-         elif SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
+        elif SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             #Status-Abfrage -> Joga Bestellung auf Bestellt um dann den Task "Wareneingang" auszulösen
             mylist = SuppOrder.objects.filter(box_no = str(number))
             for obj in mylist:
