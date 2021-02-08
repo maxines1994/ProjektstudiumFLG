@@ -52,8 +52,7 @@
             <li id="currenttime"><i class="material-icons left">today</i>Tag {{day}}</li>
             {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>{% endif %}
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href="{% url 'box_search_view' %}"><i class="material-icons">qr_code</i></a></li>{% endif %}
-            {% if perms.gtapp.view_task %}
-              <li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;">{% if has_unassigned_tasks %}<i class="material-icons notification">notifications_active</i>{% else %}<i class="material-icons">notifications_none</i>{% endif %}</a></li>
+            {% if perms.gtapp.view_task %}<li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;">{% if has_unassigned_tasks %}<i class="material-icons notification">notifications_active</i>{% else %}<i class="material-icons">notifications_none</i>{% endif %}</a></li>
             {% endif %}
           </ul>
           {% else %}
@@ -141,28 +140,31 @@
 
     <!-- Scripts-->
     <script>
-        $(document).ready(function(){
-          var sidenav_options = {
-            {% if perms.gtapp.view_task %}'onOpenStart': closeRight{% endif %}
-          }
-          M.Sidenav.init($('#sidenav'), sidenav_options);
-          M.Dropdown.init($('.dropdown-trigger'), {'constrainWidth': false});
-          $('.collapsible').collapsible();
-
-          {% if perms.gtapp.view_task %}
-          var tasks_options = {
+        $(document).ready(function (){
+            var tasks_options = {
             'edge': 'right',
             'onOpenStart': getTasks
           }
-          M.Sidenav.init($("#tasks"), tasks_options);
+
+          {% if perms.gtapp.view_task %}
+            M.Sidenav.init($("#tasks")[0], tasks_options);
           {% endif %}
+
+          var sidenav_options = {
+            {% if perms.gtapp.view_task %}'onOpenStart': closeRight{% endif %}
+          }
+          M.Sidenav.init(document.getElementById('sidenav'), sidenav_options);
+          M.Dropdown.init($('.dropdown-trigger'), {'constrainWidth': false});
+          $('.collapsible').collapsible();
         });
 
         {% if perms.gtapp.view_task %}
         function getTasks(){
           var request = new XMLHttpRequest();
           request.open("GET", "{% url 'api_tasks' %}");
-          M.Sidenav.getInstance($('#sidenav')).close();
+
+          sidenavinstance = M.Sidenav.getInstance($('#sidenav'))
+          if (!sidenavinstance.isFixed) sidenavinstance.close();
           request.addEventListener('load', function(event) {
             if (request.status >= 200 && request.status < 300) {
               var obj = JSON.parse(request.responseText);
