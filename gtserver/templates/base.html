@@ -163,8 +163,7 @@
           var request = new XMLHttpRequest();
           request.open("GET", "{% url 'api_tasks' %}");
 
-          sidenavinstance = M.Sidenav.getInstance($('#sidenav'))
-          if (!sidenavinstance.isFixed) sidenavinstance.close();
+          if (window.innerWidth < 992) M.Sidenav.getInstance($('#sidenav')).close();
           request.addEventListener('load', function(event) {
             if (request.status >= 200 && request.status < 300) {
               var obj = JSON.parse(request.responseText);
