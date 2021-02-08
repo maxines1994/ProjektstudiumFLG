@@ -41,10 +41,8 @@ class CustOrder(Order):
                         no_str = 'A-00'+str(no)
                     elif(no<100):
                         no_str = 'A-0'+str(no)
-                    elif(no<1000):
-                        no_str = 'A-'+str(no)
                     else:
-                        pass
+                        no_str = 'A-'+str(no)
             #Kunden        
             else:
                 mylist = list(CustOrder.objects.filter(external_system = self.external_system, customer_id=self.customer_id).order_by('-id'))
@@ -60,10 +58,8 @@ class CustOrder(Order):
                         no_str =  'K' + str(self.customer_id) +'-00'+str(no)
                     elif(no<100):
                         no_str = 'K' + str(self.customer_id) +'-0'+str(no)
-                    elif(no<1000):
-                        no_str = 'K' + str(self.customer_id) +str(no)
                     else:
-                        pass
+                        no_str = 'K' + str(self.customer_id) +str(no)
             self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
-    
+        
