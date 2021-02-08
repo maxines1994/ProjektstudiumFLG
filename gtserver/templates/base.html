@@ -152,14 +152,9 @@
 
           var sidenav_options = {
             {% if perms.gtapp.view_task %}'onOpenStart': closeRight{% endif %}
-          };
-          M.Sidenav.init($('#sidenav'), sidenav_options);
-          console.log("Sidenav läuft")
-          var elems = document.querySelectorAll('.dropdown-trigger');
-          var instances = M.Dropdown.init(elems, options);
-
+          }
+          M.Sidenav.init(document.getElementById('sidenav'), sidenav_options);
           M.Dropdown.init($('.dropdown-trigger'), {'constrainWidth': false});
-          console.log('Klappt');
           $('.collapsible').collapsible();
         });
 
