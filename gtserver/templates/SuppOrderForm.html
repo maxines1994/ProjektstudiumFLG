@@ -2,7 +2,18 @@
 {% load materializecss %}
 
 <!-- Title-->
-{% block title %}{% if company == LIEFERANTEN %}Kundenauftrag{% else %}Bestellung{% endif %} {% if action == 'create' %}erstellen{% else %}{{order_no}} ändern{% endif %}{% endblock %}
+{% block title %}
+{% if company == LIEFERANTEN %}
+    Kundenauftrag
+{% else %}
+    Bestellung
+{% endif %} 
+{% if action == 'create' %}
+    erstellen
+{% else %}
+    {{order_no}} ändern
+{% endif %}
+{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -99,7 +110,7 @@
         <div class="col s12 right-align">
             {% if action != "create" %}
                 {% if object.status == object.Status.ERFASST %}
-                    <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+                        <li><a href="{% url 'supp_order_delete' object.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
                     {% if company == LIEFERANTEN %}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 3 2 3 9%}">Freigeben</a>
                     {% else %}
