@@ -131,7 +131,7 @@
                     {# {% endif %} #}
                 {% elif KUNDENDIENST in group or LEITUNGSTEAM in group %}
                     {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task_share' object.pk 1 2 2 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task_share' object.pk 1 STATUS.BESTANDSPRUEFUNG_AUSSTEHEND 1 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {# {% endif %} #}
                 {% endif %}
             {% endif %}

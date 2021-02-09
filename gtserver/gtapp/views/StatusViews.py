@@ -43,8 +43,8 @@ def set_status_task_share (request, **kwargs):
             Task.set_task_custComplaintDet(i,kwargs["tasktype"],Timers.get_current_day())
     elif kwargs["type_for_task"] == 1: 
         mylist = list(CustOrderDet.objects.filter(cust_order_id = kwargs["id"]))  
+        set_status(kwargs["id"], kwargs["type"], kwargs["status"])
         for i in mylist:
-            set_status(i.id, kwargs["type"], kwargs["status"])
             Task.set_task_cust_det(i, kwargs["tasktype"], Timers.get_current_day())
     return HttpResponseRedirect(reverse("tasks_notassigned"))
 
