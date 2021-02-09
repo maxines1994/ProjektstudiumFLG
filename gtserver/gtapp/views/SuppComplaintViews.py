@@ -79,10 +79,9 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['supp_complaint_no'] = self.get_object().pk
         context["action"] = "alter"
 
-        context['group_pro'] = self.request.user.groups.filter(name='Produktion').exists()
-        context['group_pro_service'] = self.request.user.groups.filter(name='Produktionsdienstleistung').exists()
+        context['OBJ_STATUS'] = self.get_object().status
+        context['STATUS'] = SuppComplaint.Status.__members__
 
-        context['status'] = self.get_object().status
 
         context['box_no_done'] = self.get_object().box_no
 
