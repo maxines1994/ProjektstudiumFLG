@@ -126,13 +126,13 @@
         <div class="col s12 right-align">
             {% if action != "create" %}
                 {% if KUNDEN in group %}
-                    {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 2 STATUS.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {% endif %}
+                    {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 1 STATUS.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
+                    {# {% endif %} #}
                 {% elif KUNDENDIENST in group or LEITUNGSTEAM in group %}
-                    {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+                    {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_task_share' object.pk 1 2 2 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {% endif %}
+                    {# {% endif %} #}
                 {% endif %}
             {% endif %}
             {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}            

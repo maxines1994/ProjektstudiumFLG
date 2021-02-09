@@ -89,7 +89,8 @@ class Cust_order_alter_view(LoginRequiredMixin, UpdateView):
 
         context["ORDER_STATUS"] = CustOrder.Status.__members__
         context["STATUS"] = CustOrderDet.Status.__members__
-        context["MIN_ITEM_STATUS"] = min(context['items'].values_list('status'))[0]
+        #context["MIN_ITEM_STATUS"] = min(context['items'].values_list('status'))[0]
+        context["MIN_ITEM_STATUS"] = 0
         context["can_cancel"] = CustOrderDet.objects.filter(cust_order=obj.id).count() > 0 and not CustOrderDet.objects.filter(cust_order=obj.id).exclude(status=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND).exclude(status=CustOrderDet.Status.STORNIERT).exists()
         context["can_delete"] = CustOrderDet.objects.filter(cust_order=obj.id).count() == 0 or not CustOrderDet.objects.filter(cust_order=obj.id).exclude(status=CustOrderDet.Status.ERFASST).exists()
         return context
