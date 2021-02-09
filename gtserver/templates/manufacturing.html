@@ -50,15 +50,21 @@
 {% block body %}
 {% for m in manufacturing %}
 <ul id='a{{m.id}}' class='dropdown-content'>
-    <li><a href="{% url 'cust_order_det_alter' m.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+    <li><a href="{% url 'cust_order_det_alter' m.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
     {% if PRODUKTIONSDIENSTLEISTUNG in group %}
-        <li><a href="{% url 'stock_check' m.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
+        {% if m.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+            <li><a href="{% url 'stock_check' m.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
+        {% endif %}
+        {% if m.status == STATUS.AUFTRAG_FREIGEGEBEN %}
+            <li><a href="{% url 'goods_shipping' m|to_class_name m.id %}" class="li-content"><i class="material-icons">flag</i>Waren an Produktion senden</a></li>
+        {% endif %}
     {% endif %}
     {% if PRODUKTION in group %}
-    <li><a href="{% url 'set_status_task' m.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND TASK_CUSTORDERDET 7 %}" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
-    <li><a href="{% url 'box_assign' m|to_class_name m.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+        {% if m.status == STATUS.IN_PRODUKTION %}
+            <li><a href="{% url 'box_assign' m|to_class_name m.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+            <li><a href="{% url 'set_status_task' m.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND TASK_CUSTORDERDET 7 %}" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
+        {% endif %}
     {% endif %}
-    <li><a href="{% url 'manufacturing_release' m.id %}" class="li-content"><i class="material-icons">delete</i>Freigeben</a></li>
 
 
 </ul>

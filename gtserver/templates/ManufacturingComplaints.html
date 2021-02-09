@@ -52,6 +52,20 @@
 <ul id='a{{c.id}}' class='dropdown-content'>
     <li><a href="" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
     <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+    {% if PRODUKTIONSDIENSTLEISTUNG in group %}
+        {% if m.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+            <li><a href="{% url 'stock_check' c.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
+        {% endif %}
+        {% if m.status == STATUS.AUFTRAG_FREIGEGEBEN %}
+            <li><a href="{% url 'goods_shipping' c|to_class_name c.id %}" class="li-content"><i class="material-icons">flag</i>Waren an Produktion senden</a></li>
+        {% endif %}
+    {% endif %}
+    {% if PRODUKTION in group %}
+        {% if m.status == STATUS.IN_PRODUKTION %}
+            <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+            <li><a href="" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
+        {% endif %}
+    {% endif %}
 </ul>
 {% endfor %}
 {% endblock %}
