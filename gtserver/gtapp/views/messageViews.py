@@ -76,13 +76,14 @@ class msgWriteView(LoginRequiredMixin, CreateView):
         form.instance.sent_on = Timers.get_current_day()
         form.instance.sender = self.request.user
         newmessage = form.save()
-        for i in User.objects.filter(groups=form.instance.receiver):
-            MessageUser.objects.create(
-                user=i, user_is_sender=False, message=newmessage, is_trash=False)
+
+        for i in form.instance.receiver.user_set.all():
+            print(i)
+            MessageUser.objects.create(user=i, user_is_sender=False, message=newmessage, is_trash=False)
+        
         MessageUser.objects.create(
             user=form.instance.sender, user_is_sender=True, message=newmessage, is_trash=False)
         return HttpResponseRedirect(reverse("inbox"))
-
 
 class msgDetailsView(LoginRequiredMixin, DetailView):
     template_name = "message_detail.html"
@@ -103,12 +104,10 @@ class msgDetailsView(LoginRequiredMixin, DetailView):
 
 @login_required
 def delete_message_view(request, **kwargs):
-    if MessageUser.objects.filter(message_id=kwargs["id"], user=request.user, user_is_sender=False)[0].is_trash == False:
-        MessageUser.objects.filter(
-            message_id=kwargs["id"], user=request.user, user_is_sender=False).update(is_trash=True)
+    if MessageUser.objects.filter(pk=kwargs["id"], user=request.user, user_is_sender=False)[0].is_trash == False:
+        MessageUser.objects.filter(pk=kwargs["id"], user=request.user, user_is_sender=False).update(is_trash=True)
     else:
-        MessageUser.objects.filter(
-            message_id=kwargs["id"], user=request.user, user_is_sender=False).update(is_trash=False)
+        MessageUser.objects.filter(pk=kwargs["id"], user=request.user, user_is_sender=False).update(is_trash=False)
     return HttpResponseRedirect(reverse("inbox"))
 
 
