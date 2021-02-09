@@ -19,8 +19,18 @@
                 <table id="itemtable">
                     <thead id="itemhead">
                         <tr>
-                            <th>{% if company == KUNDEN %}Bestellnummer{% else %}Auftragsnummer{% endif %}</th>
-                            {% if company != KUNDEN %}<th>Kunde</th>{% endif %}
+                            <th>
+                                {% if company == KUNDEN %}
+                                    Bestellnummer
+                                {% else %}
+                                    Auftragsnummer
+                                {% endif %}
+                            </th>
+                            <th>
+                                {% if company != KUNDEN %}
+                                    Kunde
+                                {% endif %}
+                            </th>
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
                             <th>Status</th>
@@ -29,8 +39,19 @@
                     <tbody id="itembody">
                         {% for o in orders %}
                         <tr>
-                            <td>{% if company == KUNDEN %}Bestellung{% else %}Auftrag{% endif %} #{{ o.id }}</td>
-                            {% if company != KUNDEN %}<td>{{ o.customer }}</td>{% endif %}
+                            <td>
+                                {% if company == KUNDEN %}
+                                    Bestellung
+                                {% else %}
+                                    Auftrag
+                                {% endif %} 
+                                #{{ o.id }}
+                            </td>
+                            <td>
+                                {% if company != KUNDEN %}
+                                    {{ o.customer }}
+                                {% endif %}
+                            </td>
                             <td>Tag #{{ o.issued_on }}</td>
                             <td>Tag #{{ o.delivery_date }}</td>
                             <td>
@@ -40,7 +61,9 @@
                                 {{ o.get_status_display }} 
                             </td>
                             <input type="hidden" name="next" value="{{ request.path }}">
-                            <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
+                            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -55,8 +78,12 @@
 {% block body %}
     {% for o in orders %}
         <ul id='a{{o.id}}' class='dropdown-content'>
-            <li><a href="{% url 'cust_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-            {% if o.status == o.Status.ERFASST %}<li><a href="{% url 'cust_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>{% endif %}
+            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}
+                <li><a href="{% url 'cust_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+                {% if o.status == STATUS.ERFASST %}
+                    <li><a href="{% url 'cust_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+                {% endif %}
+            {% endif %}
         </ul>
     {% endfor %}
 {% endblock %}
