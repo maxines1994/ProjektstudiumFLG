@@ -40,14 +40,14 @@ urlpatterns = [
 
     # Boxscan
     path('box/', box_view.as_view(), name="box_view"),
-    path('box/<int:error>', box_view.as_view(), name="box_view_error"),
+    path('box/<int:error>/', box_view.as_view(), name="box_view_error"),
     path('box_search/', box_search_view, name='box_search_view'),
     path('box_assign/<str:model>/<int:id>/', Box_assign_view.as_view(), name='box_assign'),
 
     # Task Status
-    path('status_call/<int:id>/<int:type>/<int:status>', set_status_call, name='set_status_call'),
-    path('status_task/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>', set_status_task, name='set_status_task'),
-    path('set_status_task_share/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>', set_status_task_share, name='set_status_task_share'),
+    path('status_call/<int:id>/<int:type>/<int:status>/', set_status_call, name='set_status_call'),
+    path('status_task/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>/', set_status_task, name='set_status_task'),
+    path('set_status_task_share/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>/', set_status_task_share, name='set_status_task_share'),
 
     # Cust Order
     path('cust_order/', Cust_order_view.as_view(), name="cust_order"),
@@ -92,9 +92,9 @@ urlpatterns = [
     #path('goods_shipping/<str:model>/<int:id>/', Delivery_create_view.as_view(), name="goods_shipping"),
 
     # Produktionsschritte
-    path('production_steps', production_steps, name="production_steps"),
-    path('production_steps_single/<str:product>/<int:step>', production_steps_single.as_view(), name="production_steps_single"),
-    path('production_steps_3D_models/<str:product>/<int:step>', production_steps_3D_models.as_view(), name="production_steps_3D_models"),
+    path('production_steps/', production_steps, name="production_steps"),
+    path('production_steps_single/<str:product>/<int:step>/', production_steps_single.as_view(), name="production_steps_single"),
+    path('production_steps_3D_models/<str:product>/<int:step>/', production_steps_3D_models.as_view(), name="production_steps_3D_models"),
 
     # Cust Order Reklamation
     path('cust_complaint/', Cust_complaint_view.as_view(), name="cust_complaint"),
