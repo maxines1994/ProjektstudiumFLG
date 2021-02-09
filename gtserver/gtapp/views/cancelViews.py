@@ -1,5 +1,5 @@
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import CustOrder, CustOrderDet
+from gtapp.models import CustOrder, CustOrderDet, SuppOrder
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin

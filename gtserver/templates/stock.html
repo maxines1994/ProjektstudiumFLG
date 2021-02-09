@@ -2,7 +2,9 @@
 {% load custom_tags %}
 {% load static %}
 <!-- Title-->
-{% block title %}Lager{% endblock %}
+{% block title %}
+Lager
+{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -31,13 +33,19 @@
                     <tr>
                         <td>{{o.part.description}}</td>
                         <td><img src="{% static o.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
-                        {% if o.part.supplier_id == 3 or request.user|has_group:LIEFERANTEN %}
+                        {% if o.part.supplier_id == 3 or LIEFERANTEN in group %}
                             <td>{{o.stock}}</td>
                         {% else %}
                             <td>{{o.stock}}</td>
                         {% endif %}
                         {% if company == JOGA %}
-                            <td>{% if o.part.supplier_id != 3 %} {{o.reserved}} {% else %}{{o.reserved}}{% endif %}</td>
+                            <td>
+                            {% if o.part.supplier_id != 3 %} 
+                                {{o.reserved}} 
+                            {% else %}
+                                {{o.reserved}}
+                            {% endif %}
+                            </td>
                         {% endif %}
                         <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='s{{o.id}}'><i class="material-icons">more_vert</i></a></td>
                     </tr>
@@ -54,7 +62,9 @@
 {% block body %}
 {% for o in stock %}
 <ul id='s{{o.id}}' class='dropdown-content'>
-    <li><a href="{% url 'stock_alter' o.id %}" class="li-content"><i class="material-icons left">edit</i>Bestand anpassen</a></li>
+    {% if LIEFERANTEN in group or PRODUKTIONSDIENSTLEISTUNG in group %}
+        <li><a href="{% url 'stock_alter' o.id %}" class="li-content"><i class="material-icons left">edit</i>Bestand anpassen</a></li>
+    {% endif %}
     <li><a href="{% url 'stockmovement' o.id %}" class="li-content"><i class="material-icons left">remove_red_eye</i>Lagerbewegungen</a></li>
 </ul>
 {% endfor %}

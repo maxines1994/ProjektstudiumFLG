@@ -2,7 +2,13 @@
 {% load custom_tags %}
 
 <!-- Title-->
-{% block title %}{% if company == LIEFERANTEN %}Kundenaufträge{% else %}Bestellungen{% endif %}{% endblock %}
+{% block title %}
+{% if company == LIEFERANTEN %}
+    Kundenaufträge
+{% else %}
+    Bestellungen
+{% endif %}
+{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -10,7 +16,14 @@
 
 <!-- Content-->
 {% block content %}
-<h4> {% if company == LIEFERANTEN %}Kundenaufträge{% else %}Bestellungen{% endif %} <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4> 
+    {% if company == LIEFERANTEN %}
+        Kundenaufträge
+    {% else %}
+        Bestellungen
+    {% endif %}
+    <a href="{% url 'supp_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a>
+</h4>
 <div class="col s12">
     <div class="card">
         <div class="card-content">
@@ -18,8 +31,18 @@
                 <table id="itemtable">
                     <thead id="itemhead">
                         <tr>
-                            <th> {% if company == LIEFERANTEN %} Auftragsnummer {% else %} Bestellnummer {% endif %}</th>
-                            {% if company != LIEFERANTEN %}<th>Lieferant</th> {% endif %}
+                            <th> 
+                                {% if company == LIEFERANTEN %} 
+                                    Auftragsnummer 
+                                {% else %} 
+                                    Bestellnummer 
+                                {% endif %}
+                            </th>
+                            <th>
+                                {% if company != LIEFERANTEN %}
+                                    Lieferant 
+                                {% endif %}
+                            </th>
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
                             <th>Status</th>
@@ -29,8 +52,19 @@
                         <!-- Alle orders durchlaufen und anzeigen-->
                         {% for o in orders %}
                             <tr>
-                                <td>{% if company == LIEFERANTEN %} Auftrag {% else %} Bestellung {% endif %} #{{ o.id }}</td>
-                                {% if company != LIEFERANTEN %}<td>{{o.supplier}}</td>{% endif %}
+                                <td>
+                                    {% if company == LIEFERANTEN %}
+                                        Auftrag 
+                                    {% else %} 
+                                        Bestellung 
+                                    {% endif %} 
+                                    #{{ o.id }}
+                                </td>
+                                <td>
+                                    {% if company != LIEFERANTEN %}
+                                        {{o.supplier}}
+                                    {% endif %}
+                                </td>
                                 <td>Tag #{{ o.issued_on }}</td>
                                 <td>Tag #{{ o.delivery_date }}</td>
                                 <td>
@@ -39,7 +73,9 @@
                                     </div>
                                     {{ o.get_status_display }} 
                                 </td>
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
+                                {% if LIEFERANTEN in group or PRODUKTIONSDIENSTLEISTUNG in group %}
+                                    <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{o.id}}'><i class="material-icons">more_vert</i></a></td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -54,19 +90,25 @@
 {% block body %}
 {% for o in orders %}
 <ul id='a{{o.id}}' class='dropdown-content'>
-    <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-    <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-    {% if company == JOGA %} 
-        <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen
+    {% if LIEFERANTEN in group or PRODUKTIONSDIENSTLEISTUNG in group %}
+        <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if o.status <= STATUS.ERFASST %}
+            <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+        {% endif %}
+        {% if PRODUKTIONSDIENSTLEISTUNG in group %}
+            <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen
+        {% endif %}
+        {% if o.status <= STATUS.LIEFERUNG_AN_JOGA_AUSSTEHEND %}
+            <li><a href="{% url 'goods_shipping' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>
+        {% endif %}
+        {% if company == LIEFERANTEN %} 
+            An JOGA liefern
+        {% else %}
+            An Produktion liefern
+        {% endif %}
+        </a></li>
+        {# {% if o.status == o.Status.ERFASST %}<li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>{% endif %} #}
     {% endif %}
-    <li><a href="{% url 'goods_shipping' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>
-    {% if company == LIEFERANTEN %} 
-        An JOGA liefern
-    {% else %}
-        An Produktion liefern
-    {% endif %}</a></li>
-    <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
-    {# {% if o.status == o.Status.ERFASST %}<li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>{% endif %} #}
 </ul>
 {% endfor %}
 {% endblock %}
