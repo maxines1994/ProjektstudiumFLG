@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 can_change      = get_content_type_ids_of_models(Task, Message, CustContainer, SuppContainer)
 
             if group.name == PRODUKTIONSDIENSTLEISTUNG:
-                can_view_only   = get_content_type_ids_of_models(CustOrder, CustOrderDet, CustComplaint, CustComplaintDet, Article, ArtiPart, Part, SuppContainer)
+                can_view_only   = get_content_type_ids_of_models(CustOrderDet, CustComplaint, CustComplaintDet, Article, ArtiPart, Part, SuppContainer)
                 can_change      = get_content_type_ids_of_models(SuppOrder, SuppOrderDet, SuppComplaint, SuppComplaintDet, PermManufacturingList, Task, Message, Stock, StockMovement)
 
             if group.name == PRODUKTION:
