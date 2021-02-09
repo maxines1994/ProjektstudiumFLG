@@ -2,7 +2,13 @@
 {% load custom_tags %}
 
 <!-- Title-->
-{% block title %}{% if company == KUNDEN %}Bestellungen{% else %}Kundenaufträge{% endif %}{% endblock %}
+{% block title %}
+{% if company == KUNDEN %}
+    Bestellungen
+{% else %}
+    Kundenaufträge
+{% endif %}
+{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -11,7 +17,14 @@
 
 <!-- Content-->
 {% block content %}
-<h4>{% if company == KUNDEN %}Bestellungen{% else %}Kundenaufträge{% endif %} <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a></h4>
+<h4>
+    {% if company == KUNDEN %}
+        Bestellungen
+    {% else %}
+        Kundenaufträge
+    {% endif %} 
+    <a href="{% url 'cust_order_create' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">add</i></a>
+</h4>
 <div class="col s12">
     <div class="card">
         <div class="card-content">
