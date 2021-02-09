@@ -31,7 +31,18 @@
     <div class="row section">
         <div class="col s12">
             <a class="btn-flat" href="{% url 'supp_order' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-            <h4>{% if company == LIEFERANTEN %}Kundenauftrag{% else %}Bestellung{% endif %} {% if action == 'create' %}erstellen{% else %}{{order_no}} ändern{% endif %}</h4>
+            <h4>
+                {% if company == LIEFERANTEN %}
+                    Kundenauftrag
+                {% else %}
+                    Bestellung
+                {% endif %}
+                {% if action == 'create' %}
+                    erstellen
+                {% else %}
+                    {{order_no}} ändern
+                {% endif %}
+            </h4>
         </div>
     {% if action == "alter" %}
         <div class="col s12">
@@ -109,23 +120,31 @@
     <div class="row section">
         <div class="col s12 right-align">
             {% if action != "create" %}
-                {% if object.status == object.Status.ERFASST %}
-                        <li><a href="{% url 'supp_order_delete' object.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-                    {% if company == LIEFERANTEN %}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 3 2 3 9%}">Freigeben</a>
-                    {% else %}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Freigeben</a>
-                    {% endif %}    
-                {% endif %}
-                {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
-                    <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
-                {% endif %}
+                {% if company == LIEFERANTEN %}
+                    {% if object.status == object.Status.ERFASST %}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 3 2 3 9%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                    {% endif %}
+                    {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
+                        <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
+                    {% endif %}
+                    {% if object.status == object.Status.BESTELLT %}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Beliefert</a>
+                    {% endif %}
+
+                {% elif company == JOGA %}
+                    {% if object.status == object.Status.ERFASST %}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                    {% endif %}
+                    {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
+                        <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
+                    {% endif %}
+                    {% if object.status == object.Status.BESTELLT %}
+                        <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' 3 object.pk %}">Wareneingang buchen</a>
+                    {% endif %}
+                
+                {% endif %}    
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
-            {% if object.status == '4' %}
-                <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' 3 object.pk %}">Wareneingang buchen</a>
-                <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Beliefert</a>
-            {% endif %}
         </div>
     </div>
 </form>
@@ -133,19 +152,32 @@
 
 <!-- Body-->
 {% block body %}
-{% for i in items %}
-<ul id='i{{i.id}}' class='dropdown-content'>
-    <li><a href="{% url 'supp_order_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
-    {% if object.status == object.Status.ERFASST %}<li><a href="{% url 'supp_order_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>{% endif %}
-    {% if company == LIEFERANTEN and object.status == object.Status.LIEFERUNG_AN_JOGA_AUSSTEHEND %}<li><a href=""><i class="material-icons">local_shipping</i>Geliefert an Kunde</a></li>{% endif %}
-</ul>
-{% endfor %}
+    {% for i in items %}
+        <ul id='i{{i.id}}' class='dropdown-content'>
+            {% if company == LIEFERANTEN %}
+                <li><a href="{% url 'supp_order_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+                {% comment %}
+                    {% if object.status == object.Status.LIEFERUNG_AN_JOGA_AUSSTEHEND %}
+                        <li><a href=""><i class="material-icons">local_shipping</i>Geliefert an Kunde</a></li>
+                    {% endif %}
+                {% endcomment %}
+                {% if object.status == object.Status.ERFASST %}
+                    <li><a href="{% url 'supp_order_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+                {% endif %}
+            {% elif company == JOGA %}
+                <li><a href="{% url 'supp_order_det_alter' i.id %}"><i class="material-icons">create</i>Bearbeiten</a></li>
+                {% if object.status == object.Status.ERFASST %}
+                    <li><a href="{% url 'supp_order_det_delete' i.id %}"><i class="material-icons">delete</i>Löschen</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    {% endfor %}
 {% endblock %}
 
 
 <!-- Scripts-->
 {% block scripts %}
-<script type="text/javascript">
+<script>
   $(document).ready(function(){
     $('select').formSelect();
   });
