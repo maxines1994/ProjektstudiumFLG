@@ -2,7 +2,14 @@
 {% load materializecss %}
 
 <!-- Title-->
-{% block title %}Position {% if action == 'create' %}erstellen{% else %}ändern{% endif %}{% endblock %}
+{% block title %}
+Position 
+{% if action == 'create' %}
+    erstellen
+{% else %}
+    ändern
+{% endif %}
+{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -20,7 +27,14 @@
     <div class="row section">
         <div class="col s12">
             <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-            <h4>Position {% if action == 'create' %}erstellen{% else %}ändern{% endif %}</h4>
+            <h4>
+                Position 
+                {% if action == 'create' %}
+                    erstellen
+                {% else %}
+                    ändern
+                {% endif %}
+            </h4>
         </div>
     </div>
     <div class="row section">
@@ -30,12 +44,12 @@
                     <div class="row" style="margin-bottom: 0px;">
                     {% for field in form.visible_fields %}
                         {% if forloop.counter0|divisibleby:2 %}
-                        </div>
-                        <div class="row" style="margin-bottom: 0px;">
+                            </div>
+                            <div class="row" style="margin-bottom: 0px;">
                         {% endif %}
-                    <div class="col s12 m12 l6" style="padding: 0">
-                        {{ field|materializecss }}
-                    </div>
+                        <div class="col s12 m12 l6" style="padding: 0">
+                            {{ field|materializecss }}
+                        </div>
                     {% endfor %}
                     </div>
 
@@ -51,7 +65,9 @@
     
     <div class="row section">
         <div class="col s12 right-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
+            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}
+                <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
+            {% endif %}
         </div>
     </div>
 </form>
