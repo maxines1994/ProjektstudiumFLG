@@ -21,7 +21,7 @@
                         <td>{{ i.message.sent_on }}</td>
                         <td>
                             <a href="{% url 'msgdetails' i.id %}" class="waves-effect waves-light btn-floating">
-                                <i class="material-icons">monitor</i>
+                                <i class="material-icons">view_headline</i>
                             </a>
                             {% if p != "out" %}
                             <a href="{% url 'msgdelete' i.id %}" class="waves-effect waves-light btn-floating">
