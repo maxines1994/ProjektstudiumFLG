@@ -22,7 +22,7 @@ class SuppComplaint(Complaint):
     status = models.CharField(
         max_length = 1,
         choices = Status.choices,
-        default = Status.STANDARD,
+        default = Status.ERFASST,
     )
 
     supp_order = models.ForeignKey(SuppOrder, on_delete=models.CASCADE)
