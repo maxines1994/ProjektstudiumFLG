@@ -3,7 +3,18 @@
 {% load custom_tags %}
 
 <!-- Title-->
-{% block title %}{% if company == KUNDEN %}Bestellung{% else %}Auftrag{% endif %} {% if action == 'create' %}erstellen{% else %} {{order_no}} ändern{% endif %}{% endblock %}
+{% block title %}
+{% if company == KUNDEN %}
+    Bestellung
+{% else %}
+    Auftrag
+{% endif %} 
+{% if action == 'create' %}
+    erstellen
+{% else %} 
+    {{order_no}} ändern
+{% endif %}
+{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -21,38 +32,49 @@
     <div class="row section">
         <div class="col s12">
             <a class="btn-flat" href="{% url 'cust_order' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-            <h4>{% if company == KUNDEN %}Bestellung{% else %}Auftrag{% endif %} {% if action == 'create' %}erstellen{% else %}{{order_no}} ändern{% endif %}</h4>
+            <h4>
+                {% if company == KUNDEN %}
+                    Bestellung
+                {% else %}
+                    Auftrag
+                {% endif %} 
+                {% if action == 'create' %}
+                    erstellen
+                {% else %}
+                    {{order_no}} ändern
+                {% endif %}
+            </h4>
         </div>
-    {% if action == "alter" %}
+        {% if action == "alter" %}
+            <div class="col s12">
+                <h5>Kopf</h5>
+            </div>
+        {% endif %}
+
         <div class="col s12">
-            <h5>Kopf</h5>
-        </div>
-    {% endif %}
-
-    <div class="col s12">
-        <div class="card">
-            <div class="card-content">
-                <div class="row" style="margin-bottom: 0px;">
-                    {% for field in form.visible_fields %}
-                        {% if forloop.counter0|divisibleby:2 %}
-                        </div>
-                        <div class="row" style="margin-bottom: 0px;">
-                        {% endif %}
-                <div class="col s12 m12 l6" style="padding: 0">
-                    {{ field|materializecss }}
+            <div class="card">
+                <div class="card-content">
+                    <div class="row" style="margin-bottom: 0px;">
+                        {% for field in form.visible_fields %}
+                            {% if forloop.counter0|divisibleby:2 %}
+                                </div>
+                                <div class="row" style="margin-bottom: 0px;">  
+                            {% endif %}
+                        
+                            <div class="col s12 m12 l6" style="padding: 0">
+                                {{ field|materializecss }}
+                            </div>
+                        {% endfor %}
                 </div>
-                {% endfor %}
-                </div>
-
                 {% for field in form.hidden_fields %}
-                <div class="col s12 m12 l6">
-                    {{ field }}
-                </div>
+                    <div class="col s12 m12 l6">
+                        {{ field }}
+                    </div>
                 {% endfor %}
+                </div> 
             </div> 
-        </div> 
+        </div>
     </div>
-</div>
     
     {% if action == "alter" %}
     <div class="row section">
@@ -86,8 +108,7 @@
                                     {{ i.get_status_display }}
                                 </td>
                                 <input type="hidden" name="next" value="{{ request.path }}">
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
-                                    class="material-icons">more_vert</i></a></td>
+                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
                             <tr>
@@ -104,13 +125,19 @@
     <div class="row section">
         <div class="col s12 right-align">
             {% if action != "create" %}
-                {% if company == KUNDEN %}
-                    <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 2 STATUS.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
-                {% else %}
-                    <a class="waves-effect waves-light btn" href="{% url 'set_status_task_share' object.pk 1 2 2 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                {% if KUNDEN in group %}
+                    {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 2 STATUS.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
+                    {% endif %}
+                {% elif KUNDENDIENST in group or LEITUNGSTEAM in group %}
+                    {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task_share' object.pk 1 2 2 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
+            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}            
+                <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
+            {% endif %}
         </div>
     </div>
 </form>
@@ -122,18 +149,33 @@
 <ul id='i{{i.id}}' class='dropdown-content'>
     <li><a href="{% url 'cust_order_det_alter' i.id %}"><i class="material-icons left">create</i>Bearbeiten</a></li>
     {% if KUNDEN in group %}
-        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.GELIEFERT %}"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
+        {% if i.status < STATUS.GELIEFERT %}
+            <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.GELIEFERT %}"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
+        {% endif %}
+        {% if i.status == STATUS.ERFASST %}
+            <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>
+        {% endif %}
+        {% if i.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+            <li><a href="{% url 'cust_order_det_cancel' i.id %}"><i class="material-icons left">block</i>Stornieren</a></li>
+        {% endif %}
     {% elif KUNDENDIENST in group %}
-        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.VERSANDT_AN_K %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a></li>
-        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Vom Kunden abgenommen</a></li>
+        {% if i.status == STATUS.LIEFERUNG_AN_K_AUSSTEHEND %}
+            <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.VERSANDT_AN_K %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a></li>
+        {% endif %}
+        {% if i.status == STATUS.GELIEFERT%}
+            <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Vom Kunden abgenommen</a></li>
+        {% endif %}
+        {% if i.status == STATUS.ERFASST %}
+            <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>
+        {% endif %}
+        {% if i.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
+            <li><a href="{% url 'cust_order_det_cancel' i.id %}"><i class="material-icons left">block</i>Stornieren</a></li>
+        {% endif %}
     {% elif PRODUKTION in group %}
-        <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND %}"><i class="material-icons left">local_shipping</i>An Kundendienst liefern</a></li>
+        {%if i.status == STATUS.LIEFERUNG_AN_KD_AUSSTEHEND %}
+            <li><a href="{% url 'set_status_call' i.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND %}"><i class="material-icons left">local_shipping</i>An Kundendienst liefern</a></li>
+        {% endif %}
     {% endif %}
-    <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>
-    {% if i.status == i.Status.ERFASST %}<li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>{% endif %}
-    {% if i.status == i.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}<li><a href="{% url 'cust_order_det_cancel' i.id %}"><i class="material-icons left">block</i>Stornieren</a></li>{% endif %}
-    {% if i.status == i.Status.LIEFERUNG_AN_KD_AUSSTEHEND %}<li><a href=""><i class="material-icons left">local_shipping</i>Geliefert an Kundendienst</a></li>{% endif %}
-    {% if i.status == i.Status.LIEFERUNG_AN_K_AUSSTEHEND %}<li><a href=""><i class="material-icons left">local_shipping</i>Geliefert an Kunde</a></li>{% endif %}
 </ul>
 {% endfor %}
 {% endblock %}
