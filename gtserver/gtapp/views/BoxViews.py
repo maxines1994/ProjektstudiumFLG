@@ -130,7 +130,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         elif model == CustComplaintDet:
             return CustComplaintDet.Status.ERLEDIGT
         else:
-            return obj.Status
+            return obj.status
 
     def form_valid(self, form):
         my_obj = self.get_object()
@@ -138,4 +138,9 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         my_obj = form.save()
         # redirect zur Seite von der man urspruenglich kam
         previous = self.request.POST.get('previous', '/')
-        return HttpResponseRedirect(previous)
+        print(LIEFERANTEN in self.request.user.groups.values('name'))
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
+            my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+        else:
+            my_redirect = previous
+        return HttpResponseRedirect(my_redirect)

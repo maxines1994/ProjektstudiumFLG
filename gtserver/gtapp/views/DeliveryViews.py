@@ -105,7 +105,7 @@ def delivery_view(request, **kwargs):
             if kwargs['model'] == SuppComplaintDet:
                 pass
             
-            return HttpResponseRedirect(reverse("cust_order"))
+            return HttpResponseRedirect(reverse("supp_order"))
     else:
         initial = []
         qset = my_model_det.objects.filter(**my_model_id)

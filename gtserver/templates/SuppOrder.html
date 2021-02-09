@@ -78,6 +78,7 @@
                                 {% endif %}
                             </tr>
                         {% endfor %}
+                        <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
                     </tbody>
                 </table>
             </div>
@@ -99,7 +100,7 @@
             <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen
         {% endif %}
         {% if o.status <= STATUS.LIEFERUNG_AN_JOGA_AUSSTEHEND %}
-            <li><a href="{% url 'goods_shipping' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>
+            <li><a href="{% url 'box_assign' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>
         {% endif %}
         {% if company == LIEFERANTEN %} 
             An JOGA liefern
