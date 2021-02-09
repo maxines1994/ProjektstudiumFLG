@@ -16,11 +16,18 @@
                 <tbody id="bdy">
                     {% for i in msg %}
                     <tr>
-                        <td><a style="color: black" href="{% url 'msgdetails' i.id %}">{{ i.message.subject }}</a></td>
+                        <td>{{ i.message.subject }}</td>
                         <td>{% if p == "bin" or p == "in" %}{{ i.message.sender }}{% else %}{{i.message.receiver}}{% endif %}</td>
                         <td>{{ i.message.sent_on }}</td>
-                        <td>{% if p != "out" %}<a href="{% url 'msgdelete' i.id %}" class="waves-effect waves-light btn-floating">
-                            <i class="material-icons">{% if p == "bin" %}autorenew{% elif p == "in" %}delete{% endif %}</i></a>{% endif %}
+                        <td>
+                            <a href="{% url 'msgdetails' i.id %}" class="waves-effect waves-light btn-floating">
+                                <i class="material-icons">monitor</i>
+                            </a>
+                            {% if p != "out" %}
+                            <a href="{% url 'msgdelete' i.id %}" class="waves-effect waves-light btn-floating">
+                                <i class="material-icons">{% if p == "bin" %}autorenew{% elif p == "in" %}delete{% endif %}</i>
+                            </a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
