@@ -16,6 +16,7 @@
 
 <!-- Content-->
 {% block content %}
+
 <form method="post">
     {% csrf_token %}
     <div class="row section">
@@ -101,51 +102,71 @@
     
     <div class="row section">
         <div class="col s12 right-align">
-            {% if fix_done and status == '4' %}
-            <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  -->
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Anpassung abschließen</button>
-            {% endif %}
-            {% if box_no_done and status == '5' %}
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation versandfertig</button>
-            {% endif %}
-            {% if action != 'create' and status <= '2' %}
-                {% if company == KUNDEN %}
-                    {% if  request.user|has_group:K1 %}
-                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 2 6 24%}"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {% elif request.user|has_group:K2 %}
-                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 2 6 25%}"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {% elif request.user|has_group:K3 %}
-                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 2 6 26%}"><i class="material-icons left">done_all</i>Freigeben</a>
+            <!--                                                                    BUTTON UNTEN CONTENT-->
+            {% if KUNDEN in group %}
+                {% if OBJ_STATUS <= STATUS.IN_REKLAMATION %}
+                    {% if action != 'create' %}
+                        {% if  request.user|has_group:K1 %}
+                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 POS_STATUS.IN_REKLAMATION 6 24%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                        {% elif request.user|has_group:K2 %}
+                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 POS_STATUS.IN_REKLAMATION 6 25%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                        {% elif request.user|has_group:K3 %}
+                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 POS_STATUS.IN_REKLAMATION 6 26%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                        {% endif %}
                     {% endif %}
-                {% else %}
-                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 3 6 27%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                {% endif %}
+            {% elif KUNDENDIENST in group %}
+                {% if OBJ_STATUS <= STATUS.IN_REKLAMATION %}
+                    {% if action != 'create' %}
+                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 POS_STATUS.REKLAMATION_FREIGEGEBEN 6 27%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                    {% endif %}
+                {% endif %}
+            {% elif PRODUKTION in group %}
+                {% if OBJ_STATUS == STATUS.IN_ANPASSUNG %}
+                    {% if fix_done %}
+                        <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  -->
+                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Anpassung abschließen</button>
+                    {% endif %}
+                {% elif OBJ_STATUS == STATUS.ANPASSUNG_ABGESCHLOSSEN %}
+                    <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation versandfertig</button>
                 {% endif %}
             {% endif %}
-            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>          
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>                    
         </div>
     </div>
 </form>
 {% endblock %}
 
-<!-- Body-->
+
+<!-- Body Status: -->
+<!-- Status: STATUS.GELIEFERT-->
+<!-- Gruppe: KUNDEN in group-->
 {% block body %}
 {% for i in items %}
+<!--                                                                    DROPDOWN CONTENT-->
 <ul id='i{{i.id}}' class='dropdown-content'>
-    {% if i.cust_complaint.status <= '1' %}
-    <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-    {% if company == PRODUKTIONSDIENSTLEISTUNG %}
-        <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst liefern</a></li>
-    {% elif company == JOGA and company != PRODUKTIONSDIENSTLEISTUNG %}
-        <li><a href="" class="li-content"><i class="material-icons">local_shipping</i>An Kunden schicken</a></li>    
-    {% elif company == KUNDEN %}
-        <li><a href="" class="li-content"><i class="material-icons">local_shipping</i>An Lieferanten schicken</a></li>
-        <li><a href=""class="li-content"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
-    {% endif %}
-    <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-    {% elif i.status == '4' %}
-    <li><a href="{% url 'set_status_task' object.pk 6 5 6 29%}" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
-    {% elif i.cust_complaint.status == '5' %}
-    <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Box Nr. eintragen</a></li>
+    {% if KUNDEN in group %}
+        {% if i.status <= POS_STATUS.ERFASST %}
+            <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+            <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+        {% elif i.status == POS_STATUS.LIEFERUNG_AN_KUNDE %}
+            <li><a href=""class="li-content"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
+        {% endif %}
+    {% elif KUNDENDIENST in group %}
+        {% if i.status <= POS_STATUS.ERFASST %}
+            <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+            <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+        {% elif i.status == POS_STATUS.REKLAMATION_FREIGEGEBEN %}
+            <li><a href="" class="li-content"><i class="material-icons">local_shipping</i>An Produktion schicken</a></li>
+        {% elif i.status == POS_STATUS.LIEFERUNG_AN_KUNDENDIENST %}
+            <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kunden liefern</a></li>
+        {% endif %}
+    {% elif PRODUKTION in group %}
+        {% if i.status == POS_STATUS.IN_ANPASSUNG %}
+            <li><a href="{% url 'set_status_task' object.pk 6 POS_STATUS.ANPASSUNG_ABGESCHLOSSEN 6 29%}" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
+        {% elif i.status == POS_STATUS.ANPASSUNG_ABGESCHLOSSEN %}
+            <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst liefern</a></li>
+        {% endif %}
     {% endif %}
 </ul>
 {% endfor %}
