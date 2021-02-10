@@ -84,12 +84,14 @@ def tasks_edit(request, **kwargs):
         return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint.pk}))
     elif mytask.task_type_id == 23:
         return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint.pk}))
+    elif mytask.task_type_id in [24,25,26]:
+        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
     elif mytask.task_type_id == 27:
-        return HttpResponseRedirect(reverse("cust_complaint_det_alter", kwargs={'id':mytask.cust_complaint_det.pk}))
+        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
     elif mytask.task_type_id == 28:
         return HttpResponseRedirect(reverse("cust_complaint_det_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
     elif mytask.task_type_id == 29:
-         return HttpResponseRedirect(reverse("cust_complaint_det_alter", kwargs={'id':mytask.cust_complaint_det.pk}))
+         return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
     elif mytask.task_type_id == 32:
         return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
     elif mytask.task_type_id == 33:
