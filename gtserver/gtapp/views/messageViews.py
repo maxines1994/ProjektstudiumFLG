@@ -27,7 +27,6 @@ class inboxView(LoginRequiredMixin, TemplateView):
 class outboxView(LoginRequiredMixin, TemplateView):
     template_name = "inbox.html"
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = get_context_back(context, "Postausgang", "")

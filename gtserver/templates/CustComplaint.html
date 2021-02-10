@@ -31,7 +31,7 @@
                         <!-- Alle complaints durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
                         {% for c in complaints %}
                             <tr>
-                                <td>Bestellreklamation #{{ c.id }}</td>
+                                <td>{{ c.order_no }}</td>
                                 {% if company != KUNDEN %} <td>{{c.cust_order.customer}}</td>{% endif %}
                                 <td>{{ c.memo }}</td>
                                 <td>

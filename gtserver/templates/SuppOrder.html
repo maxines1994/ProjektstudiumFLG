@@ -53,12 +53,7 @@
                         {% for o in orders %}
                             <tr>
                                 <td>
-                                    {% if company == LIEFERANTEN %}
-                                        Auftrag 
-                                    {% else %} 
-                                        Bestellung 
-                                    {% endif %} 
-                                    #{{ o.id }}
+                                    {{ o.order_no }}
                                 </td>
                                 <td>
                                     {% if company != LIEFERANTEN %}
