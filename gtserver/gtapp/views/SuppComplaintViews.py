@@ -81,9 +81,7 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
 
         context['OBJ_STATUS'] = self.get_object().status
         context['STATUS'] = SuppComplaint.Status.__members__
-
-
-        context['box_no_done'] = self.get_object().box_no
+        context['object'] = self.get_object()
 
         # Nur bei BoxScan implementieren? vv
         # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()

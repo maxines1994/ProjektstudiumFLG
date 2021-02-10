@@ -95,7 +95,7 @@ def tasks_edit(request, **kwargs):
     elif mytask.task_type_id == 32:
         return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
     elif mytask.task_type_id == 33:
-        return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
+        return HttpResponseRedirect(reverse("supp_complaint"))
     elif mytask.task_type_id == 34:
         return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
     elif mytask.task_type_id == 35:
