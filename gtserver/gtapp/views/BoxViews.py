@@ -1,3 +1,4 @@
+from gtapp.views.StatusViews import *
 from gtapp.utils import get_context
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse
@@ -64,7 +65,7 @@ def box_search_view(request):
         elif SuppOrderDet.objects.filter(box_no = str(number)).exclude(supp_order__external_system = ext_sys).exists() and len(SuppOrderDet.objects.filter(box_no = str(number)).exclude(supp_order__external_system = ext_sys)) < 2:
             pass
 
-        elif CustComplaintDet.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(CustComplaintDet.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
+        elif CustComplaintDet.objects.filter(box_no = str(number)).exclude(cust_complaint__external_system = ext_sys).exists() and len(CustComplaintDet.objects.filter(box_no = str(number)).exclude(cust_complaint__external_system = ext_sys)) < 2:
             mylist = CustComplaintDet.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
@@ -77,9 +78,8 @@ def box_search_view(request):
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
-        elif SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
+        elif SuppComplaint.objects.filter(box_no = str(number)).exclude(supp_complaint__external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(supp_complaint__external_system = ext_sys)) < 2:
             mylist = SuppComplaint.objects.filter(box_no = str(number))
-            print("Jo hier bin ich")
             for obj in mylist:
                 if obj.status == SuppComplaint.Status.ERFASST:
                     set_status(obj.id, 7, 5)
@@ -130,17 +130,17 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         elif model == CustComplaintDet:
             return CustComplaintDet.Status.ERLEDIGT
         else:
-            return obj.status
+            return obj.Status
 
     def form_valid(self, form):
         my_obj = self.get_object()
         form.instance.status = self.get_new_status(my_obj)
         my_obj = form.save()
-        # redirect zur Seite von der man urspruenglich kam
         previous = self.request.POST.get('previous', '/')
-        print(LIEFERANTEN in self.request.user.groups.values('name'))
+        # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
         if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
         else:
+            # redirect zur Seite von der man urspruenglich kam
             my_redirect = previous
         return HttpResponseRedirect(my_redirect)
