@@ -9,7 +9,6 @@ class Part(GtModel):
 
   part_no = models.CharField(max_length=8)
   description = models.CharField(max_length=30)
-  unit_price = models.SmallIntegerField(null=True)
   image = models.CharField(max_length=30)
   pack_quantity = models.SmallIntegerField()
   install_quantity = models.SmallIntegerField()

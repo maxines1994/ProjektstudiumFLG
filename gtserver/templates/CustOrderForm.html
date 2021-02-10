@@ -90,7 +90,6 @@
                                 <th>Position</th>
                                 <th>Artikel</th>
                                 <th>Status</th>
-                                <th>Preis</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -100,7 +99,6 @@
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.article.description }}</td>
                                 <td>{{ i.get_status_display }}</td>
-                                <td>{{ i.unit_price }}</td>
                                 <td>
                                     <div class="progress">
                                         <div class="determinate" style="width: {{ i.status|multiply:100|divide:status_count }}%"></div>
@@ -112,7 +110,7 @@
                             </tr>
                             {% endfor %}
                             <tr>
-                                <td colspan="5"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
                             </tr>
                         </tbody>
                     </table>
