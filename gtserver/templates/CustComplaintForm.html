@@ -149,7 +149,10 @@
         {% if i.status <= POS_STATUS.ERFASST %}
             <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
             <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-        {% elif i.status == POS_STATUS.LIEFERUNG_AN_KUNDE %}
+        {% elif i.status <= POS_STATUS.IN_REKLAMATION %}
+            <!--Mit Phillipp klären  Status ändert sich nicht-->
+            <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An JOGA schicken</a></li>
+        {% elif i.status == POS_STATUS.GELIEFERT %}
             <li><a href=""class="li-content"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
         {% endif %}
     {% elif KUNDENDIENST in group %}
@@ -157,9 +160,11 @@
             <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
             <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% elif i.status == POS_STATUS.REKLAMATION_FREIGEGEBEN %}
-            <li><a href="" class="li-content"><i class="material-icons">local_shipping</i>An Produktion schicken</a></li>
-        {% elif i.status == POS_STATUS.LIEFERUNG_AN_KUNDENDIENST %}
+            <!--Mit Phillipp klären  Status ändert sich nicht-->
+            <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion schicken</a></li>
+        {% elif i.status == POS_STATUS.BEI_KUNDENDIENST %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kunden liefern</a></li>
+            <li><a href="{% url 'set_status_call' i.id 6 POS_STATUS.GELIEFERT %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
         {% endif %}
     {% elif PRODUKTION in group %}
         {% if i.status == POS_STATUS.IN_ANPASSUNG %}
