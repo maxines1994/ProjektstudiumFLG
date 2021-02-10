@@ -21,7 +21,7 @@ class CustComplaintDet(ComplaintDet):
     status = models.CharField(
         max_length = 1,
         choices = Status.choices,
-        default = Status.STANDARD,
+        default = Status.ERFASST,
     )
     
     cust_complaint = models.ForeignKey(CustComplaint, on_delete=models.CASCADE)

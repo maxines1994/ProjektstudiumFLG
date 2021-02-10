@@ -78,7 +78,7 @@ def box_search_view(request):
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
-        elif SuppComplaint.objects.filter(box_no = str(number)).exclude(supp_complaint__external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(supp_complaint__external_system = ext_sys)) < 2:
+        elif SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             mylist = SuppComplaint.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == SuppComplaint.Status.ERFASST:

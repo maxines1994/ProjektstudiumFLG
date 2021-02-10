@@ -22,7 +22,7 @@ class CustComplaint(Complaint):
     status = models.CharField(
         max_length = 1,
         choices = Status.choices,
-        default = Status.STANDARD,
+        default = Status.ERFASST,
     )
 
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
