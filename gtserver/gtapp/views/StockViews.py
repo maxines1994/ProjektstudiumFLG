@@ -1,7 +1,8 @@
 from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
-from gtapp.models import Stock, StockMovement, Part, BookingCode
+from django.db.models import Count, Sum
+from gtapp.models import *
 from gtapp.constants import *
 from gtapp.forms import *
 from gtapp.utils import get_context, get_context_back
@@ -35,8 +36,71 @@ def stock_check_view(request, **kwargs):
     c["artipart"] = c["custorderdet"].get_artiparts(supplier_ids=[3])
     # Bestandsdatensaetze zu diesen Artiparts
     c["stock"] = Stock.objects.filter(is_supplier_stock=False, part_id__in=c["artipart"].values('part_id'))
+    # Insgesamt bestellte Menge dieser Teile
+    # Betrachte nur SuppOrders von JOGA (external_system=False) und nur welche, die auch verschickt wurden 
+    # (status >= BESTELLT und <= GELIEFERT)        
+    all_supp_order_dets =   SuppOrderDet.objects.filter(
+                                part_id__in=c["stock"].values('part_id'), 
+                                supp_order_id__in= SuppOrder.objects.filter(
+                                    external_system=False, 
+                                    status__gte=SuppOrder.Status.BESTELLT, 
+                                    status__lte=SuppOrder.Status.GELIEFERT))
+    # Sammle alle Fertigungsauftraege und deren Teile
+    all_manu_orders = CustOrderDet.objects.filter(status__gte=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND, status__lte=CustOrderDet.Status.AUFTRAG_FREIGEGEBEN)
+    all_manu_orders_parts = Part.objects.filter(supplier_id=3, id__in=ArtiPart.objects.filter(article_id__in=all_manu_orders.values('article_id')))
+
+    # Initialisiere Listen fuer verfuegbaren Bestand, Gesamtbedarf an Teilen und Gesamte Bestellmengen
+    stock_available = []
+    stock_demand = []
+    part_demands = []
+    part_ordered_total = []
+    # Durchlaufe alle Bestaende des Kontexts und lege in einer Liste immer den Gesamtbedarf an Teilen dieses Bestandes ab
+    s = 0
+    for stock in c["stock"]:
+        #Verfuegbaren Bestand ermitteln
+        temp_available = stock.stock - stock.reserved if stock.stock - stock.reserved >= 0 else 0
+        stock_available.append(temp_available)
+        # Uebrigen Bedarf ermitteln
+        stock_demand.append(stock.stock - temp_available)
+        # Durchlaufe alle relevanten Fertigungsauftraege
+        for order in all_manu_orders:
+            # Pruefe nur die Artiparts, die fuer den Artikel des Auftrages existieren.
+            # Sonst knallts naemlich spaeter beim ArtiPart.objects.get
+            if ArtiPart.objects.filter(article_id=order.article_id, part_id=stock.part_id).exists():
+                # Wenn der naechste Bestand geprueft wird, muss appended werden, ansonsten wird der Bedarf am gleichen Index erhoeht.
+                if len(part_demands) <= s:
+                    part_demands.append(ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity)
+                else:
+                    part_demands[s] += ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity
+        # Durchlaufe alle relevanten Bestellungen
+        for orderdet in all_supp_order_dets:
+                # Wenn der naechste Bestand geprueft wird, muss appended werden, ansonsten wird der Bedarf am gleichen Index erhoeht.
+                if len(part_ordered_total) <= s:
+                    # Wenn Teil bestellt wurde, speichere die Bestellmenge, ansonsten 0
+                    if stock.part_id == orderdet.part_id:                 
+                        part_ordered_total.append(orderdet.quantity)
+                    else:
+                        part_ordered_total.append(0)
+                else:
+                    if stock.part_id == orderdet.part_id:                 
+                        part_ordered_total[s] += orderdet.quantity
+                    else:
+                        part_ordered_total[s] = 0
+        s += 1
+    
+    #Fertige Listen in Kontext speichern
+    c["stock_available"] = stock_available
+    c["stock_demand"] = stock_demand
+    c["demand_total"] = part_demands
+    c["ordered_total"] = part_ordered_total
+
     # Pack Bestande und Artiparts in einen 2-dimensionalen Array
     c["stock_artipart_list"] = zip(c["stock"], c["artipart"])
+
+    # Pack Bestaende, Artiparts, und Gesamtbedarfsmengen in einen Kontext
+    # Die Listen existieren zwar lose nebeneinander, vom Index her passen die Daten aber zueinander
+    # Wenn alle Listen parallel im Template durchlaufen werden, hat man also die passenden Daten
+    c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"])
 
     c["STATUS"] = CustOrderDet.Status.__members__
 
