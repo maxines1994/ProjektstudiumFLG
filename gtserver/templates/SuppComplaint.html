@@ -62,10 +62,12 @@
             <li><a href="{% url 'supp_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
     {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
-        {% if c.status <= STATUS.WEITERLEITUNG_AN_PDL %}
+        {% if c.status <= STATUS.BEI_PDL %}
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
             <li><a href="{% url 'supp_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% elif c.status == STATUS.REKLAMIERT %}
+            <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Lieferant liefern</a></li>
+        {% elif c.status == STATUS.GELIEFERT %}
             <li><a href="{% url 'goods_receipt' c|to_class_name c.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen</li>
         {% endif %}
     {% elif LIEFERANT in group %}

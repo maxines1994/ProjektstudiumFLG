@@ -12,7 +12,7 @@ class SuppComplaint(Complaint):
         STANDARD                        = '0', ('Standard')
         ERFASST                         = '1', ('Erfasst')
         IN_REKLAMATION                  = '2', ('In Reklamation') ##Nur für den Lieferanten
-        WEITERLEITUNG_AN_PDL            = '3', ('Reklamation an PDL leiten') ##Nur wenn Rekla in PRO erstellt
+        BEI_PDL                         = '3', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
         REKLAMIERT                      = '4', ('Reklamiert')
         BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend')
         LIEFERUNG_AN_PDL                = '6', ('Lieferung an PDL')

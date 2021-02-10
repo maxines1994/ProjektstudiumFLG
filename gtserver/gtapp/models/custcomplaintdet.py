@@ -14,7 +14,7 @@ class CustComplaintDet(ComplaintDet):
         REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben')
         IN_ANPASSUNG                    = '4', ('In Anpassung')
         ANPASSUNG_ABGESCHLOSSEN         = '5', ('Anpassung abgeschlossen')
-        BEI_KUNDENDIENST       = '6', ('Bei Kundendienst')
+        BEI_KUNDENDIENST                = '6', ('Bei Kundendienst')
         GELIEFERT                       = '7', ('Geliefert')
 
     status = models.CharField(

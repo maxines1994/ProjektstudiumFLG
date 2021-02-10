@@ -1,5 +1,6 @@
 {% extends "forms.html" %}
 {% load materializecss %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}{% if company == LIEFERANTEN %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} {% if action == 'create' %}erstellen{% else %} ändern{% endif %}{% endblock %}
@@ -27,6 +28,8 @@
             <h5>Kopf</h5>
         </div>
     {% endif %}
+
+    <p> {{object}}</p>
 
     <div class="col s12">
         <div class="card">
@@ -100,19 +103,14 @@
         <div class="col s12 right-align">
             {% if PRODUKTION in group %}
                 {% if OBJ_STATUS <= STATUS.ERFASST %}
-                    {% if action != 'create' and box_no_done %}
-                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 STATUS.WEITERLEITUNG_AN_PDL 7 35%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
+                    {% if action != 'create' %}
+                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
                     {% endif %}
                 {% endif %}
             {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
-                {% if OBJ_STATUS <= STATUS.ERFASST %}
+                {% if OBJ_STATUS <= STATUS.BEI_PDL %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 STATUS.REKLAMIERT 7 33%}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {% endif %}
-                {% elif OBJ_STATUS == STATUS.REKLAMIERT %}
-                    {% if action != 'create' and box_no_done %}
-                        <!--Warenausgang -->
-                        <a class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation Versandfertig</a>
                     {% endif %}
                 {% endif %}
             {% elif LIEFERANT in group %}
