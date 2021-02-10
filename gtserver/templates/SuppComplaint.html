@@ -30,7 +30,7 @@
                         <!-- Alle orders durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
                         {% for c in complaints %}
                             <tr>
-                                <td>{% if company == LIEFERANTEN %}Auftragsreklamation{% else %}Bestellreklamation{% endif %} #{{ c.id }}</td>
+                                <td>{{ c.order_no }}</td>
                                 {% if company != LIEFERANTEN %}<td>{{c.supp_order.supplier}}</td>{% endif %}
                                 <td>{{ c.memo }}</td>
                                 <td>
