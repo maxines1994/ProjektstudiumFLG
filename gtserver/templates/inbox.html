@@ -46,7 +46,7 @@
                         <tr>
                             <td>{{ i.message.subject }}</td>
                             <td>{% if action == "bin" or action == "inbox" %}{{ i.message.sender }}{% else %}{{i.message.receiver}}{% endif %}</td>
-                            <td>{{ i.message.sent_on }}</td>
+                            <td>{{ i.message.sent_on|default_if_none:"-" }}</td>
                             <td>
                                 <a href="{% url 'msgdetails' i.id %}" class="waves-effect waves-light btn-floating">
                                     <i class="material-icons">view_headline</i>

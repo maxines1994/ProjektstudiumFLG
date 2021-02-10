@@ -60,8 +60,8 @@
                                         {{o.supplier}}
                                     {% endif %}
                                 </td>
-                                <td>Tag #{{ o.issued_on }}</td>
-                                <td>Tag #{{ o.delivery_date }}</td>
+                                <td>Tag {{ o.issued_on|default_if_none:"-" }}</td>
+                                <td>Tag {{ o.delivery_date|default_if_none:"-" }}</td>
                                 <td>
                                     <div class="progress">
                                         <div class="determinate" style="width: {{ o.status|multiply:100|divide:status_count }}%"></div>

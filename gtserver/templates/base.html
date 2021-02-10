@@ -49,7 +49,7 @@
           <a href="{% url 'home' %}" class="hide-on-med-and-down brand-logo left">{% if company == JOGA %}JOGA{% else %}{{ user.groups.first.name }}{% endif %}</a>
           {% if user.is_authenticated %}
           <ul class="right">
-            <li id="currenttime"><i class="material-icons left">today</i>Tag {{day}}</li>
+            <li id="currenttime"><i class="material-icons left">today</i>Tag {{day|default_if_none:"-"}}</li>
             {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}"><i class="material-icons">chat_bubble</i></a></li>{% endif %}
             {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href="{% url 'box_search_view' %}"><i class="material-icons">qr_code</i></a></li>{% endif %}
             {% if perms.gtapp.view_task %}<li><a id="notificationicon" href="#" data-target="tasks" class="sidenav-trigger show-on-large" style="margin-left: 0; margin-right: 0;">{% if has_unassigned_tasks %}<i class="material-icons notification">notifications_active</i>{% else %}<i class="material-icons">notifications_none</i>{% endif %}</a></li>

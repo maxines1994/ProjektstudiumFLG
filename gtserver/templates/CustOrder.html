@@ -53,20 +53,15 @@
                         {% for o in orders %}
                         <tr>
                             <td>
-                                {% if company == KUNDEN %}
-                                    Bestellung
-                                {% else %}
-                                    Auftrag
-                                {% endif %} 
-                                #{{ o.id }}
+                                {{ o.order_no }}
                             </td>
                             <td>
                                 {% if company != KUNDEN %}
                                     {{ o.customer }}
                                 {% endif %}
                             </td>
-                            <td>Tag #{{ o.issued_on }}</td>
-                            <td>Tag #{{ o.delivery_date }}</td>
+                            <td>Tag {{ o.issued_on|default_if_none:"-" }}</td>
+                            <td>Tag {{ o.delivery_date|default_if_none:"-" }}</td>
                             <td>
                                 <div class="progress">
                                     <div class="determinate" style="width: {{ o.status|multiply:100|divide:status_count }}%"></div>
