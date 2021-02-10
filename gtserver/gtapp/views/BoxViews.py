@@ -136,6 +136,11 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         my_obj = self.get_object()
         form.instance.status = self.get_new_status(my_obj)
         my_obj = form.save()
-        # redirect zur Seite von der man urspruenglich kam
         previous = self.request.POST.get('previous', '/')
-        return HttpResponseRedirect(previous)
+        # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
+            my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+        else:
+            # redirect zur Seite von der man urspruenglich kam
+            my_redirect = previous
+        return HttpResponseRedirect(my_redirect)
