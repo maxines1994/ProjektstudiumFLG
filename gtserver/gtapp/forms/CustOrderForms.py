@@ -36,15 +36,13 @@ class Cust_order_form_kd(ModelForm):
 class Cust_order_det_form(ModelForm):
     use_required_attribute = False
     memo = CharField(required=False)
-    unit_price = IntegerField(required=False)
 
     class Meta:
         model = CustOrderDet
-        fields = ["pos", "article", "unit_price", "memo", "box_no"]
+        fields = ["pos", "article", "memo", "box_no"]
         labels = {
             'pos': _('Positionsnummer'),
             'article': _('Artikel'),
-            'unit_price': _('Stückpreis'),
             'memo': _('Kommentar'),
         }
         widgets = {
@@ -55,13 +53,11 @@ class Cust_order_det_form(ModelForm):
 class Cust_order_det_form_create(ModelForm):
     use_required_attribute = False
     memo = CharField(required=False)
-    unit_price = IntegerField(required=False)
 
     class Meta:
         model = CustOrderDet
-        fields = ["article", "unit_price", "memo"]
+        fields = ["article", "memo"]
         labels = {
             'article': _('Artikel'),
-            'unit_price': _('Stückpreis'),
             'memo': _('Kommentar'),
         }

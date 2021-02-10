@@ -90,7 +90,6 @@
                                 <th>Artikel</th>
                                 <th>Bestellmenge</th>
                                 <th>Strukturmenge</th>
-                                <th>Preis</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -101,13 +100,12 @@
                                 <td>{{ i.part.description }}</td>
                                 <td>{{ i.quantity }}</td>
                                 <td>{{ i.part.pack_quantity }}</td>
-                                <td>{{ i.unit_price }}</td>
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
                             <tr>
-                                <td colspan="6"><a href="{% url 'supp_order_det_create' supp_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                <td colspan="5"><a href="{% url 'supp_order_det_create' supp_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
                             </tr>
                         </tbody>
                     </table>

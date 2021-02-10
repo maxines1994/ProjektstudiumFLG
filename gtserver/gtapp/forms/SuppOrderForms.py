@@ -42,16 +42,14 @@ class Supp_order_form_lf(ModelForm):
 class Supp_order_det_form(ModelForm):
     use_required_attribute = False
     memo = CharField(required=False)
-    unit_price = IntegerField(required=False)
 
     class Meta:
         model = SuppOrderDet
-        fields = ["part", "quantity", "unit_price", "memo"]
+        fields = ["part", "quantity", "memo"]
         labels = {
             #'pos': _('Positionsnummer'),
             'part': _('Artikel'),
             'quantity': _('Menge'),
-            'unit_price': _('Preis'),
             'memo': _('Kommentar'),
         }
         widgets = {
