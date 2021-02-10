@@ -29,10 +29,14 @@ def stock_view(request, **kwargs):
 @login_required
 def stock_check_view(request, **kwargs):
     c = {}
-    c["stock"] = Stock.objects.filter(is_supplier_stock=False, part__supplier_id=3)
+    # Erst die CustOrderDet holen
     c["custorderdet"] = CustOrderDet.objects.get(pk=kwargs["id"])
-    c["demand"] = c["custorderdet"].part_demand()
-    c["stock_demand_list"] = zip(c["stock"], c["demand"])
+    # Dann die Artiparts zu dieser CustOrderDet
+    c["artipart"] = c["custorderdet"].get_artiparts(supplier_ids=[3])
+    # Bestandsdatensaetze zu diesen Artiparts
+    c["stock"] = Stock.objects.filter(is_supplier_stock=False, part_id__in=c["artipart"].values('part_id'))
+    # Pack Bestande und Artiparts in einen 2-dimensionalen Array
+    c["stock_artipart_list"] = zip(c["stock"], c["artipart"])
 
     c["STATUS"] = CustOrderDet.Status.__members__
 
@@ -79,8 +83,6 @@ class Stock_alter_view(LoginRequiredMixin, UpdateView):
         myStock = Stock.objects.get(id=self.kwargs['id'])
         currentStock = myStock.stock
         myStock.change(booking_quantity=form.instance.stock - currentStock, booking_code=BookingCode.objects.get(code=BUCHUNG_KORREKTURBUCHUNG).code)
-        print(form.instance.stock)
         myStock = form.save()
         previous = self.request.POST.get('previous','/' )
-        print(previous)
         return HttpResponseRedirect(previous)

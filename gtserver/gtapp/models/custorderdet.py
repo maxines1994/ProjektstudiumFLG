@@ -42,11 +42,13 @@ class CustOrderDet(OrderDet):
             needs.append((p.part, p.quantity))
         return needs
 
-    def part_demand(self):
-        return ArtiPart.objects.filter(article_id=self.article.id, part__supplier_id=3)
-
-
-
+    def get_artiparts(self, supplier_ids=[1,2,3]):
+        """
+        Gibt die ArtiPart-Datensaetze zurueck, die zum Artikel dieser CustOrderDet gehoeren.
+        Kann optional auf supplier mittels ID-Liste eingeschrankt werden.
+        """
+        return ArtiPart.objects.filter(article_id=self.article.id, part__supplier_id__in=supplier_ids)
+    
 
 # Liste der Fertigungsaufträge-Berechtigung
 # Django bietet custom Permissions, diese würden aber nicht mit unserer Migration funktionieren, daher ein Model als simpler Workaround
