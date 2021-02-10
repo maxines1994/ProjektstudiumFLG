@@ -99,7 +99,10 @@ def stock_check_view(request, **kwargs):
                     else:
                         part_ordered_total[s] = 0
         s += 1
-    
+    # Sicherstellen dass part_ordered_total gefuellt wird, auch wenn es keine Bestellungen gibt.
+    if len(part_ordered_total) < s:
+        part_ordered_total = [0] * s
+
     #Fertige Listen in Kontext speichern
     c["stock_available"] = stock_available
     c["stock_demand"] = stock_demand
@@ -108,6 +111,12 @@ def stock_check_view(request, **kwargs):
 
     # Boolscher Kontext ob Bestandspruefung erfolgreich
     c["check_successful"] = check_successful
+
+    print(c["stock_available"])
+    print(c["stock_demand"])
+    print(c["demand_total"])
+    print(c["ordered_total"])
+
 
     # Pack Bestande und Artiparts in einen 2-dimensionalen Array
     c["stock_artipart_list"] = zip(c["stock"], c["artipart"])
