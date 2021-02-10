@@ -20,7 +20,7 @@ class inboxView(LoginRequiredMixin, TemplateView):
         context = get_context_back(context, "Posteingang", "")
         context["msg"] = MessageUser.objects.filter(
             is_trash=False, user=self.request.user, user_is_sender=False)
-        context["p"] = "in"
+        context["action"] = "inbox"
         return context
 
 
@@ -32,7 +32,7 @@ class outboxView(LoginRequiredMixin, TemplateView):
         context = get_context_back(context, "Postausgang", "")
         context["msg"] = MessageUser.objects.filter(
             user=self.request.user, user_is_sender=True)
-        context["p"] = "out"
+        context["action"] = "outbox"
         return context
 
 
@@ -45,14 +45,22 @@ class binView(LoginRequiredMixin, TemplateView):
         context = get_context_back(context, "Papierkorb", "")
         context["msg"] = MessageUser.objects.filter(
             is_trash=True, user=self.request.user, user_is_sender=False)
-        context["p"] = "bin"
+        context["action"] = "bin"
         return context
 
 
 class msgWriteView(LoginRequiredMixin, CreateView):
     template_name = "message.html"
-    form_class = Msg_write_form
 
+    def get_form(self):
+        # Vorbelegung Empfänger für Lieferanten und Kunden
+        if self.request.user.groups.filter(name=KUNDEN).exists():
+            form_class = Msg_write_form(initial={'receiver': Group.objects.get(name=KUNDENDIENST)})
+        elif self.request.user.groups.filter(name=LIEFERANTEN).exists():
+            form_class = Msg_write_form(initial={'receiver': Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)})
+        else:
+            form_class = Msg_write_form()
+        return form_class
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

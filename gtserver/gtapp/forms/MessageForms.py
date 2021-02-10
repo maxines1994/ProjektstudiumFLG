@@ -7,7 +7,7 @@ class Msg_write_form(ModelForm):
         model = Message
         fields = ["receiver", "subject", "text"]
         labels = {
-            'receiver': _('Empfänger'),
-            'subject': _('Betreff'),
-            'text': _('Nachricht'),
+            'receiver': 'Empfänger',
+            'subject': 'Betreff',
+            'text': 'Nachricht',
         }
