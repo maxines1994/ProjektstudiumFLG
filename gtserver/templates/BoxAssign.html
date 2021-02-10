@@ -16,7 +16,7 @@
 {% endif %}
 <form method="post">
     {% csrf_token %}
-    <div class="row">
+    <div class="row section">
         <div class="col s12 m6">
             <div class="card">
                 <div class="card-content">
@@ -25,10 +25,10 @@
                     <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
                 </div>
                 <div class="row section">
-                    <div class="col s12 m12 l6 left-align">
-                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
-                        <a href="{% url 'stock' %}" class="btn waves-effect waves-light"><i class="material-icons left">block</i>Abbrechen</a>
-                    </div>
+                        <div class="col s12 right-align">
+                            <a class="right btn waves-effect waves-light" type="submit" name="action" style="margin: 10px;"><i class="material-icons left">save</i>Speichern</a>
+                            <a href="{% url 'stock' %}" class="right btn waves-effect waves-light" style="margin: 10px;"><i class="material-icons left">block</i>Abbrechen</a>
+                        </div>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
 
 {% endblock %}
 
-<!-- Body-->
+<!-- Body-->s
 {% block body %}
 
 {% endblock %}
