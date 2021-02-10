@@ -58,7 +58,7 @@
         <div class="col s12 right-align"> 
             {% if PRODUKTIONSDIENSTLEISTUNG in group %}
                 {% if check_successful %}
-                    <a class="waves-effect waves-light btn" href="{% url 'set_status_call' custorderdet.id 2 STATUS.IN_PRODUKTION %}"><i class="material-icons left">check</i>Bestandsprüfung abschließen</a>
+                    <a class="waves-effect waves-light btn" href="{% url 'set_status_call' custorderdet.id 2 STATUS.AUFTRAG_FREIGEGEBEN %}"><i class="material-icons left">check</i>Bestandsprüfung abschließen</a>
                 {% else %}
                     <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">add_shopping_cart</i>Teile bestellen</button>
                 {% endif %}
