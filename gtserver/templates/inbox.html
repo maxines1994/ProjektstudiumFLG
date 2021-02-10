@@ -1,38 +1,67 @@
 {% extends "message.html" %}
+
+{% block title %}
+    {% if action == "inbox" %}
+        Posteingang
+    {% elif action == "outbox" %}
+        Gesendete Nachrichten
+    {% elif action == "bin" %}
+        Papierkorb
+    {% else %}
+        Nachrichten
+    {% endif %}
+{% endblock %}
+
 {% block middle %}
+<div class="col s12">
+    <h4 class="left">
+        Nachrichten
+        <a href="{% url 'msgwrite' %}" class="waves-effect waves-light btn-floating"><i class="material-icons">add</i></a>
+    </h4>
+</div>
 <div class="col s12">
     <div class="card">
         <div class="card-content">
-            <table id="tbl">
-                <thead id="thd">
-                    <tr>
-                        <th>Betreff</th>
-                        <th>{% if p == "bin" or p == "in" %}Sender{% else %}Empfänger{% endif %}</th>
-                        <th>Tag</th>
-                        <th></th>
-                    </tr>
-                </thead>
+            <div class="row">
+                <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s4"><a target="_self" {% if action == "inbox" %}class="active"{% endif %} href="{% url 'inbox' %}">Posteingang</a></li>
+                    <li class="tab col s4"><a target="_self" {% if action == "outbox" %}class="active"{% endif %} href="{% url 'outbox' %}">Gesendetet</a></li>
+                    <li class="tab col s4"><a target="_self" {% if action == "bin" %}class="active"{% endif %} href="{% url 'bin' %}">Papierkorb</a></li>
+                </ul>
+            </div>
+            <div class="col s12">
+                <table id="tbl">
+                    <thead id="thd">
+                        <tr>
+                            <th>Betreff</th>
+                            <th>{% if action == "bin" or action == "inbox" %}Sender{% else %}Empfänger{% endif %}</th>
+                            <th>Tag</th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                <tbody id="bdy">
-                    {% for i in msg %}
-                    <tr>
-                        <td>{{ i.message.subject }}</td>
-                        <td>{% if p == "bin" or p == "in" %}{{ i.message.sender }}{% else %}{{i.message.receiver}}{% endif %}</td>
-                        <td>{{ i.message.sent_on }}</td>
-                        <td>
-                            <a href="{% url 'msgdetails' i.id %}" class="waves-effect waves-light btn-floating">
-                                <i class="material-icons">view_headline</i>
-                            </a>
-                            {% if p != "out" %}
-                            <a href="{% url 'msgdelete' i.id %}" class="waves-effect waves-light btn-floating">
-                                <i class="material-icons">{% if p == "bin" %}autorenew{% elif p == "in" %}delete{% endif %}</i>
-                            </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <tbody id="bdy">
+                        {% for i in msg %}
+                        <tr>
+                            <td>{{ i.message.subject }}</td>
+                            <td>{% if action == "bin" or action == "inbox" %}{{ i.message.sender }}{% else %}{{i.message.receiver}}{% endif %}</td>
+                            <td>{{ i.message.sent_on }}</td>
+                            <td>
+                                <a href="{% url 'msgdetails' i.id %}" class="waves-effect waves-light btn-floating">
+                                    <i class="material-icons">view_headline</i>
+                                </a>
+                                {% if action != "outbox" %}
+                                <a href="{% url 'msgdelete' i.id %}" class="waves-effect waves-light btn-floating">
+                                    <i class="material-icons">{% if action == "bin" %}autorenew{% elif action == "inbox" %}delete{% endif %}</i>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
