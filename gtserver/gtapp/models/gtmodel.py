@@ -21,11 +21,11 @@ class GtModel(models.Model):
 
     class Meta:
         abstract = True
-    """
+
     def save(self, *args, **kwargs):
-        
+        """
         Speichert den aktuellen User und Spieltag in _creation_user/_update_user bzw. _creation_gameday/_update_gameday
-        
+        """
         user = get_current_user()
         gameday = Timers.get_current_day()
         #Ist noch kein Primaerschluessel vergeben, wird der Datensatz erstmalig angelegt
@@ -36,7 +36,7 @@ class GtModel(models.Model):
         self._update_user = user
         self._update_gameday = gameday
         super().save(*args, **kwargs)
-    """
+
     def str_to_gtmodel(string: str):
         """
         Erwartet den Namen eines Models als String und liefert das Model zurück

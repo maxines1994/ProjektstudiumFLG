@@ -29,13 +29,25 @@ def stock_view(request, **kwargs):
 
 @login_required
 def stock_check_view(request, **kwargs):
+    """
+    # Model getten fuer das die Boxnummer eingetragen werden soll
+    def get_model(self, **kwargs):
+        return GtModel.str_to_gtmodel(self.kwargs['model'])
+
+    # Objekt getten
+    def get_object(self, queryset=None):
+        model = self.get_model()
+        obj = model.objects.get(id=self.kwargs['id'])
+        return obj
+    """   
     c = {}
     # Erst die CustOrderDet holen
     c["custorderdet"] = CustOrderDet.objects.get(pk=kwargs["id"])
     # Dann die Artiparts zu dieser CustOrderDet
     c["artipart"] = c["custorderdet"].get_artiparts(supplier_ids=[3])
     # Bestandsdatensaetze zu diesen Artiparts
-    c["stock"] = Stock.objects.filter(is_supplier_stock=False, part_id__in=c["artipart"].values('part_id'))
+    is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
+    c["stock"] = Stock.objects.filter(is_supplier_stock=is_supplier, part_id__in=c["artipart"].values('part_id'))
     # Insgesamt bestellte Menge dieser Teile
     # Betrachte nur SuppOrders von JOGA (external_system=False) und nur welche, die auch verschickt wurden 
     # (status >= BESTELLT und <= GELIEFERT)        
@@ -119,7 +131,6 @@ def stock_check_view(request, **kwargs):
     # Die Listen existieren zwar lose nebeneinander, vom Index her passen die Daten aber zueinander
     # Wenn alle Listen parallel im Template durchlaufen werden, hat man also die passenden Daten
     c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"])
-    print(c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"])
 
     c["STATUS"] = CustOrderDet.Status.__members__
 
