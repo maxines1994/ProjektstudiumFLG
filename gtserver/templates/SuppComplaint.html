@@ -39,7 +39,7 @@
                                     </div>
                                     {{ c.get_status_display }} 
                                 </td>
-                                <td>Tag #{{ c.finished_on }}</td>
+                                <td>Tag {{ c.finished_on|default_if_none:"-" }}</td>
                                 <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{c.id}}'><i
                                             class="material-icons">more_vert</i></a></td>
                             </tr>
