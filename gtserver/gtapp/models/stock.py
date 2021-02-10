@@ -27,8 +27,9 @@ class Stock(GtModel):
 
         from . import StockMovement
 
-        StockMovement.append(previous_stock=self.stock, booking_quantity=booking_quantity, stock=self, booking_code=booking_code)
+        booking_quantity = booking_quantity if self.stock + booking_quantity >= 0 else 0
         self.stock += booking_quantity
+        StockMovement.append(previous_stock=self.stock, booking_quantity=booking_quantity, stock=self, booking_code=booking_code)
         self.save()
     
     def reserve(self, quantity):

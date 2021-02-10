@@ -31,7 +31,8 @@ class StockMovement(GtModel):
                     booking_code = BUCHUNG_ENTNAHME
 
             myBooking_code = BookingCode.objects.get(code=booking_code)
-            StockMovement.objects.create(date=Timers.get_current_day(), previous_stock=previous_stock, booking_quantity=booking_quantity, new_stock=previous_stock + booking_quantity, stock=stock, booking_code=myBooking_code)
+            if booking_quantity != 0:
+                StockMovement.objects.create(date=Timers.get_current_day(), previous_stock=previous_stock, booking_quantity=booking_quantity, new_stock=previous_stock + booking_quantity, stock=stock, booking_code=myBooking_code)
         
         except ObjectDoesNotExist:
             raise Exception("Booking-Code " + booking_code + " does not exist")
