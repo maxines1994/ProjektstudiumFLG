@@ -31,6 +31,13 @@ class Stock(GtModel):
         self.stock += booking_quantity
         self.save()
     
+    def reserve(self, quantity):
+        """
+        Erhoeht die reservierte Menge des Bestandes
+        """
+        self.reserve += quantity
+        self.save()
+        
     @classmethod
     def reserve_test(cls, needs=list()):
         newNeeds = list()
