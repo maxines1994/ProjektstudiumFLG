@@ -54,6 +54,10 @@ def stock_check_view(request, **kwargs):
     stock_demand = []
     part_demands = []
     part_ordered_total = []
+
+    # Flag fuer erfolgreiche Bestandspruefung mit True initialisieren
+    check_successful = True
+
     # Durchlaufe alle Bestaende des Kontexts und lege in einer Liste immer den Gesamtbedarf an Teilen dieses Bestandes ab
     s = 0
     for stock in c["stock"]:
@@ -61,7 +65,15 @@ def stock_check_view(request, **kwargs):
         temp_available = stock.stock - stock.reserved if stock.stock - stock.reserved >= 0 else 0
         stock_available.append(temp_available)
         # Uebrigen Bedarf ermitteln
-        stock_demand.append(stock.stock - temp_available)
+        if c["artipart"][s].quantity - temp_available >= 0:
+            stock_demand.append(c["artipart"][s].quantity - temp_available)
+        else:
+            stock_demand.append(0)
+        # Bestandspruefung erfolgreich? Hier wird nur auf False gesetzt, falls der Flag True ist.
+        # Da eine Liste durchlaufen wird kann jedesmal der Flag wieder auf True gesetzt werden, obwohl
+        # ein vorher gepruefter Bestand ihn auf False gesetzt hat. Einmal False, immer False!
+        if check_successful:
+            check_successful = False if stock_demand[s] - temp_available > 0 else True
         # Durchlaufe alle relevanten Fertigungsauftraege
         for order in all_manu_orders:
             # Pruefe nur die Artiparts, die fuer den Artikel des Auftrages existieren.
@@ -93,6 +105,9 @@ def stock_check_view(request, **kwargs):
     c["stock_demand"] = stock_demand
     c["demand_total"] = part_demands
     c["ordered_total"] = part_ordered_total
+
+    # Boolscher Kontext ob Bestandspruefung erfolgreich
+    c["check_successful"] = check_successful
 
     # Pack Bestande und Artiparts in einen 2-dimensionalen Array
     c["stock_artipart_list"] = zip(c["stock"], c["artipart"])

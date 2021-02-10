@@ -13,8 +13,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 # Reihenfolge alphabetisch / wie Dateibaum
-from .apiViews import *
-from .authViews import *
+from .ApiViews import *
+from .AuthViews import *
 from .BoxViews import *
 from .cancelViews import *
 from .CustComplaintViews import *
