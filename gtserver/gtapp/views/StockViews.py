@@ -116,6 +116,7 @@ def stock_check_view(request, **kwargs):
     # Die Listen existieren zwar lose nebeneinander, vom Index her passen die Daten aber zueinander
     # Wenn alle Listen parallel im Template durchlaufen werden, hat man also die passenden Daten
     c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"])
+    print(c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"])
 
     c["STATUS"] = CustOrderDet.Status.__members__
 

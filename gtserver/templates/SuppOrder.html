@@ -91,24 +91,25 @@
 {% block body %}
 {% for o in orders %}
 <ul id='a{{o.id}}' class='dropdown-content'>
-    {% if LIEFERANTEN in group or PRODUKTIONSDIENSTLEISTUNG in group %}
+    {% if LIEFERANTEN in group %}
         <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
         {% if o.status <= STATUS.ERFASST %}
             <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
-        {% if PRODUKTIONSDIENSTLEISTUNG in group %}
-            <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen
-        {% endif %}
         {% if o.status <= STATUS.LIEFERUNG_AN_JOGA_AUSSTEHEND %}
-            <li><a href="{% url 'box_assign' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>
+            <li><a href="{% url 'box_assign' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>Kunde beliefern</a></li>
         {% endif %}
-        {% if company == LIEFERANTEN %} 
-            An JOGA liefern
-        {% else %}
-            An Produktion liefern
+    {% endif %}
+
+    {% if PRODUKTIONSDIENSTLEISTUNG in group %}
+        <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if o.status <= STATUS.ERFASST %}
+            <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
-        </a></li>
-        {# {% if o.status == o.Status.ERFASST %}<li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>{% endif %} #}
+        {% if o.status >= STATUS.BESTELLT or o.status <= STATUS.TEILGELIEFERT %}
+            <li><a href="{% url 'box_assign' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>Boxnr. eintragen</a></li>
+            <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen</a></li>
+        {% endif %}
     {% endif %}
 </ul>
 {% endfor %}

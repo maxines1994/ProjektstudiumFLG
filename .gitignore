@@ -7,3 +7,5 @@
 /gtserver/gtapp/models/__pycache__
 /gtserver/gtapp/migrations/0001_initial.py
 /.vscode/
+
+gtserver/db.sqlite3-journal

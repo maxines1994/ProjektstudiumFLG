@@ -130,7 +130,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         elif model == CustComplaintDet:
             return CustComplaintDet.Status.ERLEDIGT
         else:
-            return obj.Status
+            return obj.status
 
     def form_valid(self, form):
         my_obj = self.get_object()
