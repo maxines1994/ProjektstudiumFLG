@@ -112,12 +112,6 @@ def stock_check_view(request, **kwargs):
     # Boolscher Kontext ob Bestandspruefung erfolgreich
     c["check_successful"] = check_successful
 
-    print(c["stock_available"])
-    print(c["stock_demand"])
-    print(c["demand_total"])
-    print(c["ordered_total"])
-
-
     # Pack Bestande und Artiparts in einen 2-dimensionalen Array
     c["stock_artipart_list"] = zip(c["stock"], c["artipart"])
 
