@@ -16,7 +16,7 @@ class SuppComplaintDet(ComplaintDet):
         ERFASST                         = '1', ('Erfasst')
         BEI_PDL                         = '2', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
         AUS_LAGER_LIEFERN               = '3', ('Aus Lager geliefert')
-        NEU_BESTELLT                    = '4', ('Neu bestellt')
+        NEU_BESTELLEN                   = '4', ('Neu bestellen')
         BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend')
         GELIEFERT                       = '6', ('Geliefert')
         ABGESCHLOSSEN                   = '7', ('Abgeschlossen') ##Nur wenn keine Neulieferung

@@ -11,13 +11,12 @@ class SuppComplaint(Complaint):
 
         STANDARD                        = '0', ('Standard')
         ERFASST                         = '1', ('Erfasst')
-        IN_REKLAMATION                  = '2', ('In Reklamation') ##Nur für den Lieferanten
-        BEI_PDL                         = '3', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
-        REKLAMIERT                      = '4', ('Reklamiert')
-        BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend')
-        LIEFERUNG_AN_PDL                = '6', ('Lieferung an PDL')
-        GELIEFERT                       = '7', ('Geliefert')
-        ABGESCHLOSSEN                   = '8', ('Abgeschlossen') ##Nur wenn keine Neulieferung
+        BEI_PDL                         = '2', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
+        TEILGELIEFERT                   = '3', ('Teilgeliefert') ##Wenn eine POS 'Aus Lager geliefert'
+        IN_BESTELLUNG                   = '4', ('In Bestellung') ##Wenn alle POS 'Neu Bestellen'
+        BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend') ##Nur für LF
+        GELIEFERT                       = '6', ('Geliefert') ##Wenn gelieferte pos existiert 
+        ABGESCHLOSSEN                   = '7', ('Abgeschlossen') ##Nur wenn keine Neulieferung oder alle aus Lager geliefert
 
     status = models.CharField(
         max_length = 1,
