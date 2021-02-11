@@ -55,7 +55,7 @@ def tasks_share_to_team_view(request, **kwargs):
 def tasks_finish(request, **kwargs):
     
     Task.objects.filter(pk=kwargs["id"]).update(active=0, finished_on=Timers.get_current_day())
-    return HttpResponseRedirect(reverse("tasks_finished"))
+    return HttpResponseRedirect(reverse("tasks_assigned"))
     
 
 # Bearbeite Task
@@ -116,3 +116,16 @@ class Tasks_detail_view(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         obj = Task.objects.get(id=self.kwargs['id'])
         return obj
+    
+    #Hier die TaskTypeId reinpacken zu welcher Tabelle sie Gehört
+    #Dadurch wir die "Überschrift" auch richtig angezeigt
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["CustOrder"] = [1,16,17,18]
+        context["CustOrderDet"] = [2,3,5,6,7,8,11,12,13]
+        context["SuppOrder"] = [4,9,10,12,15,19,20]
+        context["CustComplaint"] = [21,22,23]
+        context["CustComplaintDet"] = [24,25,26,27,28,29,31]
+        context["SuppComplaint"] = [32,33,34,35,36,37]
+        #context["SuppComplaintDet"] = []
+        return context

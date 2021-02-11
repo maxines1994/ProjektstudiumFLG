@@ -18,10 +18,18 @@
     <div class="col s12 m6">
         <div class="card">
             <div class="card-content">
-                {% if object.task_type.id == 1%}
-                <span class="card-title"><b>Auftrag: {{object.cust_order.order_no}} <br> {{object.task_type.title}}</b></span>
-                {%else%}
-                <span class="card-title"><b>Auftrag: {{object.cust_order_det.cust_order.order_no}} Position: {{object.cust_order_det.pos}} <br> {{object.task_type.title}}</b></span>
+                {% if object.task_type.id in CustOrder %}
+                <span class="card-title"><b>{{object.cust_order.order_no}} <br> {{object.task_type.title}}</b></span>
+                {%elif object.task_type.id in CustOrderDet %}
+                <span class="card-title"><b>{{object.cust_order_det.cust_order.order_no}} Position: {{object.cust_order_det.pos}} <br> {{object.task_type.title}}</b></span>
+                {%elif object.task_type.id in SuppOrder %}
+                <span class="card-title"><b>{{object.supp_order.order_no}}<br> {{object.task_type.title}}</b></span>
+                {%elif object.task_type.id in CustComplaint %}
+                <span class="card-title"><b>{{object.cust_complaint.order_no}}<br> {{object.task_type.title}}</b></span>
+                {%elif object.task_type.id in CustComplaintDet %}
+                <span class="card-title"><b>{{object.cust_complaint_det.cust_complaint.order_no}} Position: {{object.cust_complaint_det.order_no}} <br> {{object.task_type.title}}</b></span>
+                {%elif object.task_type.id in SuppComplaint %}
+                <span class="card-title"><b>{{object.supp_complaint.order_no}} <br> {{object.task_type.title}}</b></span>
                 {% endif %}
                 <p>
                    <b>Beschreibung:</b> 
@@ -67,6 +75,7 @@
                     {%else%}
                     <a href="{% url 'tasks_share' object.pk %}">Aufgabe freigeben</a>
                     <a href="{% url 'tasks_edit' object.pk %}">Bearbeiten</a>
+                    <a href="{% url 'faq' content=0  %}">FAQ</a>
                     <a href="{% url 'tasks_finish' object.pk %}">Fertig</a>
                     {%endif%}
                     <a href="{% url 'tasks' %}">Zurück</a>
