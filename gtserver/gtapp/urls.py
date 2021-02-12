@@ -45,9 +45,8 @@ urlpatterns = [
     path('box_assign/<str:model>/<int:id>/', Box_assign_view.as_view(), name='box_assign'),
 
     # Task Status
-    path('status_call/<int:id>/<int:type>/<int:status>/', set_status_call, name='set_status_call'),
-    path('status_task/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>/', set_status_task, name='set_status_task'),
-    path('set_status_task_share/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>/', set_status_task_share, name='set_status_task_share'),
+    path('status_call/<str:model>/<int:id>/<int:status>/', set_status_call, name='set_status_call'),
+    path('status_task/<int:id>/<int:task_type>/', set_status_task, name='set_status_task'),
 
     # Cust Order
     path('cust_order/', Cust_order_view.as_view(), name="cust_order"),

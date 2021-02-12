@@ -42,12 +42,12 @@ class Delivery(GtModel):
             if field.get_internal_type() == 'ForeignKey' and not field.name.startswith("_"): #Keine Metadaten abfragen
                 if getattr(self, field.name) is not None:
                     if 'supp' in field.name :
-                        supp_order = True
+                        supp = True
 
                     if 'complaint' in field.name :
                         complaint = True
         
-        if supp_order:
+        if supp:
             if complaint:
                 Stock.objects.get(is_supplier_stock=external_system, part=self.supp_complaint_det.supp_order_det.part).change(my_delivery_amount)
             else:

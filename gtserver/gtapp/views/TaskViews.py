@@ -57,54 +57,33 @@ def tasks_finish(request, **kwargs):
     Task.objects.filter(pk=kwargs["id"]).update(active=0, finished_on=Timers.get_current_day())
     return HttpResponseRedirect(reverse("tasks_finished"))
     
-
 # Bearbeite Task
 @login_required
 def tasks_edit(request, **kwargs):
+    """
+    Leitet den User zu der Seite auf der das Objekt des Tasks weiter bearbeitet werden kann
+    """
+    # Hole den Task
     mytask = Task.objects.filter(pk=kwargs["id"]).first()
-    if mytask.task_type_id in [1, 16, 17, 18]:#==1 or mytask.task_type_id == 16 or mytask.task_type_id == 17 or mytask.task_type_id == 18:
-        return HttpResponseRedirect(reverse("cust_order_alter", kwargs={'id':mytask.cust_order.pk}))
-    elif mytask.task_type_id == 2:
-        #Bestandsprüfungsseite eintragen
-        pass
-    elif mytask.task_type_id in [8]:
-        my_cust_order = CustOrderDet.objects.get(id=mytask.cust_order_det.pk).cust_order.id
-        return HttpResponseRedirect(reverse("cust_order_alter", kwargs={'id':my_cust_order}))
-    elif mytask.task_type_id in [7]:
-        return HttpResponseRedirect(reverse("manufacturing_list"))
-    elif mytask.task_type_id in [19, 20]:
-        return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytask.supp_order.pk}))
-    elif mytask.task_type_id in [9]:
-        return HttpResponseRedirect(reverse("supp_order"))
-    elif mytask.task_type_id == 20:
-        return HttpResponseRedirect(reverse("supp_order_alter", kwargs={'id':mytask.supp_order.pk}))
-    elif mytask.task_type_id == 21:
-        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint.pk}))
-    elif mytask.task_type_id == 22:
-        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint.pk}))
-    elif mytask.task_type_id == 23:
-        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint.pk}))
-    elif mytask.task_type_id in [24,25,26]:
-        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
-    elif mytask.task_type_id == 27:
-        return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
-    elif mytask.task_type_id == 28:
-        return HttpResponseRedirect(reverse("cust_complaint_det_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
-    elif mytask.task_type_id == 29:
-         return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint_det.cust_complaint.pk}))
-    elif mytask.task_type_id == 32:
-        return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
-    elif mytask.task_type_id == 33:
-        return HttpResponseRedirect(reverse("supp_complaint"))
-    elif mytask.task_type_id == 34:
-        return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
-    elif mytask.task_type_id == 35:
-        return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs={'id':mytask.supp_complaint.pk}))
-    elif mytask.task_type_id == 36:
-        #Bestandsprüfung einbauen
-        pass
-
-
+    # Hole das Template, auf das weiter geleitet werden soll
+    my_tasktype = TaskType.objects.get(id=mytask.id)
+    my_view_url = TaskType.objects.get(id=mytask.task_type_id).view_url
+    # Falls die Template Parameter erwartet: 
+    if TaskType.objects.get(id=mytask.task_type_id).view_kwargs_id != '':
+        # Hole den in TaskType.view_kwargs_id hinterlegten Feldnamen
+        my_task_model_field = TaskType.objects.get(id=mytask.task_type_id).view_kwargs_id
+        # Hol die id die bei diesem Feldnamen bei diesem Task hinterlegt ist (Z.b. die cust_order_det_id)
+        my_task_model_id = getattr(mytask, my_task_model_field)
+        # Baue einen Filter der zu uebergebenden Paramter an die View
+        mykwargs = {}
+        mykwargs['id'] = my_task_model_id
+        # Redirect mit Parameter
+        return HttpResponseRedirect(reverse(my_view_url, kwargs=mykwargs))
+        # Ergebnisbeispiel mit fingierten Variablen:
+        # return HttpResponseRedirect(reverse("cust_complaint_alter", kwargs={'id':mytask.cust_complaint.id}))
+    else:
+        # Redirect ohne Parameter
+        return HttpResponseRedirect(reverse(my_view_url))
 
 # Task Detail View
 class Tasks_detail_view(LoginRequiredMixin, DetailView):

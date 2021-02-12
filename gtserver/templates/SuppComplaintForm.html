@@ -110,7 +110,7 @@
             {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
                 {% if OBJ_STATUS <= STATUS.BEI_PDL %}
                     {% if action != 'create' %}
-                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 STATUS.REKLAMIERT 7 33%}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
+                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 33%}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
                 {% endif %}
             {% elif LIEFERANT in group %}

@@ -29,9 +29,9 @@ class Supp_order_create_view(LoginRequiredMixin, CreateView):
         new_supp_order = form.save()
         
         if self.request.user.groups.filter(name=L300).exists():
-            Task.set_task_supp(new_supp_order, 20, Timers.get_current_day())
+            Task.set_task(new_supp_order, 20)
         elif self.request.user.groups.filter(name=JOGA).exists():
-            Task.set_task_supp(new_supp_order, 19, Timers.get_current_day())
+            Task.set_task(new_supp_order, 19)
         
 
         return HttpResponseRedirect("/supp_order/alter/" + str(new_supp_order.pk) + "/")

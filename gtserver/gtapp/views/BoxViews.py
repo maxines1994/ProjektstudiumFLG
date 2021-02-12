@@ -32,24 +32,24 @@ def box_search_view(request):
             for obj in mylist:
                 if obj.status == CustOrderDet.Status.AUFTRAG_FREIGEGEBEN:
                     #Task erscheint bei dem Boxscan in der Produktion, wo dann die Hebebühne gebaut werden soll & der Status wird auf 4 gesetzt
-                    Task.set_task_cust_det(obj, 6, Timers.get_current_day())
-                    set_status(obj.id, 2, 4)
+                    Task.set_task(obj, 6)
+                    set_status(obj.__class__, obj.id, CustOrderDet.Status.AUFTRAG_FREIGEGEBEN)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
                 elif obj.status == CustOrderDet.Status.LIEFERUNG_AN_KD_AUSSTEHEND:
                     #Task erscheint bei dem Boxscan beim Kundendienst, wo dann die Hebebühne an den Kunden übergeben werden soll und der Status wird auf 6 gesetzt
-                    Task.set_task_cust_det(obj, 8, Timers.get_current_day())
-                    set_status(obj.id, 2, 6)
+                    Task.set_task(obj, 8)
+                    set_status(obj.__class__, obj.id, CustOrderDet.Status.VERSANDT_AN_KD)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1   
                 elif obj.status == CustOrderDet.Status.BESTELLT:
                     #Task beim Kunden für den Wareneingang
                     if request.user.groups.filter(name=K1).exists():
-                        Task.set_task_cust_det(obj, 11, Timers.get_current_day())
+                        Task.set_task(obj, 11)
                     elif request.user.groups.filter(name=K2).exists():
-                        Task.set_task_cust_det(obj, 12, Timers.get_current_day())
+                        Task.set_task(obj, 12)
                     elif request.user.groups.filter(name=K3).exists():
-                        Task.set_task_cust_det(obj, 13, Timers.get_current_day())
+                        Task.set_task(obj, 13)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
         elif SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
@@ -57,8 +57,8 @@ def box_search_view(request):
             mylist = SuppOrder.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == SuppOrder.Status.BESTELLT:
-                    Task.set_task_supp(obj, 4, Timers.get_current_day())
-                    set_status(obj.id, 3, 4)
+                    Task.set_task(obj, 4)
+                    set_status(obj.__class__ ,obj.id, SuppOrder.Status.BESTELLT)
                     boxno_found = 1
                     SuppOrder.objects.filter(pk=obj.id).update(box_no='')
             
@@ -69,12 +69,12 @@ def box_search_view(request):
             mylist = CustComplaintDet.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
-                    Task.set_task_custComplaintDet(obj, 28, Timers.get_current_day())
-                    set_status(obj.id, 6, 4)
+                    Task.set_task(obj, 28)
+                    set_status(obj.__class__, obj.id, CustComplaintDet.Status.IN_ANPASSUNG)
                     boxno_found = 1
                 if obj.status == CustComplaintDet.Status.ANPASSUNG_ABGESCHLOSSEN:
-                    Task.set_task_custComplaintDet(obj, 31, Timers.get_current_day())
-                    set_status(obj.id, 6, 6)
+                    Task.set_task(obj, 31)
+                    set_status(obj.__class__, obj.id, CustComplaintDet.Status.BEI_KUNDENDIENST)
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
@@ -82,13 +82,13 @@ def box_search_view(request):
             mylist = SuppComplaint.objects.filter(box_no = str(number))
             for obj in mylist:
                 if obj.status == SuppComplaint.Status.ERFASST:
-                    set_status(obj.id, 7, 5)
-                    Task.set_task_suppComplaint(obj, 36, Timers.get_current_day())
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
+                    Task.set_task(obj, 36)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.WEITERLEITUNG_AN_PDL:
                     #set_status(obj.id, 7, 5)
-                    Task.set_task_suppComplaint(obj, 34, Timers.get_current_day())
+                    Task.set_task(obj, 34)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
     else:
@@ -128,7 +128,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         elif model == SuppComplaint:
             return SuppComplaint.Status.ERLEDIGT
         elif model == CustComplaintDet:
-            return CustComplaintDet.Status.ERLEDIGT
+            return CustComplaintDet.Status.GELIEFERT
         else:
             return obj.status
 

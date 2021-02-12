@@ -1,88 +1,65 @@
 from . import *
 
-#Status setzen
+
 @login_required
 def set_status_task (request, **kwargs):
-    
-    set_status(kwargs["id"], kwargs["type"], kwargs["status"])
-    #custorder
-    if kwargs["type_for_task"] == 1:
-        Task.set_task_cust(CustOrderDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
-    #custorderdet
-    elif kwargs["type_for_task"] == 2:
-        Task.set_task_cust_det(CustOrderDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
-    #supporder
-    elif kwargs["type_for_task"] == 3:
-        Task.set_task_supp(SuppOrder.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
-    #supporderdet
-    elif kwargs["type_for_task"] == 4:
-        Task.set_task_supp_det(SuppOrderDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
-    #custcomplaint
-    elif kwargs["type_for_task"] == 5:
-        Task.set_task_custComplaint(CustComplaint.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
-    #custcomplaintdet
-    elif kwargs["type_for_task"] == 6:
-        Task.set_task_custComplaintDet(CustComplaintDet.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
-    #suppcomplaint
-    elif kwargs["type_for_task"] == 7:
-        Task.set_task_suppComplaint(SuppComplaint.objects.get(id=kwargs["id"]), kwargs["tasktype"], Timers.get_current_day())
+    """
+    View zum erzeugen eines neuen Tasks. Dabei wird auch ein neuer Status gesetzt.
+    Benoetigte Argumente:
+
+    id          = Objekt, dessen Status gesetzt werden soll und auf den sich Task bezieht
+    task_type   = ID des TaskTypes von dem neuer Task erzeugt werden soll.
+    """
+    # Hol den Status, der fuer diesen TaskType hinterlegt ist.
+    my_task_type = TaskType.objects.get(id=kwargs["task_type"])
+    #my_status_model = GtModel.str_to_gtmodel(my_task_type.status_model)
+    task_type_status = my_task_type.status
+
+
+    my_task_model = GtModel.str_to_gtmodel(my_task_type.task_model)
+    my_filter = {}
+    # Ist der Flag "for_all_details" gesetzt, wird der hinterlegte Status und Task
+    # fuer alle Positionsdaten angelegt. Daher lautet der Filter nicht "id = kwargs["id"]"
+    # sondern "xxx_order = kwargs["id"]" oder "xxx_complaint = kwargs["id"]"
+    if my_task_type.for_all_details:
+        my_header_model = GtModel.str_to_gtmodel(my_task_type.task_model.replace('Det', ''))
+        my_header_field = GtModel.gtmodel_to_foreign_field_name(my_header_model)
+        my_filter[my_header_field] = kwargs["id"]
     else:
-        pass
+        my_filter["id"] = kwargs["id"]
+    
+    # Query aller gefundenen Objekte
+    my_obj_qry = my_task_model.objects.filter(**my_filter)
+
+    # Durchlaeuft das Query der gefundenen Objekte und setzt fuer jedes Objekt einen Task.
+    for obj in my_obj_qry:
+        # An set_status muss das Model wieder als String uebergeben werden.
+        # Deswegen my_task_type.status_model anstelle von my_status_model.
+        set_status(my_task_type.status_model, obj.id, task_type_status)
+        Task.set_task(obj=obj, task_type_id=kwargs["task_type"])
+
     return HttpResponseRedirect(reverse("tasks_notassigned"))
 
-
-#Status und Task setzten, Da für jede Position ein Task angelegt werden muss, gibt es hier eine spezielle Funktion dafür
-# Durchläuft alle Positionen
-@login_required
-def set_status_task_share (request, **kwargs):
-    #custcomplaint freigegeben auf custcomplaintdet (Auftragsfreigabe Reklamationen)
-    if kwargs["type_for_task"] == 6:
-        mylist = list(CustComplaintDet.objects.filter(cust_complaint_id = kwargs["id"])) 
-        for i in mylist:
-            set_status(i.id, kwargs["type"], kwargs["status"])
-            Task.set_task_custComplaintDet(i,kwargs["tasktype"],Timers.get_current_day())
-    elif kwargs["type_for_task"] == 1: 
-        mylist = list(CustOrderDet.objects.filter(cust_order_id = kwargs["id"]))  
-        set_status(kwargs["id"], kwargs["type"], kwargs["status"])
-        for i in mylist:
-            Task.set_task_cust_det(i, kwargs["tasktype"], Timers.get_current_day())
-    return HttpResponseRedirect(reverse("tasks_notassigned"))
-
-
-# Status setzen bei Auftrag freigeben
 @login_required
 def set_status_call(request, **kwargs):
-    set_status(kwargs["id"], kwargs["type"], kwargs["status"])
+    """
+    View zum Status setzen, ohne Tasks. Benoetigte Argumente:
+
+    model   = Modelname als String
+    id      = id der Modelinstanz
+    status  = status, der gesetzt werden soll
+    """
+    set_status(kwargs["model"], kwargs["id"], kwargs["status"])
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    #return HttpResponseRedirect(reverse("home"))
-
-
-#Status setzen keine view
-def set_status(id, type, status):
-    #custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
-    if type == 1:
-        mylist = list(CustOrderDet.objects.filter(cust_order_id = id))
-        for i in mylist:
-            CustOrderDet.objects.filter(pk=i.id).update(status=status)
-    #custorderdet
-    elif type == 2:
-        CustOrderDet.objects.filter(pk=id).update(status=status)
-    #supporder
-    elif type == 3:
-        SuppOrder.objects.filter(pk=id).update(status=status)
-    #supporderdet
-    elif type == 4:
-        SuppOrderDet.objects.filter(pk=id).update(status=status)
-    elif type == 5:
-        CustComplaint.objects.filter(pk=id).update(status=status)
-    elif type == 6:
-        CustComplaintDet.objects.filter(pk=id).update(status=status)
-    elif type == 7:
-        SuppComplaint.objects.filter(pk=id).update(status=status)
-    elif type == 8:
-        SuppComplaintDet.objects.filter(pk=id).update(status=status)
+def set_status(model: GtModel, id: int, status: int):
+    """
+    Keine View. Interne Methode zum setzen des Status. Benoetigte Argumente:
+    """
+    my_model = GtModel.str_to_gtmodel(model)
+    #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
+    if my_model == CustOrder:
+        CustOrderDet.objects.filter(cust_order_id=id).update(status=status)
     else:
-        pass
-    
+        my_model.objects.filter(id=id).update(status=status)
