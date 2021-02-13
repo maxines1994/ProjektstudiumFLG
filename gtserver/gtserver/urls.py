@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from gtapp import urls
+from django.conf.urls import (handler400, handler403, handler404, handler500)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("gtapp.urls"))
 ]
+
+handler500 = 'gtapp.views.stdViews.handler500_view'
+handler404 = 'gtapp.views.stdViews.handler404_view'

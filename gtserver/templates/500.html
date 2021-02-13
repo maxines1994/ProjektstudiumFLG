@@ -1,0 +1,79 @@
+{% load static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import JQuery-->
+    <script type="text/javascript" src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
+    <!--Import materialize.css-->
+    {% if company == JOGA %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_light-blue.min.css' %}"  media="screen, projection"/>
+    {% elif company == LIEFERANTEN %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_green.min.css' %}"  media="screen, projection"/>
+    {% elif company == KUNDEN %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_red.min.css' %}"  media="screen, projection"/>
+    {% else %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_grey.min.css' %}"  media="screen, projection"/>
+    {% endif %}
+    
+    <!--Import materialize.js-->
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+
+    <!--Import materialize.icons.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.icons.css' %}"/>
+
+    <!--Import custom.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>{% block title %}ERP{% endblock %} | {% if company == JOGA %}JOGA{% elif company == LIEFERANTEN %}Lieferant{% elif company == KUNDEN %}Kunde{% else %}ERP{% endif %}</title>
+    
+    <!-- Head-->
+    {% block head %}
+
+    {% endblock %}
+
+  </head>
+
+  <body style="overflow-x: hidden; position: relative;">
+
+    <!-- Navbar-->
+    <div class="navbar-fixed" style="z-index: 9999;">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <a href="{% url 'home' %}" class="hide-on-med-and-down brand-logo left">{% if company == JOGA %}JOGA{% else %}{{ user.groups.first.name }}{% endif %}</a>
+          {% if user.is_authenticated %}
+          {% else %}
+          <ul class="right">
+            <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Einloggen</a></li>
+          </ul>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+      <h2>Entschuldigung</h2>
+      <h4>es ist ein Fehler aufgetreten</h4>
+      <div class="divider"></div>
+      <br></br>
+      <a class="btn waves-effect waves-light" href="{% url 'home' %}"><i class="material-icons left">arrow_back</i>Zur Startseite</a>
+        
+    </div>
+
+    <div>
+      <img class="imageAnimation" src="{% static 'img/error.svg' %}">
+    </div>
+
+
+    
+
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,4 +1,6 @@
 from . import *
+from django.shortcuts import render
+from django.template import RequestContext
 
 # Anlegen von Views mit dictionary TITEL und Markierung für den User wo er sich gerade befindet.
 
@@ -15,3 +17,11 @@ class home_information_pages(LoginRequiredMixin, TemplateView):
 # FAQ
 class faq_view(LoginRequiredMixin, TemplateView):
     template_name = "FAQ.html"
+
+# HTTP Error 500
+def handler500_view(request):
+    return render(request, '500.html', status=500)
+
+# HTTP Error 404
+def handler404_view(request, exeption):
+    return render(request, '404.html', status=404)
