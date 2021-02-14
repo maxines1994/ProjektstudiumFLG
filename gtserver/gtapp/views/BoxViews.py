@@ -84,16 +84,27 @@ def box_search_view(request):
         elif SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             mylist = SuppComplaint.objects.filter(box_no = str(number))
             for obj in mylist:
-                if obj.status == SuppComplaint.Status.ERFASST:
-                    set_status(obj.__class__, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
-                    Task.set_task(obj, 36)
-                    boxno_found = 1
-                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
-                if obj.status == SuppComplaint.Status.WEITERLEITUNG_AN_PDL:
-                    #set_status(obj.id, 7, 5)
+                # if obj.status == SuppComplaint.Status.ERFASST:
+                #     set_status(obj.__class__, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
+                #     Task.set_task(obj, 36)
+                #     boxno_found = 1
+                #     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                if obj.status == SuppComplaint.Status.VERSAND_AN_LIEFERANT:
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.GELIEFERT)
                     Task.set_task(obj, 34)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                if obj.status == SuppComplaint.Status.VERSAND_AN_PDL:
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.IN_BEARBEITUNG)
+                    Task.set_task(obj, 38)
+                    boxno_found = 1
+                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                if obj.status == SuppComplaint.Status.VERSAND_AN_PRODUKTION:
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
+                    #Task.set_task(obj, 38)
+                    boxno_found = 1
+                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                
     else:
         return render(request, "box.html")
 
@@ -129,6 +140,19 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         if model == CustOrderDet:
             return CustOrderDet.Status.VERSANDT_AN_KD
         elif model == SuppComplaint:
+            ## Lieferant
+            if obj.external_system:
+                return obj.status
+            ##JOGA
+            else:
+                if obj.status == SuppComplaintDet.Status.ERFASST:
+                    ## An dieser Stelle müssten alle Positionen ebenfalls den Status "VERSAND_AN_PDL" erhalten 
+                    return SuppComplaintDet.Status.VERSAND_AN_PDL
+                elif obj.status == SuppComplaintDet.Status.NEU_BESTELLEN:
+                    return SuppComplaintDet.Status.VERSAND_AN_LIEFERANT
+                elif obj.supp_complaint.status == SuppComplaint.Status.GELIEFERT:
+                    return SuppComplaint.Status.VERSAND_AN_PRODUKTION
+
             return SuppComplaint.Status.ERLEDIGT
         elif model == CustComplaintDet:
             ## KUNDE

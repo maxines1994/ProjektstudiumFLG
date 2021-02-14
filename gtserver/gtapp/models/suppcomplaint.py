@@ -9,14 +9,18 @@ class SuppComplaint(Complaint):
     """
     class Status(models.TextChoices):
 
-        STANDARD                        = '0', ('Standard')
-        ERFASST                         = '1', ('Erfasst')
-        BEI_PDL                         = '2', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
-        TEILGELIEFERT                   = '3', ('Teilgeliefert') ##Wenn eine POS 'Aus Lager geliefert'
-        IN_BESTELLUNG                   = '4', ('In Bestellung') ##Wenn alle POS 'Neu Bestellen'
-        BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend') ##Nur für LF
-        GELIEFERT                       = '6', ('Geliefert') ##Wenn gelieferte pos existiert 
-        ABGESCHLOSSEN                   = '7', ('Abgeschlossen') ##Nur wenn keine Neulieferung oder alle aus Lager geliefert
+        ERFASST                         = '0', ('Erfasst')
+        VERSAND_AN_PDL                  = '1', ('Versand an PDL')
+        IN_BEARBEITUNG                  = '2', ('In Bearbeitung')
+        REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben')
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen')##Nur LF
+        VERSAND_AN_KUNDE                = '5', ('Versand an Kunde')##Nur LF
+        AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert')
+        NEU_BESTELLEN                   = '7', ('Teil neu bestellen')
+        VERSAND_AN_LIEFERANT            = '8', ('Versand an Lieferant')
+        GELIEFERT                       = '9', ('Geliefert')
+        VERSAND_AN_PRODUKTION           = 'A', ('Versand an Produktion')
+        ABGESCHLOSSEN                   = 'B', ('Abgeschlossen')   
 
     status = models.CharField(
         max_length = 1,
