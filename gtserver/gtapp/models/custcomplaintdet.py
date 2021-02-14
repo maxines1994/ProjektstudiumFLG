@@ -18,6 +18,7 @@ class CustComplaintDet(ComplaintDet):
         BEI_KUNDENDIENST                = '7', ('Bei Kundendienst')
         VERSAND_AN_KUNDE                = '8', ('Versand an Kunde')
         GELIEFERT                       = '9', ('Geliefert')
+        ABGESCHLOSSEN                   = 'A', ('Abgeschlossen')
 
     status = models.CharField(
         max_length = 1,
