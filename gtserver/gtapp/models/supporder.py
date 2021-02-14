@@ -12,9 +12,9 @@ class SuppOrder(Order):
         BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend')
         LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend')
         BESTELLT                        = 4, ("Bestellt")
-        TEILGELIEFERT                   = 5, ("Teilgeliefert")
-        GELIEFERT                       = 6, ('Geliefert')
-        STORNIERT                       = 7, ('Storniert')
+        TEILGELIEFERT                   = 6, ("Teilgeliefert")
+        GELIEFERT                       = 7, ('Geliefert')
+        STORNIERT                       = 8, ('Storniert')
         
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)

@@ -54,6 +54,7 @@ def stock_check_view(request, **kwargs):
     stock_demand = []
     part_demands = []
     part_ordered_total = []
+    part_order_suggestions = []
 
     # Flag fuer erfolgreiche Bestandspruefung mit True initialisieren
     check_successful = True
@@ -70,10 +71,10 @@ def stock_check_view(request, **kwargs):
         else:
             stock_demand.append(0)
         # Bestandspruefung erfolgreich? Hier wird nur auf False gesetzt, falls der Flag True ist.
-        # Da eine Liste durchlaufen wird kann jedesmal der Flag wieder auf True gesetzt werden, obwohl
-        # ein vorher gepruefter Bestand ihn auf False gesetzt hat. Einmal False, immer False!
+        # Beim Durchlaufen der Liste kann der Flag nicht wieder auf True gesetzt werden, wenn
+        # ein vorher gepruefter Bestand ihn einmal auf False gesetzt hat. Einmal False, immer False!
         if check_successful:
-            check_successful = False if stock_demand[s] - temp_available > 0 else True
+            check_successful = False if temp_available - stock_demand[s]  <= 0 else True
         # Durchlaufe alle relevanten Fertigungsauftraege
         for order in all_manu_orders:
             # Pruefe nur die Artiparts, die fuer den Artikel des Auftrages existieren.
@@ -86,9 +87,11 @@ def stock_check_view(request, **kwargs):
                     part_demands[s] += ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity
         # Durchlaufe alle relevanten Bestellungen
         for orderdet in all_supp_order_dets:
-                # Wenn der naechste Bestand geprueft wird, muss appended werden, ansonsten wird der Bedarf am gleichen Index erhoeht.
+                # Immer wenn der naechste Bestand geprueft wird, ist die Liste der insgesamt bestellten Teile noch 
+                # kuerzer, als der Iterator. Wenn der naechste Bestand geprueft wird, muss also appended werden, 
+                # ansonsten wird der Bedarf am gleichen Index erhoeht.
                 if len(part_ordered_total) <= s:
-                    # Wenn Teil bestellt wurde, speichere die Bestellmenge, ansonsten 0
+                    # Wenn das Teil in der aktuell geprueften Bestellung vorhanden ist, speichere die Bestellmenge, ansonsten 0
                     if stock.part_id == orderdet.part_id:                 
                         part_ordered_total.append(orderdet.quantity)
                     else:
@@ -96,32 +99,74 @@ def stock_check_view(request, **kwargs):
                 else:
                     if stock.part_id == orderdet.part_id:                 
                         part_ordered_total[s] += orderdet.quantity
-                    else:
-                        part_ordered_total[s] = 0
         s += 1
-    # Sicherstellen dass part_ordered_total gefuellt wird, auch wenn es keine Bestellungen gibt.
-    if len(part_ordered_total) < s:
+
+    # Sicherstellen dass part_ordered_total mit nullen gefuellt wird, wenn es keine Bestellungen gibt.
+    if len(part_ordered_total) == 0:
         part_ordered_total = [0] * s
+    
+    p = 0
+    for parts in c["stock"]:
+        if part_demands[p] - part_ordered_total[p] >= 0:
+            part_order_suggestions.append(part_demands[p] - part_ordered_total[p])
+        else:
+            part_order_suggestions.append(0)
 
     #Fertige Listen in Kontext speichern
     c["stock_available"] = stock_available
     c["stock_demand"] = stock_demand
     c["demand_total"] = part_demands
     c["ordered_total"] = part_ordered_total
-
+    c["order_suggestions"] = part_order_suggestions
     # Boolscher Kontext ob Bestandspruefung erfolgreich
     c["check_successful"] = check_successful
-
     # Pack Bestande und Artiparts in einen 2-dimensionalen Array
     c["stock_artipart_list"] = zip(c["stock"], c["artipart"])
-
     # Pack Bestaende, Artiparts, und Gesamtbedarfsmengen in einen Kontext
     # Die Listen existieren zwar lose nebeneinander, vom Index her passen die Daten aber zueinander
     # Wenn alle Listen parallel im Template durchlaufen werden, hat man also die passenden Daten
-    c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"])
-    print(c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal"])
-
+    c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal_suggestion"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"],c["order_suggestions"])
     c["STATUS"] = CustOrderDet.Status.__members__
+
+    # Hier gehts um Automatische Bestellungen und Abschluss der Bestandspruefung
+    if request.method == 'POST':
+        part_id_list = []
+        order_quantity_list = []
+        status_task_kwargs = {}
+        i = 1
+        # Im Template werden die Zeilen gezaehlt. Laufe jede Zeile durch und speichere die dazugehoerige
+        # part_id und order_quantity in Listen
+        while i <= int(request.POST.get("rows")):
+            part_id_list.append(request.POST.get('part_id' + str(i)))
+            if not check_successful:
+                # Nur Listen fuellen mit Teilen die eine Bestellmenge > 0 haben
+                if int(request.POST.get('order_quantity' + str(i))) > 0:
+                    part_id_list.append(request.POST.get('order_quantity' + str(i)))
+            i += 1
+
+        # Bei automatischen Bestellungen:
+        if not check_successful:    
+            my_new_supporder_id = SuppOrderDet.auto_order(part_id_list, order_quantity_list)
+            status_task_kwargs['id'] = kwargs['id']
+            status_task_kwargs['task_type'] = 15 #Bestellung freigeben
+            return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
+        
+        # Bei Abschluss der Bestandspruefung werden die Mengen reserviert und ein neuer status_task gesetzt
+        if check_successful:
+            print(part_id_list)
+            # Teile der Liste durchlaufen und jeweils die Mengen reservieren
+            for part_id in part_id_list:
+                my_part = Part.objects.get(id=part_id)
+                my_stock = Stock.objects.get(part_id=part_id, is_supplier_stock=False)
+                print(my_part)
+                print(my_part.install_quantity)
+                my_stock.reserve(quantity=my_part.install_quantity)
+            # fuelle kwargs fuer Weiterleitung an set_status_task
+            status_task_kwargs['id'] = kwargs['id']
+            status_task_kwargs['task_type'] = 5 #Teilelieferung an Produktion
+
+            return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
+
 
     return render(request, "StockCheck.html", c)
     """
@@ -135,6 +180,24 @@ def stock_check_view(request, **kwargs):
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
     """
+@login_required
+def stock_check_complete(request, **kwargs):
+    part_ids = []
+    rows = int(request.POST.get('rows'))
+    # Durchlaufe alle Zeilen der Bestandspruefungsliste und speichere die Teile-IDs
+    i = 0
+    while i <= int(request.GET.get('rows')):
+        part_ids.append(request.POST.get('part_id' + str(i)))
+        i += 1
+    
+    # Durchlaufe die Liste der Teile-IDs und reserviere die Bestaende entsprechend der part.install_quantity
+    for part_id in part_ids:
+        my_part = Part.objects.get(id=part_ids[part_id])
+        my_stock = Stock.objects.get(part_id=my_part_id, is_supplier_stock=False)
+        my_stock.reserve(quantity=my_part.install_quantity)
+
+    return HttpResponseRedirect(reverse("set_status_task", kwargs={id: kwargs['id'], todo_type: kwargs['task_type']}))
+
 
 class StockmovementView(LoginRequiredMixin, TemplateView):
     template_name = "StockMovement.html"

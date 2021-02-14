@@ -35,7 +35,7 @@ class Stock(GtModel):
         """
         Erhoeht die reservierte Menge des Bestandes
         """
-        self.reserve += quantity
+        self.reserved += quantity
         self.save()
         
     @classmethod
@@ -56,14 +56,4 @@ class Stock(GtModel):
             p, q = i
             if q != 0:
                 return False
-        return True
-
-    def reserve(demand: ArtiPart):
-        """
-        Reserviert alle Bestaende der gebrauchten Teile
-        """
-        for item in demand:
-            my_stock = Stock.objects.get(is_supplier_stock=False, part=item.part)
-            my_stock.reserved += item.quantity
-            my_stock.save()
         return True

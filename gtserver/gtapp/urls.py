@@ -81,6 +81,7 @@ urlpatterns = [
     path('stock/alter/<int:id>/', Stock_alter_view.as_view(), name="stock_alter"),
     path('stock/movements/<int:id>/', StockmovementView.as_view(), name="stockmovement"),
     path('stock/check/<int:id>/', stock_check_view, name="stock_check"),
+    path('stock/check/complete/<int:id>/<int:task_type>/', stock_check_complete, name="stock_check_complete"),
 
     # Wareneingang
     path('goods_receipt/<int:typeofdet>/<int:idofdet>/', goods_receipt_view, name="goods_receipt"),
