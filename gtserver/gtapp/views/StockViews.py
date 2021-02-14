@@ -117,12 +117,13 @@ def stock_check_view(request, **kwargs):
     if len(part_ordered_total) == 0:
         part_ordered_total = [0] * s
     
-    p = 0
-    for parts in c["stock"]:
-        if part_demands[p] - part_ordered_total[p] >= 0:
-            part_order_suggestions.append(part_demands[p] - part_ordered_total[p])
+    for p, parts in enumerate(c["stock"]):
+        my_part_suggestion = part_demands[p] - part_ordered_total[p] - stock_available[p]
+        if my_part_suggestion >= 0:
+            part_order_suggestions.append(my_part_suggestion)
         else:
             part_order_suggestions.append(0)
+        
 
     #Fertige Listen in Kontext speichern
     c["stock_available"] = stock_available
@@ -153,7 +154,7 @@ def stock_check_view(request, **kwargs):
             if not check_successful:
                 # Nur Listen fuellen mit Teilen die eine Bestellmenge > 0 haben
                 if int(request.POST.get('order_quantity' + str(i))) > 0:
-                    part_id_list.append(request.POST.get('order_quantity' + str(i)))
+                    order_quantity_list.append(request.POST.get('order_quantity' + str(i)))
             i += 1
 
         # Bei automatischen Bestellungen:
@@ -161,7 +162,6 @@ def stock_check_view(request, **kwargs):
             my_new_supporder_id = SuppOrderDet.auto_order(part_id_list, order_quantity_list)
             status_task_kwargs['id'] = my_new_supporder_id
             status_task_kwargs['task_type'] = 15 #Bestellung freigeben
-            return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
         
         # Bei Abschluss der Bestandspruefung werden die Mengen reserviert und ein neuer status_task gesetzt
         if check_successful:
@@ -177,8 +177,7 @@ def stock_check_view(request, **kwargs):
             status_task_kwargs['id'] = kwargs['id']
             status_task_kwargs['task_type'] = 5 #Teilelieferung an Produktion
 
-            return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
-
+        return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
 
     return render(request, "StockCheck.html", c)
     """

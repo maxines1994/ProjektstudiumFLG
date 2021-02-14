@@ -29,7 +29,6 @@
                         <th>Grafik</th>
                         <th>Bedarf</th>
                         <th>Bestand</th>
-                        <th>Differenz</th>
                         {% if LIEFERANTEN not in group %}
                             <th>Gesamtbedarf</th>
                             <th>Bestellt</th>
@@ -46,7 +45,6 @@
                         <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
                         <td>{{ artipart.quantity }}</td>
                         <td>{{ stockavailable }}</td>
-                        <td>{{ stockdemand }}</td>
                         <td>{{ demandtotal }} </td>
                         <td>{{ orderedtotal }} </td>
                         {% if not check_successful %}
