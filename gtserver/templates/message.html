@@ -47,34 +47,93 @@
                 </div>
             </div>
         </div>
-        <div class="col s12">
-            <h4 class="left">Anhängen von Dokumenten</h4>
-        </div>
-        <div class="col s12">
-            <div class="card">
-                <div class="card-content white-text">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field col s12">
-                                <select id="orderno">
-                                    <option value="">---------</option>
-                                    {% for o in orders %}
-                                    <option value="{{ o.pk }}">{{ o }}</option>
-                                    {% endfor %}
-                                </select>
-                                <label for="orderno">Bestellungen</label>
-                            </div>
-                            <div class="right-align">
-                                <a onclick="getmsgapi()" class="waves-effect waves-light btn"><i class="material-icons left">attachment</i>Bestellung hinzufügen</a>
-                            </div>
+    </div>
+    {% if suppcomplaints or supporders or custcomplaints or custorders %}
+    <div class="col s12">
+        <h4 class="left">Anhängen von Dokumenten</h4>
+    </div>
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content white-text">
+                {% if supporders.exists %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field col s12">
+                            <select id="SuppOrder">
+                                <option value="">---------</option>
+                                {% for o in supporders %}
+                                <option value="{{ o.pk }}">{{ o }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="SuppOrder">Bestellreklamationen</label>
                         </div>
                         
                     </div>
+                    <div class="col s12 m6">
+                        <a onclick="getmsgapi('SuppOrder')" class="waves-effect waves-light btn">Bestellung hinzufügen</a>
+                    </div>
                 </div>
+                {% endif %}
+                {% if custorders.exists %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field col s12">
+                            <select id="CustOrder">
+                                <option value="">---------</option>
+                                {% for o in custorders %}
+                                <option value="{{ o.pk }}">{{ o }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="CustOrder">Aufträge</label>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <a onclick="getmsgapi('CustOrder')" class="waves-effect waves-light btn">Bestellung hinzufügen</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% if suppcomplaints.exists %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field col s12">
+                            <select id="SuppComplaint">
+                                <option value="">---------</option>
+                                {% for o in suppcomplaints %}
+                                <option value="{{ o.pk }}">{{ o }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="SuppComplaint">Reklamationen</label>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <a onclick="getmsgapi('SuppComplaint')" class="waves-effect waves-light btn">Bestellung hinzufügen</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% if custcomplaints.exists %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field col s12">
+                            <select id="CustComplaint">
+                                <option value="">---------</option>
+                                {% for o in custcomplaints %}
+                                <option value="{{ o.pk }}">{{ o }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="CustComplaint">Bestellungen</label>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <a onclick="getmsgapi('CustComplaint')" class="waves-effect waves-light btn">Bestellung hinzufügen</a>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% endblock %}
     </div>
+    {% endif %}
+    {% endblock %}
 </div>
 {% endblock %}
 
@@ -91,17 +150,20 @@
     });
 </script>
 <script>
-    function getmsgapi() {
-        var id = $("#orderno").val();
+    function getmsgapi(i) {
+        var id = $("#"+i).val();
         var request = new XMLHttpRequest();
-        request.open("GET", "/msg/api/" + id + "/");
+        request.open("GET", "/msg/api/"+ i + "/" + id + "/");
         request.addEventListener('load', function (event) {
             if (request.status >= 200 && request.status < 300) {
                 var obj = JSON.parse(request.responseText);
                 // Werte setzen
-                s = "\nBestellung: " + obj["no"] + "\nKunde: " + obj["customer"] + "\n" + "Bestelltag: " + obj["issued"] + "\n";
+                s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\n" + "Bestelltag: " + obj["issued"] + "\n";
                 for (i=1;i<=obj["posl"];i++) {
-                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tArtikel: " + obj[i]["article"] + "\n\tMenge: " + obj[i]["quantity"] + "\n";
+                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tPosition: " + obj[i]["particle"];
+                    if (i[0] == 'S') {
+                        s = s + "\n\tMenge: " + obj[i]["quantity"] + "\n\n";
+                    }
                 }
                 $('#id_text').val($('#id_text').val() + s);
                 M.textareaAutoResize($('#id_text'));

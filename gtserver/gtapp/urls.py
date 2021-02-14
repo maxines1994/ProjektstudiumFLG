@@ -36,7 +36,7 @@ urlpatterns = [
     path('msg/write/', msgWriteView.as_view(), name='msgwrite'),
     path('msg/details/<int:id>/', msgDetailsView.as_view(), name='msgdetails'),
     path('msg/delete/<int:id>/', delete_message_view, name='msgdelete'),
-    path('msg/api/<int:id>/', add_order_view, name='msgorderadd'),
+    path('msg/api/<str:model>/<int:id>/', add_order_view, name='msgorderadd'),
 
     # Boxscan
     path('box/', box_view.as_view(), name="box_view"),
