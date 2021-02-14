@@ -45,9 +45,8 @@ urlpatterns = [
     path('box_assign/<str:model>/<int:id>/', Box_assign_view.as_view(), name='box_assign'),
 
     # Task Status
-    path('status_call/<int:id>/<int:type>/<int:status>/', set_status_call, name='set_status_call'),
-    path('status_task/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>/', set_status_task, name='set_status_task'),
-    path('set_status_task_share/<int:id>/<int:type>/<int:status>/<int:type_for_task>/<int:tasktype>/', set_status_task_share, name='set_status_task_share'),
+    path('status_call/<str:model>/<int:id>/<int:status>/', set_status_call, name='set_status_call'),
+    path('status_task/<int:id>/<int:task_type>/', set_status_task, name='set_status_task'),
 
     # Cust Order
     path('cust_order/', Cust_order_view.as_view(), name="cust_order"),
@@ -82,6 +81,7 @@ urlpatterns = [
     path('stock/alter/<int:id>/', Stock_alter_view.as_view(), name="stock_alter"),
     path('stock/movements/<int:id>/', StockmovementView.as_view(), name="stockmovement"),
     path('stock/check/<int:id>/', stock_check_view, name="stock_check"),
+    path('stock/check/complete/<int:id>/<int:task_type>/', stock_check_complete, name="stock_check_complete"),
 
     # Wareneingang
     path('goods_receipt/<int:typeofdet>/<int:idofdet>/', goods_receipt_view, name="goods_receipt"),

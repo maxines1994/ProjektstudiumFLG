@@ -37,13 +37,13 @@ class Cust_complaint_create_view(LoginRequiredMixin, CreateView):
         
         if form.instance.external_system == True:
             if self.request.user.groups.filter(name=K1).exists():
-                Task.set_task_custComplaint(new_cust_order_complaint, 21, Timers.get_current_day())
+                Task.set_task(new_cust_order_complaint, 21)
             elif self.request.user.groups.filter(name=K2).exists():
-                Task.set_task_custComplaint(new_cust_order_complaint, 22, Timers.get_current_day())
+                Task.set_task(new_cust_order_complaint, 22)
             elif self.request.user.groups.filter(name=K3).exists():
-                Task.set_task_custComplaint(new_cust_order_complaint, 23, Timers.get_current_day())
+                Task.set_task(new_cust_order_complaint, 23)
         else:
-           Task.set_task_custComplaint(new_cust_order_complaint, 23, Timers.get_current_day())
+           Task.set_task(new_cust_order_complaint, 23)
 
         return HttpResponseRedirect("/cust_complaint/alter/" + str(new_cust_order_complaint.pk) + "/")
     

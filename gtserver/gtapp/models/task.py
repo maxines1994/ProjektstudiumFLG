@@ -37,72 +37,52 @@ class Task(GtModel):
         default = Status.NICHT_ZUGEWIESEN,
     )
     
+    @classmethod
+    def set_task(cls, obj, task_type_id, day=Timers.get_current_day()):
+        """
+        Erstellt einen Task. Parameter sind das Objekt und die ID des Task-Typs
+        """
+        # Suche das Model des uebergebenen Objekts (CustOrder, CustOrderDet ...)
+        my_model = GtModel.str_to_gtmodel(obj.__class__.__name__)
+        # Wandle das Model in einen Fremdschluesselnamen nach hiesiger Konvention um
+        # (cust_order, cust_order_det ...)
+        my_fieldname = GtModel.gtmodel_to_foreign_field_name(my_model)
+        # Baue Filter entsprechend des Feldnamens
+        my_task_filter = {}
+        # cust_order_id / cust_order_det_id /... = obj.id
+        my_task_filter[my_fieldname + '_id'] = obj.id
+        my_task_filter['task_type_id'] = task_type_id
+        # Erweitere den Filter fuer die create-Methode
+        my_create_filter = {}
+        # Fuelle Fremdschluesselfeld z.B. cust_order_id, task_type_id, active=1 und start_on-Datum
+        my_create_filter[my_fieldname + '_id'] = my_task_filter[my_fieldname + '_id']
+        my_create_filter['task_type_id'] = my_task_filter['task_type_id']
+        my_create_filter['active'] = 1
+        my_create_filter['start_on'] = day
 
-    #Task für CusOrders
-    @classmethod
-    def set_task_cust(cls, order, number, day=Timers.get_current_day()):
-        mylist = list(Task.objects.filter(cust_order_id = order, task_type_id=number))
-        if not mylist:
-                Task.objects.create(cust_order=order, task_type_id=number, active=1, start_on=day)
-        else:
-            pass 
+        if 'det' in my_fieldname:
+            # Erweitere Filter zum Fuellen der ID des Kopf-models
+            # Z.B bei CustOrderDets soll hier zur Erleichterung gleich 
+            # die dazu gehoerende cust_order_id mitgespeichert werden.
+            # Beispiel: cust_order_det wird in my_header_fieldname zu cust_order
+            my_header_fieldname = my_fieldname.replace('_det', '')
+            # Speichere bspw die cust_order_id von dieser CustOrderDet
+            my_header_id = getattr(obj, my_header_fieldname)
+            # gettattr(my_model, my_header_fieldname) entspricht fuer my_model = CustOrderDet:
+            # obj.cust_order. Es wird also die CustOrder des Objekts des Typs CustOrderDet ermittelt.
+            my_create_header_filter = {}
+            my_create_header_filter[my_fieldname + '_id'] = my_create_filter[my_fieldname + '_id']
+            my_create_header_filter['task_type_id'] = my_create_filter['task_type_id']
+            my_create_header_filter['active'] = my_create_filter['active']
+            my_create_header_filter['start_on'] = my_create_filter['start_on']
+            my_create_header_filter[my_header_fieldname] = getattr(obj, my_header_fieldname)
+            # Fueg das Feld zum create-Filter hinzu, damit z.B. die cust_order_id mitgespeichert wird.
+            my_create_filter[my_header_fieldname] = my_header_id
 
-    #Task für CusOrderDets
-    @classmethod
-    def set_task_cust_det(cls, orderdet, number, day=Timers.get_current_day()):
-        mylist = list(Task.objects.filter(cust_order_det_id = orderdet, task_type_id=number))
-        if not mylist:
-                Task.objects.create(cust_order_det=orderdet, task_type_id=number, active=1, start_on=day)
-        else:
-            pass
+        if not Task.objects.filter(**my_task_filter):
+            # Nur erzeugen, wenn es den Task noch nicht gibt.
+            Task.objects.create(**my_create_filter)
 
-    #Task für SuppOrders
-    @classmethod
-    def set_task_supp(cls, order, number, day=Timers.get_current_day()):
-        mylist = list(Task.objects.filter(supp_order_id = order, task_type_id=number))
-        if not mylist:
-                Task.objects.create(supp_order=order, task_type_id=number, active = 1, start_on= day)
-        else:
-            pass  
-    
-    #Task für SuppOrderDets
-    @classmethod
-    def set_task_supp_det(cls, orderdet, number, day=Timers.get_current_day()):
-        mylist = list(Task.objects.filter(supp_order_det_id = orderdet, task_type_id=number))
-        if not mylist:
-                Task.objects.create(supp_order_det=orderdet, task_type_id=number, active = 1, start_on= day)
-        else:
-            pass
-            pass 
-    
-    #Task für CustComplaint
-    @classmethod
-    def set_task_custComplaint(cls, order, number, day):
-        mylist = list(Task.objects.filter(cust_complaint_id = order, task_type_id=number))
-        if not mylist:
-                Task.objects.create(cust_complaint = order, task_type_id=number, active = 1, start_on= day)
-        else:
-            pass  
-
-    #Task für CustComplaintDet
-    @classmethod
-    def set_task_custComplaintDet(cls, order, number, day):
-        mylist = list(Task.objects.filter(cust_complaint_det_id = order, task_type_id=number))
-        if not mylist:
-                Task.objects.create(cust_complaint_det=order, task_type_id=number, active = 1, start_on= day)
-        else:
-            pass 
-    
-    #Task für SuppComplaint
-    @classmethod
-    def set_task_suppComplaint(cls, order, number, day):
-        mylist = list(Task.objects.filter(supp_complaint_id = order, task_type_id=number))
-        if not mylist:
-                Task.objects.create(supp_complaint=order, task_type_id=number, active = 1, start_on= day)
-        else:
-            pass 
-    
-    
     @classmethod
     def get_tasks_of_user(self, user):
         return Task.objects.filter(user=user, active=1)

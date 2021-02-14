@@ -2,7 +2,7 @@ from gtapp.utils import get_context
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, DetailView
-from gtapp.models import Task, TaskType, CustOrder, SuppOrder, CustOrderDet, SuppOrderDet, CustComplaint, CustComplaintDet, SuppComplaint, SuppComplaintDet
+from gtapp.models import *
 from django.contrib.auth.models import Group, User
 from gtapp.constants import *
 from gtapp.models import Timers

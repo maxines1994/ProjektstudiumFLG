@@ -120,7 +120,6 @@
             {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
                 {% if button_neubestellung %}
                     {% if action != 'create' %}
-                        <!--Mit Phillipp klären-->
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">local_shipping</i>Neubestellung auslösen</a>
                     {% endif %}
                 {% endif %}

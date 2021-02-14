@@ -42,3 +42,28 @@ class GtModel(models.Model):
         Erwartet den Namen eines Models als String und liefert das Model zurück
         """
         return apps.get_model(app_label='gtapp', model_name=string)
+
+    def gtmodel_to_foreign_field_name(model: models.Model):
+        """
+        Erwartet ein Model und liefert die uebliche Fremdschluesselbezeichnung zurueck
+        Bsp: CustOrderDet => cust_order_det oder SuppComplaintDet => supp_complaint_det
+        Funktioniert nur mit Models die irgendwo "order", "complaint" oder "det" enthalten.
+        """
+        # Entferne alle Grossbuchstaben aus dem Modelnamen
+        my_fieldname  = model.__name__.casefold()
+        # Ermittle die Position des ersten Unterstrichs. Also nach "order" oder "complaint"
+        # je nachdem, welcher Begriff im Modelnamen vorkommt
+        order_complaint_pos = my_fieldname.find("order") if my_fieldname.find("order") >= 0 else my_fieldname.find("complaint")
+        # Fuege an der gefundenen Stelle "_" ein
+        my_fieldname = GtModel.insert_underscore(my_fieldname, order_complaint_pos)    
+        # Falls das Model ein "det" enthaelt muss hier ein weiterer Unterstrich eingefuegt werden, sonst nicht.
+        det_pos = my_fieldname.find("det")
+        my_fieldname = GtModel.insert_underscore(my_fieldname, det_pos) if det_pos >= 0 else my_fieldname
+        
+        return my_fieldname
+
+    def insert_underscore(string, index):
+        """
+        Fuegt an der stelle "index" einen "_" ein und gibt den string wieder zurueck. 
+        """
+        return string[:index] + '_' + string[index:]

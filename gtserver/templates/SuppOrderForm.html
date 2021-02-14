@@ -1,5 +1,6 @@
 {% extends "forms.html" %}
 {% load materializecss %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}
@@ -120,18 +121,18 @@
             {% if action != "create" %}
                 {% if company == LIEFERANTEN %}
                     {% if object.status == object.Status.ERFASST %}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 3 2 3 9%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 9%}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
                     {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
                         <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
                     {% endif %}
                     {% if object.status == object.Status.BESTELLT %}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 5%}">Beliefert</a>
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk 5%}">Beliefert</a>
                     {% endif %}
 
                 {% elif company == JOGA %}
                     {% if object.status == object.Status.ERFASST %}
-                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object.pk 3 object.Status.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk object.Status.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
                     {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
                         <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>

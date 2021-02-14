@@ -35,13 +35,13 @@ class Cust_order_create_view(LoginRequiredMixin, CreateView):
         
         if form.instance.external_system == True:
             if self.request.user.groups.filter(name=K1).exists():
-                Task.set_task_cust(new_cust_order, 16, Timers.get_current_day())
+                Task.set_task(new_cust_order, 16)
             elif self.request.user.groups.filter(name=K2).exists():
-                Task.set_task_cust(new_cust_order, 17, Timers.get_current_day())
+                Task.set_task(new_cust_order, 17)
             elif self.request.user.groups.filter(name=K3).exists():
-                Task.set_task_cust(new_cust_order, 18, Timers.get_current_day())
+                Task.set_task(new_cust_order, 18)
         else:
-            Task.set_task_cust(new_cust_order, 1, Timers.get_current_day())
+            Task.set_task(new_cust_order, 1)
         
         return HttpResponseRedirect("/cust_order/alter/" + str(new_cust_order.pk) + "/")
 

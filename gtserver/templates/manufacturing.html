@@ -61,8 +61,10 @@
     {% endif %}
     {% if PRODUKTION in group %}
         {% if m.status == STATUS.IN_PRODUKTION %}
+            <li><a href="{% url 'set_status_task' m.id 7 %}" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
+        {% endif %}
+        {% if m.status == STATUS.LIEFERUNG_AN_KD_AUSSTEHEND %}
             <li><a href="{% url 'box_assign' m|to_class_name m.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
-            <li><a href="{% url 'set_status_task' m.id TASK_CUSTORDERDET STATUS.LIEFERUNG_AN_KD_AUSSTEHEND TASK_CUSTORDERDET 7 %}" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
         {% endif %}
     {% endif %}
 
