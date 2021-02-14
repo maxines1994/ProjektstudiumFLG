@@ -1,6 +1,6 @@
 from django.db import models
 from gtapp.models import GtModel
-from gtapp.models import SuppOrderDet, CustOrderDet, CustComplaintDet, SuppComplaintDet, Stock, BookingCode
+from gtapp.models import SuppOrderDet, CustOrderDet, CustComplaintDet, SuppComplaintDet, Stock, BookingCode, ArtiPart
 from gtapp.constants import *
 
 
@@ -9,6 +9,7 @@ class Delivery(GtModel):
     supp_order_det = models.ForeignKey(SuppOrderDet, null=True, on_delete=models.CASCADE, verbose_name="Ware")
     cust_complaint_det = models.ForeignKey(CustComplaintDet, null=True, on_delete=models.CASCADE, verbose_name="Ware")
     supp_complaint_det = models.ForeignKey(SuppComplaintDet, null=True, on_delete=models.CASCADE, verbose_name="Ware")
+    artipart = models.ForeignKey(ArtiPart, null=True, on_delete=models.CASCADE, verbose_name="Ware")
     quantity = models.IntegerField(verbose_name="Menge")
     delivered = models.IntegerField(verbose_name="Geliefert")
     trash = models.IntegerField(null=True, blank=True, verbose_name="Davon fehlerhaft", default=0)
@@ -52,6 +53,8 @@ class Delivery(GtModel):
                 Stock.objects.get(is_supplier_stock=external_system, part=self.supp_complaint_det.supp_order_det.part).change(my_delivery_amount)
             else:
                 Stock.objects.get(is_supplier_stock=external_system, part=self.supp_order_det.part).change(my_delivery_amount)
+        else: 
+            Stock.objects.get(is_supplier_stock=external_system, part=self.artipart.part).change(my_delivery_amount)
         
         return super(Delivery, self).save(*args, **kwargs)
         """

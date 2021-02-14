@@ -9,3 +9,6 @@ class ArtiPart(GtModel):
     quantity = models.SmallIntegerField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.part.description)
