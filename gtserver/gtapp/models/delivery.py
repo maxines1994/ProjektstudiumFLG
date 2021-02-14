@@ -19,7 +19,7 @@ class Delivery(GtModel):
         Dient zum Schreiben von Lagerbewegungen von Bestellungen und Bestellreklamationen
         """
         complaint = False
-        supp_order = False
+        supp = False
         external_system = True
 
         if self._creation_user.groups.filter(name=JOGA).exists():

@@ -159,7 +159,7 @@ def stock_check_view(request, **kwargs):
         # Bei automatischen Bestellungen:
         if not check_successful:    
             my_new_supporder_id = SuppOrderDet.auto_order(part_id_list, order_quantity_list)
-            status_task_kwargs['id'] = kwargs['id']
+            status_task_kwargs['id'] = my_new_supporder_id
             status_task_kwargs['task_type'] = 15 #Bestellung freigeben
             return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
         

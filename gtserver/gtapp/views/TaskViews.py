@@ -64,9 +64,9 @@ def tasks_edit(request, **kwargs):
     Leitet den User zu der Seite auf der das Objekt des Tasks weiter bearbeitet werden kann
     """
     # Hole den Task
-    mytask = Task.objects.filter(pk=kwargs["id"]).first()
+    mytask = Task.objects.get(pk=kwargs["id"])
     # Hole das Template, auf das weiter geleitet werden soll
-    my_tasktype = TaskType.objects.get(id=mytask.id)
+    my_tasktype = TaskType.objects.get(id=mytask.task_type_id)
     my_view_url = TaskType.objects.get(id=mytask.task_type_id).view_url
     # Falls die Template Parameter erwartet: 
     if TaskType.objects.get(id=mytask.task_type_id).view_kwargs_id != '':
