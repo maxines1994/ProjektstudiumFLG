@@ -68,13 +68,16 @@ def box_search_view(request):
         elif CustComplaintDet.objects.filter(box_no = str(number)).exclude(cust_complaint__external_system = ext_sys).exists() and len(CustComplaintDet.objects.filter(box_no = str(number)).exclude(cust_complaint__external_system = ext_sys)) < 2:
             mylist = CustComplaintDet.objects.filter(box_no = str(number))
             for obj in mylist:
-                if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
+                if obj.status == CustComplaintDet.Status.VERSAND_AN_PRODUKTION:
                     Task.set_task(obj, 28)
                     set_status(obj.__class__, obj.id, CustComplaintDet.Status.IN_ANPASSUNG)
                     boxno_found = 1
-                if obj.status == CustComplaintDet.Status.ANPASSUNG_ABGESCHLOSSEN:
+                if obj.status == CustComplaintDet.Status.VERSAND_AN_KUNDENDIENST:
                     Task.set_task(obj, 31)
                     set_status(obj.__class__, obj.id, CustComplaintDet.Status.BEI_KUNDENDIENST)
+                    boxno_found = 1
+                if obj.status == CustComplaintDet.Status.VERSAND_AN_KUNDE:
+                    set_status(obj.__class__, obj.id, CustComplaintDet.Status.GELIEFERT)
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
@@ -128,7 +131,21 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         elif model == SuppComplaint:
             return SuppComplaint.Status.ERLEDIGT
         elif model == CustComplaintDet:
-            return CustComplaintDet.Status.GELIEFERT
+            ## KUNDE
+            if obj.cust_complaint.external_system:
+                if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
+                    return CustComplaintDet.Status.IN_REKLAMATION
+            ## JOGA
+            else:
+                if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
+                    return CustComplaintDet.Status.VERSAND_AN_PRODUKTION
+                elif obj.status == CustComplaintDet.Status.ANPASSUNG_ABGESCHLOSSEN:
+                    return CustComplaintDet.Status.VERSAND_AN_KUNDENDIENST
+                elif obj.status == CustComplaintDet.Status.BEI_KUNDENDIENST:
+                    return CustComplaintDet.Status.VERSAND_AN_KUNDE
+
+
+
         else:
             return obj.status
 
