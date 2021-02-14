@@ -73,6 +73,8 @@
                                 <th>Menge</th>
                                 <th>Beschreibung</th>
                                 <th>Abgeschlossen am</th>
+                                <th>Neulieferung</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -84,6 +86,13 @@
                                 <td>{{ i.quantity }}</td>
                                 <td>{{ i.memo }}</td>
                                 <td>{{ i.finished_on }}</td>
+                                <td>{{ i.redelivery }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: {{ i.status|multiply:100|divide:status_count }}%"></div>
+                                    </div>
+                                    {{ i.get_status_display }} 
+                                </td>
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
@@ -104,16 +113,22 @@
             {% if PRODUKTION in group %}
                 {% if OBJ_STATUS <= STATUS.ERFASST %}
                     {% if action != 'create' %}
+                        <!--Mit Phillipp klären-->
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
                     {% endif %}
                 {% endif %}
             {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
-                {% if OBJ_STATUS <= STATUS.BEI_PDL %}
+                {% if button_neubestellung %}
                     {% if action != 'create' %}
-                        <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 7 STATUS.REKLAMIERT 7 33%}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
+                        <!--Mit Phillipp klären-->
+                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">local_shipping</i>Neubestellung auslösen</a>
                     {% endif %}
                 {% endif %}
             {% elif LIEFERANT in group %}
+                {% if OBJ_STATUS == STATUS.ERFASST %}
+                    <!--Mit Maxi klären: Status kopf: Bestandsprüfung ausstehend-->
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_task_share' object.pk 6 POS_STATUS.REKLAMATION_FREIGEGEBEN 6 27%}"><i class="material-icons left">done_all</i>Freigeben</a>
+                {% endif %}
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
         </div>
@@ -127,17 +142,27 @@
 {% for i in items %}
 <ul id='i{{i.id}}' class='dropdown-content'>
     {% if PRODUKTION in group %}
-        {% if OBJ_STATUS <= STATUS.ERFASST %}
+        {% if i.status <= POS_STATUS.ERFASST %}
             <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
             <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
     {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
-        {% if OBJ_STATUS <= STATUS.ERFASST %}
-            <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+        {% if i.status <= POS_STATUS.BEI_PDL %}
+            {% if i.redelivery %}
+                <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+                <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+                <!--ToDo Aus Lager beliefern: Status->Abgeschlossen Text->Teil aus Lager entnehmen; Teil außerordentlich an PRO schicken; Teil aus Lager buchen -->
+                <li><a href="" class="li-content"><i class="material-icons">unarchive</i>Aus Lager beliefern</a></li>
+                <li><a href="{% url 'set_status_call' i.id 8 POS_STATUS.NEU_BESTELLEN %}" class="li-content"><i class="material-icons">add_shopping_cart</i>Neu bestellen</a></li>
+            {% else %}
+                <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+                <li><a href="{% url 'set_status_call' i.id 8 POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
+            {% endif %}
+        {% elif i.status == POS_STATUS.NEU_BESTELLEN %}
             <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
     {% elif LIEFERANT in group %}
-        {% if OBJ_STATUS <= STATUS.ERFASST %}
+        {% if i.status <= POS_STATUS.ERFASST %}
             <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
             <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}

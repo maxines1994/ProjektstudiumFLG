@@ -215,12 +215,12 @@ class Supp_order_view(LoginRequiredMixin, TemplateView):
         else:
             # 2. Digitalisierungsstufe
             if self.request.user.groups.filter(name=L100).exists():
-                context['orders'] = SuppOrder.objects.filter(supplier_id = 1, external_system=True)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 1, external_system=True).exclude(pk__in=[1,2,3,4,5,6])
             elif self.request.user.groups.filter(name=L200).exists():
-                context['orders'] = SuppOrder.objects.filter(supplier_id = 2, external_system=True)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 2, external_system=True).exclude(pk__in=[1,2,3,4,5,6])
             elif self.request.user.groups.filter(name=L300).exists():
-                context['orders'] = SuppOrder.objects.filter(supplier_id = 3, external_system=True)
+                context['orders'] = SuppOrder.objects.filter(supplier_id = 3, external_system=True).exclude(pk__in=[1,2,3,4,5,6])
             else:
-                context['orders'] = SuppOrder.objects.filter(external_system=False)
+                context['orders'] = SuppOrder.objects.filter(external_system=False).exclude(pk__in=[1,2,3,4,5,6])
        
         return context

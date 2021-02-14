@@ -385,7 +385,93 @@ class Migration(migrations.Migration):
         TaskType.objects.create(id=36, title = "Bestand prüfen", description ="Bitte prüfen Sie den Bestand", group=Group.objects.get(name=L300))
         TaskType.objects.create(id=37, title = "Neuteile an JOGA senden", description ="Bitte senden Sie die Neuteile an die JOGA. Schreiben Sie eine NAchricht mit der Boxnummer and die JOGA.", group=Group.objects.get(name=L300))
 
+    def insert_dummy_complaints(apps, schema_editor):
 
+        #L100
+        complaint_l100 = SuppOrder(order_no='L100_Teile',ref_no=0,issued_on=0,delivery_date=0,received_on=0,memo='Dies ist für reklamierte Teile des KanBan Systems von L100',status=6,external_system=False,supplier=Supplier.objects.get(name=L100))
+        complaint_l100.save()
+        complaint_l100_T1 = SuppOrderDet(pos=1,received_on=0,memo='',supp_order=complaint_l100,part=Part.objects.get(part_no='T1'),quantity=0)
+        complaint_l100_T1.save()
+        complaint_l100_T2 = SuppOrderDet(pos=2,received_on=0,memo='',supp_order=complaint_l100,part=Part.objects.get(part_no='T2'),quantity=0)
+        complaint_l100_T2.save()
+        complaint_l100_T3 = SuppOrderDet(pos=3,received_on=0,memo='',supp_order=complaint_l100,part=Part.objects.get(part_no='T3'),quantity=0)
+        complaint_l100_T3.save()
+        complaint_l100_T4 = SuppOrderDet(pos=4,received_on=0,memo='',supp_order=complaint_l100,part=Part.objects.get(part_no='T4'),quantity=0)
+        complaint_l100_T4.save()
+        complaint_l100_T5 = SuppOrderDet(pos=5,received_on=0,memo='',supp_order=complaint_l100,part=Part.objects.get(part_no='T5'),quantity=0)
+        complaint_l100_T5.save()
+
+        #L100 external system
+        complaint_l100_external_system = SuppOrder(order_no='L100_Teile',ref_no=0,issued_on=0,delivery_date=0,received_on=0,memo='Dies ist für reklamierte Teile des KanBan Systems von L100',status=6,external_system=True,supplier=Supplier.objects.get(name=L100))
+        complaint_l100_external_system.save()
+        complaint_l100_external_system_T1 = SuppOrderDet(pos=1,received_on=0,memo='',supp_order=complaint_l100_external_system,part=Part.objects.get(part_no='T1'),quantity=0)
+        complaint_l100_external_system_T1.save()
+        complaint_l100_external_system_T2 = SuppOrderDet(pos=2,received_on=0,memo='',supp_order=complaint_l100_external_system,part=Part.objects.get(part_no='T2'),quantity=0)
+        complaint_l100_external_system_T2.save()
+        complaint_l100_external_system_T3 = SuppOrderDet(pos=3,received_on=0,memo='',supp_order=complaint_l100_external_system,part=Part.objects.get(part_no='T3'),quantity=0)
+        complaint_l100_external_system_T3.save()
+        complaint_l100_external_system_T4 = SuppOrderDet(pos=4,received_on=0,memo='',supp_order=complaint_l100_external_system,part=Part.objects.get(part_no='T4'),quantity=0)
+        complaint_l100_external_system_T4.save()
+        complaint_l100_external_system_T5 = SuppOrderDet(pos=5,received_on=0,memo='',supp_order=complaint_l100_external_system,part=Part.objects.get(part_no='T5'),quantity=0)
+        complaint_l100_external_system_T5.save()
+
+        #L200
+        complaint_l200 = SuppOrder(order_no='L200_Teile',ref_no=0,issued_on=0,delivery_date=0,received_on=0,memo='Dies ist für reklamierte Teile des KanBan Systems von L200',status=6,external_system=False,supplier=Supplier.objects.get(name=L200))
+        complaint_l200.save()
+        complaint_l200_T6 = SuppOrderDet(pos=1,received_on=0,memo='',supp_order=complaint_l200,part=Part.objects.get(part_no='T6'),quantity=0)
+        complaint_l200_T6.save()
+        complaint_l200_T7 = SuppOrderDet(pos=2,received_on=0,memo='',supp_order=complaint_l200,part=Part.objects.get(part_no='T7'),quantity=0)
+        complaint_l200_T7.save()
+        complaint_l200_T8 = SuppOrderDet(pos=3,received_on=0,memo='',supp_order=complaint_l200,part=Part.objects.get(part_no='T8'),quantity=0)
+        complaint_l200_T8.save()
+        complaint_l200_T9 = SuppOrderDet(pos=4,received_on=0,memo='',supp_order=complaint_l200,part=Part.objects.get(part_no='T9'),quantity=0)
+        complaint_l200_T9.save()
+
+        #L200 external system
+        complaint_l200_external_system = SuppOrder(order_no='L200_Teile',ref_no=0,issued_on=0,delivery_date=0,received_on=0,memo='Dies ist für reklamierte Teile des KanBan Systems von L200',status=6,external_system=True,supplier=Supplier.objects.get(name=L200))
+        complaint_l200_external_system.save()
+        complaint_l200_external_system_T6 = SuppOrderDet(pos=1,received_on=0,memo='',supp_order=complaint_l200_external_system,part=Part.objects.get(part_no='T6'),quantity=0)
+        complaint_l200_external_system_T6.save()
+        complaint_l200_external_system_T7 = SuppOrderDet(pos=2,received_on=0,memo='',supp_order=complaint_l200_external_system,part=Part.objects.get(part_no='T7'),quantity=0)
+        complaint_l200_external_system_T7.save()
+        complaint_l200_external_system_T8 = SuppOrderDet(pos=3,received_on=0,memo='',supp_order=complaint_l200_external_system,part=Part.objects.get(part_no='T8'),quantity=0)
+        complaint_l200_external_system_T8.save()
+        complaint_l200_external_system_T9 = SuppOrderDet(pos=4,received_on=0,memo='',supp_order=complaint_l200_external_system,part=Part.objects.get(part_no='T9'),quantity=0)
+        complaint_l200_external_system_T9.save()
+
+        #L300
+        complaint_l300 = SuppOrder(order_no='L300_Teile',ref_no=0,issued_on=0,delivery_date=0,received_on=0,memo='Dies ist für reklamierte Teile des KanBan Systems von L300',status=6,external_system=False,supplier=Supplier.objects.get(name=L300))
+        complaint_l300.save()
+        complaint_l300_T10 = SuppOrderDet(pos=1,received_on=0,memo='',supp_order=complaint_l300,part=Part.objects.get(part_no='T10'),quantity=0)
+        complaint_l300_T10.save()
+        complaint_l300_T11 = SuppOrderDet(pos=2,received_on=0,memo='',supp_order=complaint_l300,part=Part.objects.get(part_no='T11'),quantity=0)
+        complaint_l300_T11.save()
+        complaint_l300_T12 = SuppOrderDet(pos=3,received_on=0,memo='',supp_order=complaint_l300,part=Part.objects.get(part_no='T12'),quantity=0)
+        complaint_l300_T12.save()
+        complaint_l300_T13 = SuppOrderDet(pos=4,received_on=0,memo='',supp_order=complaint_l300,part=Part.objects.get(part_no='T13'),quantity=0)
+        complaint_l300_T13.save()
+        complaint_l300_T14 = SuppOrderDet(pos=5,received_on=0,memo='',supp_order=complaint_l300,part=Part.objects.get(part_no='T14'),quantity=0)
+        complaint_l300_T14.save()
+        complaint_l300_T15 = SuppOrderDet(pos=6,received_on=0,memo='',supp_order=complaint_l300,part=Part.objects.get(part_no='T15'),quantity=0)
+        complaint_l300_T15.save()
+
+    
+        #L300 external system
+        complaint_l300_external_system = SuppOrder(order_no='L300_Teile',ref_no=0,issued_on=0,delivery_date=0,received_on=0,memo='Dies ist für reklamierte Teile des KanBan Systems von L300',status=6,external_system=True,supplier=Supplier.objects.get(name=L300))
+        complaint_l300_external_system.save()
+        complaint_l300_external_system_T10 = SuppOrderDet(pos=1,received_on=0,memo='',supp_order=complaint_l300_external_system,part=Part.objects.get(part_no='T10'),quantity=0)
+        complaint_l300_external_system_T10.save()
+        complaint_l300_external_system_T11 = SuppOrderDet(pos=2,received_on=0,memo='',supp_order=complaint_l300_external_system,part=Part.objects.get(part_no='T11'),quantity=0)
+        complaint_l300_external_system_T11.save()
+        complaint_l300_external_system_T12 = SuppOrderDet(pos=3,received_on=0,memo='',supp_order=complaint_l300_external_system,part=Part.objects.get(part_no='T12'),quantity=0)
+        complaint_l300_external_system_T12.save()
+        complaint_l300_external_system_T13 = SuppOrderDet(pos=4,received_on=0,memo='',supp_order=complaint_l300_external_system,part=Part.objects.get(part_no='T13'),quantity=0)
+        complaint_l300_external_system_T13.save()
+        complaint_l300_external_system_T14 = SuppOrderDet(pos=5,received_on=0,memo='',supp_order=complaint_l300_external_system,part=Part.objects.get(part_no='T14'),quantity=0)
+        complaint_l300_external_system_T14.save()
+        complaint_l300_external_system_T15 = SuppOrderDet(pos=6,received_on=0,memo='',supp_order=complaint_l300_external_system,part=Part.objects.get(part_no='T15'),quantity=0)
+        complaint_l300_external_system_T15.save()
+        
 
 
 
@@ -403,4 +489,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(insert_productionsteps),
         migrations.RunPython(insert_bookingcodes),
         migrations.RunPython(insert_tasktypes),
+        migrations.RunPython(insert_dummy_complaints),
     ]
