@@ -145,12 +145,30 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
                 return obj.status
             ##JOGA
             else:
-                if obj.status == SuppComplaintDet.Status.ERFASST:
-                    ## An dieser Stelle müssten alle Positionen ebenfalls den Status "VERSAND_AN_PDL" erhalten 
-                    return SuppComplaintDet.Status.VERSAND_AN_PDL
-                elif obj.status == SuppComplaintDet.Status.NEU_BESTELLEN:
-                    return SuppComplaintDet.Status.VERSAND_AN_LIEFERANT
-                elif obj.supp_complaint.status == SuppComplaint.Status.GELIEFERT:
+                if obj.status == SuppComplaint.Status.ERFASST:
+                    ##Setze alle Positionen aus VERSAND_AN_PDL
+                    supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint = obj)
+                    for pos in supp_complaint_dets:
+                        pos.status = SuppComplaintDet.Status.VERSAND_AN_PDL
+                        pos.save()
+                    ##Setze Kopf auf VERSAND_AN_PDL
+                    return SuppComplaint.Status.VERSAND_AN_PDL
+
+                elif obj.status == SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG:
+                    ##Bearbeite unterschiedliche Positionen
+                    supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint = obj)
+
+                    for pos in supp_complaint_dets:
+                        if pos.status == SuppComplaintDet.Status.AUS_LAGER_GELIEFERT:
+                            pos.status = SuppComplaintDet.Status.ABGESCHLOSSEN
+                            pos.save()
+                        elif pos.status == SuppComplaintDet.Status.NEU_BESTELLEN:
+                            pos.status = SuppComplaintDet.Status.VERSAND_AN_LIEFERANT
+                            pos.save()
+
+                    return SuppComplaint.Status.VERSAND_AN_LIEFERANT
+
+                elif obj.status == SuppComplaint.Status.GELIEFERT:
                     return SuppComplaint.Status.VERSAND_AN_PRODUKTION
 
             return SuppComplaint.Status.ERLEDIGT

@@ -17,13 +17,14 @@ class SuppComplaint(Complaint):
         VERSAND_AN_KUNDE                = '5', ('Versand an Kunde')##Nur LF
         AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert')
         NEU_BESTELLEN                   = '7', ('Teil neu bestellen')
-        VERSAND_AN_LIEFERANT            = '8', ('Versand an Lieferant')
-        GELIEFERT                       = '9', ('Geliefert')
-        VERSAND_AN_PRODUKTION           = 'A', ('Versand an Produktion')
-        ABGESCHLOSSEN                   = 'B', ('Abgeschlossen')   
+        POSITIONSBEARBEITUNG_FERTIG     = '8', ('Positionsbearbeitung fertig')
+        VERSAND_AN_LIEFERANT            = '9', ('Versand an Lieferant')
+        GELIEFERT                       = '10', ('Geliefert')
+        VERSAND_AN_PRODUKTION           = '11', ('Versand an Produktion')
+        ABGESCHLOSSEN                   = '12', ('Abgeschlossen')   
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )

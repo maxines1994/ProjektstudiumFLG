@@ -22,11 +22,11 @@ class SuppComplaintDet(ComplaintDet):
         NEU_BESTELLEN                   = '7', ('Teil neu bestellen')
         VERSAND_AN_LIEFERANT            = '8', ('Versand an Lieferant')
         GELIEFERT                       = '9', ('Geliefert')
-        VERSAND_AN_PRODUKTION           = 'A', ('Versand an Produktion')
-        ABGESCHLOSSEN                   = 'B', ('Abgeschlossen')   
+        VERSAND_AN_PRODUKTION           = '10', ('Versand an Produktion')
+        ABGESCHLOSSEN                   = '11', ('Abgeschlossen')   
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
