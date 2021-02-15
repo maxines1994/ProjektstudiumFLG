@@ -57,9 +57,11 @@ def set_status(model: GtModel, id: int, status: int):
     """
     Keine View. Interne Methode zum setzen des Status. Benoetigte Argumente:
     """
-    my_model = GtModel.str_to_gtmodel(model)
-    #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
-    if my_model == CustOrder:
-        CustOrderDet.objects.filter(cust_order_id=id).update(status=status)
-    else:
-        my_model.objects.filter(id=id).update(status=status)
+    # Nur Status aendern, wenn ein vernuenftiger Status > -1 uebergeben wird.
+    if int(status) > UNKNOWN:
+        my_model = GtModel.str_to_gtmodel(model)
+        #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
+        if my_model == CustOrder:
+            CustOrderDet.objects.filter(cust_order_id=id).update(status=status)
+        else:
+            my_model.objects.filter(id=id).update(status=status)

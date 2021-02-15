@@ -123,9 +123,11 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         nachdem eine Boxnummer zugewiesen wurde.
         """
         model = self.get_model()
+        """
         if model == CustOrderDet:
             return CustOrderDet.Status.VERSANDT_AN_KD
-        elif model == SuppComplaint:
+        """
+        if model == SuppComplaint:
             return SuppComplaint.Status.ERLEDIGT
         elif model == CustComplaintDet:
             return CustComplaintDet.Status.GELIEFERT
@@ -140,6 +142,8 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
         if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+        elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
+            my_redirect = reverse("goods_shipping", args=('CustOrderDet',self.kwargs['id']))
         else:
             # redirect zur Seite von der man urspruenglich kam
             my_redirect = previous

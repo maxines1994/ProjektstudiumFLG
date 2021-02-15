@@ -124,12 +124,12 @@
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 9%}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
                     {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
+                        <a class="waves-effect waves-light btn" href="{% url 'stock_check' object.id %}" ><i class="material-icons left">flag</i>Bestandsprüfung</a>
                         <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
                     {% endif %}
                     {% if object.status == object.Status.BESTELLT %}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk 5%}">Beliefert</a>
-                    {% endif %}
-
+                    {% endif %}                    
                 {% elif company == JOGA %}
                     {% if object.status == object.Status.ERFASST %}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk object.Status.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
@@ -138,9 +138,8 @@
                         <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
                     {% endif %}
                     {% if object.status == object.Status.BESTELLT %}
-                        <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' 3 object.pk %}">Wareneingang buchen</a>
+                        <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' object|to_class_name object.pk %}">Wareneingang buchen</a>
                     {% endif %}
-                
                 {% endif %}    
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>
