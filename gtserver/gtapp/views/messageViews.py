@@ -53,15 +53,13 @@ class msgWriteView(LoginRequiredMixin, CreateView):
     template_name = "message.html"
     form_class = Msg_write_form
 
-    def get_form2(self):
+    def get_initial(self):
         # Vorbelegung Empfänger für Lieferanten und Kunden
         if self.request.user.groups.filter(name=KUNDEN).exists():
-            form_class = Msg_write_form(initial={'receiver': Group.objects.get(name=KUNDENDIENST)})
+            return {'receiver': Group.objects.get(name=KUNDENDIENST)}
         elif self.request.user.groups.filter(name=LIEFERANTEN).exists():
-            form_class = Msg_write_form(initial={'receiver': Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)})
-        else:
-            form_class = Msg_write_form()
-        return form_class
+            return {'receiver': Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)}
+        return {}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
