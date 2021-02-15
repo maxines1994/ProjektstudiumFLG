@@ -219,7 +219,14 @@
       $(document).ready(function(){
         setInterval(getStatus, 10000);
       });
+
+      {# Sofort Status ziehen, wenn die Seite wieder sichtbar wird #}
+      document.addEventListener("visibilitychange", getStatus);
+
       function getStatus(){
+        {# keinen Status ziehen, wenn die Seite nicht sichtbar ist #}
+        if (document.visibilityState == "hidden") return;
+
         var request = new XMLHttpRequest();
         request.open("GET", "{% url 'api_status' %}");
         request.addEventListener('load', function(event) {
