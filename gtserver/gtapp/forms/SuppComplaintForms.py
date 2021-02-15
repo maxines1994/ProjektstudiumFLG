@@ -69,7 +69,7 @@ class Supp_complaint_det_form(ModelForm):
             'quantity': _('Menge'),
             'memo': _('Kommentar'),
             'finished_on': _('Abgeschlossen am'),
-            'redelivery': _('Neulieferung'),            
+            'redelivery': _('Neulieferung erforderlich'),            
         }
         widgets = {
             'pos': TextInput(attrs={'disabled': True}),

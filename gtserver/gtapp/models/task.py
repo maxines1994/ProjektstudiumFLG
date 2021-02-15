@@ -28,6 +28,7 @@ class Task(GtModel):
     cust_complaint = models.ForeignKey(CustComplaint, null= True, on_delete=models.SET_NULL)
     cust_complaint_det = models.ForeignKey(CustComplaintDet, null= True, on_delete=models.SET_NULL)
     supp_complaint = models.ForeignKey(SuppComplaint, null= True, on_delete=models.SET_NULL)
+    supp_complaint_det = models.ForeignKey(SuppComplaintDet, null= True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     active = models.SmallIntegerField(null=True)
 

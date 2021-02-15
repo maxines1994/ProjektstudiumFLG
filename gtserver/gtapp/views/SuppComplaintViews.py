@@ -27,8 +27,18 @@ class Supp_complaint_create_view(LoginRequiredMixin, CreateView):
 
         new_supp_order_complaint = form.save()
 
-        if self.request.user.groups.filter(name=JOGA).exists():
-            Task.set_task(new_supp_order_complaint, 32)
+        if form.instance.external_system == True:
+            if self.request.user.groups.filter(name=L100).exists():
+                Task.set_task(new_supp_order_complaint, 40)
+            elif self.request.user.groups.filter(name=L200).exists():
+                Task.set_task(new_supp_order_complaint, 41)
+            elif self.request.user.groups.filter(name=L300).exists():
+                Task.set_task(new_supp_order_complaint, 42)
+        else:
+            if self.request.user.groups.filter(name=PRODUKTION).exists():
+                Task.set_task(new_supp_order_complaint, 32)
+            elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists(): 
+                Task.set_task(new_supp_order_complaint, 43)
 
         return HttpResponseRedirect("/supp_complaint/alter/" + str(new_supp_order_complaint.pk) + "/")
     
@@ -87,8 +97,8 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         status_0 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=0).exists()
         status_1 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=1).exists()
         status_2 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=2).exists()
-        status_4 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=4).exists()
-        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=7).exists() and not (status_0 or status_1 or status_2 or status_4)
+        status_3 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=4).exists()
+        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=7).exists() and not (status_0 or status_1 or status_2 or status_3)
 
         # Nur bei BoxScan implementieren? vv
         # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()

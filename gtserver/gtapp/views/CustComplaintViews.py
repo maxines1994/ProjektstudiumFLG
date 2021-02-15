@@ -29,7 +29,6 @@ class Cust_complaint_create_view(LoginRequiredMixin, CreateView):
 
         if self.request.user.groups.filter(name=KUNDEN).exists():
             form.instance.external_system = True
-            print("ich bin ein kunde")
     
         new_cust_order_complaint = form.save()
 
