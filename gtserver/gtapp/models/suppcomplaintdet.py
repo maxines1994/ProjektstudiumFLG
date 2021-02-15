@@ -12,17 +12,21 @@ class SuppComplaintDet(ComplaintDet):
 
     class Status(models.TextChoices):
 
-        STANDARD                        = '0', ('Standard')
-        ERFASST                         = '1', ('Erfasst')
-        BEI_PDL                         = '2', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
-        AUS_LAGER_LIEFERN               = '3', ('Aus Lager geliefert')
-        NEU_BESTELLEN                   = '4', ('Neu bestellen')
-        BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend')
-        GELIEFERT                       = '6', ('Geliefert')
-        ABGESCHLOSSEN                   = '7', ('Abgeschlossen') ##Nur wenn keine Neulieferung
+        ERFASST                         = '0', ('Erfasst')
+        VERSAND_AN_PDL                  = '1', ('Versand an PDL')
+        IN_BEARBEITUNG                  = '2', ('In Bearbeitung')
+        REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben')
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen')##Nur LF
+        VERSAND_AN_KUNDE                = '5', ('Versand an Kunde')##Nur LF
+        AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert')
+        NEU_BESTELLEN                   = '7', ('Teil neu bestellen')
+        VERSAND_AN_LIEFERANT            = '8', ('Versand an Lieferant')
+        GELIEFERT                       = '9', ('Geliefert')
+        VERSAND_AN_PRODUKTION           = '10', ('Versand an Produktion')
+        ABGESCHLOSSEN                   = '11', ('Abgeschlossen')   
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )

@@ -104,7 +104,7 @@
         <div class="col s12 right-align">
             <!--                                                                    BUTTON UNTEN CONTENT-->
             {% if KUNDEN in group %}
-                {% if OBJ_STATUS <= STATUS.IN_REKLAMATION %}
+                {% if OBJ_STATUS == STATUS.ERFASST %}
                     {% if action != 'create' %}
                         {% if  request.user|has_group:K1 %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 24%}"><i class="material-icons left">done_all</i>Freigeben</a>
@@ -116,7 +116,7 @@
                     {% endif %}
                 {% endif %}
             {% elif KUNDENDIENST in group %}
-                {% if OBJ_STATUS <= STATUS.IN_REKLAMATION %}
+                {% if OBJ_STATUS == STATUS.ERFASST %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 27%}"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
@@ -146,29 +146,29 @@
 <!--                                                                    DROPDOWN CONTENT-->
 <ul id='i{{i.id}}' class='dropdown-content'>
     {% if KUNDEN in group %}
-        {% if i.status <= POS_STATUS.ERFASST %}
-            <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
-            <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
-        {% elif i.status <= POS_STATUS.IN_REKLAMATION %}
-            <!--Mit Phillipp klären  Status ändert sich nicht-->
-            <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An JOGA schicken</a></li>
-        {% elif i.status == POS_STATUS.GELIEFERT %}
-            <li><a href=""class="li-content"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
-        {% endif %}
-    {% elif KUNDENDIENST in group %}
-        {% if i.status <= POS_STATUS.ERFASST %}
+        {% if i.status == POS_STATUS.ERFASST %}
             <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
             <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% elif i.status == POS_STATUS.REKLAMATION_FREIGEGEBEN %}
-            <!--Mit Phillipp klären  Status ändert sich nicht-->
+            <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An JOGA schicken</a></li>
+        {% elif i.status == POS_STATUS.IN_REKLAMATION %}
+            <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Reklamation abschließen</a></li>
+        {% endif %}
+    {% elif KUNDENDIENST in group %}
+        {% if i.status == POS_STATUS.ERFASST %}
+            <li><a href="{% url 'cust_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+            <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+        {% elif i.status == POS_STATUS.REKLAMATION_FREIGEGEBEN %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion schicken</a></li>
         {% elif i.status == POS_STATUS.BEI_KUNDENDIENST %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kunden liefern</a></li>
-            <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.GELIEFERT %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
+        {% elif i.status == POS_STATUS.VERSAND_AN_KUNDE %}
+            <!-- POS_STATUS.ABGESCHLOSSEN wird nicht als Integer interretiert -->
+            <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
         {% endif %}
     {% elif PRODUKTION in group %}
         {% if i.status == POS_STATUS.IN_ANPASSUNG %}
-            <li><a href="{% url 'set_status_task' object.pk 29%}" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
+            <li><a href="{% url 'set_status_task' i.id 29%}" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
         {% elif i.status == POS_STATUS.ANPASSUNG_ABGESCHLOSSEN %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst liefern</a></li>
         {% endif %}

@@ -8,17 +8,20 @@ class CustComplaintDet(ComplaintDet):
 
     class Status(models.TextChoices):
 
-        STANDARD                        = '0', ('Standard')
-        ERFASST                         = '1', ('Erfasst')
+        ERFASST                         = '0', ('Erfasst')
+        REKLAMATION_FREIGEGEBEN         = '1', ('Reklamation freigegeben')
         IN_REKLAMATION                  = '2', ('In Reklamation') ##Nur für den Kunden
-        REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben')
+        VERSAND_AN_PRODUKTION           = '3', ('Versand an Produktion')
         IN_ANPASSUNG                    = '4', ('In Anpassung')
         ANPASSUNG_ABGESCHLOSSEN         = '5', ('Anpassung abgeschlossen')
-        BEI_KUNDENDIENST                = '6', ('Bei Kundendienst')
-        GELIEFERT                       = '7', ('Geliefert')
+        VERSAND_AN_KUNDENDIENST         = '6', ('Versand an Kundendienst')
+        BEI_KUNDENDIENST                = '7', ('Bei Kundendienst')
+        VERSAND_AN_KUNDE                = '8', ('Versand an Kunde')
+        GELIEFERT                       = '9', ('Geliefert')
+        ABGESCHLOSSEN                   = '10', ('Abgeschlossen')
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
