@@ -194,11 +194,6 @@ class Supp_order_view(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        context["status_count"] = 0
-        for item in SuppOrder.Status.__members__:
-            if not item.startswith("__") and not item == 'STANDARD':
-                context["status_count"] += 1
 
         context["STATUS"] = SuppOrder.Status.__members__
 

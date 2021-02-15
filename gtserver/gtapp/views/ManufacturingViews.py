@@ -16,14 +16,6 @@ def manufacturing_list_view(request):
     c["manufacturing_complaints"] = CustOrderDet.objects.filter(id__in=CustComplaintDet.objects.filter(status__gte=CustComplaintDet.Status.ERFASST).values('cust_order_det_id'),cust_order__external_system=False)
     c["complaints"] = CustComplaintDet.objects.filter(cust_order_det__in=c["manufacturing_complaints"])
     c["mylist"] = zip(c["manufacturing_complaints"], c["complaints"])
-    c["status_count"] = 0
-    for item in CustOrderDet.Status.__members__:
-        if not item.startswith("__"):
-            c["status_count"] += 1
-    c["complaint_status_count"] = 0
-    for item in CustComplaintDet.Status.__members__:
-        if not item.startswith("__"):
-            c["complaint_status_count"] += 1
 
     if 'complaint' not in resolve(request.path_info).url_name:
         template = "manufacturing.html"

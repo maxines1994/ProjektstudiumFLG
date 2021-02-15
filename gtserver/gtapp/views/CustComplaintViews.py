@@ -93,10 +93,6 @@ class Cust_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['items'] = CustComplaintDet.objects.filter(cust_complaint=self.get_object().pk)
         context['cust_complaint_no'] = self.get_object().pk
         context["action"] = "alter"
-        context["status_count"] = 0
-        for item in CustComplaintDet.Status.__members__:
-            if not item.startswith("__") and not item == 'STANDARD':
-                context["status_count"] += 1
 
         context["POS_STATUS"] = CustComplaintDet.Status.__members__
         context["STATUS"] = CustComplaint.Status.__members__
@@ -242,11 +238,6 @@ class Cust_complaint_view(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context["status_count"] = 0
-        for item in CustComplaint.Status.__members__:
-            if not item.startswith("__"):
-                context["status_count"] += 1
 
         context["STATUS"] = CustComplaint.Status.__members__
 
