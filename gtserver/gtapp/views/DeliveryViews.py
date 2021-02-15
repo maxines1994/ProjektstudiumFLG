@@ -106,7 +106,7 @@ def delivery_view(request, **kwargs):
                     if my_model == CustOrderDet:
                         my_part = Part.objects.get(id=ArtiPart.objects.get(id=fset.artipart_id).part_id)
                     else:
-                        my_part = Part.objects.get(id=my_model.objects.get(id=kwargs['id']).part_id)
+                        my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
                     my_stock = Stock.objects.get(is_supplier_stock=is_supplier,part=my_part)
                     # Reservierte Menge um Entnommene Menge verringern
                     my_stock.reserve(-fset.quantity)

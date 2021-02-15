@@ -140,6 +140,9 @@
                     {% if object.status == object.Status.BESTELLT %}
                         <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' object|to_class_name object.pk %}">Wareneingang buchen</a>
                     {% endif %}
+                    {% if object.status == object.Status.TEILGELIEFERT %}
+                        <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk object.Status.GELIEFERT %}"><i class="material-icons left">unarchive</i>Voll beliefert</a>
+                    {% endif %}
                 {% endif %}    
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>

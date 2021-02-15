@@ -42,9 +42,9 @@ def stock_check_view(request, **kwargs):
         c["supporderdet"] = my_supporder_dets
         c["part"] = SuppOrderDet.objects.filter(supp_order_id=kwargs["id"]).values('part_id')
     else:
-        c["order"] = CustOrderDet.objects.get(pk=kwargs["id"])
+        c["custorderdet"] = CustOrderDet.objects.get(pk=kwargs["id"])
         # Dann die Artiparts zu dieser CustOrderDet
-        c["artipart"] = c["order"].get_artiparts(supplier_ids=[3])
+        c["artipart"] = c["custorderdet"].get_artiparts(supplier_ids=[3])
         # Bestandsdatensaetze zu diesen Artiparts
         c["stock"] = Stock.objects.filter(is_supplier_stock=is_supplier, part_id__in=c["artipart"].values('part_id'))
     # Insgesamt bestellte Menge dieser Teile
