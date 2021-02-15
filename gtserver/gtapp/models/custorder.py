@@ -29,7 +29,7 @@ class CustOrder(Order):
     #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return (self.order_no)
+        return self.order_no
 
     def save(self, *args, **kwargs):
         if not self.pk:

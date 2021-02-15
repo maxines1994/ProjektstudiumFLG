@@ -38,7 +38,7 @@ class CustOrderDet(OrderDet):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     
     def __str__(self):
-        return str(self.article)
+        return self.pos.__str__()
 
     def auto_needs(self):
         needs = list()

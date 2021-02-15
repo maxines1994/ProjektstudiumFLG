@@ -34,3 +34,6 @@ class CustComplaintDet(ComplaintDet):
     
     cust_complaint = models.ForeignKey(CustComplaint, on_delete=models.CASCADE)
     cust_order_det = models.ForeignKey(CustOrderDet, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.pos.__str__()

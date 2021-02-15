@@ -40,7 +40,7 @@ class SuppComplaint(Complaint):
 
 
     def __str__(self):
-        return ("Bestellung " + self.order_no)
+        return self.order_no
     
     def save(self, *args, **kwargs):
         if not self.pk:

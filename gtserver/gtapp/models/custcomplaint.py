@@ -38,7 +38,7 @@ class CustComplaint(Complaint):
     customer = models.ForeignKey(Customer,null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return (self.order_no)
+        return self.order_no
 
     def save(self, *args, **kwargs):
         if not self.pk:

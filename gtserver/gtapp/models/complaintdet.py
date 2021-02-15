@@ -23,3 +23,6 @@ class ComplaintDet(GtModel):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.pos.__str__()

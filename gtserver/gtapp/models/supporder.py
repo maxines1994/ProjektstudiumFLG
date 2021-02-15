@@ -30,8 +30,6 @@ class SuppOrder(Order):
 
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
-
-
     def __str__(self):
         return self.order_no
     
