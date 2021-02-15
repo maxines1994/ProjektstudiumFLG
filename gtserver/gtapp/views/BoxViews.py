@@ -137,7 +137,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         nachdem eine Boxnummer zugewiesen wurde.
         """
         model = self.get_model()
-        """
+        
         if model == CustOrderDet:
             return CustOrderDet.Status.VERSANDT_AN_KD
         elif model == SuppComplaint:

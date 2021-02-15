@@ -39,10 +39,12 @@
                         {% for field in form.hidden_fields %}
                         {{ field }}
                         {% endfor %}
+                        {% for e in form.non_field_errors %}
+                            <div class="chip red lighten-3"><i class="icon material-icons">error</i>{{ e }}</div>
+                        {% endfor %}
                         <div class="right-align">
                             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">send</i>Nachricht senden</button>
                         </div>
-                        
                     </form>
                 </div>
             </div>
@@ -130,7 +132,6 @@
                 {% endif %}
             </div>
         </div>
-        {% endblock %}
     </div>
     {% endif %}
     {% endblock %}
