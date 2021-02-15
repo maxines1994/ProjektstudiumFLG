@@ -89,7 +89,7 @@
                                 <td>{{ i.redelivery }}</td>
                                 <td>
                                     <div class="progress">
-                                        <div class="determinate" style="width: {{ i.status|multiply:100|divide:status_count }}%"></div>
+                                        <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
                                     </div>
                                     {{ i.get_status_display }} 
                                 </td>

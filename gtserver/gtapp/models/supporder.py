@@ -8,23 +8,30 @@ class SuppOrder(Order):
     """   
     class Status(models.TextChoices):
 
-        ERFASST                         = 1, ('Erfasst')
-        BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend')
-        LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend')
-        BESTELLT                        = 4, ("Bestellt")
-        TEILGELIEFERT                   = 6, ("Teilgeliefert")
-        GELIEFERT                       = 7, ('Geliefert')
-        STORNIERT                       = 8, ('Storniert')
+        ERFASST                         = 1, ('Erfasst|0%')
+        BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend|20%')
+        LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend|40%')
+        BESTELLT                        = 4, ("Bestellt|50%") ## Nur für JOGA, richtig?
+        TEILGELIEFERT                   = 6, ("Teilgeliefert|70%")
+        GELIEFERT                       = 7, ('Geliefert|100%')
+        STORNIERT                       = 8, ('Storniert|100%')
         
-
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    
     status = models.CharField(
         max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
-    
+
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 1)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 1)[-1]
+
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+
+
+
     def __str__(self):
         return self.order_no
     

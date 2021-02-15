@@ -8,26 +8,31 @@ class CustOrderDet(OrderDet):
     """ 
     class Status(models.TextChoices):
 
-        ERFASST                             = '1', ('Erfasst')
-        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend')
-        AUFTRAG_FREIGEGEBEN                 = '3', ('Auftrag freigegeben')
-        IN_PRODUKTION                       = '4', ('In Produktion')
-        LIEFERUNG_AN_KD_AUSSTEHEND          = '5', ('Produktion abgeschlossen')
-        VERSANDT_AN_KD                      = '6', ('An Kundendienst versandt')
-        LIEFERUNG_AN_K_AUSSTEHEND           = '7', ('Lieferung an Kunden ausstehend')
-        BESTELLT                            = '8', ('Bestellt')                       # für Kundensystem
-        VERSANDT_AN_K                       = '9', ('Versandt')
-        GELIEFERT                           = '10', ('Geliefert')
-        REKLAMIERT                          = '11', ('Reklamiert')
-        ABGENOMMEN                          = '12', ('Abgenommen')
-        STORNIERT                           = '13', ('Storniert')
-        
-    
+        ERFASST                             = '1', ('Erfasst|0%')
+        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|10%')
+        AUFTRAG_FREIGEGEBEN                 = '3', ('Auftrag freigegeben|20%')
+        IN_PRODUKTION                       = '4', ('In Produktion|30%')
+        LIEFERUNG_AN_KD_AUSSTEHEND          = '5', ('Produktion abgeschlossen|50%')
+        VERSANDT_AN_KD                      = '6', ('An Kundendienst versandt|60%')
+        LIEFERUNG_AN_K_AUSSTEHEND           = '7', ('Lieferung an Kunden ausstehend|70%')
+        BESTELLT                            = '8', ('Bestellt|30%')                       # für Kundensystem
+        VERSANDT_AN_K                       = '9', ('Versandt|80%')
+        GELIEFERT                           = '10', ('Geliefert|90%')
+        REKLAMIERT                          = '11', ('Reklamiert|100%')
+        ABGENOMMEN                          = '12', ('Abgenommen|100%')
+        STORNIERT                           = '13', ('Storniert|100%')
+
     status = models.CharField(
         max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
+
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 1)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 1)[-1]
 
     cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
