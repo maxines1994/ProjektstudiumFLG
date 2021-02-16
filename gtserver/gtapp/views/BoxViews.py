@@ -36,10 +36,10 @@ def box_search_view(request):
                     set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.IN_PRODUKTION)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
-                elif obj.status == CustOrderDet.Status.LIEFERUNG_AN_KD_AUSSTEHEND:
+                elif obj.status == CustOrderDet.Status.VERSANDT_AN_KD:
                     #Task erscheint bei dem Boxscan beim Kundendienst, wo dann die Hebebühne an den Kunden übergeben werden soll und der Status wird auf 6 gesetzt
                     Task.set_task(obj, 8)
-                    set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.VERSANDT_AN_KD)
+                    set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.LIEFERUNG_AN_K_AUSSTEHEND)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1   
                 elif obj.status == CustOrderDet.Status.BESTELLT:
