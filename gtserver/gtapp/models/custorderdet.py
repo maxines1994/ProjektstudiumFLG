@@ -28,6 +28,18 @@ class CustOrderDet(OrderDet):
         default = Status.ERFASST,
     )
 
+    def save(self, *args, **kwargs):
+        if self.status == CustOrderDet.Status.GELIEFERT:
+            flag = True
+            for i in CustOrderDet.objects.filter(cust_order=self.cust_order):
+                if i.status != CustOrderDet.Status.GELIEFERT:
+                    flag = False
+            if flag:
+                self.cust_order.status = CustOrder.Status.GELIEFERT
+            else:
+                self.cust_order.status = CustOrder.Status.TEILGELIEFERT
+        super(CustOrderDet, self).save(*args, **kwargs)
+
     def get_status_display(self):
         return self.Status(self.status).label.split("|", 1)[0]
 
