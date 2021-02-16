@@ -65,7 +65,7 @@
                                 <option value="{{ o.pk }}">{{ o }}</option>
                                 {% endfor %}
                             </select>
-                            <label for="SuppOrder">Bestellreklamationen</label>
+                            <label for="SuppOrder">Bestellungen</label>
                         </div>
                         
                     </div>
@@ -102,7 +102,7 @@
                                 <option value="{{ o.pk }}">{{ o }}</option>
                                 {% endfor %}
                             </select>
-                            <label for="SuppComplaint">Reklamationen</label>
+                            <label for="SuppComplaint">Bestellreklamationen</label>
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -120,7 +120,7 @@
                                 <option value="{{ o.pk }}">{{ o }}</option>
                                 {% endfor %}
                             </select>
-                            <label for="CustComplaint">Bestellungen</label>
+                            <label for="CustComplaint">Auftragsreklamationen</label>
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -160,9 +160,9 @@
                 // Werte setzen
                 s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\n" + "Bestelltag: " + obj["issued"] + "\n";
                 for (i=1;i<=obj["posl"];i++) {
-                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tPosition: " + obj[i]["particle"];
+                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tPosition: " + obj[i]["particle"] + "\n";
                     if (i[0] == 'S') {
-                        s = s + "\n\tMenge: " + obj[i]["quantity"] + "\n\n";
+                        s = s + "\n\tMenge: " + obj[i]["quantity"] + "\n";
                     }
                 }
                 $('#id_text').val($('#id_text').val() + s);
