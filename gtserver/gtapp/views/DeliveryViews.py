@@ -84,6 +84,7 @@ def delivery_view(request, **kwargs):
            'trash': NumberInput(attrs={'hidden': is_shipping}),
         }
         )
+    print(my_foreign_key_on_goods_shipping)
     
     # Verarbeitung des Post Requests zur Speicherung der abgeschickten Form
     if request.method == 'POST':
@@ -109,7 +110,14 @@ def delivery_view(request, **kwargs):
                         my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
                     my_stock = Stock.objects.get(is_supplier_stock=is_supplier,part=my_part)
                     # Reservierte Menge um Entnommene Menge verringern
-                    my_stock.reserve(-fset.quantity)
+                    my_stock.reserve(fset.delivered)
+                # Bei Wareneingaengen von Bestellungen den Status der Bestellung auf teilgeliefert setzen,
+                # wenn er kleiner ist als teilgeliefert.
+                else:
+                    if my_model == SuppOrder:
+                        my_supporder_qry = SuppOrder.objects.filter(id=kwargs['id'])
+                        if my_supporder_qry.first().status < SuppOrder.Status.TEILGELIEFERT:
+                            my_supporder_qry.update(status=SuppOrder.Status.TEILGELIEFERT)
 
                 fset.save()
                 doc.append(fset.id)
@@ -139,15 +147,16 @@ def delivery_view(request, **kwargs):
                 pass
             
             # Tasks und Status setzen
-            next_url = "home"
+            previous = request.POST.get('previous') 
+            next_url = previous if previous is not None else "home"
             mykwargs = {}
             mykwargs['id'] = kwargs['id']
 
             if my_model == CustOrderDet:
-                next_url = "set_status_task"
                 if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
-                    mykwargs['task_type'] = 6 #Hebebuehne Produzieren
-            
+                    next_url = "set_status_call" # Nach Warenentnahme fuer Produktion wieder zurueck zu Fertigungsauftraegen
+                    mykwargs['model'] = kwargs['model']
+                    mykwargs['status'] = CustOrderDet.Status.AUFTRAG_FREIGEGEBEN
             if my_model == SuppOrder:
                 if request.user.groups.filter(name=LIEFERANTEN).exists():
                     next_url = "set_status_call"
@@ -163,7 +172,10 @@ def delivery_view(request, **kwargs):
                 return HttpResponseRedirect(reverse(next_url, kwargs=mykwargs))
 
             else:
-                # Redirect ohne Parameter
+                # Wenn auf die vorherige Seite geleitet werden soll, brauchen wir kein reverse
+                if next_url == previous:
+                    return HttpResponseRedirect(next_url)
+                # Ansonsten redirect ohne Parameter
                 return HttpResponseRedirect(reverse(next_url))
 
     else:

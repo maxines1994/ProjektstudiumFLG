@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder, Task, Timers
+from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder, Task, Timers, Stock, SuppOrderDet
 from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
 from django import forms
 from gtapp.models import LiveSettings
@@ -84,16 +84,35 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['STATUS'] = SuppComplaint.Status.__members__
         context['object'] = self.get_object()
 
-        status_0 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=0).exists()
-        status_1 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=1).exists()
-        status_2 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=2).exists()
-        status_4 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=4).exists()
-        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=7).exists() and not (status_0 or status_1 or status_2 or status_4)
+        my_supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint=self.get_object())
+        my_supp_complaint_det_status = my_supp_complaint_dets.values('status')
 
+        status_blacklist = [
+            SuppComplaintDet.Status.ERFASST, 
+            SuppComplaintDet.Status.VERSAND_AN_PDL,
+            SuppComplaintDet.Status.IN_BEARBEITUNG, 
+            SuppComplaintDet.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN
+        ]
+    
+        status_whitelist = [SuppComplaintDet.Status.NEU_BESTELLEN]
+ 
+        context['button_neubestellung'] = my_supp_complaint_det_status in status_whitelist and my_supp_complaint_det_status not in status_blacklist
         # Nur bei BoxScan implementieren? vv
         # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()
 
+        # Durchlaufe alle items und pruefe fuer jeden, ob genug Bestand da ist.
+        # Schreibe fuer jedes item einen entsprechenden boolschen Wert in eine Liste
+        
+        has_enough_stock_list = []
+        for item in context['items']:
+            my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=item.supp_order_det_id).part_id)
+            my_stock = Stock.objects.get(is_supplier_stock=False, part=my_part)
+            has_enough_stock = my_stock.stock - my_stock.reserved >= item.quantity
+            has_enough_stock_list.append(has_enough_stock)
 
+        context['has_enough_stock'] = has_enough_stock_list
+
+        context['items_has_enough_stock'] = zip(context['items'], context['has_enough_stock'])
         return context
     
     def form_valid(self, form):

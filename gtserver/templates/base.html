@@ -88,7 +88,7 @@
       {% if perms.gtapp.view_productionsteps %}<li><a href="{% url 'production_steps' %}">Produktionsschritte</a></li> {% endif %}
       {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
       {% if perms.gtapp.view_stock %}<li><a href="{% url 'stock' %}">Lager</a></li> {% endif %}
-      {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_complaints' %}">Reklamationsaufträge</a></li>{% endif %}
+      <!--{% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_complaints' %}">Reklamationsaufträge</a></li>{% endif %}-->
       <li><div class="divider"></div></li>
       <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><a href="{% url 'faq' content=0  %}">FAQ</a></li>
