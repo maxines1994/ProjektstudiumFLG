@@ -8,7 +8,7 @@ class CustOrderDet(OrderDet):
     """ 
     class Status(models.TextChoices):
 
-        ERFASST                             = '1', ('Erfasst|0%')
+        ERFASST                             = '1', ('Erfasst|0%') # auch für Kundensystem
         BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|10%')
         BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|15%')
         AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben|20%')
@@ -16,11 +16,10 @@ class CustOrderDet(OrderDet):
         LIEFERUNG_AN_KD_AUSSTEHEND          = '6', ('Produktion abgeschlossen|50%')
         VERSANDT_AN_KD                      = '7', ('An Kundendienst versandt|60%')
         LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Lieferung an Kunden ausstehend|70%')
-        BESTELLT                            = '9', ('Bestellt|30%')                       # für Kundensystem
-        VERSANDT_AN_K                       = '10', ('Versandt|80%')
-        GELIEFERT                           = '11', ('Geliefert|90%')
-        REKLAMIERT                          = '12', ('Reklamiert|100%')
-        ABGENOMMEN                          = '13', ('Abgenommen|100%')
+        BESTELLT                            = '9', ('Bestellt|30%')                       # für Kundensystem only
+        VERSANDT_AN_K                       = '10', ('Versandt|90%')
+        GELIEFERT                           = '11', ('Geliefert|90%') # für Kundensystem only
+        ABGENOMMEN                          = '13', ('Abgenommen|100%') # auch für Kundensystem
         STORNIERT                           = '14', ('Storniert|100%')
 
     status = models.CharField(

@@ -146,20 +146,20 @@
 <ul id='i{{i.id}}' class='dropdown-content'>
     <li><a href="{% url 'cust_order_det_alter' i.id %}"><i class="material-icons left">create</i>Bearbeiten</a></li>
     {% if KUNDEN in group %}
-        {% if i.status < STATUS.GELIEFERT %}
-            <li><a href="{% url 'set_status_call' i|to_class_name i.id STATUS.GELIEFERT %}"><i class="material-icons left">check</i>Ware in Ordnung</a></li>
-        {% endif %}
         {% if i.status == STATUS.ERFASST %}
             <li><a href="{% url 'cust_order_det_delete' i.id %}"><i class="material-icons left">delete</i>Löschen</a></li>
         {% endif %}
         {% if i.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
             <li><a href="{% url 'cust_order_det_cancel' i.id %}"><i class="material-icons left">block</i>Stornieren</a></li>
         {% endif %}
+        {% if i.status == STATUS.GELIEFERT %}
+            <li><a href="{% url 'set_status_call' i|to_class_name i.id STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Abnehmen</a></li>
+        {% endif %}
     {% elif KUNDENDIENST in group %}
         {% if i.status == STATUS.LIEFERUNG_AN_K_AUSSTEHEND %}
             <li><a href="{% url 'set_status_call' i|to_class_name i.id STATUS.VERSANDT_AN_K %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a></li>
         {% endif %}
-        {% if i.status == STATUS.GELIEFERT%}
+        {% if i.status == STATUS.VERSANDT_AN_K %}
             <li><a href="{% url 'set_status_call' i|to_class_name i.id STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Vom Kunden abgenommen</a></li>
         {% endif %}
         {% if i.status == STATUS.ERFASST %}

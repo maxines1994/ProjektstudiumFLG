@@ -46,10 +46,13 @@ def box_search_view(request):
                     #Task beim Kunden für den Wareneingang
                     if request.user.groups.filter(name=K1).exists():
                         Task.set_task(obj, 11)
+                        set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.GELIEFERT)
                     elif request.user.groups.filter(name=K2).exists():
                         Task.set_task(obj, 12)
+                        set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.GELIEFERT)
                     elif request.user.groups.filter(name=K3).exists():
                         Task.set_task(obj, 13)
+                        set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.GELIEFERT)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
         elif SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppOrder.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
