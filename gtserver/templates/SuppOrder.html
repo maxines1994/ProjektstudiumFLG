@@ -105,7 +105,10 @@
             <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
         {% if o.status >= STATUS.BESTELLT and o.status <= STATUS.TEILGELIEFERT %}
-            <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen</a></li>
+            <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang buchen</a></li>
+        {% endif %}
+        {% if o.status >= STATUS.TEILGELIEFERT and o.status < STATUS.GELIEFERT %}
+        <li><a href="{% url 'set_status_call' o|to_class_name o.id o.Status.GELIEFERT %}" class="li-content"><i class="material-icons">done_all</i>Voll beliefert</a></li>
         {% endif %}
     {% endif %}
 </ul>

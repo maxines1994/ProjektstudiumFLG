@@ -10,17 +10,18 @@ class CustOrderDet(OrderDet):
 
         ERFASST                             = '1', ('Erfasst|0%')
         BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|10%')
-        AUFTRAG_FREIGEGEBEN                 = '3', ('Auftrag freigegeben|20%')
-        IN_PRODUKTION                       = '4', ('In Produktion|30%')
-        LIEFERUNG_AN_KD_AUSSTEHEND          = '5', ('Produktion abgeschlossen|50%')
-        VERSANDT_AN_KD                      = '6', ('An Kundendienst versandt|60%')
-        LIEFERUNG_AN_K_AUSSTEHEND           = '7', ('Lieferung an Kunden ausstehend|70%')
-        BESTELLT                            = '8', ('Bestellt|30%')                       # für Kundensystem
-        VERSANDT_AN_K                       = '9', ('Versandt|80%')
-        GELIEFERT                           = '10', ('Geliefert|90%')
-        REKLAMIERT                          = '11', ('Reklamiert|100%')
-        ABGENOMMEN                          = '12', ('Abgenommen|100%')
-        STORNIERT                           = '13', ('Storniert|100%')
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|15%')
+        AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben|20%')
+        IN_PRODUKTION                       = '5', ('In Produktion|30%')
+        LIEFERUNG_AN_KD_AUSSTEHEND          = '6', ('Produktion abgeschlossen|50%')
+        VERSANDT_AN_KD                      = '7', ('An Kundendienst versandt|60%')
+        LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Lieferung an Kunden ausstehend|70%')
+        BESTELLT                            = '9', ('Bestellt|30%')                       # für Kundensystem
+        VERSANDT_AN_K                       = '10', ('Versandt|80%')
+        GELIEFERT                           = '11', ('Geliefert|90%')
+        REKLAMIERT                          = '12', ('Reklamiert|100%')
+        ABGENOMMEN                          = '13', ('Abgenommen|100%')
+        STORNIERT                           = '14', ('Storniert|100%')
 
     status = models.CharField(
         max_length = 2,

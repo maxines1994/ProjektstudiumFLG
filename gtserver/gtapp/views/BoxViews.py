@@ -139,7 +139,11 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         model = self.get_model()
         
         if model == CustOrderDet:
-            return CustOrderDet.Status.VERSANDT_AN_KD
+            if obj.status == CustOrderDet.Status.IN_PRODUKTION:
+                return CustOrderDet.Status.VERSANDT_AN_KD
+            else:
+                return obj.status
+
         elif model == SuppComplaint:
             ## Lieferant
             if obj.external_system:
