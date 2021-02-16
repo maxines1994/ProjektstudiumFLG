@@ -58,7 +58,6 @@ class SuppOrder(Order):
             else:
                 mylist = list(SuppOrder.objects.filter(external_system = self.external_system, supplier_id=self.supplier_id).order_by('-id'))
                 länge = len(mylist)
-                print("länge" + str(länge))
                 
                 if len(mylist) < 1:
                     masterdata=1
