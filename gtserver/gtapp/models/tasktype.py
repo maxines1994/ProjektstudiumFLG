@@ -17,5 +17,6 @@ class TaskType(GtModel):
     status = models.CharField(max_length=50)
     view_url = models.CharField(max_length=50)
     view_kwargs_id = models.CharField(max_length=50)
-    for_all_details = models.BooleanField(default=False)
+    status_for_all_details = models.BooleanField(default=False)
+    task_for_all_details = models.BooleanField(default=False)
     group = models.ForeignKey(Group, null=True, on_delete=models.SET_NULL)

@@ -137,10 +137,10 @@
                     {% if object.status == object.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
                         <a class="waves-effect waves-light btn" href="{% url 'supp_order_cancel' object.pk %}"><i class="material-icons left">block</i>Stornieren</a>
                     {% endif %}
-                    {% if object.status >= object.Status.BESTELLT and object.status <= object.Status.GELIEFERT %}
+                    {% if object.status >= object.Status.BESTELLT and object.status <= object.Status.TEILGELIEFERT %}
                         <a class="waves-effect waves-light btn" href="{% url 'goods_receipt' object|to_class_name object.pk %}"><i class="material-icons left">archive</i>Wareneingang buchen</a>
                     {% endif %}
-                    {% if object.status >= object.Status.TEILGELIEFERT and object.status <= object.Status.GELIEFERT %}
+                    {% if object.status == object.Status.TEILGELIEFERT %}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk object.Status.GELIEFERT %}"><i class="material-icons left">done_all</i>Voll beliefert</a>
                     {% endif %}
                 {% endif %}    

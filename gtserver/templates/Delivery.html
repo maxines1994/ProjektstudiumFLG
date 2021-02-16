@@ -47,6 +47,7 @@
             {% endfor %}
             </tr> 
             <input type="hidden" name="next" value="{{ request.path }}">
+            <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
           </div>
           {% endfor %}
         </tbody>

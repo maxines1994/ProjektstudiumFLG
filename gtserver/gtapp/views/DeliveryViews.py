@@ -84,6 +84,7 @@ def delivery_view(request, **kwargs):
            'trash': NumberInput(attrs={'hidden': is_shipping}),
         }
         )
+    print(my_foreign_key_on_goods_shipping)
     
     # Verarbeitung des Post Requests zur Speicherung der abgeschickten Form
     if request.method == 'POST':
@@ -146,7 +147,8 @@ def delivery_view(request, **kwargs):
                 pass
             
             # Tasks und Status setzen
-            next_url = "home"
+            previous = request.POST.get('previous') 
+            next_url = previous if previous is not None else "home"
             mykwargs = {}
             mykwargs['id'] = kwargs['id']
 
@@ -170,7 +172,10 @@ def delivery_view(request, **kwargs):
                 return HttpResponseRedirect(reverse(next_url, kwargs=mykwargs))
 
             else:
-                # Redirect ohne Parameter
+                # Wenn auf die vorherige Seite geleitet werden soll, brauchen wir kein reverse
+                if next_url == previous:
+                    return HttpResponseRedirect(next_url)
+                # Ansonsten redirect ohne Parameter
                 return HttpResponseRedirect(reverse(next_url))
 
     else:
