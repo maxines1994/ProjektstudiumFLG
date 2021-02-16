@@ -52,20 +52,6 @@ class CustOrderDet(OrderDet):
 
     def save(self, *args, **kwargs):
 
-        """
-        # Automatisches setzen des Status des Kopfes bei vollständiger freigabe
-        if self.status == CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND:
-            freigegebenflag = True
-            for i in CustOrderDet.objects.filter(cust_order=self.cust_order):
-                if i.status != CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND:
-                    freigegebenflag = False
-            if freigegebenflag:
-                self.cust_order.status = CustOrder.Status.ERFASST
-            else:
-                self.cust_order.status = CustOrder.Status.ERFASST
-            self.cust_order.save()
-        """
-
         # Status auf Kopfebene setzen
         # Normale Status
         minstatus = self.get_min_status()
