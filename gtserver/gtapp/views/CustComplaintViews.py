@@ -42,7 +42,7 @@ class Cust_complaint_create_view(LoginRequiredMixin, CreateView):
             elif self.request.user.groups.filter(name=K3).exists():
                 Task.set_task(new_cust_order_complaint, 23)
         else:
-           Task.set_task(new_cust_order_complaint, 23)
+           Task.set_task(new_cust_order_complaint, 30)
 
         return HttpResponseRedirect("/cust_complaint/alter/" + str(new_cust_order_complaint.pk) + "/")
     
