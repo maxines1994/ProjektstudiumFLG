@@ -80,6 +80,45 @@ main.loggedin {
   animation-timing-function: ease; 
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+@keyframes twitch {
+  0% {
+    top: 0px;
+  }
+  25% {
+    top: 5%;
+  }
+  50% {
+    top: 0px;
+  }
+  75% {
+    top: -5%;
+  }
+  100% {
+    top: 0px;
+  }
+}
+
+.messageicon { 
+  animation-name: twitch; 
+  animation-duration: 2s; 
+  animation-iteration-count: infinite; 
+  animation-timing-function: linear; 
+  position:relative;
+}
+
+
+
+
 .progress {
 		min-height: 10px;
 		overflow: hidden;
@@ -171,4 +210,8 @@ width: 100%;
 @keyframes moveToLeft {
     from {left: 100%;}
     to {left: -15%;}
+}
+
+tr.unread td {
+  font-weight: bold;
 }

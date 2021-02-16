@@ -117,7 +117,18 @@ class msgDetailsView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context, "Nachricht", "")
+        context = get_context_back(context, "Nachricht", "")  
+
+     
+
+        obj = self.get_object()
+        if obj.sender == self.request.user:
+            context["is_sender"] = True
+        else:
+            obj.read_by_group = True
+            obj.save()
+            context["is_sender"] = False
+        
         return context
 
 # Weise Task User zu

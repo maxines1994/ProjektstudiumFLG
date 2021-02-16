@@ -1,5 +1,5 @@
 from django.conf import settings
-from gtapp.models import Timers, Task
+from gtapp.models import Timers, Task, Message
 from gtapp import constants
 from gtapp.constants import *
 
@@ -20,7 +20,7 @@ def gtcontext(request):
     for item in request.user.groups.all():
         group.append(item.name)
 
-    return {"debug_flag": settings.DEBUG, "company": company, "group": group, "day": Timers.get_current_day(), "has_unassigned_tasks": Task.has_unassigned(request.user)}
+    return {"debug_flag": settings.DEBUG, "company": company, "group": group, "day": Timers.get_current_day(), "has_unassigned_tasks": Task.has_unassigned(request.user), "has_messages": Message.group_has_unread(request.user)}
 
 
 def gtconstants(request):

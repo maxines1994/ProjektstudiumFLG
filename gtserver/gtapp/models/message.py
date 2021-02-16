@@ -18,7 +18,7 @@ class Message(GtModel):
     text = models.TextField()
     subject = models.CharField(max_length=100)
     sent_on = models.SmallIntegerField()
-    read_on = models.SmallIntegerField(null=True)
+    read_by_group = models.BooleanField(default=False)
     sender =  models.ForeignKey(User, null=True, related_name='sender', on_delete=models.SET_NULL)
     receiver = models.ForeignKey(Group, null=True, related_name='receiver', on_delete=models.SET_NULL)
 
@@ -28,3 +28,6 @@ class Message(GtModel):
         default = Status.ERFASST,
     )
 
+    @classmethod
+    def group_has_unread(cls, user):
+        return Message.objects.filter(read_by_group=False, receiver__in=user.groups.all()).exclude(sender=user).exists() if user.is_authenticated else False

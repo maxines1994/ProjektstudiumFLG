@@ -11,4 +11,5 @@ class MessageUser(GtModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     is_trash = models.BooleanField(default=False)
+    is_read = models.BooleanField(default=False)
 

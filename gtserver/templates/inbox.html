@@ -43,11 +43,11 @@
 
                     <tbody id="bdy">
                         {% for i in msg %}
-                        <tr>
+                        <tr {% if not i.message.read_by_group and not i.message.sender == request.user %}class="unread"{% endif %}>
                             <td>{{ i.message.subject }}</td>
                             <td>{% if action == "bin" or action == "inbox" %}{{ i.message.sender }}{% else %}{{i.message.receiver}}{% endif %}</td>
                             <td>{{ i.message.sent_on|default_if_none:"-" }}</td>
-                            <td>
+                            <td class="right-align">
                                 <a href="{% url 'msgdetails' i.id %}" class="waves-effect waves-light btn-floating">
                                     <i class="material-icons">view_headline</i>
                                 </a>

@@ -1,7 +1,6 @@
 from django.http import JsonResponse
-from gtapp.models import Task, TaskType
+from gtapp.models import Task, TaskType, Timers, Message
 #from gtapp.constants import *
-from gtapp.models import Timers
 from django.contrib.auth.decorators import login_required
 
 # Status alle x Sekunden (Tag, hatBenachrichtigungen)
@@ -9,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 def get_api_status(request, **kwargs):
     time = Timers.get_current_day()
     has_unassigned = Task.has_unassigned(request.user)
-    return JsonResponse(dict(time=time, has_unassigned=has_unassigned))
+    has_messages = Message.group_has_unread(request.user)
+    return JsonResponse(dict(time=time, has_unassigned=has_unassigned, has_messages=has_messages))
 
 # Tasks laden
 @login_required

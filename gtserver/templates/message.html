@@ -12,7 +12,7 @@
 <div class="section">
     {%if title == 'Nachricht' %}
     <div class="row">
-        <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+        <a class="btn-flat" href="{% if is_sender %}{% url 'outbox' %}{% else %}{% url 'inbox' %}{% endif %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
     </div>
     {% endif %}
 
