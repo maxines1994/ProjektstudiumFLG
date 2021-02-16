@@ -66,13 +66,13 @@ class msgWriteView(LoginRequiredMixin, CreateView):
         context = get_context_back(context, "Nachricht", "")
         # Alle Dokumente die der User anhängen kann, je nach Usergruppe
         if self.request.user.groups.filter(name=L100).exists():
-            context['supporders'] = SuppOrder.objects.filter(supplier_id=1, external_system=True)
+            context['supporders'] = SuppOrder.objects.filter(supplier_id=1, external_system=True, pk__gt=6)
             context['suppcomplaints'] = SuppComplaint.objects.filter(supplier_id=1, external_system=True)
         elif self.request.user.groups.filter(name=L200).exists():
-            context['supporders'] = SuppOrder.objects.filter(supplier_id=2, external_system=True)
+            context['supporders'] = SuppOrder.objects.filter(supplier_id=2, external_system=True, pk__gt=6)
             context['suppcomplaints'] = SuppComplaint.objects.filter(supplier_id=2, external_system=True)
         elif self.request.user.groups.filter(name=L300).exists():
-            context['supporders'] = SuppOrder.objects.filter(supplier_id=3, external_system=True)
+            context['supporders'] = SuppOrder.objects.filter(supplier_id=3, external_system=True, pk__gt=6)
             context['suppcomplaints'] = SuppComplaint.objects.filter(supplier_id=3, external_system=True)
         elif self.request.user.groups.filter(name=K1).exists():
             context['custorders'] = CustOrder.objects.filter(customer_id=1, external_system=True)
@@ -84,7 +84,7 @@ class msgWriteView(LoginRequiredMixin, CreateView):
             context['custorders'] = CustOrder.objects.filter(customer_id=3, external_system=True)
             context['custcomplaints'] = CustComplaint.objects.filter(customer_id=3, external_system=True)
         elif self.request.user.groups.filter(name=JOGA).exists():
-            context['supporders'] = SuppOrder.objects.filter(external_system=False)
+            context['supporders'] = SuppOrder.objects.filter(external_system=False, pk__gt=6)
             context['custorders'] = CustOrder.objects.filter(external_system=False)
             context['suppcomplaints'] = SuppComplaint.objects.filter(external_system=False)
             context['custcomplaints'] = CustComplaint.objects.filter(external_system=False)
