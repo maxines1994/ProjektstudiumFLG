@@ -51,7 +51,7 @@ def stock_check_view(request, **kwargs):
     # Betrachte nur SuppOrders von JOGA (external_system=False) und nur welche, die auch verschickt wurden 
     # (status >= BESTELLT und <= GELIEFERT)       
     status_min = SuppOrder.Status.ERFASST if is_supplier else SuppOrder.Status.BESTELLT
-    status_max = SuppOrder.Status.GELIEFERT if is_supplier else SuppOrder.Status.GELIEFERT
+    status_max = SuppOrder.Status.TEILGELIEFERT if is_supplier else SuppOrder.Status.TEILGELIEFERT
 
     all_supp_order_dets =   SuppOrderDet.objects.filter(
                                 part_id__in=c["stock"].values('part_id'), 
