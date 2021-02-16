@@ -66,8 +66,23 @@ def set_status_call(request, **kwargs):
     status  = status, der gesetzt werden soll
     """
     set_status(kwargs["model"], kwargs["id"], kwargs["status"])
+    my_model = GtModel.str_to_gtmodel(kwargs["model"])
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    my_redirect_url = request.META.get('HTTP_REFERER')
+    # Wenn PRODUKTIONSDIENSTLEISTUNG eine Warenentnahme Richtung PRODUKTION macht
+    # wird der Status entsprechend gesetzt und danach auf die manufacturing_list umgeleitet
+    if my_model == CustOrderDet:
+        if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
+            if kwargs["status"] == int(CustOrderDet.Status.AUFTRAG_FREIGEGEBEN):
+                my_redirect_url = reverse("manufacturing_list")
+    
+    # Wenn Lieferant eine Warenentnahme macht wird auf supp_order umgeleitet
+    elif my_model == SuppOrder:
+        if request.user.groups.filter(name=LIEFERANTEN).exists():
+            if kwargs["status"] == int(SuppOrder.Status.GELIEFERT):
+                my_redirect_url = reverse("supp_order")     
+
+    return HttpResponseRedirect(my_redirect_url)
 
 def set_status(model: GtModel, id: int, status: int):
     """
