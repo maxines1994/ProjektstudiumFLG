@@ -9,8 +9,8 @@ class CustOrder(Order):
     class Status(models.TextChoices):
 
         ERFASST                             = 1, ('Erfasst|0%')
-        TEILGELIEFERT                       = 2, ('Teilgeliefert|50%')
-        GELIEFERT                           = 3, ('Geliefert|100%')
+        TEILGELIEFERT                       = 3, ('Teilgeliefert|50%')
+        GELIEFERT                           = 4, ('Geliefert|100%')
         
     
     status = models.CharField(

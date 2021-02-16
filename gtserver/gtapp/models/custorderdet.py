@@ -30,17 +30,19 @@ class CustOrderDet(OrderDet):
 
     def save(self, *args, **kwargs):
 
+        """
         # Automatisches setzen des Status des Kopfes bei vollständiger freigabe
         if self.status == CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND:
             freigegebenflag = True
             for i in CustOrderDet.objects.filter(cust_order=self.cust_order):
-                if i.status != CustOrderDet.Status.GELIEFERT:
+                if i.status != CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND:
                     freigegebenflag = False
             if freigegebenflag:
-                self.cust_order.status = CustOrder.Status.GELIEFERT
+                self.cust_order.status = CustOrder.Status.ERFASST
             else:
-                self.cust_order.status = CustOrder.Status.TEILGELIEFERT
+                self.cust_order.status = CustOrder.Status.ERFASST
             self.cust_order.save()
+        """
 
         # Automatisches setzen des Status des Kopfes bei vollständiger Belieferung
         if self.status == CustOrderDet.Status.GELIEFERT:
@@ -49,10 +51,9 @@ class CustOrderDet(OrderDet):
                 if i.status != CustOrderDet.Status.GELIEFERT:
                     geliefertflag = False
             if geliefertflag:
-                self.cust_order.status = CustOrder.Status.GELIEFERT
+                CustOrder.objects.filter(pk=self.cust_order).update(status=CustOrder.Status.GELIEFERT)
             else:
-                self.cust_order.status = CustOrder.Status.TEILGELIEFERT
-            self.cust_order.save()
+                CustOrder.objects.filter(pk=self.cust_order).update(status=CustOrder.Status.TEILGELIEFERT)
         
         super(CustOrderDet, self).save(*args, **kwargs)
 
