@@ -81,7 +81,7 @@
                         <tbody id="itembody">
                             {% for i in items %}
                             <tr>
-                                <td>{{i.pos}}</td>
+                                <td>{{ i.pos }}</td>
                                 <td>{{ i.supp_order_det.part }}</td>
                                 <td>{{ i.quantity }}</td>
                                 <td>{{ i.memo }}</td>
@@ -145,7 +145,7 @@
 
 <!-- Body-->
 {% block body %}
-{% for i in items %}
+{% for i, has_enough_stock in items_has_enough_stock %}
 <ul id='i{{i.id}}' class='dropdown-content'>
     {% if PRODUKTION in group %}
         {% if i.status == POS_STATUS.ERFASST %}
@@ -161,8 +161,11 @@
                 <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
                 <li><a href="{% url 'supp_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
                 <!--ToDo Aus Lager beliefern: Status->Abgeschlossen Text->Teil aus Lager entnehmen; Teil außerordentlich an PRO schicken; Teil aus Lager buchen -->
-                <li><a href="{% url 'set_status_task' i.id 39 %}" class="li-content"><i class="material-icons">unarchive</i>Aus Lager beliefern</a></li>
-                <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.NEU_BESTELLEN %}" class="li-content"><i class="material-icons">add_shopping_cart</i>Neu bestellen</a></li>
+                {% if has_enough_stock %}
+                    <li><a href="{% url 'set_status_task' i.id 39 %}" class="li-content"><i class="material-icons">unarchive</i>Aus Lager beliefern</a></li>
+                {% else %}
+                    <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.NEU_BESTELLEN %}" class="li-content"><i class="material-icons">add_shopping_cart</i>Neu bestellen</a></li>
+                {% endif %}
             {% else %}
                 <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
                 <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>

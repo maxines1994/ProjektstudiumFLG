@@ -186,8 +186,6 @@ def stock_check_view(request, **kwargs):
             for part_id in part_id_list:
                 my_part = Part.objects.get(id=part_id)
                 my_stock = Stock.objects.get(part_id=part_id, is_supplier_stock=is_supplier)
-                print(my_part)
-                print(my_part.install_quantity)
                 if is_supplier:
                     my_quantity = my_supporder_dets.filter(part=my_part).first().quantity
                 else:
