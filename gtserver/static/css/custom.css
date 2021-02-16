@@ -68,11 +68,16 @@ main.loggedin {
 }
 
 @keyframes bell {
-  10% { transform: rotate(7deg) }
-  30% { transform: rotate(-15deg) }
+  0% { transform: rotate(-15deg) }
   50% { transform: rotate(15deg) }
-  70% { transform: rotate(-15deg) }
-  90% { transform: rotate(7deg) }
+  100% { transform: rotate(-15deg) }
+}
+
+.notification { 
+  animation-name: bell; 
+  animation-duration: 0.7s; 
+  animation-iteration-count: infinite; 
+  animation-timing-function: ease; 
 }
 
 .progress {

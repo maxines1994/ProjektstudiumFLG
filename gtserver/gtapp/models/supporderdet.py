@@ -11,7 +11,7 @@ class SuppOrderDet(OrderDet):
     quantity = models.SmallIntegerField()
 
     def __str__(self):
-        return self.pos.__str__()  #part.description
+        return self.pos.__str__() + " " + self.part.description
 
     @classmethod
     def create_from_needs(cls, supp_order, needs=list()):

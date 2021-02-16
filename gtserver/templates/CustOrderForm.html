@@ -90,7 +90,7 @@
                                 <th>Position</th>
                                 <th>Artikel</th>
                                 <th>Status</th>
-                                <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="itembody">
@@ -98,7 +98,6 @@
                             <tr>
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.article.description }}</td>
-                                <td>{{ i.get_status_display }}</td>
                                 <td>
                                     <div class="progress">
                                         <div class="determinate" style="width: {{ i.get_status_progress }}"></div>

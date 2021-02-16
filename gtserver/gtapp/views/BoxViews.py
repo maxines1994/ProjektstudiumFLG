@@ -33,13 +33,13 @@ def box_search_view(request):
                 if obj.status == CustOrderDet.Status.AUFTRAG_FREIGEGEBEN:
                     #Task erscheint bei dem Boxscan in der Produktion, wo dann die Hebebühne gebaut werden soll & der Status wird auf 4 gesetzt
                     Task.set_task(obj, 6)
-                    set_status(obj.__class__.__name___, obj.id, CustOrderDet.Status.AUFTRAG_FREIGEGEBEN)
+                    set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.IN_PRODUKTION)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1
                 elif obj.status == CustOrderDet.Status.LIEFERUNG_AN_KD_AUSSTEHEND:
                     #Task erscheint bei dem Boxscan beim Kundendienst, wo dann die Hebebühne an den Kunden übergeben werden soll und der Status wird auf 6 gesetzt
                     Task.set_task(obj, 8)
-                    set_status(obj.__class__.__name___, obj.id, CustOrderDet.Status.VERSANDT_AN_KD)
+                    set_status(obj.__class__.__name__, obj.id, CustOrderDet.Status.VERSANDT_AN_KD)
                     CustOrderDet.objects.filter(pk=obj.id).update(box_no='')
                     boxno_found = 1   
                 elif obj.status == CustOrderDet.Status.BESTELLT:
@@ -58,7 +58,7 @@ def box_search_view(request):
             for obj in mylist:
                 if obj.status == SuppOrder.Status.BESTELLT:
                     Task.set_task(obj, 4)
-                    set_status(obj.__class__.__name___ ,obj.id, SuppOrder.Status.BESTELLT)
+                    set_status(obj.__class__.__name__ ,obj.id, SuppOrder.Status.BESTELLT)
                     boxno_found = 1
                     SuppOrder.objects.filter(pk=obj.id).update(box_no='')
             
@@ -70,14 +70,14 @@ def box_search_view(request):
             for obj in mylist:
                 if obj.status == CustComplaintDet.Status.VERSAND_AN_PRODUKTION:
                     Task.set_task(obj, 28)
-                    set_status(obj.__class__.__name___, obj.id, CustComplaintDet.Status.IN_ANPASSUNG)
+                    set_status(obj.__class__.__name__, obj.id, CustComplaintDet.Status.IN_ANPASSUNG)
                     boxno_found = 1
                 if obj.status == CustComplaintDet.Status.VERSAND_AN_KUNDENDIENST:
                     Task.set_task(obj, 31)
-                    set_status(obj.__class__.__name___, obj.id, CustComplaintDet.Status.BEI_KUNDENDIENST)
+                    set_status(obj.__class__.__name__, obj.id, CustComplaintDet.Status.BEI_KUNDENDIENST)
                     boxno_found = 1
                 if obj.status == CustComplaintDet.Status.VERSAND_AN_KUNDE:
-                    set_status(obj.__class__.__name___, obj.id, CustComplaintDet.Status.GELIEFERT)
+                    set_status(obj.__class__.__name__, obj.id, CustComplaintDet.Status.GELIEFERT)
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
@@ -85,12 +85,12 @@ def box_search_view(request):
             mylist = SuppComplaint.objects.filter(box_no = str(number))
             for obj in mylist:
                 # if obj.status == SuppComplaint.Status.ERFASST:
-                #     set_status(obj.__class__.__name___, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
+                #     set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
                 #     Task.set_task(obj, 36)
                 #     boxno_found = 1
                 #     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_LIEFERANT:
-                    set_status(obj.__class__.__name___, obj.id,SuppComplaint.Status.GELIEFERT)
+                    set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.GELIEFERT)
                     Task.set_task(obj, 34)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
@@ -106,7 +106,7 @@ def box_search_view(request):
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PRODUKTION:
-                    set_status(obj.__class__.__name___, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
+                    set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
                     #Task.set_task(obj, 38)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
@@ -145,7 +145,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         model = self.get_model()
         
         if model == CustOrderDet:
-            if obj.status == CustOrderDet.Status.IN_PRODUKTION:
+            if obj.status == CustOrderDet.Status.LIEFERUNG_AN_KD_AUSSTEHEND:
                 return CustOrderDet.Status.VERSANDT_AN_KD
             else:
                 return obj.status

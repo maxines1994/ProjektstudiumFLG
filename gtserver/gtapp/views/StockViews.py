@@ -201,7 +201,7 @@ def stock_check_view(request, **kwargs):
 
             status_task_kwargs['task_type'] = my_task_type 
 
-            return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
+        return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
 
     return render(request, "StockCheck.html", c)
 

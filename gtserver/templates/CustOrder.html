@@ -39,11 +39,15 @@
                                     Auftragsnummer
                                 {% endif %}
                             </th>
-                            <th>
-                                {% if company != KUNDEN %}
+                            {% if company == JOGA %}
+                                <th>
+                                    Referenz
+                                </th>
+                                <th>
                                     Kunde
-                                {% endif %}
-                            </th>
+                                </th>
+                            {% endif %}
+                            
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
                             <th>Status</th>
@@ -55,11 +59,14 @@
                             <td>
                                 {{ o.order_no }}
                             </td>
-                            <td>
-                                {% if company != KUNDEN %}
+                            {% if company == JOGA %}
+                                <td>
+                                    {{ o.ref_no }}
+                                </td>
+                                <td>
                                     {{ o.customer }}
-                                {% endif %}
-                            </td>
+                                </td>
+                            {% endif %}
                             <td>Tag {{ o.issued_on|default_if_none:"-" }}</td>
                             <td>Tag {{ o.delivery_date|default_if_none:"-" }}</td>
                             <td>
