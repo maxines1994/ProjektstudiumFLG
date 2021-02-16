@@ -27,8 +27,18 @@ class Supp_complaint_create_view(LoginRequiredMixin, CreateView):
 
         new_supp_order_complaint = form.save()
 
-        if self.request.user.groups.filter(name=JOGA).exists():
-            Task.set_task(new_supp_order_complaint, 32)
+        if form.instance.external_system == True:
+            if self.request.user.groups.filter(name=L100).exists():
+                Task.set_task(new_supp_order_complaint, 40)
+            elif self.request.user.groups.filter(name=L200).exists():
+                Task.set_task(new_supp_order_complaint, 41)
+            elif self.request.user.groups.filter(name=L300).exists():
+                Task.set_task(new_supp_order_complaint, 42)
+        else:
+            if self.request.user.groups.filter(name=PRODUKTION).exists():
+                Task.set_task(new_supp_order_complaint, 32)
+            elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists(): 
+                Task.set_task(new_supp_order_complaint, 43)
 
         return HttpResponseRedirect("/supp_complaint/alter/" + str(new_supp_order_complaint.pk) + "/")
     

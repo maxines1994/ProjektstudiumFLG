@@ -73,7 +73,7 @@
                                 <th>Menge</th>
                                 <th>Beschreibung</th>
                                 <th>Abgeschlossen am</th>
-                                <th>Neulieferung</th>
+                                <th>Neulieferung erforderlich</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -86,7 +86,7 @@
                                 <td>{{ i.quantity }}</td>
                                 <td>{{ i.memo }}</td>
                                 <td>{{ i.finished_on }}</td>
-                                <td>{{ i.redelivery }}</td>
+                                <td>{% if i.redelivery %}Ja{% else %}Nein{% endif%}</td>
                                 <td>
                                     <div class="progress">
                                         <div class="determinate" style="width: {{ i.get_status_progress }}"></div>

@@ -95,8 +95,14 @@ def box_search_view(request):
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PDL:
-                    set_status(obj.__class__.__name___, obj.id,SuppComplaint.Status.IN_BEARBEITUNG)
+                    set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.IN_BEARBEITUNG)
                     Task.set_task(obj, 38)
+
+                    supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint=obj)
+                    for pos in supp_complaint_dets:
+                        pos.status = SuppComplaintDet.Status.IN_BEARBEITUNG
+                        pos.save()
+                    
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PRODUKTION:
