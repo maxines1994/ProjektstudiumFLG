@@ -8,22 +8,28 @@ class CustOrder(Order):
     """  
     class Status(models.TextChoices):
 
-        ERFASST                             = 1, ('Erfasst')
-        TEILGELIEFERT                       = 2, ('Bestandsprüfung ausstehend')
-        GELIEFERT                           = 3, ('Geliefert')
+        ERFASST                             = 1, ('Erfasst|0%')
+        TEILGELIEFERT                       = 2, ('Bestandsprüfung ausstehend|50%')
+        GELIEFERT                           = 3, ('Geliefert|100%')
         
     
     status = models.CharField(
         max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
-    )  
+    )
+
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 1)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 1)[-1]
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return (self.order_no)
+        return self.order_no
 
     def save(self, *args, **kwargs):
         if not self.pk:

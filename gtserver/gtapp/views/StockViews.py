@@ -29,35 +29,37 @@ def stock_view(request, **kwargs):
 
 @login_required
 def stock_check_view(request, **kwargs):
-    """
-    # Model getten fuer das die Boxnummer eingetragen werden soll
-    def get_model(self, **kwargs):
-        return GtModel.str_to_gtmodel(self.kwargs['model'])
 
-    # Objekt getten
-    def get_object(self, queryset=None):
-        model = self.get_model()
-        obj = model.objects.get(id=self.kwargs['id'])
-        return obj
-    """   
+    is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
     c = {}
     # Erst die CustOrderDet holen
-    c["custorderdet"] = CustOrderDet.objects.get(pk=kwargs["id"])
-    # Dann die Artiparts zu dieser CustOrderDet
-    c["artipart"] = c["custorderdet"].get_artiparts(supplier_ids=[3])
-    # Bestandsdatensaetze zu diesen Artiparts
-    is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
-    c["stock"] = Stock.objects.filter(is_supplier_stock=is_supplier, part_id__in=c["artipart"].values('part_id'))
+    if is_supplier:
+        c["order"] = SuppOrder.objects.get(pk=kwargs["id"])
+        my_supporder_dets = SuppOrderDet.objects.filter(supp_order_id=kwargs["id"])
+        my_supporder_parts = Part.objects.filter(id__in=my_supporder_dets.values("part_id"))
+        # Bestandsdatensaetze zu den Teilen
+        c["stock"] = Stock.objects.filter(is_supplier_stock=is_supplier, part__in=my_supporder_parts)
+        c["supporderdet"] = my_supporder_dets
+        c["part"] = SuppOrderDet.objects.filter(supp_order_id=kwargs["id"]).values('part_id')
+    else:
+        c["custorderdet"] = CustOrderDet.objects.get(pk=kwargs["id"])
+        # Dann die Artiparts zu dieser CustOrderDet
+        c["artipart"] = c["custorderdet"].get_artiparts(supplier_ids=[3])
+        # Bestandsdatensaetze zu diesen Artiparts
+        c["stock"] = Stock.objects.filter(is_supplier_stock=is_supplier, part_id__in=c["artipart"].values('part_id'))
     # Insgesamt bestellte Menge dieser Teile
     # Betrachte nur SuppOrders von JOGA (external_system=False) und nur welche, die auch verschickt wurden 
-    # (status >= BESTELLT und <= GELIEFERT)        
+    # (status >= BESTELLT und <= GELIEFERT)       
+    status_min = SuppOrder.Status.ERFASST if is_supplier else SuppOrder.Status.BESTELLT
+    status_max = SuppOrder.Status.GELIEFERT if is_supplier else SuppOrder.Status.GELIEFERT
+
     all_supp_order_dets =   SuppOrderDet.objects.filter(
                                 part_id__in=c["stock"].values('part_id'), 
                                 supp_order_id__in= SuppOrder.objects.filter(
-                                    external_system=False, 
-                                    status__gte=SuppOrder.Status.BESTELLT, 
-                                    status__lte=SuppOrder.Status.GELIEFERT))
-    # Sammle alle Fertigungsauftraege und deren Teile
+                                    external_system=is_supplier, 
+                                    status__gte=status_min, 
+                                    status__lte=status_max))
+# Sammle alle Fertigungsauftraege und deren Teile
     all_manu_orders = CustOrderDet.objects.filter(status__gte=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND, status__lte=CustOrderDet.Status.AUFTRAG_FREIGEGEBEN)
     all_manu_orders_parts = Part.objects.filter(supplier_id=3, id__in=ArtiPart.objects.filter(article_id__in=all_manu_orders.values('article_id')))
 
@@ -71,58 +73,68 @@ def stock_check_view(request, **kwargs):
     # Flag fuer erfolgreiche Bestandspruefung mit True initialisieren
     check_successful = True
 
-    # Durchlaufe alle Bestaende des Kontexts und lege in einer Liste immer den Gesamtbedarf an Teilen dieses Bestandes ab
-    s = 0
-    for stock in c["stock"]:
-        #Verfuegbaren Bestand ermitteln
-        temp_available = stock.stock - stock.reserved if stock.stock - stock.reserved >= 0 else 0
-        stock_available.append(temp_available)
-        # Uebrigen Bedarf ermitteln
-        if c["artipart"][s].quantity - temp_available >= 0:
-            stock_demand.append(c["artipart"][s].quantity - temp_available)
-        else:
-            stock_demand.append(0)
-        # Bestandspruefung erfolgreich? Hier wird nur auf False gesetzt, falls der Flag True ist.
-        # Beim Durchlaufen der Liste kann der Flag nicht wieder auf True gesetzt werden, wenn
-        # ein vorher gepruefter Bestand ihn einmal auf False gesetzt hat. Einmal False, immer False!
-        if check_successful:
-            check_successful = False if temp_available - stock_demand[s]  <= 0 else True
-        # Durchlaufe alle relevanten Fertigungsauftraege
-        for order in all_manu_orders:
-            # Pruefe nur die Artiparts, die fuer den Artikel des Auftrages existieren.
-            # Sonst knallts naemlich spaeter beim ArtiPart.objects.get
-            if ArtiPart.objects.filter(article_id=order.article_id, part_id=stock.part_id).exists():
-                # Wenn der naechste Bestand geprueft wird, muss appended werden, ansonsten wird der Bedarf am gleichen Index erhoeht.
-                if len(part_demands) <= s:
-                    part_demands.append(ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity)
-                else:
-                    part_demands[s] += ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity
-        # Durchlaufe alle relevanten Bestellungen
-        for orderdet in all_supp_order_dets:
-                # Immer wenn der naechste Bestand geprueft wird, ist die Liste der insgesamt bestellten Teile noch 
-                # kuerzer, als der Iterator. Wenn der naechste Bestand geprueft wird, muss also appended werden, 
-                # ansonsten wird der Bedarf am gleichen Index erhoeht.
-                if len(part_ordered_total) <= s:
-                    # Wenn das Teil in der aktuell geprueften Bestellung vorhanden ist, speichere die Bestellmenge, ansonsten 0
-                    if stock.part_id == orderdet.part_id:                 
-                        part_ordered_total.append(orderdet.quantity)
-                    else:
-                        part_ordered_total.append(0)
-                else:
-                    if stock.part_id == orderdet.part_id:                 
-                        part_ordered_total[s] += orderdet.quantity
-        s += 1
+    if is_supplier:
+        for s, stock in enumerate(c["stock"]):
+            #Verfuegbaren Bestand ermitteln
+            temp_available = stock.stock - stock.reserved if stock.stock - stock.reserved >= 0 else 0
+            stock_available.append(temp_available)
+            # Uebrigen Bedarf ermitteln
+            if my_supporder_dets[s].quantity - temp_available >= 0:
+                stock_demand.append(my_supporder_dets[s].quantity - temp_available)
+            else:
+                stock_demand.append(0)
 
-    # Sicherstellen dass part_ordered_total mit nullen gefuellt wird, wenn es keine Bestellungen gibt.
-    if len(part_ordered_total) == 0:
-        part_ordered_total = [0] * s
+    else:
+        # Durchlaufe alle Bestaende des Kontexts und lege in einer Liste immer den Gesamtbedarf an Teilen dieses Bestandes ab
+        for s, stock in enumerate(c["stock"]):
+            #Verfuegbaren Bestand ermitteln
+            temp_available = stock.stock - stock.reserved if stock.stock - stock.reserved >= 0 else 0
+            stock_available.append(temp_available)
+            # Uebrigen Bedarf ermitteln
+            if c["artipart"][s].quantity - temp_available >= 0:
+                stock_demand.append(c["artipart"][s].quantity - temp_available)
+            else:
+                stock_demand.append(0)
+            # Bestandspruefung erfolgreich? Hier wird nur auf False gesetzt, falls der Flag True ist.
+            # Beim Durchlaufen der Liste kann der Flag nicht wieder auf True gesetzt werden, wenn
+            # ein vorher gepruefter Bestand ihn einmal auf False gesetzt hat. Einmal False, immer False!
+            if check_successful:
+                check_successful = False if temp_available - stock_demand[s]  <= 0 else True
+            # Durchlaufe alle relevanten Fertigungsauftraege
+            for order in all_manu_orders:
+                # Pruefe nur die Artiparts, die fuer den Artikel des Auftrages existieren.
+                # Sonst knallts naemlich spaeter beim ArtiPart.objects.get
+                if ArtiPart.objects.filter(article_id=order.article_id, part_id=stock.part_id).exists():
+                    # Wenn der naechste Bestand geprueft wird, muss appended werden, ansonsten wird der Bedarf am gleichen Index erhoeht.
+                    if len(part_demands) <= s:
+                        part_demands.append(ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity)
+                    else:
+                        part_demands[s] += ArtiPart.objects.get(article_id=order.article_id, part_id=stock.part_id).quantity
+            # Durchlaufe alle relevanten Bestellungen
+            for orderdet in all_supp_order_dets:
+                    # Immer wenn der naechste Bestand geprueft wird, ist die Liste der insgesamt bestellten Teile noch 
+                    # kuerzer, als der Iterator. Wenn der naechste Bestand geprueft wird, muss also appended werden, 
+                    # ansonsten wird der Bedarf am gleichen Index erhoeht.
+                    if len(part_ordered_total) <= s:
+                        # Wenn das Teil in der aktuell geprueften Bestellung vorhanden ist, speichere die Bestellmenge, ansonsten 0
+                        if stock.part_id == orderdet.part_id:                 
+                            part_ordered_total.append(orderdet.quantity)
+                        else:
+                            part_ordered_total.append(0)
+                    else:
+                        if stock.part_id == orderdet.part_id:                 
+                            part_ordered_total[s] += orderdet.quantity
+
+        # Sicherstellen dass part_ordered_total mit nullen gefuellt wird, wenn es keine Bestellungen gibt.
+        if len(part_ordered_total) == 0:
+            part_ordered_total = [0] * s
     
-    for p, parts in enumerate(c["stock"]):
-        my_part_suggestion = part_demands[p] - part_ordered_total[p] - stock_available[p]
-        if my_part_suggestion >= 0:
-            part_order_suggestions.append(my_part_suggestion)
-        else:
-            part_order_suggestions.append(0)
+        for p, parts in enumerate(c["stock"]):
+            my_part_suggestion = part_demands[p] - part_ordered_total[p] - stock_available[p]
+            if my_part_suggestion >= 0:
+                part_order_suggestions.append(my_part_suggestion)
+            else:
+                part_order_suggestions.append(0)
         
 
     #Fertige Listen in Kontext speichern
@@ -133,13 +145,18 @@ def stock_check_view(request, **kwargs):
     c["order_suggestions"] = part_order_suggestions
     # Boolscher Kontext ob Bestandspruefung erfolgreich
     c["check_successful"] = check_successful
-    # Pack Bestande und Artiparts in einen 2-dimensionalen Array
-    c["stock_artipart_list"] = zip(c["stock"], c["artipart"])
-    # Pack Bestaende, Artiparts, und Gesamtbedarfsmengen in einen Kontext
-    # Die Listen existieren zwar lose nebeneinander, vom Index her passen die Daten aber zueinander
-    # Wenn alle Listen parallel im Template durchlaufen werden, hat man also die passenden Daten
-    c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal_suggestion"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"],c["order_suggestions"])
-    c["STATUS"] = CustOrderDet.Status.__members__
+
+    if is_supplier:
+        c["stock_supporderdet_stockavailable"] = zip(c["stock"], c["supporderdet"], c["stock_available"])
+
+    else: 
+        # Pack Bestaende, Artiparts, und Gesamtbedarfsmengen in einen Kontext
+        # Die Listen existieren zwar lose nebeneinander, vom Index her passen die Daten aber zueinander
+        # Wenn alle Listen parallel im Template durchlaufen werden, hat man also die passenden Daten
+        c["stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal_suggestion"] = zip(c["stock"], c["artipart"], c["stock_available"],c["stock_demand"], c["ordered_total"], c["demand_total"],c["order_suggestions"])
+
+
+    c["STATUS"] = CustOrderDet.Status.__members__ if not is_supplier else SuppOrder.Status.__members__
 
     # Hier gehts um Automatische Bestellungen und Abschluss der Bestandspruefung
     if request.method == 'POST':
@@ -165,39 +182,38 @@ def stock_check_view(request, **kwargs):
         
         # Bei Abschluss der Bestandspruefung werden die Mengen reserviert und ein neuer status_task gesetzt
         if check_successful:
-            print(part_id_list)
             # Teile der Liste durchlaufen und jeweils die Mengen reservieren
             for part_id in part_id_list:
                 my_part = Part.objects.get(id=part_id)
-                my_stock = Stock.objects.get(part_id=part_id, is_supplier_stock=False)
+                my_stock = Stock.objects.get(part_id=part_id, is_supplier_stock=is_supplier)
                 print(my_part)
                 print(my_part.install_quantity)
-                my_stock.reserve(quantity=my_part.install_quantity)
+                if is_supplier:
+                    my_quantity = my_supporder_dets.filter(part=my_part).first().quantity
+                else:
+                    my_quantity = my_part.install_quantity
+                my_stock.reserve(quantity=my_quantity)
             # fuelle kwargs fuer Weiterleitung an set_status_task
             status_task_kwargs['id'] = kwargs['id']
-            status_task_kwargs['task_type'] = 5 #Teilelieferung an Produktion
 
-        return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
+            if is_supplier:
+                my_task_type = 10 #Teilelieferung an JOGA
+            else:
+                my_task_type = 5 #Teilelieferung an Produktion
+
+            status_task_kwargs['task_type'] = my_task_type 
+
+            return HttpResponseRedirect(reverse("set_status_task", kwargs=status_task_kwargs))
 
     return render(request, "StockCheck.html", c)
-    """
-    demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
-    print(demand)
-    if Stock.reserve(demand=demand):
-        print("ERFOLGREICH")
-        CustOrderDet.objects.filter(pk=kwargs["id"]).update(status=CustOrderDet.Status.IN_PRODUKTION)
-    else:
-        print("FEHLGESCHLAGEN")
-    # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
-    return HttpResponseRedirect(reverse("manufacturing_list"))
-    """
+
 @login_required
 def stock_check_complete(request, **kwargs):
     part_ids = []
     rows = int(request.POST.get('rows'))
     # Durchlaufe alle Zeilen der Bestandspruefungsliste und speichere die Teile-IDs
     i = 0
-    while i <= int(request.GET.get('rows')):
+    while i <= int(request.POST.get('rows')):
         part_ids.append(request.POST.get('part_id' + str(i)))
         i += 1
     

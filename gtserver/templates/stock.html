@@ -23,7 +23,7 @@ Lager
                         <th>Teil</th>
                         <th>Grafik</th>
                         <th>Bestand</th>
-                        {% if company == JOGA %}
+                        {% if company == JOGA or LIEFERANTEN in group %}
                             <th>Reserviert</th>
                         {% endif %}
                     </tr>
@@ -38,7 +38,7 @@ Lager
                         {% else %}
                             <td>{{o.stock}}</td>
                         {% endif %}
-                        {% if company == JOGA %}
+                        {% if company == JOGA or LIEFERANTEN in group %}
                             <td>
                             {% if o.part.supplier_id != 3 %} 
                                 {{o.reserved}} 

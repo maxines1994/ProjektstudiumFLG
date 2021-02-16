@@ -64,7 +64,7 @@
                                 <td>Tag {{ o.delivery_date|default_if_none:"-" }}</td>
                                 <td>
                                     <div class="progress">
-                                        <div class="determinate" style="width: {{ o.status|multiply:100|divide:status_count }}%"></div>
+                                        <div class="determinate" style="width: {{ o.get_status_progress }}"></div>
                                     </div>
                                     {{ o.get_status_display }} 
                                 </td>
@@ -105,7 +105,6 @@
             <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
         {% if o.status >= STATUS.BESTELLT and o.status <= STATUS.TEILGELIEFERT %}
-            <li><a href="{% url 'box_assign' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>Boxnr. eintragen</a></li>
             <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen</a></li>
         {% endif %}
     {% endif %}

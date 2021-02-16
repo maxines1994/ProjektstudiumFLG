@@ -9,27 +9,38 @@ class SuppComplaint(Complaint):
     """
     class Status(models.TextChoices):
 
-        STANDARD                        = '0', ('Standard')
-        ERFASST                         = '1', ('Erfasst')
-        BEI_PDL                         = '2', ('Bei PDL') ##Nur wenn Rekla in PRO erstellt
-        TEILGELIEFERT                   = '3', ('Teilgeliefert') ##Wenn eine POS 'Aus Lager geliefert'
-        IN_BESTELLUNG                   = '4', ('In Bestellung') ##Wenn alle POS 'Neu Bestellen'
-        BESTANDSPRUEFUNG_AUSSTEHEND     = '5', ('Bestandsprüfung ausstehend') ##Nur für LF
-        GELIEFERT                       = '6', ('Geliefert') ##Wenn gelieferte pos existiert 
-        ABGESCHLOSSEN                   = '7', ('Abgeschlossen') ##Nur wenn keine Neulieferung oder alle aus Lager geliefert
+        ERFASST                         = '0', ('Erfasst|0%')
+        VERSAND_AN_PDL                  = '1', ('Versand an PDL|10%')
+        IN_BEARBEITUNG                  = '2', ('In Bearbeitung|20%')
+        REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben|30%')
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen|33%')##Nur LF
+        VERSAND_AN_KUNDE                = '5', ('Versand an Kunde|67%')##Nur LF
+        AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert|40%')
+        NEU_BESTELLEN                   = '7', ('Teil neu bestellen|50%')
+        POSITIONSBEARBEITUNG_FERTIG     = '8', ('Positionsbearbeitung fertig|60%')
+        VERSAND_AN_LIEFERANT            = '9', ('Versand an Lieferant|70%')
+        GELIEFERT                       = '10', ('Geliefert|80%')
+        VERSAND_AN_PRODUKTION           = '11', ('Versand an Produktion|90%')
+        ABGESCHLOSSEN                   = '12', ('Abgeschlossen|100%')   
 
     status = models.CharField(
-        max_length = 1,
+        max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
+
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 1)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 1)[-1]
 
     supp_order = models.ForeignKey(SuppOrder, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, null=True,on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return ("Bestellung " + self.order_no)
+        return self.order_no
     
     def save(self, *args, **kwargs):
         if not self.pk:

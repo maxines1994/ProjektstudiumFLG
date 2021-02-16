@@ -68,29 +68,43 @@ def box_search_view(request):
         elif CustComplaintDet.objects.filter(box_no = str(number)).exclude(cust_complaint__external_system = ext_sys).exists() and len(CustComplaintDet.objects.filter(box_no = str(number)).exclude(cust_complaint__external_system = ext_sys)) < 2:
             mylist = CustComplaintDet.objects.filter(box_no = str(number))
             for obj in mylist:
-                if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
+                if obj.status == CustComplaintDet.Status.VERSAND_AN_PRODUKTION:
                     Task.set_task(obj, 28)
                     set_status(obj.__class__, obj.id, CustComplaintDet.Status.IN_ANPASSUNG)
                     boxno_found = 1
-                if obj.status == CustComplaintDet.Status.ANPASSUNG_ABGESCHLOSSEN:
+                if obj.status == CustComplaintDet.Status.VERSAND_AN_KUNDENDIENST:
                     Task.set_task(obj, 31)
                     set_status(obj.__class__, obj.id, CustComplaintDet.Status.BEI_KUNDENDIENST)
+                    boxno_found = 1
+                if obj.status == CustComplaintDet.Status.VERSAND_AN_KUNDE:
+                    set_status(obj.__class__, obj.id, CustComplaintDet.Status.GELIEFERT)
                     boxno_found = 1
             CustComplaintDet.objects.filter(pk=obj.id).update(box_no='')
 
         elif SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys).exists() and len(SuppComplaint.objects.filter(box_no = str(number)).exclude(external_system = ext_sys)) < 2:
             mylist = SuppComplaint.objects.filter(box_no = str(number))
             for obj in mylist:
-                if obj.status == SuppComplaint.Status.ERFASST:
-                    set_status(obj.__class__, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
-                    Task.set_task(obj, 36)
-                    boxno_found = 1
-                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
-                if obj.status == SuppComplaint.Status.WEITERLEITUNG_AN_PDL:
-                    #set_status(obj.id, 7, 5)
+                # if obj.status == SuppComplaint.Status.ERFASST:
+                #     set_status(obj.__class__, obj.id,SuppComplaint.Status.BESTANDSPRUEFUNG_AUSSTEHEND)
+                #     Task.set_task(obj, 36)
+                #     boxno_found = 1
+                #     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                if obj.status == SuppComplaint.Status.VERSAND_AN_LIEFERANT:
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.GELIEFERT)
                     Task.set_task(obj, 34)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                if obj.status == SuppComplaint.Status.VERSAND_AN_PDL:
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.IN_BEARBEITUNG)
+                    Task.set_task(obj, 38)
+                    boxno_found = 1
+                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                if obj.status == SuppComplaint.Status.VERSAND_AN_PRODUKTION:
+                    set_status(obj.__class__, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
+                    #Task.set_task(obj, 38)
+                    boxno_found = 1
+                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                
     else:
         return render(request, "box.html")
 
@@ -123,12 +137,58 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         nachdem eine Boxnummer zugewiesen wurde.
         """
         model = self.get_model()
+        
         if model == CustOrderDet:
             return CustOrderDet.Status.VERSANDT_AN_KD
         elif model == SuppComplaint:
+            ## Lieferant
+            if obj.external_system:
+                return obj.status
+            ##JOGA
+            else:
+                if obj.status == SuppComplaint.Status.ERFASST:
+                    ##Setze alle Positionen aus VERSAND_AN_PDL
+                    supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint = obj)
+                    for pos in supp_complaint_dets:
+                        pos.status = SuppComplaintDet.Status.VERSAND_AN_PDL
+                        pos.save()
+                    ##Setze Kopf auf VERSAND_AN_PDL
+                    return SuppComplaint.Status.VERSAND_AN_PDL
+
+                elif obj.status == SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG:
+                    ##Bearbeite unterschiedliche Positionen
+                    supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint = obj)
+
+                    for pos in supp_complaint_dets:
+                        if pos.status == SuppComplaintDet.Status.AUS_LAGER_GELIEFERT:
+                            pos.status = SuppComplaintDet.Status.ABGESCHLOSSEN
+                            pos.save()
+                        elif pos.status == SuppComplaintDet.Status.NEU_BESTELLEN:
+                            pos.status = SuppComplaintDet.Status.VERSAND_AN_LIEFERANT
+                            pos.save()
+
+                    return SuppComplaint.Status.VERSAND_AN_LIEFERANT
+
+                elif obj.status == SuppComplaint.Status.GELIEFERT:
+                    return SuppComplaint.Status.VERSAND_AN_PRODUKTION
+
             return SuppComplaint.Status.ERLEDIGT
         elif model == CustComplaintDet:
-            return CustComplaintDet.Status.GELIEFERT
+            ## KUNDE
+            if obj.cust_complaint.external_system:
+                if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
+                    return CustComplaintDet.Status.IN_REKLAMATION
+            ## JOGA
+            else:
+                if obj.status == CustComplaintDet.Status.REKLAMATION_FREIGEGEBEN:
+                    return CustComplaintDet.Status.VERSAND_AN_PRODUKTION
+                elif obj.status == CustComplaintDet.Status.ANPASSUNG_ABGESCHLOSSEN:
+                    return CustComplaintDet.Status.VERSAND_AN_KUNDENDIENST
+                elif obj.status == CustComplaintDet.Status.BEI_KUNDENDIENST:
+                    return CustComplaintDet.Status.VERSAND_AN_KUNDE
+
+
+
         else:
             return obj.status
 
@@ -140,6 +200,8 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
         if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+        elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
+            my_redirect = reverse("goods_shipping", args=('CustOrderDet',self.kwargs['id']))
         else:
             # redirect zur Seite von der man urspruenglich kam
             my_redirect = previous

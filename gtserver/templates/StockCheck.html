@@ -16,7 +16,13 @@
 <div class="row section">
     <div class="col s12">
         <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-        <h4>Bestandsprüfung für {{ custorderdet.article }}</h4>
+        <h4>Bestandsprüfung für 
+            {% if LIEFERANTEN not in group %}
+                {{ custorderdet.article }}
+            {% else %}
+                Auftrag {{ order.order_no }}
+            {% endif %}
+            </h4>
     </div>
 </div>
 <div class="card">
@@ -28,9 +34,11 @@
                         <th>Teil</th>
                         <th>Grafik</th>
                         <th>Bedarf</th>
-                        <th>Bestand</th>
                         {% if LIEFERANTEN not in group %}
                             <th>Gesamtbedarf</th>
+                        {% endif %}
+                        <th>Verfügbar</th>
+                        {% if LIEFERANTEN not in group %}
                             <th>Bestellt</th>
                             {% if not check_successful %}
                                 <th>Bestellen</th>
@@ -39,38 +47,46 @@
                     </tr>
                 </thead>
                 <tbody id="itembody">
-                    {% for stock, artipart, stockavailable, stockdemand, orderedtotal, demandtotal, suggestion in stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal_suggestion %}
-                    <tr>
-                        <td>{{ stock.part.description }}</td>
-                        <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
-                        <td>{{ artipart.quantity }}</td>
-                        <td>{{ stockavailable }}</td>
-                        <td>{{ demandtotal }} </td>
-                        <td>{{ orderedtotal }} </td>
-                        {% if not check_successful %}
-                            <td><input type="number" name="order_quantity{{forloop.counter}}" value={{suggestion}}></td>
-                        {% endif %}
-                        <td><input type="hidden" name="part_id{{forloop.counter}}" value={{stock.part.id}}></td>
-                        <td><input type="hidden" name="rows" value={{forloop.counter}}></td>                      
-                    </tr>
-                    {% endfor %}
+
+                    {% if LIEFERANTEN in group %}
+                        {% for stock, supporderdet, stockavailable in stock_supporderdet_stockavailable %}
+                            <tr>
+                                <td>{{ stock.part.description }}</td>        
+                                <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>      
+                                <td>{{ supporderdet.quantity }}</td>    
+                                <td>{{ stockavailable }}</td>            
+                                <td><input type="hidden" name="part_id{{forloop.counter}}" value={{stock.part.id}}></td>
+                                <td><input type="hidden" name="rows" value={{forloop.counter}}></td>   
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        {% for stock, artipart, stockavailable, stockdemand, orderedtotal, demandtotal, suggestion in stock_artipart_stockavailable_stockdemand_orderedtotal_demandtotal_suggestion %}
+                            <tr>    
+                                <td>{{ stock.part.description }}</td>
+                                <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
+                                <td>{{ artipart.quantity }}</td>
+                                <td>{{ demandtotal }} </td>
+                                <td>{{ stockavailable }}</td>
+                                <td>{{ orderedtotal }} </td>
+                                    {% if not check_successful %}
+                                        <td><input type="number" name="order_quantity{{forloop.counter}}" value={{suggestion}}></td>
+                                    {% endif %}
+                                <td><input type="hidden" name="part_id{{forloop.counter}}" value={{stock.part.id}}></td>
+                                <td><input type="hidden" name="rows" value={{forloop.counter}}></td>     
+                            </tr>                 
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
     <div class="row section">
         <div class="col s12 right-align"> 
-            {% if PRODUKTIONSDIENSTLEISTUNG in group %}
                 {% if check_successful %}
                     <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">check</i>Bestandsprüfung abschließen</a>
                 {% else %}
                     <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">add_shopping_cart</i>bestellen</button>
                 {% endif %}
-            {% elif LIEFERANTEN in group %}
-                {% if check_successful %}
-                    <a class="waves-effect waves-light btn" href="{% url 'set_status_call' custorderdet.id 2 STATUS.IN_PRODUKTION %}"><i class="material-icons left">check</i>Bestandsprüfung abschließen</a>
-                {% endif %}
-            {% endif %}
         </div>
     </div>
 </div>

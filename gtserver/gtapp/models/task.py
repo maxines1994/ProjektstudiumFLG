@@ -96,11 +96,33 @@ class Task(GtModel):
         return Task.get_unassigned_tasks(user).exists()
 
     def get_ref(self):
-        if self.cust_order_det:
-            return self.cust_order_det.__str__()
-        elif self.cust_order:
-            return self.cust_order.__str__()
-        return '-'
+        out = '-'
+
+        # CustOrder mit Position
+        if self.cust_order:
+            out = self.cust_order.__str__()
+            if self.cust_order_det:
+                out += '-' + self.cust_order_det.__str__()
+
+        # CustComplaint mit Position
+        elif self.cust_complaint:
+            out = self.cust_complaint.__str__()
+            if self.cust_complaint_det:
+                out += '-' + self.cust_complaint_det.__str__()
+
+        # SuppOrder mit Position
+        elif self.supp_order:
+            out = self.supp_order.__str__()
+            if self.supp_order_det:
+                out += '-' + self.supp_order_det.__str__()
+
+        # SuppComplaint mit Position
+        elif self.supp_complaint:
+            out = self.supp_complaint.__str__()
+            if self.supp_complaint_det:
+                out += '-' + self.supp_complaint_det.__str__()
+
+        return out
 
     def __str__(self):
         return self.task_type.title + ' (' + self.get_ref() + ')'

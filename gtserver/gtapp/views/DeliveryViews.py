@@ -33,6 +33,8 @@ def delivery_view(request, **kwargs):
     my_model = GtModel.str_to_gtmodel(kwargs['model'])
     # Handelt es sich hierbei um ein Model mit 'det'?
     not_det = "det" not in kwargs['model'].casefold()    
+    # Bin ich Lieferant?
+    is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
     #Filter initialisieren
     my_model_id = {}
     if not_det:
@@ -49,7 +51,8 @@ def delivery_view(request, **kwargs):
 
 
     # Hier wird der Name des zu belegenden Fremdschluesselfeldes in der Delivery ermittelt
-    my_foreign_key_on_goods_shipping = get_fieldname(model=Delivery, foreign_key_model=my_model_det) if not CustOrderDet else 'artipart'
+    my_foreign_key_on_goods_shipping = get_fieldname(model=Delivery, foreign_key_model=my_model_det) if kwargs['model'] != CustOrderDet.__name__ else 'artipart'
+
     if my_model == CustOrderDet:
         # Anzahl der Positionen entspricht den Artiparts bei CustOrderDets
         my_pos_count = ArtiPart.objects.filter(article_id__in=my_model.objects.filter(id=kwargs['id']).values('article_id'),part__supplier_id=3).count()
@@ -81,7 +84,7 @@ def delivery_view(request, **kwargs):
            'trash': NumberInput(attrs={'hidden': is_shipping}),
         }
         )
-
+    
     # Verarbeitung des Post Requests zur Speicherung der abgeschickten Form
     if request.method == 'POST':
         fs = MyFormSet(request.POST, queryset=Delivery.objects.none(), prefix="form1")
@@ -94,6 +97,20 @@ def delivery_view(request, **kwargs):
             for fset in fsets:
                 fset.delivered *= delivery_multiplier
                 fset._creation_user = request.user
+                # CustOrderDet-ID explizit wegspeichern, weil das formset bei CustOrderDets mit der arti_part_id
+                # gefuellt wird und nicht mit der cust_order_det_id
+                if my_model == CustOrderDet:
+                    fset.cust_order_det_id = kwargs['id']
+                # Reservierungen bei den Bestaenden um entnommene Menge reduzieren
+                if is_shipping:
+                    if my_model == CustOrderDet:
+                        my_part = Part.objects.get(id=ArtiPart.objects.get(id=fset.artipart_id).part_id)
+                    else:
+                        my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
+                    my_stock = Stock.objects.get(is_supplier_stock=is_supplier,part=my_part)
+                    # Reservierte Menge um Entnommene Menge verringern
+                    my_stock.reserve(-fset.quantity)
+
                 fset.save()
                 doc.append(fset.id)
             
@@ -121,7 +138,34 @@ def delivery_view(request, **kwargs):
             if kwargs['model'] == SuppComplaintDet:
                 pass
             
-            return HttpResponseRedirect(reverse("supp_order"))
+            # Tasks und Status setzen
+            next_url = "home"
+            mykwargs = {}
+            mykwargs['id'] = kwargs['id']
+
+            if my_model == CustOrderDet:
+                next_url = "set_status_task"
+                if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
+                    mykwargs['task_type'] = 6 #Hebebuehne Produzieren
+            
+            if my_model == SuppOrder:
+                if request.user.groups.filter(name=LIEFERANTEN).exists():
+                    next_url = "set_status_call"
+                    mykwargs['model'] = kwargs['model']
+                    mykwargs['status'] = SuppOrder.Status.GELIEFERT
+                if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
+                    #next_url = "set_status_task"
+                    #mykwargs['task_type'] = ?
+                    pass
+
+            if len(mykwargs) > 1:
+                # Redirect mit Parameter
+                return HttpResponseRedirect(reverse(next_url, kwargs=mykwargs))
+
+            else:
+                # Redirect ohne Parameter
+                return HttpResponseRedirect(reverse(next_url))
+
     else:
         initial = []
         for_iterator = 0
@@ -129,16 +173,14 @@ def delivery_view(request, **kwargs):
             qset = ArtiPart.objects.filter(**my_model_id)
             for i in qset:
                 quantity = i.quantity 
-                
                 initial.append({my_foreign_key_on_goods_shipping:i.pk, "quantity":quantity})
         else:
+            qset = my_model_det.objects.filter(**my_model_id)
             for i in qset:
-                qset = my_model_det.objects.filter(**my_model_id)
                 # Setze die Menge zu entnehmender Teile auf die ArtiPart.quantity wenn es sich
                 # um eine CustOrderDet handelt, sonst nimm die quantity des det-Datensatzes
                 quantity = i.quantity
-                part_name = my_foreign_key_on_goods_shipping
-                
+                part_name = my_foreign_key_on_goods_shipping                
                 initial.append({my_foreign_key_on_goods_shipping:i.pk, "quantity":quantity})
                 for_iterator += 1
 

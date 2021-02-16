@@ -51,16 +51,15 @@ class binView(LoginRequiredMixin, TemplateView):
 
 class msgWriteView(LoginRequiredMixin, CreateView):
     template_name = "message.html"
+    form_class = Msg_write_form
 
-    def get_form(self):
+    def get_initial(self):
         # Vorbelegung Empfänger für Lieferanten und Kunden
         if self.request.user.groups.filter(name=KUNDEN).exists():
-            form_class = Msg_write_form(initial={'receiver': Group.objects.get(name=KUNDENDIENST)})
+            return {'receiver': Group.objects.get(name=KUNDENDIENST)}
         elif self.request.user.groups.filter(name=LIEFERANTEN).exists():
-            form_class = Msg_write_form(initial={'receiver': Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)})
-        else:
-            form_class = Msg_write_form()
-        return form_class
+            return {'receiver': Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)}
+        return {}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,8 +92,10 @@ class msgWriteView(LoginRequiredMixin, CreateView):
 
     # Umleitung auf die Alter View
     def form_valid(self, form):
+        print("Test")
         form.instance.sent_on = Timers.get_current_day()
         form.instance.sender = self.request.user
+
         newmessage = form.save()
 
         for i in form.instance.receiver.user_set.all():

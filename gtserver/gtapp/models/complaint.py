@@ -29,3 +29,7 @@ class Complaint(GtModel):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.order_no
+

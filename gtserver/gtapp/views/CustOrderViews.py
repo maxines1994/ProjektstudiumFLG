@@ -82,10 +82,6 @@ class Cust_order_alter_view(LoginRequiredMixin, UpdateView):
         context["order_no"] = obj.order_no
         context["box_no"] = obj.box_no
         context["action"] = "alter"
-        context["status_count"] = 0
-        for item in CustOrderDet.Status.__members__:
-            if not item.startswith("__") and not item == 'STANDARD':
-                context["status_count"] += 1
 
         context["ORDER_STATUS"] = CustOrder.Status.__members__
         context["STATUS"] = CustOrderDet.Status.__members__
@@ -192,11 +188,6 @@ class Cust_order_view(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context["status_count"] = 0
-        for item in CustOrder.Status.__members__:
-            if not item.startswith("__") and not item == 'STANDARD':
-                context["status_count"] += 1
 
         context["STATUS"] = CustOrder.Status.__members__
 

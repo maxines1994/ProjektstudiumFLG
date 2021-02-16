@@ -79,19 +79,16 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['supp_complaint_no'] = self.get_object().pk
         context["action"] = "alter"
 
-        context["status_count"] = 0
-        for item in SuppComplaintDet.Status.__members__:
-            if not item.startswith("__") and not item == 'STANDARD':
-                context["status_count"] += 1
-
         context['POS_STATUS'] = SuppComplaintDet.Status.__members__
         context['OBJ_STATUS'] = self.get_object().status
         context['STATUS'] = SuppComplaint.Status.__members__
         context['object'] = self.get_object()
 
+        status_0 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=0).exists()
         status_1 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=1).exists()
         status_2 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=2).exists()
-        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=4).exists() and not (status_1 or status_2)
+        status_4 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=4).exists()
+        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=7).exists() and not (status_0 or status_1 or status_2 or status_4)
 
         # Nur bei BoxScan implementieren? vv
         # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()
@@ -227,11 +224,6 @@ class Supp_complaint_view(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context["status_count"] = 0
-        for item in SuppComplaint.Status.__members__:
-            if not item.startswith("__") and not item == 'STANDARD':
-                context["status_count"] += 1
 
         context["STATUS"] = SuppComplaint.Status.__members__
 

@@ -9,11 +9,9 @@ class SuppOrderDet(OrderDet):
     supp_order = models.ForeignKey(SuppOrder, null=True, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
     quantity = models.SmallIntegerField()
-    
-    
 
     def __str__(self):
-        return str(self.part.description)
+        return self.pos.__str__()  #part.description
 
     @classmethod
     def create_from_needs(cls, supp_order, needs=list()):

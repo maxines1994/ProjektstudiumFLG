@@ -18,6 +18,17 @@
     <div class="col s12 m6">
         <div class="card">
             <div class="card-content">
+                {% comment %}
+
+                    Alternativ wie bei den Notifications:
+
+                    Titel: {{object.task_type.title}}
+                    Referenziertes Objekt: {{ object.get_ref }}
+
+                    Implementation siehe task.py, Task.get_ref()
+
+                {% endcomment %}
+
                 {% if object.task_type.id in CustOrder %}
                 <span class="card-title"><b>{{object.cust_order.order_no}} <br> {{object.task_type.title}}</b></span>
                 {%elif object.task_type.id in CustOrderDet %}

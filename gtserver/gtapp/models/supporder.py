@@ -8,32 +8,40 @@ class SuppOrder(Order):
     """   
     class Status(models.TextChoices):
 
-        ERFASST                         = 1, ('Erfasst')
-        BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend')
-        LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend')
-        BESTELLT                        = 4, ("Bestellt")
-        TEILGELIEFERT                   = 6, ("Teilgeliefert")
-        GELIEFERT                       = 7, ('Geliefert')
-        STORNIERT                       = 8, ('Storniert')
+        ERFASST                         = 1, ('Erfasst|0%')
+        BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend|20%')
+        LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend|40%')
+        BESTELLT                        = 4, ("Bestellt|50%") ## Nur für JOGA, richtig?
+        TEILGELIEFERT                   = 6, ("Teilgeliefert|70%")
+        GELIEFERT                       = 7, ('Geliefert|100%')
+        STORNIERT                       = 8, ('Storniert|100%')
         
-
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    
     status = models.CharField(
         max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
-    
+
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 1)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 1)[-1]
+
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.order_no
     
     def save(self, *args, **kwargs):
+        masterdata=0
         if not self.pk:
             #JOGA
             if self.external_system == False:
                 mylist = list(SuppOrder.objects.filter(external_system = self.external_system).order_by('-id'))
-                if not mylist:
+                if len(mylist) <3:
+                    masterdata=1
+                elif len(mylist) == 3:
                     no_str = 'B-001'
                 else:
                     tmp = mylist[0].order_no
@@ -49,7 +57,12 @@ class SuppOrder(Order):
             #Lieferanten        
             else:
                 mylist = list(SuppOrder.objects.filter(external_system = self.external_system, supplier_id=self.supplier_id).order_by('-id'))
-                if not mylist:
+                länge = len(mylist)
+                print("länge" + str(länge))
+                
+                if len(mylist) < 1:
+                    masterdata=1
+                elif len(mylist) == 1:
                     no_str = 'L' + str(self.supplier_id) +'-001'
                 else:
                     #Bestimmung der neuen Orderno
@@ -63,5 +76,9 @@ class SuppOrder(Order):
                         no_str = 'L' + str(self.supplier_id) +'-0'+str(no)
                     else:
                         no_str = 'L' + str(self.supplier_id) +str(no)
-            self.order_no=no_str
+           
+            if masterdata ==1:
+                pass
+            else:
+                self.order_no=no_str
         super(Order, self).save(*args, **kwargs)
