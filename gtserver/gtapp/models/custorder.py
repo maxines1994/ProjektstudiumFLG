@@ -8,10 +8,14 @@ class CustOrder(Order):
     """  
     class Status(models.TextChoices):
 
-        ERFASST                             = 1, ('Erfasst|0%')
-        TEILGELIEFERT                       = 3, ('Teilgeliefert|50%')
-        GELIEFERT                           = 4, ('Geliefert|100%')
-        
+        ERFASST                             = 1, ('Erfasst|0%')         # alle
+        FREIGEGEBEN                         = 2, ('Freigegeben|20%')    # nur JOGA
+        BESTELLT                            = 3, ('Bestellt|30%')       # nur Kunde
+        IN_BEARBEITUNG                      = 4, ('In Bearbeitung|50%') # nur JOGA
+        TEILGELIEFERT                       = 5, ('Teilgeliefert|80%')  # alle
+        GELIEFERT                           = 6, ('Geliefert|90%')      # alle
+        ABGENOMMEN                          = 7, ('Abgenommen|100%')    # alle  
+        STORNIERT                           = 8, ('Storniert|100%')     # alle
     
     status = models.CharField(
         max_length = 2,

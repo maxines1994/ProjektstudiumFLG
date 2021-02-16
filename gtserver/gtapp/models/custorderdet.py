@@ -7,19 +7,33 @@ class CustOrderDet(OrderDet):
     Dieses Model enthaelt die Positionsdaten eines Kundenauftrages.
     """ 
     class Status(models.TextChoices):
-
+        
+        # ERFASST
         ERFASST                             = '1', ('Erfasst|0%') # auch für Kundensystem
+
+        # FREIGEGEBEN
         BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|10%')
         BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|15%')
-        AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben|20%')
+        AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben|20%') 
+
+        # IN BEARBEITUNG
         IN_PRODUKTION                       = '5', ('In Produktion|30%')
         LIEFERUNG_AN_KD_AUSSTEHEND          = '6', ('Produktion abgeschlossen|50%')
         VERSANDT_AN_KD                      = '7', ('An Kundendienst versandt|60%')
         LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Lieferung an Kunden ausstehend|70%')
+
+        # BESTELLT, nur Kunde
         BESTELLT                            = '9', ('Bestellt|30%')                       # für Kundensystem only
+
+        # TEILGELIEFERT
         VERSANDT_AN_K                       = '10', ('Versandt|90%')
+        # GELIEFERT - MINSTATUS GELIEFERT (aka alle geliefert)
         GELIEFERT                           = '11', ('Geliefert|90%') # für Kundensystem only
+
+        # ABGENOMMEN
         ABGENOMMEN                          = '13', ('Abgenommen|100%') # auch für Kundensystem
+
+        # STORNIERT
         STORNIERT                           = '14', ('Storniert|100%')
 
     status = models.CharField(
@@ -27,6 +41,14 @@ class CustOrderDet(OrderDet):
         choices = Status.choices,
         default = Status.ERFASST,
     )
+
+    def get_min_status(self):
+        # here to avoid import loop
+        minstatus = 9000
+        for i in CustOrderDet.objects.filter(cust_order=self.cust_order.pk):
+            if int(i.status) < minstatus:
+                minstatus = int(i.status)
+        return minstatus
 
     def save(self, *args, **kwargs):
 
@@ -44,16 +66,63 @@ class CustOrderDet(OrderDet):
             self.cust_order.save()
         """
 
-        # Automatisches setzen des Status des Kopfes bei vollständiger Belieferung
-        if self.status == CustOrderDet.Status.GELIEFERT:
-            geliefertflag = True
-            for i in CustOrderDet.objects.filter(cust_order=self.cust_order):
-                if i.status != CustOrderDet.Status.GELIEFERT:
-                    geliefertflag = False
-            if geliefertflag:
-                CustOrder.objects.filter(pk=self.cust_order).update(status=CustOrder.Status.GELIEFERT)
+        # Status auf Kopfebene setzen
+        # Normale Status
+        minstatus = self.get_min_status()
+
+        if self.cust_order.external_system == False:
+            # JOGA
+            if minstatus <= int(self.Status.ERFASST):
+                self.cust_order.status = CustOrder.Status.ERFASST
+
+            elif minstatus <= int(self.Status.AUFTRAG_FREIGEGEBEN):
+                self.cust_order.status = CustOrder.Status.FREIGEGEBEN
+
+            elif minstatus <= int(self.Status.LIEFERUNG_AN_K_AUSSTEHEND):
+                # Wenn schon Positionen geliefert wurden teilgeliefert, sonst in Bearbeitung
+                if CustOrderDet.objects.filter(status=self.Status.GELIEFERT).exists():
+                    self.cust_order.status = CustOrder.Status.TEILGELIEFERT
+                else:
+                    self.cust_order.status = CustOrder.Status.IN_BEARBEITUNG
+
+            elif minstatus <= int(self.Status.GELIEFERT):
+                self.cust_order.status = CustOrder.Status.GELIEFERT
+
+            elif minstatus <= int(self.Status.ABGENOMMEN):
+                self.cust_order.status = CustOrder.Status.ABGENOMMEN
+
+            elif minstatus <= int(self.Status.STORNIERT):
+                self.cust_order.status = CustOrder.Status.STORNIERT
+
             else:
-                CustOrder.objects.filter(pk=self.cust_order).update(status=CustOrder.Status.TEILGELIEFERT)
+                # Fallback
+                self.cust_order.status = CustOrder.Status.ERFASST
+        else:
+            # Kundensystem
+            if minstatus <= int(self.Status.ERFASST):
+                self.cust_order.status = CustOrder.Status.ERFASST
+
+            elif minstatus <= int(self.Status.BESTELLT):
+                # Wenn schon Positionen geliefert wurden teilgeliefert, sonst in Bearbeitung
+                if CustOrderDet.objects.filter(status=self.Status.GELIEFERT).exists():
+                    self.cust_order.status = CustOrder.Status.TEILGELIEFERT
+                else:
+                    self.cust_order.status = CustOrder.Status.BESTELLT
+
+            elif minstatus <= int(self.Status.GELIEFERT):
+                self.cust_order.status = CustOrder.Status.GELIEFERT
+
+            elif minstatus <= int(self.Status.ABGENOMMEN):
+                self.cust_order.status = CustOrder.Status.ABGENOMMEN
+
+            elif minstatus <= int(self.Status.STORNIERT):
+                self.cust_order.status = CustOrder.Status.STORNIERT
+
+            else:
+                # Fallback
+                self.cust_order.status = CustOrder.Status.ERFASST
+
+        self.cust_order.save()
         
         super(CustOrderDet, self).save(*args, **kwargs)
 
