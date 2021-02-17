@@ -13,8 +13,7 @@
 <!-- Content-->
 {% block content %}
 <p>   </p>
-<a class="btn-flat" href="{% url 'production_steps' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-
+<a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
 <h4> Produktionschritt {{ step }} von Hubwagen {{ product }} </h4>
 <p>   </p>
 
@@ -51,7 +50,7 @@
                     </thead>
                     {% for i in productionsteps_list %}
                         {% if i.production_step == step %}
-                        {% if i.article_id|stringformat:"s" in product|stringformat:"s" %}
+                        {% if product == i.article.description %}
                         <!-- Tabellenzeilen -->
                             <tbody id="itembody">
                             <tr>
