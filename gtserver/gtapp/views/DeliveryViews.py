@@ -105,7 +105,7 @@ def delivery_view(request, **kwargs):
                 if is_shipping:
                     if my_model == CustOrderDet:
                         my_part = Part.objects.get(id=ArtiPart.objects.get(id=fset.artipart_id).part_id)
-                    if my_model == SuppComplaint:
+                    elif my_model == SuppComplaint:
                         my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=fset.supp_complaint_det.supp_order_det_id).part_id)
                     else:
                         my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
