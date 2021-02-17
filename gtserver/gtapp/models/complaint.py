@@ -20,6 +20,7 @@ class Complaint(GtModel):
     order_no = models.CharField(max_length=8)
     external_system = models.BooleanField(default=False)
     ref_no = models.CharField(null=True, blank=True, max_length=10)
+    issued_on = models.SmallIntegerField(default=0)
    
     status = models.CharField(
         max_length = 2,

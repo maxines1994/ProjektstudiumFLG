@@ -164,22 +164,36 @@ def add_order_view(request, **kwargs):
     }
 
     # Variables füllen der übergeordneten Instanz als Dictionary variabel nach Cust oder (else) Supp
-    if CustOrder.__instancecheck__(main) or CustComplaint.__instancecheck__(main):
+    if CustOrder.__instancecheck__(main):
         order['partner'] = main.customer.name
-    else:
+    elif SuppOrder.__instancecheck__(main):
         order['partner'] = main.supplier.name
-    
+    elif CustComplaint.__instancecheck__(main):
+        order['partner'] = main.cust_order.customer.name
+    elif SuppComplaint.__instancecheck__(main):
+        order['partner'] = main.supp_order.supplier.name
+    else:
+        order['partner'] = "-"
+
     # Füllen der untergeordneten Instanzen in das Dictionary
     s=0
     for i in alldets:
         s = s+1
         pos = {}
         # Variables füllen der untergeordneten Instanzen je nach Cust oder (else) Supp
-        if CustOrderDet.__instancecheck__(i) or CustComplaintDet.__instancecheck__(i):
+        if CustOrderDet.__instancecheck__(i):
             pos["particle"] = i.article.description
-        else:
+        elif CustComplaintDet.__instancecheck__(i):
+            pos["particle"] = i.cust_order_det.article.description
+        elif SuppOrderDet.__instancecheck__(i):
             pos["particle"] = i.part.description
             pos["quantity"] = i.quantity
+        elif SuppComplaintDet.__instancecheck__(i):
+            pos["particle"] = i.supp_order_det.part.description
+            pos["quantity"] = i.quantity
+        else:
+            pos["particle"] = "-"
+
         # Einfügen der untergeordneten gefüllten Positionen in den Aufragskopf bzw. die übergeordnete Instanz
         pos['posno'] = i.pos
         order[s] = pos
