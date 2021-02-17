@@ -10,38 +10,55 @@
 
 <!-- Content-->
 {% block content %}
-<p>   </p>
-<a class="btn-flat" href="{% url 'tasks' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+<div class="section">
+    <div class="row">
+        <div class="col s12">
+            <h4>
+                Aufgaben
+            </h4>
+        </div>
 
-<h4>{{Headline}}</h4>
-
-<div class="col s12"></div>
-    <div class="card">
-        <div class="card-content">
-            <p> <div class="table-scrollable">
-                <table id="itemtable">
-                    <thead id="itemhead">
-                    <tr>
-                        <th>ID</th>
-                        <th>Aufgabenname</th>
-                        <th>Aufgabenbeschreibung</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody id="itembody">
-                    {% for task in tasks %}
-                    <tr id="newposition">
-                        <td>{{task.id}}</td>
-                        <td>{{task.task_type.title}}</td>
-                        <td>{{task.task_type.description}}</td>
-                        <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div></p>
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12">
+                            <ul class="tabs">
+                                <li class="tab col s4"><a target="_self" {% if notassigned %}class="active"{% endif %} href="{% url 'tasks_notassigned' %}">Verfügbar</a></li>
+                                <li class="tab col s4"><a target="_self" {% if assigned %}class="active"{% endif %} href="{% url 'tasks_assigned' %}">Meine Aufgaben</a></li>
+                                <li class="tab col s4"><a target="_self" {% if finished %}class="active"{% endif %} href="{% url 'tasks_finished' %}">Abschlossen</a></li>
+                            </ul>
+                        </div>
+                        <div class="col s12">
+                            <div class="table-scrollable">
+                                <table id="itemtable">
+                                    <thead id="itemhead">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Referenz</th>
+                                            <th>Beschreibung</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itembody">
+                                        {% for task in tasks %}
+                                            <tr id="newposition">
+                                                <td>{{task.task_type.title}}</td>
+                                                <td>{{ task.get_ref }}</td>
+                                                <td>{{task.task_type.description}}</td>
+                                                <td class="right-align"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 <!-- Body-->
@@ -49,14 +66,16 @@
 {% for task in tasks %}
 <ul id='a{{task.id}}' class='dropdown-content'>
     {% if assigned %}
-    <li><a href="{% url 'tasks_finish' task.pk %}"><i class="material-icons">done</i>Fertig</a></li>   
-    <li><a href="{% url 'tasks_share' task.pk %}"><i class="material-icons">api</i>Aufgabe freigeben</a></li>
-    <li><a href="{% url 'tasks_edit' task.pk %}"><i class="material-icons">build</i>Bearbeiten</a></li>
-    {%endif%}
-    {% if notassigned %}
-    <li><a href="{% url 'tasks_assign' task.pk %}"><i class="material-icons">launch</i>Mir zuweisen</a></li>
-    {%endif%}
-    <li><a href="{% url 'tasks_detail' task.pk %}"><i class="material-icons">subject</i>Details</a></li>
+        <li><a href="{% url 'tasks_finish' task.pk %}"><i class="material-icons">done</i>Fertig</a></li>   
+        <li><a href="{% url 'tasks_edit' task.pk %}"><i class="material-icons">build</i>Bearbeiten</a></li>
+        <li><a href="{% url 'tasks_detail' task.pk %}"><i class="material-icons">subject</i>Details</a></li>
+        <li><a href="{% url 'tasks_share' task.pk %}"><i class="material-icons">api</i>Zuweisung entfernen</a></li>
+    {% elif notassigned %}
+        <li><a href="{% url 'tasks_assign' task.pk %}"><i class="material-icons">launch</i>Mir zuweisen</a></li>
+        <li><a href="{% url 'tasks_detail' task.pk %}"><i class="material-icons">subject</i>Details</a></li>
+    {% elif finished %}
+        <li><a href="{% url 'tasks_detail' task.pk %}"><i class="material-icons">subject</i>Details</a></li>
+    {% endif %} 
 </ul>
 {% endfor %}
 {% endblock %}
@@ -66,6 +85,7 @@
 <script>
     $(document).ready(function () {
         $('.dropdown-trigger').dropdown();
+        $('.tabs').tabs();
     });
 </script>
 {% endblock %}

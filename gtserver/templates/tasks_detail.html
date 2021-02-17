@@ -13,84 +13,48 @@
 <p>   </p>
 <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
 
-<h3>Aufgaben - Details</h3>
+<h4>{{object.task_type.title}}</h4>
 <div class="row">
     <div class="col s12 m6">
         <div class="card">
             <div class="card-content">
-                {% comment %}
-
-                    Alternativ wie bei den Notifications:
-
-                    Titel: {{object.task_type.title}}
-                    Referenziertes Objekt: {{ object.get_ref }}
-
-                    Implementation siehe task.py, Task.get_ref()
-
-                {% endcomment %}
-
-                {% if object.task_type.id in CustOrder %}
-                <span class="card-title"><b>{{object.cust_order.order_no}} <br> {{object.task_type.title}}</b></span>
-                {%elif object.task_type.id in CustOrderDet %}
-                <span class="card-title"><b>{{object.cust_order_det.cust_order.order_no}} Position: {{object.cust_order_det.pos}} <br> {{object.task_type.title}}</b></span>
-                {%elif object.task_type.id in SuppOrder %}
-                <span class="card-title"><b>{{object.supp_order.order_no}}<br> {{object.task_type.title}}</b></span>
-                {%elif object.task_type.id in CustComplaint %}
-                <span class="card-title"><b>{{object.cust_complaint.order_no}}<br> {{object.task_type.title}}</b></span>
-                {%elif object.task_type.id in CustComplaintDet %}
-                <span class="card-title"><b>{{object.cust_complaint_det.cust_complaint.order_no}} Position: {{object.cust_complaint_det.order_no}} <br> {{object.task_type.title}}</b></span>
-                {%elif object.task_type.id in SuppComplaint %}
-                <span class="card-title"><b>{{object.supp_complaint.order_no}} <br> {{object.task_type.title}}</b></span>
-                {% endif %}
+                <b>Referenz</b>
                 <p>
-                   <b>Beschreibung:</b> 
+                    {{ object.get_ref }}
                 </p>
+                <b>Beschreibung</b>
                 <p>
                     {{object.task_type.description}}
                 </p>
+                
+                <b>Zugewiesen an</b>
                 <p>
-                    <b>Benutzerzuodnung:</b> 
-                 </p>
-                 <p>
-                    
                     {% if object.user_id is null %}
-                    Nicht zugeordnet
+                        Nicht zugeordnet
                     {% else %}
-                    {{object.user}}
+                        {{object.user.username}}
                     {% endif %}
-                 </p>
+                </p>
+                <b>Aufgabe der Gruppe</b>
                 <p>
-                    <b>Gruppenzuordnung:</b> 
-                 </p>
-                 <p>
-                     {{object.task_type.group}}
-                 </p>
-                 {% if object.finished_on is null %}
-                 <p>
-                  
-                 </p>
-                 {% else %}
-                 <p>
-                    <b>Abgeschlossen am:  {{object.task.finished_on}}</b> 
-                 </p>
-                 <p>
-                     {{object.finished_on}}
-                 </p>
-                 {% endif %}
-                 
-            </div>
-            <div class="card-action">
-                <center>
-                    {% if object.user_id is null %}
-                    <a href="{% url 'tasks_assign' object.pk %}">Mir zuweisen</a>
-                    {%else%}
-                    <a href="{% url 'tasks_share' object.pk %}">Aufgabe freigeben</a>
-                    <a href="{% url 'tasks_edit' object.pk %}">Bearbeiten</a>
-                    <a href="{% url 'faq' content=0  %}">FAQ</a>
-                    <a href="{% url 'tasks_finish' object.pk %}">Fertig</a>
-                    {%endif%}
-                    <a href="{% url 'tasks' %}">Zurück</a>
-                </center>
+                    {{object.task_type.group}}
+                </p>
+                <b>Abgeschlossen am</b>
+                <p>
+                    {{ object.task.finished_on|default:'-' }}
+                </p>
+                {% if object.user_id == request.user %}
+                    <a href="{% url 'tasks_edit' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">build</i>Bearbeiten</a>
+                    {% if object.finished_on is null %}
+                        <a href="{% url 'tasks_finish' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">done</i>Fertig</a> 
+                    {% endif %}
+                    <a href="{% url 'tasks_share' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">api</i>Zuweisung entfernen</a>
+                {% else %}
+                    <a href="{% url 'tasks_assign' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">launch</i>Mir zuweisen</a></li>
+                {% endif %} 
+                    
+                <a href="{% url 'faq' content=0  %}" class="btn waves-effect waves-light"><i class="material-icons left">help</i>FAQ</a>
+
             </div>
         </div>
     </div>
