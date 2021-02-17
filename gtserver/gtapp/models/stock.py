@@ -26,10 +26,10 @@ class Stock(GtModel):
         """
 
         from . import StockMovement
-
-        booking_quantity = booking_quantity if self.stock + booking_quantity >= 0 else 0
-        print(booking_quantity)
-        print(self.stock)
+        # booking_quantity nur uebernehmen, wenn der Bestand dadurch mindestens 0 ist.
+        # Wuerde er auf unter 0 sinken, wird booking_quantity auf den negativen Wert des aktuellen Bestandes gesetzt.
+        # Dadurch faellt der Bestand allenfalls auf 0 und es wird eine korrekte Lagerbewegung geschrieben.
+        booking_quantity = booking_quantity if self.stock + booking_quantity >= 0 else -self.stock
         StockMovement.append(previous_stock=self.stock, booking_quantity=booking_quantity, stock=self, booking_code=booking_code)
         self.stock += booking_quantity
         self.save()

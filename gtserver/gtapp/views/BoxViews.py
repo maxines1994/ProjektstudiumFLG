@@ -185,7 +185,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
                 elif obj.status == SuppComplaint.Status.GELIEFERT:
                     return SuppComplaint.Status.VERSAND_AN_PRODUKTION
 
-            return SuppComplaint.Status.ERLEDIGT
+            return SuppComplaint.Status.ABGESCHLOSSEN
         elif model == CustComplaintDet:
             ## KUNDE
             if obj.cust_complaint.external_system:
@@ -213,8 +213,9 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
         if self.request.user.groups.filter(name=LIEFERANTEN).exists():
             my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+        # PDL wird weitergeleitet auf goods_shipping fuer wofuer auch immer sie die Box zugewiesen haben
         elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
-            my_redirect = reverse("goods_shipping", args=('CustOrderDet',self.kwargs['id']))
+            my_redirect = reverse("goods_shipping", args=(self.kwargs['model'],self.kwargs['id']))
         else:
             # redirect zur Seite von der man urspruenglich kam
             my_redirect = previous

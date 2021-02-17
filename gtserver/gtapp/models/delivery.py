@@ -16,7 +16,7 @@ class Delivery(GtModel):
     artipart = models.ForeignKey(ArtiPart, null=True, on_delete=models.CASCADE, verbose_name="Ware")
     quantity = models.IntegerField(verbose_name="Menge")
     delivered = models.IntegerField(verbose_name="Geliefert")
-    trash = models.IntegerField(verbose_name="Davon fehlerhaft", default=0)
+    trash = models.IntegerField(blank=True, null=True, verbose_name="Davon fehlerhaft", default=0)
 
     def save(self, *args, **kwargs):
         """

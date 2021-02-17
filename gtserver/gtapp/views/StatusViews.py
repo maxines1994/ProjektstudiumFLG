@@ -84,7 +84,7 @@ def set_status_call(request, **kwargs):
 
     return HttpResponseRedirect(my_redirect_url)
 
-def set_status(model: GtModel, id: int, status: int):
+def set_status(model: str, id: int, status: int):
     """
     Keine View. Interne Methode zum setzen des Status. Benoetigte Argumente:
     """

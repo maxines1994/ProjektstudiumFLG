@@ -37,4 +37,4 @@ class SuppComplaintDet(ComplaintDet):
         return self.Status(self.status).label.split("|", 1)[-1]
 
     def __str__(self):
-        return self.pos.__str__() # supp_order_det.part.description)
+        return self.pos.__str__() + ' ' + self.supp_order_det.part.description

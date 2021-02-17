@@ -2,10 +2,10 @@ from gtapp.utils import get_context
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView, DetailView
-from gtapp.models import Task, TaskType, CustOrder, SuppOrder, CustOrderDet, SuppOrderDet, GtModel, Delivery, Part
+from gtapp.models import Task, TaskType, CustOrder, SuppOrder, CustOrderDet, SuppOrderDet, GtModel, Delivery, Part, Timers
 from django.contrib.auth.models import Group, User
 from gtapp.constants import *
-from gtapp.models import Timers
+from gtapp.views.StatusViews import set_status 
 from django import forms
 from gtapp.forms import *
 import json
@@ -84,7 +84,6 @@ def delivery_view(request, **kwargs):
            'trash': NumberInput(attrs={'hidden': is_shipping}),
         }
         )
-    print(my_foreign_key_on_goods_shipping)
     
     # Verarbeitung des Post Requests zur Speicherung der abgeschickten Form
     if request.method == 'POST':
@@ -106,6 +105,8 @@ def delivery_view(request, **kwargs):
                 if is_shipping:
                     if my_model == CustOrderDet:
                         my_part = Part.objects.get(id=ArtiPart.objects.get(id=fset.artipart_id).part_id)
+                    if my_model == SuppComplaint:
+                        my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=fset.supp_complaint_det.supp_order_det_id).part_id)
                     else:
                         my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
                     my_stock = Stock.objects.get(is_supplier_stock=is_supplier,part=my_part)
@@ -166,6 +167,13 @@ def delivery_view(request, **kwargs):
                     #next_url = "set_status_task"
                     #mykwargs['task_type'] = ?
                     pass
+            if my_model == SuppComplaint:
+                if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
+                    my_supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['id'])
+
+                    for item in my_supp_complaint_dets:
+                        set_status(SuppComplaintDet.__name__, item.id, SuppComplaintDet.Status.VERSAND_AN_LIEFERANT)
+                    return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs=mykwargs))
 
             if len(mykwargs) > 1:
                 # Redirect mit Parameter
@@ -176,8 +184,8 @@ def delivery_view(request, **kwargs):
                 if next_url == previous:
                     return HttpResponseRedirect(next_url)
                 # Ansonsten redirect ohne Parameter
+                
                 return HttpResponseRedirect(reverse(next_url))
-
     else:
         initial = []
         for_iterator = 0
