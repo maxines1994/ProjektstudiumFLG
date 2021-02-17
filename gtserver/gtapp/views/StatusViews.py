@@ -28,12 +28,13 @@ def set_status_task (request, **kwargs):
     else:
         my_task_filter["id"] = kwargs["id"]
     
+    my_status_model = GtModel.str_to_gtmodel(my_task_type.status_model)
     my_status_filter = {}
     # Ist der Flag "status_for_all_details" gesetzt, wird der hinterlegte Status
     # fuer alle Positionsdaten angelegt. Daher lautet der Filter nicht "id = kwargs["id"]"
     # sondern "xxx_order = kwargs["id"]" oder "xxx_complaint = kwargs["id"]"
     if my_task_type.status_for_all_details:
-        my_header_model = GtModel.str_to_gtmodel(my_task_type.task_model.replace('Det', ''))
+        my_header_model = GtModel.str_to_gtmodel(my_task_type.status_model.replace('Det', ''))
         my_header_field = GtModel.gtmodel_to_foreign_field_name(my_header_model)
         my_status_filter[my_header_field] = kwargs["id"]
     else:
@@ -41,7 +42,7 @@ def set_status_task (request, **kwargs):
 
     # Queries aller gefundenen Objekte fuer Tasks und Status
     my_task_obj_qry = my_task_model.objects.filter(**my_task_filter)
-    my_status_obj_qry = my_task_model.objects.filter(**my_status_filter)
+    my_status_obj_qry = my_status_model.objects.filter(**my_status_filter)
 
     # Durchlaeuft das Query der gefundenen Objekte und erzeugt fuer jedes Objekt einen Task.
     for obj in my_task_obj_qry:

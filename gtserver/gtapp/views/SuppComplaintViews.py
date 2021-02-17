@@ -94,19 +94,12 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['STATUS'] = SuppComplaint.Status.__members__
         context['object'] = self.get_object()
 
-        my_supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint=self.get_object())
-        my_supp_complaint_det_status = my_supp_complaint_dets.values('status')
-
-        status_blacklist = [
-            SuppComplaintDet.Status.ERFASST, 
-            SuppComplaintDet.Status.VERSAND_AN_PDL,
-            SuppComplaintDet.Status.IN_BEARBEITUNG, 
-            SuppComplaintDet.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN
-        ]
-    
-        status_whitelist = [SuppComplaintDet.Status.NEU_BESTELLEN]
- 
-        context['button_neubestellung'] = my_supp_complaint_det_status in status_whitelist and my_supp_complaint_det_status not in status_blacklist
+        status_0 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=0).exists()
+        status_1 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=1).exists()
+        status_2 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=2).exists()
+        status_3 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=3).exists()
+        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=7).exists() and not (status_0 or status_1 or status_2 or status_3)
+        
         # Nur bei BoxScan implementieren? vv
         # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()
 
