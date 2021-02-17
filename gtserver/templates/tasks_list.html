@@ -24,9 +24,9 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s4"><a target="_self" {% if notassigned %}class="active"{% endif %} href="{% url 'tasks_notassigned' %}">Verfügbar</a></li>
+                                <li class="tab col s4"><a target="_self" {% if notassigned %}class="active"{% endif %} href="{% url 'tasks_notassigned' %}">Aufgabenpool</a></li>
                                 <li class="tab col s4"><a target="_self" {% if assigned %}class="active"{% endif %} href="{% url 'tasks_assigned' %}">Meine Aufgaben</a></li>
-                                <li class="tab col s4"><a target="_self" {% if finished %}class="active"{% endif %} href="{% url 'tasks_finished' %}">Abschlossen</a></li>
+                                <li class="tab col s4"><a target="_self" {% if finished %}class="active"{% endif %} href="{% url 'tasks_finished' %}">Abgeschlossen</a></li>
                             </ul>
                         </div>
                         <div class="col s12">
