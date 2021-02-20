@@ -173,6 +173,7 @@
           M.Sidenav.init(document.getElementById('sidenav'), sidenav_options);
           M.Dropdown.init($('.dropdown-trigger'), {'constrainWidth': false});
           $('.collapsible').collapsible();
+          $('.materialboxed').materialbox();
         });
 
         {% if perms.gtapp.view_task %}
