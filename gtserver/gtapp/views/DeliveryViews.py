@@ -85,12 +85,13 @@ def delivery_view(request, **kwargs):
         }
         )
     
-    # Verarbeitung des Post Requests zur Speicherung der abgeschickten Form
     if request.method == 'POST':
         fs = MyFormSet(request.POST, queryset=Delivery.objects.none(), prefix="form1")
         # Form Valid?
         if fs.is_valid():
             fsets = fs.save(commit=False)
+            my_supp_order_det_id_list = []
+            my_trash_list = []
             doc = list()
 
             # Durchgehen aller Forms innerhalb des Formsets
@@ -107,46 +108,36 @@ def delivery_view(request, **kwargs):
                         my_part = Part.objects.get(id=ArtiPart.objects.get(id=fset.artipart_id).part_id)
                     elif my_model == SuppComplaint:
                         my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=fset.supp_complaint_det.supp_order_det_id).part_id)
+                    elif my_model == SuppOrder:
+                        my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=fset.supp_order_det_id).part_id)
                     else:
                         my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
+                       
                     my_stock = Stock.objects.get(is_supplier_stock=is_supplier,part=my_part)
                     # Reservierte Menge um Entnommene Menge verringern
                     my_stock.reserve(fset.delivered)
-                # Bei Wareneingaengen von Bestellungen den Status der Bestellung auf teilgeliefert setzen,
-                # wenn er kleiner ist als teilgeliefert.
+                
                 else:
                     if my_model == SuppOrder:
+                        my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=fset.supp_order_det_id).part_id)
+                        # Zusaetzlich Teile und Mengen der Falschteile in Liste schreiben um spaeter
+                        # automatische Reklamationen zu erzeugen
+                        if fset.trash > 0:
+                            my_supp_order_det_id_list.append(fset.supp_order_det_id)
+                            my_trash_list.append(fset.trash)
+
+                        # Bei Wareneingaengen von Bestellungen den Status der Bestellung auf teilgeliefert setzen,
+                        # wenn er kleiner ist als teilgeliefert.
                         my_supporder_qry = SuppOrder.objects.filter(id=kwargs['id'])
                         if my_supporder_qry.first().status < SuppOrder.Status.TEILGELIEFERT:
                             my_supporder_qry.update(status=SuppOrder.Status.TEILGELIEFERT)
 
                 fset.save()
-                doc.append(fset.id)
             
-            c = None
-            
-            # ERSTELLUNG DER REKLAMATIONEN
-            if kwargs['model'] == CustOrderDet:
-                # TBD
-                pass
-            if kwargs['model'] == CustComplaintDet:
-                # TBD
-                pass
+            # Automatische Bestellreklamation erzeugen.
+            if len(my_supp_order_det_id_list) > 0:
+                new_supp_complaint_id = SuppComplaintDet.auto_complaint(supp_order_det_id_list=my_supp_order_det_id_list, quantity_list=my_trash_list)
 
-            if kwargs['model'] == SuppOrderDet:
-                bo = False
-                for i in doc:
-                    if Delivery.objects.filter(pk=i)[0] != 0:
-                        bo = True
-                if bo:
-                    c = SuppComplaint.objects.create(supp_order_id=kwargs['id'])
-                    for i in doc:
-                        rd = Delivery.objects.get(pk=i)
-                        if rd.trash != 0: # POSNR AUTOMATISCH ?!
-                            SuppComplaintDet.objects.create(pos=i, supp_complaint_id=c.pk, supp_order_det_id=kwargs["idofdet"], quantity=rd.trash)
-            if kwargs['model'] == SuppComplaintDet:
-                pass
-            
             # Tasks und Status setzen
             previous = request.POST.get('previous') 
             next_url = previous if previous is not None else "home"
@@ -164,9 +155,12 @@ def delivery_view(request, **kwargs):
                     mykwargs['model'] = kwargs['model']
                     mykwargs['status'] = SuppOrder.Status.GELIEFERT
                 if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
-                    #next_url = "set_status_task"
-                    #mykwargs['task_type'] = ?
-                    pass
+                    # Task erzeugen zur Freigabe der Bestellreklamation und Weiterleitung zu Aufgabenpool
+                    if len(my_supp_order_det_id_list) > 0:
+                        next_url = "set_status_task"
+                        mykwargs['id'] = new_supp_complaint_id
+                        mykwargs['task_type'] = 38
+
             if my_model == SuppComplaint:
                 if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
                     my_supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['id'])
