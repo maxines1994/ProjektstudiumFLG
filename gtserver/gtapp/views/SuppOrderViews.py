@@ -49,7 +49,10 @@ class Supp_order_create_view(LoginRequiredMixin, CreateView):
         return form_class(**self.get_form_kwargs())
     
     def get_initial(self):
-        return {"issued_on":Timers.get_current_day()}
+        return {
+            "issued_on":Timers.get_current_day(),
+            "supplier": 3
+        }
 
 
 

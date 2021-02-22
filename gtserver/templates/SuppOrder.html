@@ -38,6 +38,11 @@
                                     Bestellnummer 
                                 {% endif %}
                             </th>
+                                {% if company == LIEFERANTEN %}
+                                <th>
+                                    Referenznummer
+                                </th>
+                                {% endif %}
                             <th>
                                 {% if company != LIEFERANTEN %}
                                     Lieferant 
@@ -55,6 +60,11 @@
                                 <td>
                                     {{ o.order_no }}
                                 </td>
+                                {% if company == LIEFERANTEN %}
+                                <td>
+                                    {{o.ref_no}}
+                                </td>
+                                {% endif %}
                                 <td>
                                     {% if company != LIEFERANTEN %}
                                         {{o.supplier}}

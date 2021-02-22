@@ -3,17 +3,14 @@ from django.utils.translation import gettext_lazy as _
 
 class Supp_complaint_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
-    finished_on = IntegerField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = SuppComplaint
-        fields = ["supp_order", "memo", "finished_on", "box_no"]
+        fields = ["supp_order", "memo",  "box_no"]
         labels = {
             'supp_order': _('Bestellung'),
-            'memo': _('Kommentar'),
-            'finished_on': _('Abgeschlossen am')
-            
+            'memo': _('Kommentar'),      
         }
         widgets = {
             #'order_no': IntegerField()

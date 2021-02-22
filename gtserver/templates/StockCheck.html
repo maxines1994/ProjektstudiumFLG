@@ -53,8 +53,8 @@
                             <tr>
                                 <td>{{ stock.part.description }}</td>        
                                 <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>      
-                                <td>{{ supporderdet.quantity }}</td>    
-                                <td>{{ stockavailable }}</td>            
+                                <td>{{ supporderdet.quantity }} Stk.</td>    
+                                <td>{{ stockavailable }} Stk.</td>            
                                 <td><input type="hidden" name="part_id{{forloop.counter}}" value={{stock.part.id}}></td>
                                 <td><input type="hidden" name="rows" value={{forloop.counter}}></td>   
                             </tr>
@@ -64,9 +64,9 @@
                             <tr>    
                                 <td>{{ stock.part.description }}</td>
                                 <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
-                                <td>{{ artipart.quantity }}</td>
+                                <td>{{ artipart.quantity }} Stk.</td>
                                 <td>{{ demandtotal }} </td>
-                                <td>{{ stockavailable }}</td>
+                                <td>{{ stockavailable }} Stk.</td>
                                 <td>{{ orderedtotal }} </td>
                                     {% if not check_successful %}
                                         <td><input type="number" name="order_quantity{{forloop.counter}}" value={{suggestion}}></td>

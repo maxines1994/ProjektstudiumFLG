@@ -110,6 +110,7 @@ def box_search_view(request):
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PRODUKTION:
                     set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
+                    #Hier muss noch ein Task hin
                     #Task.set_task(obj, 38)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
@@ -185,7 +186,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
                 elif obj.status == SuppComplaint.Status.GELIEFERT:
                     return SuppComplaint.Status.VERSAND_AN_PRODUKTION
 
-            return SuppComplaint.Status.ABGESCHLOSSEN
+            return obj.status
         elif model == CustComplaintDet:
             ## KUNDE
             if obj.cust_complaint.external_system:
@@ -212,11 +213,29 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         previous = self.request.POST.get('previous', '/')
         # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
         if self.request.user.groups.filter(name=LIEFERANTEN).exists():
-            my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+            if self.kwargs['model'] != SuppComplaint.__name__:
+                my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
+            else:
+                # Bei Lieferant nach dem Boxscan nur den Status der Positionen aendern und zurueck zur vorherigen Maske
+                my_supp_complaint = SuppComplaint.objects.get(id=self.kwargs['id'])
+                my_supp_complaint_det_qry = SuppComplaintDet.objects.filter(supp_complaint=my_supp_complaint)
+                for complaint in my_supp_complaint_det_qry:
+                    complaint.status = SuppComplaintDet.Status.GELIEFERT
+                    complaint.save()
+                my_redirect = previous
         # PDL wird weitergeleitet auf goods_shipping fuer wofuer auch immer sie die Box zugewiesen haben
         elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
-            my_redirect = reverse("goods_shipping", args=(self.kwargs['model'],self.kwargs['id']))
-        else:
+            if self.kwargs['model'] != SuppComplaint.__name__:
+                my_redirect = reverse("goods_shipping", args=(self.kwargs['model'],self.kwargs['id']))
+            else:
+                # Bei PDL nach dem Boxscan nur den Status der Positionen aendern und zurueck zur vorherigen Maske
+                my_supp_complaint = SuppComplaint.objects.get(id=self.kwargs['id'])
+                my_supp_complaint_det_qry = SuppComplaintDet.objects.filter(supp_complaint=my_supp_complaint)
+                for complaint in my_supp_complaint_det_qry:
+                    complaint.status = SuppComplaintDet.Status.VERSAND_AN_PRODUKTION
+                    complaint.save()
+                my_redirect = previous
+        else:            
             # redirect zur Seite von der man urspruenglich kam
             my_redirect = previous
         return HttpResponseRedirect(my_redirect)

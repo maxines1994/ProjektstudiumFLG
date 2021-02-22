@@ -21,6 +21,7 @@
                         <tr>
                             <th>Fertigungsauftrag</th>
                             <th>Artikel</th>
+                            <th>Lieferdatum</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@
                             <tr>
                                 <td>{{ m.cust_order }}-{{ m.pos }}</td>
                                 <td>{{ m.article }} {{ m.get_status_groups }}</td>
+                                <td>Tag {{ m.cust_order.delivery_date|default:'-'}}</td>
                                 <td>
                                     <div class="progress{% if not m|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ m.get_status_progress }}"></div>

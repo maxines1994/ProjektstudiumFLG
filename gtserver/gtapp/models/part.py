@@ -17,7 +17,7 @@ class Part(GtModel):
   supplier = models.ForeignKey(Supplier, null=True, on_delete=models.SET_NULL)
 
   def __str__(self):
-    return str(self.description + " (GG: "+ str(self.pack_quantity) +")" ) # Gebindegröße
+    return self.description
 
   def change_stock(self, of_supplier: bool, booking_quantity: int, booking_code=BUCHUNG_UNBEKANNT):
     """

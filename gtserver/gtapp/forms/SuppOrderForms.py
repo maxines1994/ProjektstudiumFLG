@@ -3,6 +3,10 @@ from django.utils.translation import gettext_lazy as _
 
 class Supp_order_form_jg(ModelForm):
     use_required_attribute = False
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        self.fields['supplier'].widget.attrs['disabled'] = True
 
     class Meta:
         model = SuppOrder

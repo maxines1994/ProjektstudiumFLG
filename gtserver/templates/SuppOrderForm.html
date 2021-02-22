@@ -99,8 +99,8 @@
                             <tr>
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.part.description }}</td>
-                                <td>{{ i.quantity }}</td>
-                                <td>{{ i.part.pack_quantity }}</td>
+                                <td>{{ i.quantity }} Stk.</td>
+                                <td>{{ i.part.pack_quantity }} Stk.</td>
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
@@ -184,6 +184,11 @@
 <script>
   $(document).ready(function(){
     $('select').formSelect();
+  });
+  
+  $('form').on('submit', function() {
+      $('input, select').prop('disabled', false);
+      $('input, text').prop('disabled', false);
   });
 </script>
 

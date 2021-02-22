@@ -102,7 +102,9 @@
       {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href="{% url 'box_search_view' %}">Barcode scannen</a></li>{% endif %}
       <li><div class="divider"></div></li>
       {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
-      {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
+      {% if KUNDENDIENST in group or KUNDEN in group or LEITUNGSTEAM in group %}
+        {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
+      {% endif %}
       {% if perms.gtapp.view_custcomplaint %}<li><a href="{% url 'cust_complaint' %}">{% if company == KUNDEN %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_supporder %}<li><a href="{% url 'supp_order' %}">{% if company == LIEFERANTEN %}Aufträge{% else %}Bestellungen{% endif %}</a></li>{% endif %}
       {% if perms.gtapp.view_suppcomplaint %}<li><a href="{% url 'supp_complaint' %}">{% if company == LIEFERANTEN %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</a></li>{% endif %}
