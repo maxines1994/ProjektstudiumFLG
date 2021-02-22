@@ -1,7 +1,8 @@
 from django.db import models
 from .complaint import Complaint
 from .supporder import SuppOrder, Supplier
-
+from gtapp.constants import *
+from django.contrib.auth.models import Group
 
 class SuppComplaint(Complaint):
     """
@@ -29,15 +30,17 @@ class SuppComplaint(Complaint):
         default = Status.ERFASST,
     )
 
-    def get_status_display(self):
-        return self.Status(self.status).label.split("|", 1)[0]
-
-    def get_status_progress(self):
-        return self.Status(self.status).label.split("|", 1)[-1]
-
     supp_order = models.ForeignKey(SuppOrder, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, null=True,on_delete=models.CASCADE)
 
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 2)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 2)[-1]
+    
+    def group_has_work(self, user):
+        return True
 
     def __str__(self):
         return self.order_no

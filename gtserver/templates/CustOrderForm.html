@@ -99,7 +99,7 @@
                                 <td>{{ i.pos }}</td>
                                 <td>{{ i.article.description }}</td>
                                 <td>
-                                    <div class="progress">
+                                    <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
                                     </div>
                                     {{ i.get_status_display }}

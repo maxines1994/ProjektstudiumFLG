@@ -35,7 +35,7 @@
                                 {% if company != KUNDEN %} <td>{{c.cust_order.customer}}</td>{% endif %}
                                 <td>{{ c.memo }}</td>
                                 <td>
-                                    <div class="progress">
+                                    <div class="progress{% if not c|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ c.get_status_progress }}"></div>
                                     </div>
                                     {{ c.get_status_display }} 

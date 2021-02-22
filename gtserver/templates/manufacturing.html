@@ -29,12 +29,13 @@
                         {% for m in manufacturing %}
                             <tr>
                                 <td>{{ m.cust_order }}-{{ m.pos }}</td>
-                                <td>{{ m.article }}</td>
+                                <td>{{ m.article }} {{ m.get_status_groups }}</td>
                                 <td>
-                                    <div class="progress">
+                                    <div class="progress{% if not m|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ m.get_status_progress }}"></div>
                                     </div>
-                                    {{ m.get_status_display }}</td>
+                                    {{ m.get_status_display }}
+                                </td>
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{m.id}}'><i class="material-icons">more_vert</i></a></td>
                             </tr>
                         {% endfor %}

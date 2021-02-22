@@ -1,6 +1,8 @@
 from django.db import models
 from gtapp.models.custorderdet import CustOrderDet
 from . import Order, Supplier, CustOrder
+from gtapp.constants import *
+from django.contrib.auth.models import Group
 
 class SuppOrder(Order):
     """
@@ -8,13 +10,13 @@ class SuppOrder(Order):
     """   
     class Status(models.TextChoices):
 
-        ERFASST                         = 1, ('Erfasst|0%')
-        BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend|20%')
-        LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend|40%')
-        BESTELLT                        = 4, ("Bestellt|50%") ## Nur für JOGA, richtig?
-        TEILGELIEFERT                   = 6, ("Teilgeliefert|70%")
-        GELIEFERT                       = 7, ('Geliefert|100%')
-        STORNIERT                       = 8, ('Storniert|100%')
+        ERFASST                         = 1, ('Erfasst|' + PRODUKTIONSDIENSTLEISTUNG + ',' + LIEFERANTEN + '|0%')
+        BESTANDSPRUEFUNG_AUSSTEHEND     = 2, ('Bestandsprüfung ausstehend|' + LIEFERANTEN + '|20%')
+        LIEFERUNG_AN_JOGA_AUSSTEHEND    = 3, ('Lieferung an JOGA ausstehend|' + LIEFERANTEN + '|40%')
+        BESTELLT                        = 4, ('Bestellt||50%') ## Nur für JOGA, richtig?
+        TEILGELIEFERT                   = 6, ('Teilgeliefert|' + PRODUKTIONSDIENSTLEISTUNG + ',' + LIEFERANTEN + '|70%')
+        GELIEFERT                       = 7, ('Geliefert||100%')
+        STORNIERT                       = 8, ('Storniert||100%')
         
     status = models.CharField(
         max_length = 2,
@@ -22,13 +24,19 @@ class SuppOrder(Order):
         default = Status.ERFASST,
     )
 
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+
     def get_status_display(self):
-        return self.Status(self.status).label.split("|", 1)[0]
+        return self.Status(self.status).label.split("|", 2)[0]
 
     def get_status_progress(self):
-        return self.Status(self.status).label.split("|", 1)[-1]
-
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+        return self.Status(self.status).label.split("|", 2)[-1]
+    
+    def group_has_work(self, user):
+        for group in Group.objects.filter(name__in=self.Status(self.status).label.split("|", 2)[1].split(',')):
+            if user.groups.filter(name=group).exists():
+                return True
+        return False
 
     def __str__(self):
         return self.order_no

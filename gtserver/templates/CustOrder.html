@@ -70,7 +70,7 @@
                             <td>Tag {{ o.issued_on|default_if_none:"-" }}</td>
                             <td>Tag {{ o.delivery_date|default_if_none:"-" }}</td>
                             <td>
-                                <div class="progress">
+                                <div class="progress{% if not o|group_has_work:request.user %} progress-grey{% endif %}">
                                     <div class="determinate" style="width: {{ o.get_status_progress }}"></div>
                                 </div>
                                 {{ o.get_status_display }} 

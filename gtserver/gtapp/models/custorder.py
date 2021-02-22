@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from . import Order, Customer
+from gtapp.constants import *
+from django.contrib.auth.models import Group
 
 class CustOrder(Order):
     """
@@ -24,10 +26,13 @@ class CustOrder(Order):
     )
 
     def get_status_display(self):
-        return self.Status(self.status).label.split("|", 1)[0]
+        return self.Status(self.status).label.split("|", 2)[0]
 
     def get_status_progress(self):
-        return self.Status(self.status).label.split("|", 1)[-1]
+        return self.Status(self.status).label.split("|", 2)[-1]
+    
+    def group_has_work(self, user):
+        return True
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)

@@ -1,6 +1,8 @@
 from django.db import models
 from django.apps import apps
 from . import OrderDet, CustOrder, Article, ArtiPart
+from gtapp.constants import *
+from django.contrib.auth.models import Group
 
 class CustOrderDet(OrderDet):
     """
@@ -9,38 +11,53 @@ class CustOrderDet(OrderDet):
     class Status(models.TextChoices):
         
         # ERFASST
-        ERFASST                             = '1', ('Erfasst|0%') # auch für Kundensystem
+        ERFASST                             = '1', ('Erfasst|' + KUNDEN + ',' + KUNDENDIENST + '|0%') # auch für Kundensystem #K, KD
 
         # FREIGEGEBEN
-        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|10%')
-        BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|15%')
-        AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben|20%') 
+        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|' + PRODUKTIONSDIENSTLEISTUNG + '|10%') #PDL
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|' + PRODUKTIONSDIENSTLEISTUNG + '|15%')
+        AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben||20%') 
 
         # IN BEARBEITUNG
-        IN_PRODUKTION                       = '5', ('In Produktion|30%')
-        LIEFERUNG_AN_KD_AUSSTEHEND          = '6', ('Produktion abgeschlossen|50%')
-        VERSANDT_AN_KD                      = '7', ('An Kundendienst versandt|60%')
-        LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Lieferung an Kunden ausstehend|70%')
+        IN_PRODUKTION                       = '5', ('In Produktion|' + PRODUKTION + '|30%')
+        LIEFERUNG_AN_KD_AUSSTEHEND          = '6', ('Produktion abgeschlossen|' + PRODUKTION + '|50%') #PRO
+        VERSANDT_AN_KD                      = '7', ('An Kundendienst versandt|' + KUNDENDIENST + '|60%') #KD
+        LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Lieferung an Kunden ausstehend|' + KUNDENDIENST + '|70%') #KD
 
         # BESTELLT, nur Kunde
-        BESTELLT                            = '9', ('Bestellt|30%')                       # für Kundensystem only
+        BESTELLT                            = '9', ('Bestellt||30%') # für Kundensystem only  
 
         # TEILGELIEFERT
-        VERSANDT_AN_K                       = '10', ('Versandt|90%')
+        VERSANDT_AN_K                       = '10', ('Versandt|' + KUNDENDIENST + '|90%')
         # GELIEFERT - MINSTATUS GELIEFERT (aka alle geliefert)
-        GELIEFERT                           = '11', ('Geliefert|90%') # für Kundensystem only
+        GELIEFERT                           = '11', ('Geliefert|' + KUNDEN + '|90%') # für Kundensystem only 
 
         # ABGENOMMEN
-        ABGENOMMEN                          = '13', ('Abgenommen|100%') # auch für Kundensystem
+        ABGENOMMEN                          = '13', ('Abgenommen||100%') # auch für Kundensystem #KD
 
         # STORNIERT
-        STORNIERT                           = '14', ('Storniert|100%')
+        STORNIERT                           = '14', ('Storniert||100%')
 
     status = models.CharField(
         max_length = 2,
         choices = Status.choices,
         default = Status.ERFASST,
     )
+
+    cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    
+    def get_status_display(self):
+        return self.Status(self.status).label.split("|", 2)[0]
+
+    def get_status_progress(self):
+        return self.Status(self.status).label.split("|", 2)[-1]
+    
+    def group_has_work(self, user):
+        for group in Group.objects.filter(name__in=self.Status(self.status).label.split("|", 2)[1].split(',')):
+            if user.groups.filter(name=group).exists():
+                return True
+        return False
 
     def get_min_status(self):
         # here to avoid import loop
@@ -111,15 +128,6 @@ class CustOrderDet(OrderDet):
         self.cust_order.save()
         
         super(CustOrderDet, self).save(*args, **kwargs)
-
-    def get_status_display(self):
-        return self.Status(self.status).label.split("|", 1)[0]
-
-    def get_status_progress(self):
-        return self.Status(self.status).label.split("|", 1)[-1]
-
-    cust_order = models.ForeignKey(CustOrder, on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.pos.__str__() + ' ' + self.article.description

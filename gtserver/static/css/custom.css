@@ -122,14 +122,14 @@ main.loggedin {
 		min-height: 10px;
 		overflow: hidden;
 		position: relative;
-		background-color: #BBB !important;
+		background-color: #c7c7c7 !important;
 }
 
 .progress-grey .determinate {
   width: 0;
   padding: 10px;
   position: relative;
-  background-color: #666;
+  background-color: #616161 !important;
   text-align: right;
   white-space: nowrap;
 }
