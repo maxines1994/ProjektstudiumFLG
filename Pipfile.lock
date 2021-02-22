@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0b48f3a9aaeb1808aa27516add18bc06834f79879bfd6f1251db8b13204e337a"
+            "sha256": "96d6771b8fa15b9a88d5f761aea8e204eb955959a6dc4c70d49958694619b59b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -26,11 +26,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:169e2e7b4839a7910b393eec127fd7cbae62e80fa55f89c6510426abf673fe5f",
-                "sha256:c6c0462b8b361f8691171af1fb87eceb4442da28477e12200c40420176206ba7"
+                "sha256:32ce792ee9b6a0cbbec340123e229ac9f765dff8c2a4ae9247a14b2ba3a365a7",
+                "sha256:baf099db36ad31f970775d0be5587cc58a6256a6771a44eb795b554d45f211b8"
             ],
             "index": "pypi",
-            "version": "==3.1.6"
+            "version": "==3.1.7"
         },
         "django-crum": {
             "hashes": [
@@ -48,12 +48,28 @@
             "index": "pypi",
             "version": "==1.1.17"
         },
+        "django-qr-code": {
+            "hashes": [
+                "sha256:5fdd84f4c02127c262e6987bd1a9396a47f2b806be04aa0bebfcb786a9f6a0b7",
+                "sha256:ff495d9628e3d02ad8581c3b3f17940008d6613c69ffdc5abb67e02f8159db6e"
+            ],
+            "index": "pypi",
+            "version": "==2.1.0"
+        },
         "pytz": {
             "hashes": [
                 "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da",
                 "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"
             ],
             "version": "==2021.1"
+        },
+        "segno": {
+            "hashes": [
+                "sha256:309281263ba820e49ce44556a27779709b86769b8f2161f94641a3119684dc4e",
+                "sha256:51634ea16d2104e0a8f9309beb785abfdbc1b8c0fffef5d74c80522eec7490d6"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "version": "==1.3.1"
         },
         "sqlparse": {
             "hashes": [

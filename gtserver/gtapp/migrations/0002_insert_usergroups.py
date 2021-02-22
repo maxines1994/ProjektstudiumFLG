@@ -11,6 +11,7 @@ from gtapp.constants import groups
 from gtapp.models import *
 from gtapp import models
 from gtapp.models import LiveSettings
+import base64
 
 class Migration(migrations.Migration):
     atomic = False
@@ -79,12 +80,10 @@ class Migration(migrations.Migration):
                 return perm_list
             
             if group.name == SPIELLEITUNG:
-                for model in app_models:
-                    can_change.append(get_content_type_ids_of_models(model)[0])
+                can_change      = get_content_type_ids_of_models(Message)
   
             if group.name == LEITUNGSTEAM:
-                for model in app_models:
-                    can_view_only.append(get_content_type_ids_of_models(model)[0])
+                can_change      = get_content_type_ids_of_models(Message)
         
             if group.name == KUNDEN:
                 can_view_only   = get_content_type_ids_of_models(CustContainer)
@@ -172,6 +171,16 @@ class Migration(migrations.Migration):
         Benutzername und Password "PRO2"
         """
 
+        #Spielleitung
+        # ID=1
+        my_name = SPIELLEITUNG_CODE
+        newUser = User(username=my_name, is_superuser=False, is_staff=False, is_active=True)
+        newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+        newUser.save()
+        my_group = Group.objects.get(name=SPIELLEITUNG)
+        newUser.groups.add(my_group)
+        newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
+
         #Superuser erstellen
         if (settings.DEBUG):
             newUser = User(username=ADMIN, is_superuser=True, is_staff=True, is_active=True)
@@ -182,104 +191,124 @@ class Migration(migrations.Migration):
             print("Superuser was not created because the debug flag in settings.py is not set.")
 
         #Leitungsteam
-        for number in range(1, PLAYER_AMOUNT_LEITUNGSTEAM + 1):
+        for number in range(0, PLAYER_AMOUNT_LEITUNGSTEAM + 1):
             
             my_name = LEITUNGSTEAM_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
+            newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
+            if number==0:
+                newUser.username=my_name + '-' + SPIELLEITUNG_CODE
+            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
             newUser.save()
             my_group = Group.objects.get(name=LEITUNGSTEAM)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
+            if number==0:
+                newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
              
         #Kunden
-        for number in range(1, PLAYER_AMOUNT_KUNDEN + 1):
-            my_name = KUNDEN_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
-            newUser.save()
-            my_group = Group.objects.get(name=KUNDEN)
-            newUser.groups.add(my_group)
-            if number == 1:
-                my_group = Group.objects.get(name=K1)
-            if number == 2:
-                my_group = Group.objects.get(name=K2)
-            if number == 3:
-                my_group = Group.objects.get(name=K3)
-            if number <= 3:
+        for customer in range(1, 4):
+            for number in range(0, PLAYER_AMOUNT_KUNDEN + 1):
+                my_name = KUNDEN_CODE + str(customer)
+                newUser = User(username=my_name + '-' + str(number), is_superuser=False, is_staff=False, is_active=True)
+                if number==0:
+                    newUser.username=my_name + "-" + SPIELLEITUNG_CODE
+                newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+                newUser.save()
+                my_group = Group.objects.get(name=KUNDEN)
                 newUser.groups.add(my_group)
 
+                if customer == 1:
+                    newUser.groups.add(Group.objects.get(name=K1))
+                if customer == 2:
+                    newUser.groups.add(Group.objects.get(name=K2))
+                if customer == 3:
+                    newUser.groups.add(Group.objects.get(name=K3))
+                if number==0:
+                    newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
+        
+
         #Kundendienst
-        for number in range(1, PLAYER_AMOUNT_KUNDENDIENST + 1):
+        for number in range(0, PLAYER_AMOUNT_KUNDENDIENST + 1):
             my_name = KUNDENDIENST_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
+            newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
+            if number==0:
+                    newUser.username=my_name + "-" + SPIELLEITUNG_CODE
+            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
             newUser.save()
             my_group = Group.objects.get(name=KUNDENDIENST)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
+            if number==0:
+                newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
 
         #Interne Dienstleistung
-        for number in range(1, PLAYER_AMOUNT_INTERNE_DIENSTLEISTUNG + 1):
+        for number in range(0, PLAYER_AMOUNT_INTERNE_DIENSTLEISTUNG + 1):
             my_name = INTERNE_DIENSTLEISTUNG_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
+            newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
+            if number==0:
+                newUser.username=my_name + "-" + SPIELLEITUNG_CODE
+            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
             newUser.save()
             my_group = Group.objects.get(name=INTERNE_DIENSTLEISTUNG)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
+            if number==0:
+                newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
 
         #Produktionsdienstleistung
-        for number in range(1, PLAYER_AMOUNT_PRODUKTIONSDIENSTLEISTUNG + 1):
+        for number in range(0, PLAYER_AMOUNT_PRODUKTIONSDIENSTLEISTUNG + 1):
             my_name = PRODUKTIONSDIENSTLEISTUNG_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
+            newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
+            if number==0:
+                newUser.username=my_name + "-" + SPIELLEITUNG_CODE
+            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
             newUser.save()
             my_group = Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
+            if number==0:
+                newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
 
         #Produktion
-        for number in range(1, PLAYER_AMOUNT_PRODUKTION + 1):
+        for number in range(0, PLAYER_AMOUNT_PRODUKTION + 1):
             my_name = PRODUKTION_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
+            newUser = User(username=my_name + '-' + str(number), is_superuser=False, is_staff=False, is_active=True)
+            if number==0:
+                newUser.username= my_name + "-" + SPIELLEITUNG_CODE
+            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
             newUser.save()
             my_group = Group.objects.get(name=PRODUKTION)
             newUser.groups.add(my_group)
             my_group = Group.objects.get(name=JOGA)
             newUser.groups.add(my_group)
+            if number==0:
+                newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
 
         #Lieferanten
-        for number in range(1, PLAYER_AMOUNT_LIEFERANTEN+ 1):
-            my_name = LIEFERANTEN_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
-            newUser.save()
-            my_group = Group.objects.get(name=LIEFERANTEN)
-            newUser.groups.add(my_group)
-
-            if number == 1:
-                my_group = Group.objects.get(name=L100)
-            if number == 2:
-                my_group = Group.objects.get(name=L200)
-            if number == 3:
-                my_group = Group.objects.get(name=L300)
-            if number <= 3:
+        for supplier in range(1, 4):
+            for number in range(0, PLAYER_AMOUNT_LIEFERANTEN + 1):
+                my_name = LIEFERANTEN_CODE + str(supplier)
+                newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
+                if number==0:
+                    newUser.username=my_name + "-" + SPIELLEITUNG_CODE
+                newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+                newUser.save()
+                my_group = Group.objects.get(name=LIEFERANTEN)
                 newUser.groups.add(my_group)
 
-        #Spielleitung
-        for number in range(1, PLAYER_AMOUNT_SPIELLEITUNG + 1):
-            my_name = SPIELLEITUNG_CODE
-            newUser = User(username=my_name + str(number), is_superuser=False, is_staff=True, is_active=True)
-            newUser.set_password(my_name + str(number))
-            newUser.save()
-            my_group = Group.objects.get(name=SPIELLEITUNG)
-            newUser.groups.add(my_group)
+                if supplier == 1:
+                    newUser.groups.add(Group.objects.get(name=L100))
+                elif supplier == 2:
+                    newUser.groups.add(Group.objects.get(name=L200))
+                elif supplier == 3:
+                    newUser.groups.add(Group.objects.get(name=L300))
+
+                if number==0:
+                    newUser.groups.add(Group.objects.get(name=SPIELLEITUNG))
         
         #Einstellungen
         LiveSettings.load()
