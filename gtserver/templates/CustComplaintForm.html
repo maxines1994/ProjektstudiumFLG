@@ -125,7 +125,7 @@
                 {% if OBJ_STATUS == STATUS.IN_ANPASSUNG %}
                     {% if fix_done %}
                         <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  -->
-                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Anpassung abschließen</button>
+                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Bearbeitung abschließen</button>
                     {% endif %}
                 {% elif OBJ_STATUS == STATUS.ANPASSUNG_ABGESCHLOSSEN %}
                     <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation versandfertig</button>
@@ -168,7 +168,7 @@
         {% endif %}
     {% elif PRODUKTION in group %}
         {% if i.status == POS_STATUS.IN_ANPASSUNG %}
-            <li><a href="{% url 'set_status_task' i.id 29%}" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
+            <li><a href="{% url 'set_status_task' i.id 29%}" class="li-content"><i class="material-icons">build</i>Bearbeitung abschließen</a></li>
         {% elif i.status == POS_STATUS.ANPASSUNG_ABGESCHLOSSEN %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst liefern</a></li>
         {% endif %}

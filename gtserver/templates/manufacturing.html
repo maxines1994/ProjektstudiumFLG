@@ -61,7 +61,7 @@
     {% endif %}
     {% if PRODUKTION in group %}
         {% if m.status == STATUS.IN_PRODUKTION %}
-            <li><a href="{% url 'production_steps_single' m.article.description 1 %}" class="li-content"><i class="material-icons">import_contacts</i>Bauanleitung</a></li>
+            <li><a href="{% url 'production_steps_single' m.article.description 1 %}" class="li-content"><i class="material-icons">import_contacts</i>Montageanleitung</a></li>
             <li><a href="{% url 'set_status_task' m.id 7 %}" class="li-content"><i class="material-icons">done</i>Fertig melden</a></li>
         {% endif %}
         {% if m.status == STATUS.LIEFERUNG_AN_KD_AUSSTEHEND %}

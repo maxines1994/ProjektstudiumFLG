@@ -4,15 +4,13 @@ from django.utils.translation import gettext_lazy as _
 class Cust_complaint_form(ModelForm):
     use_required_attribute = False
     memo = CharField(required=False)
-    finished_on = IntegerField(required=False)
 
     class Meta:
         model = CustComplaint
-        fields = ["cust_order", "memo", "finished_on"]
+        fields = ["cust_order", "memo"]
         labels = {
             'cust_order': _('Auftrag'),
-            'memo': _('Kommentar'),
-            'finished_on': _('Abgeschlossen am')
+            'memo': _('Kommentar')
         }
         widgets = {
             #'order_no': IntegerField()
@@ -26,7 +24,7 @@ class Cust_complaint_form(ModelForm):
             self.fields['cust_order'].queryset = CustOrder.objects.filter(customer__in=customers)
     else:
         # 2. Digitalisierungsstufe
-        def __init__(self, customers, *args, **kwargs):
+        def __init__(self, customers, *args,  **kwargs):
             super(Cust_complaint_form, self).__init__(*args, **kwargs)
             if len(customers) == 1:
                 self.fields['cust_order'].queryset = CustOrder.objects.filter(customer__in=customers, external_system=True)
