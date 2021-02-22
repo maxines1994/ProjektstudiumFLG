@@ -1,5 +1,5 @@
 from django.db import models
-from . import ComplaintDet, SuppComplaint, SuppOrderDet
+from . import ComplaintDet, SuppComplaint, SuppOrderDet, Timers, SuppOrder, Part
 from gtapp.constants import *
 from django.contrib.auth.models import Group
 
@@ -46,3 +46,20 @@ class SuppComplaintDet(ComplaintDet):
 
     def __str__(self):
         return self.pos.__str__() + ' ' + self.supp_order_det.part.description
+
+    def auto_complaint(supp_order_det_id_list:list, quantity_list:list):
+        """
+        Erwartet Listen von Teilen und Mengen und erzeugt daraus eine neue Reklamation
+        mit entsprechenden Positionen. Gibt die ID der erstellten Reklamation zurueck
+        """
+        my_supp_order_id = SuppOrder.objects.get(id=SuppOrderDet.objects.get(id=supp_order_det_id_list[0]).supp_order_id).id
+        new_suppcomplaint = SuppComplaint.objects.create(supp_order_id=my_supp_order_id, supplier_id=3, issued_on=Timers.get_current_day(), memo="Automatisch generiert")
+        # Packe die Listen zusammen und iteriere ueber beide Listen
+        supporderdet_quantity = zip(supp_order_det_id_list, quantity_list)
+        i = 0
+        for supp_order_det_id, quantity in supporderdet_quantity:
+            my_part = Part.objects.get(id=SuppOrderDet.objects.get(id=supp_order_det_id).part_id)
+            SuppComplaintDet.objects.create(supp_order_det_id=supp_order_det_id, supp_complaint=new_suppcomplaint, pos=i+1, quantity=quantity)
+            i += 1
+
+        return new_suppcomplaint.id
