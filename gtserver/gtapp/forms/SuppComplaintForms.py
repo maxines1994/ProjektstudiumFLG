@@ -24,15 +24,15 @@ class Supp_complaint_form(ModelForm):
         # 3. Digitalisierungsstufe
         def __init__(self, suppliers, *args, **kwargs):
             super(Supp_complaint_form, self).__init__(*args, **kwargs)
-            self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers)
+            self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers).order_by('_creation_date')
     else:
         # 2. Digitalisierungsstufe
         def __init__(self, suppliers, *args, **kwargs):
             super(Supp_complaint_form, self).__init__(*args, **kwargs)
             if len(suppliers) == 1:
-                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=True)
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=True).order_by('_creation_date')
             else:
-                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=False)
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=False).order_by('_creation_date')
 
 
 class Cust_complaint_det_form(ModelForm):
