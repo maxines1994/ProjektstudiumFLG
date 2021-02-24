@@ -14,16 +14,16 @@ class SuppComplaintDet(ComplaintDet):
 
     class Status(models.TextChoices):       
         ERFASST                         = '0', ('Erfasst||0%')
-        VERSAND_AN_PDL                  = '1', ('Im Versand an PDL||10%')
+        VERSAND_AN_PDL                  = '1', ('Versandt an PDL||10%')
         IN_BEARBEITUNG                  = '2', ('In Bearbeitung||20%')
         REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben||30%')
         BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen||33%')##Nur LF
-        VERSAND_AN_KUNDE                = '5', ('Im Versand an Kunde||67%')##Nur LF
+        VERSAND_AN_KUNDE                = '5', ('Versandt an Kunde||67%')##Nur LF
         AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert||40%')
         NEU_BESTELLEN                   = '7', ('Teil neu bestellen||50%')
-        VERSAND_AN_LIEFERANT            = '8', ('Im Versand an Lieferant||70%')
+        VERSAND_AN_LIEFERANT            = '8', ('Versandt an Lieferant||70%')
         GELIEFERT                       = '9', ('Geliefert||80%')
-        VERSAND_AN_PRODUKTION           = '10', ('Im Versand an Produktion||90%')
+        VERSAND_AN_PRODUKTION           = '10', ('Versandt an Produktion||90%')
         ABGESCHLOSSEN                   = '11', ('Abgeschlossen||100%')   
 
     status = models.CharField(
