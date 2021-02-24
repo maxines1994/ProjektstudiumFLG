@@ -70,7 +70,6 @@
                                 <th> {% if company == LIEFERANTEN %}Reklamierte Artikel{% else %}Reklamierte Teile{% endif %}</th>
                                 <th>Menge</th>
                                 <th>Beschreibung</th>
-                                <th>Abgeschlossen am</th>
                                 <th>Neulieferung erforderlich</th>
                                 <th>Status</th>
                                 <th></th>
@@ -83,7 +82,6 @@
                                 <td>{{ i.supp_order_det.part }}</td>
                                 <td>{{ i.quantity }} Stk.</td>
                                 <td>{{ i.memo }}</td>
-                                <td>{{ i.finished_on }}</td>
                                 <td>{% if i.redelivery %}Ja{% else %}Nein{% endif%}</td>
                                 <td>
                                     <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
