@@ -96,8 +96,6 @@ class SuppComplaintDet(ComplaintDet):
                         pos_work_finished = False
                 if pos_work_finished:
                     self.supp_complaint.status = SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG
-            elif minstatus <= int(self.Status.VERSAND_AN_LIEFERANT):
-                self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_LIEFERANT
 
         else:
             # Kundensystem
