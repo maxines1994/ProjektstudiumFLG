@@ -72,7 +72,10 @@
                                 <th>Beschreibung</th>
                                 <th>Neulieferung erforderlich</th>
                                 <th>Status</th>
+
+                                {% if OBJ_STATUS == STATUS.ERFASST or OBJ_STATUS == STATUS.IN_BEARBEITUNG %}
                                 <th></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody id="itembody">
@@ -93,9 +96,12 @@
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
+
+                            {% if OBJ_STATUS == STATUS.ERFASST or OBJ_STATUS == STATUS.IN_BEARBEITUNG %}
                             <tr>
                                 <td colspan="4"><a href="{% url 'supp_complaint_det_create' supp_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
                             </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
