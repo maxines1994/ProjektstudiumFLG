@@ -94,11 +94,9 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['STATUS'] = SuppComplaint.Status.__members__
         context['object'] = self.get_object()
 
-        status_0 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=0).exists()
-        status_1 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=1).exists()
-        status_2 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=2).exists()
-        status_3 = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=3).exists()
-        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=7).exists() and not (status_0 or status_1 or status_2 or status_3)
+        context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=SuppComplaintDet.Status.NEU_BESTELLEN).exists()
+        context['button_abschliessen'] = not SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status__lte=10).exists()
+
         
         # Nur bei BoxScan implementieren? vv
         # context['redelivery'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object().pk,redelivery=True).exists()
@@ -116,6 +114,13 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['has_enough_stock'] = has_enough_stock_list
 
         context['items_has_enough_stock'] = zip(context['items'], context['has_enough_stock'])
+        
+        #Trigger Pos update -> Not sure how smart that actually is tbh
+        try:
+            SuppComplaintDet.objects.filter(supp_complaint=self.get_object()).first().save()
+        except: 
+            pass
+
         return context
     
     def form_valid(self, form):

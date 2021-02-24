@@ -170,6 +170,7 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
                     return SuppComplaint.Status.VERSAND_AN_PDL
 
                 elif obj.status == SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG:
+                    print("ICH WAR HIIIIIIIIIER")
                     ##Bearbeite unterschiedliche Positionen
                     supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint = obj)
 
@@ -180,10 +181,11 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
                         elif pos.status == SuppComplaintDet.Status.NEU_BESTELLEN:
                             pos.status = SuppComplaintDet.Status.VERSAND_AN_LIEFERANT
                             pos.save()
-
+                            
                     return SuppComplaint.Status.VERSAND_AN_LIEFERANT
 
                 elif obj.status == SuppComplaint.Status.GELIEFERT:
+                    print("Ich war da, wo ich nicht sein durfte mama. Es tut mir leid!")
                     return SuppComplaint.Status.VERSAND_AN_PRODUKTION
 
             return obj.status

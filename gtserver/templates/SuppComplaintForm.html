@@ -117,16 +117,20 @@
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
                     {% endif %}
+                {% elif OBJ_STATUS == STATUS.VERSAND_AN_PRODUKTION %}
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>
                 {% endif %}
             {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
                 {% if OBJ_STATUS == STATUS.IN_BEARBEITUNG or OBJ_STATUS == STATUS.ERFASST %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 33 %}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
-                {% elif button_neubestellung %}
+                {% elif OBJ_STATUS == STATUS.POSITIONSBEARBEITUNG_FERTIG and button_neubestellung %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>Neubestellung auslösen</a>
                     {% endif %}
+                {% elif OBJ_STATUS == STATUS.POSITIONSBEARBEITUNG_FERTIG and button_abschliessen %}
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>
                 {% elif OBJ_STATUS == STATUS.GELIEFERT %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>An Produktion liefern</a>
