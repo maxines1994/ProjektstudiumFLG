@@ -10,13 +10,14 @@ class Supp_order_form_jg(ModelForm):
 
     class Meta:
         model = SuppOrder
-        fields = ["ref_no", "issued_on", "supplier", "delivery_date", "memo", "box_no"]
+        fields = ["issued_on", "supplier", "delivery_date", "memo", "box_no"]
         labels = {
-            "order_no": _("Referenznummer"),
+            #"ref_no": _("Referenznummer"),
             "issued_on": _("Bestelldatum"),
             "supplier": _("Lieferant"),
             "delivery_date": _("Lieferdatum"),
             'memo': _('Kommentar'),
+            'box_no': ('Boxnummer'),
         }
 
 
@@ -40,7 +41,9 @@ class Supp_order_form_lf(ModelForm):
         model = SuppOrder
         fields = ["ref_no", "issued_on", "delivery_date", "memo", "box_no"]
         labels = {
+            'ref_no': _('Referenznummer'),
             'memo': _('Kommentar'),
+            'box_no': _('Boxnummer'),
         }
 
 class Supp_order_det_form(ModelForm):

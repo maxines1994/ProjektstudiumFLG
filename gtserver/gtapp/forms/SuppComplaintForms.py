@@ -10,7 +10,8 @@ class Supp_complaint_form(ModelForm):
         fields = ["supp_order", "memo",  "box_no"]
         labels = {
             'supp_order': _('Bestellung'),
-            'memo': _('Kommentar'),      
+            'memo': _('Kommentar'), 
+            'box_no': _('Boxnummer'),     
         }
         widgets = {
             #'order_no': IntegerField()
@@ -42,7 +43,8 @@ class Cust_complaint_det_form(ModelForm):
         labels = {
            # 'pos': _('Position'),
             'cust_oder_det': _('Position'),
-            'memo': _('Kommentar')
+            'memo': _('Kommentar'),
+            'box_no': _('Boxnummer'),
         }
         widgets = {
             'pos': TextInput(attrs={'disabled': True}),
@@ -65,7 +67,7 @@ class Supp_complaint_det_form(ModelForm):
             'supp_oder_det': _('Teil'),
             'quantity': _('Menge'),
             'memo': _('Kommentar'),
-            'finished_on': _('Abgeschlossen am'),
+           # 'finished_on': _('Abgeschlossen am'),
             'redelivery': _('Neulieferung erforderlich'),            
         }
         widgets = {

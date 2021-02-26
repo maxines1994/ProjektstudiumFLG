@@ -10,7 +10,7 @@ class Cust_complaint_form(ModelForm):
         fields = ["cust_order", "memo"]
         labels = {
             'cust_order': _('Auftrag'),
-            'memo': _('Kommentar')
+            'memo': _('Memo')
         }
         widgets = {
             #'order_no': IntegerField()

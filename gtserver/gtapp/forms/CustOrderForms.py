@@ -10,6 +10,13 @@ class Cust_order_form_jg(ModelForm):
         model = CustOrder
         fields = ["ref_no", "customer", "issued_on",
                   "delivery_date", "memo"]
+        labels = {
+            'ref_no': _('Referenznummer'),
+            'customer': _('Kunde'),
+            'issued_on': _('Bestelltag'),
+            'delivery_date': _('Liefertag'),
+
+        }
 
 class Cust_order_form_kd(ModelForm):
     use_required_attribute = False
@@ -29,7 +36,7 @@ class Cust_order_form_kd(ModelForm):
 
     class Meta:
         model = CustOrder
-        fields = ["issued_on", "delivery_date", "memo", "box_no"]
+        fields = ["issued_on", "delivery_date", "memo"]
 
 
 
@@ -44,6 +51,7 @@ class Cust_order_det_form(ModelForm):
             'pos': _('Positionsnummer'),
             'article': _('Artikel'),
             'memo': _('Kommentar'),
+            'box_no': _('Boxnummer'),
         }
         widgets = {
             'pos': TextInput(attrs={'disabled': True}),
