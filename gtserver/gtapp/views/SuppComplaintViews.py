@@ -117,9 +117,11 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         
         #Trigger Pos update -> Not sure how smart that actually is tbh
         try:
-            SuppComplaintDet.objects.filter(supp_complaint=self.get_object()).first().save()
+            SuppComplaintDet.objects.filter(supp_complaint=self.get_object()).first().postsave()
         except: 
             pass
+        # @Bash Ich habe die Funktionalität in die Methode postsave() ausgelagert, die jetzt auch korrekterweise nach dem Speichern feuert.
+        # Btw, update() triggert leider nix, ist wie ein SQL-Statement (Django-Limitation). Aber set_status() aus StatusViews.py und auch ein direktes .save() funktioniert.
 
         return context
     

@@ -73,7 +73,10 @@ class SuppComplaintDet(ComplaintDet):
         return minstatus
 
     def save(self, *args, **kwargs):
-
+        super(SuppComplaintDet, self).save(*args, **kwargs)
+        self.postsave()
+    
+    def postsave(self):
         # Status auf Kopfebene setzen
         # Normale Status
         minstatus = self.get_min_status()
@@ -104,6 +107,4 @@ class SuppComplaintDet(ComplaintDet):
             else:
                 # Fallback
                 self.supp_complaint.status = SuppComplaint.Status.ERFASST
-
         self.supp_complaint.save()
-        super(SuppComplaintDet, self).save(*args, **kwargs)

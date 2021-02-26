@@ -27,7 +27,10 @@ class CustComplaintDet(ComplaintDet):
         choices = Status.choices,
         default = Status.ERFASST,
     )
-
+    
+    cust_complaint = models.ForeignKey(CustComplaint, on_delete=models.CASCADE)
+    cust_order_det = models.ForeignKey(CustOrderDet, on_delete=models.CASCADE)
+    
     def get_status_display(self):
         return self.Status(self.status).label.split("|", 2)[0]
 
@@ -39,9 +42,7 @@ class CustComplaintDet(ComplaintDet):
             if user.groups.filter(name=group).exists():
                 return True
         return False
-    
-    cust_complaint = models.ForeignKey(CustComplaint, on_delete=models.CASCADE)
-    cust_order_det = models.ForeignKey(CustOrderDet, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.pos.__str__()
