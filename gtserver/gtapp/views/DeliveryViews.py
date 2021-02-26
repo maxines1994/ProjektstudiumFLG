@@ -14,12 +14,13 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def stock_check_view2(request, **kwargs):
+    from .StatusViews import set_status
     c = {}
     demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
     print(demand)
     if Stock.reserve(demand=demand):
         print("ERFOLGREICH")
-        CustOrderDet.objects.filter(pk=kwargs["id"]).update(status=CustOrderDet.Status.IN_PRODUKTION)
+        set_status('CustOrderDet', kwargs["id"], CustOrderDet.Status.IN_PRODUKTION)
     else:
         print("FEHLGESCHLAGEN")
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
@@ -128,9 +129,10 @@ def delivery_view(request, **kwargs):
 
                         # Bei Wareneingaengen von Bestellungen den Status der Bestellung auf teilgeliefert setzen,
                         # wenn er kleiner ist als teilgeliefert.
-                        my_supporder_qry = SuppOrder.objects.filter(id=kwargs['id'])
-                        if my_supporder_qry.first().status < SuppOrder.Status.TEILGELIEFERT:
-                            my_supporder_qry.update(status=SuppOrder.Status.TEILGELIEFERT)
+                        my_supporder = SuppOrder.objects.get(id=kwargs['id'])
+                        from .StatusViews import set_status
+                        if my_supporder.status < SuppOrder.Status.TEILGELIEFERT:
+                            set_status('SuppOrder', kwargs['id'], SuppOrder.Status.TEILGELIEFERT)
 
                 fset.save()
             
