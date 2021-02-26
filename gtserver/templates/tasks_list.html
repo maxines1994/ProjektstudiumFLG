@@ -45,7 +45,12 @@
                                             <tr id="newposition">
                                                 <td>{{task.task_type.title}}</td>
                                                 <td>{{ task.get_ref }}</td>
-                                                <td>{{task.task_type.description}}</td>
+                                                <td>
+                                                    {{task.task_type.description |safe}}
+                                                    {% autoescape off %}
+                    
+                                                    {% endautoescape %}
+                                                </td>
                                                 <td class="right-align"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{task.id}}'><i class="material-icons">more_vert</i></a></td>
                                             </tr>
                                         {% endfor %}
