@@ -48,7 +48,7 @@ class Supp_order_form_lf(ModelForm):
 
 class Supp_order_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False,label="Kommentar")
 
     class Meta:
         model = SuppOrderDet

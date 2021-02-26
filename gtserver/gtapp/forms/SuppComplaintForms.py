@@ -35,14 +35,14 @@ class Supp_complaint_form(ModelForm):
 
 class Cust_complaint_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = CustComplaintDet
         fields = ["cust_order_det", "memo", "box_no"]
         labels = {
            # 'pos': _('Position'),
-            'cust_oder_det': _('Position'),
+            'cust_order_det': _('Position'),
             'memo': _('Kommentar'),
             'box_no': _('Boxnummer'),
         }
@@ -56,7 +56,7 @@ class Cust_complaint_det_form(ModelForm):
 
 class Supp_complaint_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False,)
     finished_on = IntegerField(required=False)
 
     class Meta:
@@ -64,7 +64,7 @@ class Supp_complaint_det_form(ModelForm):
         fields = [ "supp_order_det", "quantity", "memo", "finished_on","redelivery"]
         labels = {
             #'pos': _('Position'),
-            'supp_oder_det': _('Teil'),
+            'supp_order_det': _('Teil'),
             'quantity': _('Menge'),
             'memo': _('Kommentar'),
            # 'finished_on': _('Abgeschlossen am'),

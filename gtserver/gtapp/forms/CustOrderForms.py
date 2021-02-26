@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
     #refno = CharField(required=False)
 
     class Meta:
@@ -15,6 +15,7 @@ class Cust_order_form_jg(ModelForm):
             'customer': _('Kunde'),
             'issued_on': _('Bestelltag'),
             'delivery_date': _('Liefertag'),
+            'memo': _('Kommentar'),
 
         }
 
@@ -42,7 +43,7 @@ class Cust_order_form_kd(ModelForm):
 
 class Cust_order_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = CustOrderDet
@@ -60,7 +61,7 @@ class Cust_order_det_form(ModelForm):
 
 class Cust_order_det_form_create(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = CustOrderDet
