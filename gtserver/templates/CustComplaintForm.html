@@ -70,7 +70,9 @@
                                 <th>Reklamierte Artikel</th>
                                 <th>Beschreibung</th>
                                 <th>Status</th>
+                                {% if OBJ_STATUS == STATUS.ERFASST %}
                                 <th></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody id="itembody">
@@ -89,9 +91,11 @@
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
+                            {% if OBJ_STATUS == STATUS.ERFASST %}
                             <tr>
                                 <td colspan="4"><a href="{% url 'cust_complaint_det_create' cust_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
                             </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -125,10 +129,8 @@
                 {% if OBJ_STATUS == STATUS.IN_ANPASSUNG %}
                     {% if fix_done %}
                         <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  -->
-                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Bearbeitung abschließen</button>
+                        <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.pk STATUS.ANPASSUNG_ABGESCHLOSSEN %}" name="action"><i class="material-icons left">build</i>Anpassung abschließen</a>
                     {% endif %}
-                {% elif OBJ_STATUS == STATUS.ANPASSUNG_ABGESCHLOSSEN %}
-                    <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Reklamation versandfertig</button>
                 {% endif %}
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>                    
@@ -168,7 +170,7 @@
         {% endif %}
     {% elif PRODUKTION in group %}
         {% if i.status == POS_STATUS.IN_ANPASSUNG %}
-            <li><a href="{% url 'set_status_task' i.id 29%}" class="li-content"><i class="material-icons">build</i>Bearbeitung abschließen</a></li>
+            <li><a href="{% url 'set_status_task' i.id 29%}" class="li-content"><i class="material-icons">build</i>Anpassung abschließen</a></li>
         {% elif i.status == POS_STATUS.ANPASSUNG_ABGESCHLOSSEN %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst liefern</a></li>
         {% endif %}

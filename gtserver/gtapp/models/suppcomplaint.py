@@ -20,7 +20,7 @@ class SuppComplaint(Complaint):
         NEU_BESTELLEN                   = 7, ('Teil neu bestellen|50%')
         POSITIONSBEARBEITUNG_FERTIG     = 8, ('Positionsbearbeitung fertig|60%')
         VERSAND_AN_LIEFERANT            = 9, ('Versandt an Lieferant|70%')
-        GELIEFERT                       = 10, ('Geliefert|80%')
+        GELIEFERT                       = 10, ('An JOGA geliefert|80%')
         VERSAND_AN_PRODUKTION           = 11, ('Versandt an Produktion|90%')
         ABGESCHLOSSEN                   = 12, ('Abgeschlossen|100%')   
 
