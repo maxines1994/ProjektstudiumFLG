@@ -104,7 +104,14 @@ class SuppComplaintDet(ComplaintDet):
             # Kundensystem
             if minstatus <= int(self.Status.ERFASST):
                 self.supp_complaint.status = SuppComplaint.Status.ERFASST
-            else:
-                # Fallback
-                self.supp_complaint.status = SuppComplaint.Status.ERFASST
+            elif minstatus <= int(self.Status.REKLAMATION_FREIGEGEBEN):
+                self.supp_complaint.status = SuppComplaint.Status.REKLAMATION_FREIGEGEBEN
+            elif minstatus <= int(self.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN):
+                self.supp_complaint.status = SuppComplaint.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN
+            elif minstatus <= int(self.Status.VERSAND_AN_KUNDE):
+                self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_KUNDE
+            elif minstatus <= int(self.Status.GELIEFERT):
+                self.supp_complaint.status = SuppComplaint.Status.GELIEFERT
+            elif minstatus <= int(self.Status.ABGESCHLOSSEN):
+                self.supp_complaint.status = SuppComplaint.Status.ABGESCHLOSSEN
         self.supp_complaint.save()

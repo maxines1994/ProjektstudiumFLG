@@ -94,6 +94,13 @@ def box_search_view(request):
                 #     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_LIEFERANT:
                     set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.GELIEFERT)
+                    SuppComplaintDets = SuppComplaintDet.objects.filter(supp_complaint=obj.id)
+
+                    for det in SuppComplaintDets:
+                        if det.status == SuppComplaintDet.Status.VERSAND_AN_LIEFERANT:
+                            det.status = SuppComplaintDet.Status.GELIEFERT
+                            det.save()
+
                     Task.set_task(obj, 34)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
@@ -227,12 +234,6 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
             if self.kwargs['model'] != SuppComplaint.__name__:
                 my_redirect = reverse("goods_shipping", args=(self.kwargs['model'],self.kwargs['id']))
             else:
-                # Bei PDL nach dem Boxscan nur den Status der Positionen aendern und zurueck zur vorherigen Maske
-                my_supp_complaint = SuppComplaint.objects.get(id=self.kwargs['id'])
-                my_supp_complaint_det_qry = SuppComplaintDet.objects.filter(supp_complaint=my_supp_complaint)
-                for complaint in my_supp_complaint_det_qry:
-                    complaint.status = SuppComplaintDet.Status.VERSAND_AN_PRODUKTION
-                    complaint.save()
                 my_redirect = previous
         else:            
             # redirect zur Seite von der man urspruenglich kam
