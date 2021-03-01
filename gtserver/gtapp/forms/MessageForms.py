@@ -10,9 +10,9 @@ class Msg_write_form(ModelForm):
     def __init__(self,user,*args,**kwargs):
         super(Msg_write_form, self).__init__(*args, **kwargs)
         if user.groups.filter(name=LIEFERANTEN).exists():
-            self.fields["receiver"] = ModelChoiceField(queryset=Group.objects.filter(Q(name=PRODUKTIONSDIENSTLEISTUNG)|Q(name=LEITUNGSTEAM)), label="Empfänger")
+            self.fields["receiver"] = ModelChoiceField(queryset=Group.objects.filter(Q(name=PRODUKTIONSDIENSTLEISTUNG)|Q(name=LEITUNGSTEAM)|Q(name=SPIELLEITUNG)), label="Empfänger")
         elif user.groups.filter(name=KUNDEN).exists():
-            self.fields["receiver"] = ModelChoiceField(queryset=Group.objects.filter(Q(name=PRODUKTIONSDIENSTLEISTUNG)|Q(name=LEITUNGSTEAM)), label="Empfänger")
+            self.fields["receiver"] = ModelChoiceField(queryset=Group.objects.filter(Q(name=KUNDENDIENST)|Q(name=LEITUNGSTEAM)|Q(name=SPIELLEITUNG)), label="Empfänger")
         elif user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
             self.fields["receiver"] = ModelChoiceField(queryset=Group.objects.all().exclude(name=KUNDEN), label="Empfänger")
         elif user.groups.filter(name=KUNDENDIENST).exists():

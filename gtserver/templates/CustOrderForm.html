@@ -90,8 +90,8 @@
                                 <tr>
                                     <th>Position</th>
                                     <th>Artikel</th>
-                                    <th>Status</th>
                                     <th>Kommentar</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -100,13 +100,13 @@
                                 <tr>
                                     <td>{{ i.pos }}</td>
                                     <td>{{ i.article.description }}</td>
+                                    <td>{{ i.memo|default:'-'|truncatechars:15 }}</td>
                                     <td>
                                         <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
                                             <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
                                         </div>
                                         {{ i.get_status_display }}
                                     </td>
-                                    <td>{{ i.memo|default:'-'|truncatechars:15 }}</td>
                                     <input type="hidden" name="next" value="{{ request.path }}">
                                     <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i class="material-icons">more_vert</i></a></td>
                                 </tr>
@@ -139,7 +139,7 @@
                 {% endif %}
             {% endif %}
             {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}   
-                {% if object.status == STATUS.ERFASST %}
+                {% if object.status == STATUS.ERFASST and action != "create" %}
                     <a class="waves-effect waves-light btn" href="{% url 'cust_order_delete' object.id %}"><i class="material-icons left">delete</i>Löschen</a>
                 {% endif %}         
                 <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>

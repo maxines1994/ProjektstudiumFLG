@@ -46,7 +46,7 @@
                 <p>
                     {{ object.task.finished_on|default:'-' }}
                 </p>
-                {% if object.user_id == request.user %}
+                {% if object.user_id == request.user.pk %}
                     <a href="{% url 'tasks_edit' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">build</i>Bearbeiten</a>
                     {% if object.finished_on is null %}
                         <a href="{% url 'tasks_finish' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">done</i>Fertig</a> 
