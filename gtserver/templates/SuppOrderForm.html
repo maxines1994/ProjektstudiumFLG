@@ -105,9 +105,11 @@
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
-                            <tr>
-                                <td colspan="5"><a href="{% url 'supp_order_det_create' supp_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
-                            </tr>
+                            {% if object.status == object.Status.ERFASST %}
+                                <tr>
+                                    <td colspan="5"><a href="{% url 'supp_order_det_create' supp_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
