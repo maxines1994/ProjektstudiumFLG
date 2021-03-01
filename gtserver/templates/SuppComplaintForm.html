@@ -70,10 +70,12 @@
                                 <th> {% if company == LIEFERANTEN %}Reklamierte Artikel{% else %}Reklamierte Teile{% endif %}</th>
                                 <th>Menge</th>
                                 <th>Beschreibung</th>
-                                <th>Abgeschlossen am</th>
                                 <th>Neulieferung erforderlich</th>
                                 <th>Status</th>
+
+                                {% if OBJ_STATUS == STATUS.ERFASST or OBJ_STATUS == STATUS.IN_BEARBEITUNG %}
                                 <th></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody id="itembody">
@@ -83,7 +85,6 @@
                                 <td>{{ i.supp_order_det.part }}</td>
                                 <td>{{ i.quantity }} Stk.</td>
                                 <td>{{ i.memo }}</td>
-                                <td>{{ i.finished_on }}</td>
                                 <td>{% if i.redelivery %}Ja{% else %}Nein{% endif%}</td>
                                 <td>
                                     <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
@@ -95,9 +96,12 @@
                                     class="material-icons">more_vert</i></a></td>
                             </tr>
                             {% endfor %}
+
+                            {% if OBJ_STATUS == STATUS.ERFASST or OBJ_STATUS == STATUS.IN_BEARBEITUNG %}
                             <tr>
                                 <td colspan="4"><a href="{% url 'supp_complaint_det_create' supp_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
                             </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -113,16 +117,20 @@
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
                     {% endif %}
+                {% elif OBJ_STATUS == STATUS.VERSAND_AN_PRODUKTION %}
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>
                 {% endif %}
             {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
                 {% if OBJ_STATUS == STATUS.IN_BEARBEITUNG or OBJ_STATUS == STATUS.ERFASST %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 33 %}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
-                {% elif button_neubestellung %}
+                {% elif OBJ_STATUS == STATUS.POSITIONSBEARBEITUNG_FERTIG and button_neubestellung %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>Neubestellung auslösen</a>
                     {% endif %}
+                {% elif OBJ_STATUS == STATUS.POSITIONSBEARBEITUNG_FERTIG and button_abschliessen %}
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>
                 {% elif OBJ_STATUS == STATUS.GELIEFERT %}
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>An Produktion liefern</a>
@@ -133,6 +141,8 @@
                     {% if action != 'create' %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_task' object.pk 36 %}" type="submit" name="action"><i class="material-icons left">done_all</i>Freigeben</a>
                     {% endif %}
+                {% elif OBJ_STATUS == STATUS.GELIEFERT %}
+                    <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>
                 {% endif %}
             {% endif %}
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>{% if action == 'create' %}Erstellen{% else %}Speichern{% endif %}</button>

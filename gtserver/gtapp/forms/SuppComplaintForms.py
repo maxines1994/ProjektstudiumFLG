@@ -56,18 +56,16 @@ class Cust_complaint_det_form(ModelForm):
 
 class Supp_complaint_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False,)
-    finished_on = IntegerField(required=False)
+    memo = CharField(required=False)
 
     class Meta:
         model = SuppComplaintDet
-        fields = [ "supp_order_det", "quantity", "memo", "finished_on","redelivery"]
+        fields = [ "supp_order_det", "quantity", "memo","redelivery"]
         labels = {
             #'pos': _('Position'),
             'supp_order_det': _('Teil'),
             'quantity': _('Menge'),
             'memo': _('Kommentar'),
-           # 'finished_on': _('Abgeschlossen am'),
             'redelivery': _('Neulieferung erforderlich'),            
         }
         widgets = {

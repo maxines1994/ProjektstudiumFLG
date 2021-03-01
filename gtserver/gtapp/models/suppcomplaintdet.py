@@ -13,17 +13,17 @@ class SuppComplaintDet(ComplaintDet):
     redelivery = models.BooleanField(default=False)
 
     class Status(models.TextChoices):       
-        ERFASST                         = '0', ('Erfasst||0%')
-        VERSAND_AN_PDL                  = '1', ('Im Versand an PDL||10%')
-        IN_BEARBEITUNG                  = '2', ('In Bearbeitung||20%')
-        REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben||30%')
-        BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen||33%')##Nur LF
-        VERSAND_AN_KUNDE                = '5', ('Im Versand an Kunde||67%')##Nur LF
-        AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert||40%')
-        NEU_BESTELLEN                   = '7', ('Teil neu bestellen||50%')
-        VERSAND_AN_LIEFERANT            = '8', ('Im Versand an Lieferant||70%')
-        GELIEFERT                       = '9', ('Geliefert||80%')
-        VERSAND_AN_PRODUKTION           = '10', ('Im Versand an Produktion||90%')
+        ERFASST                         = '0', ('Erfasst|'+ PRODUKTION +','+ PRODUKTIONSDIENSTLEISTUNG +','+ LIEFERANTEN +'|0%')
+        VERSAND_AN_PDL                  = '1', ('Versandt an PDL|'+ PRODUKTIONSDIENSTLEISTUNG +'|10%')
+        IN_BEARBEITUNG                  = '2', ('In Bearbeitung|'+ PRODUKTIONSDIENSTLEISTUNG +'|20%')
+        REKLAMATION_FREIGEGEBEN         = '3', ('Reklamation freigegeben|'+ PRODUKTIONSDIENSTLEISTUNG +','+ LIEFERANTEN +'|30%')
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen|'+ LIEFERANTEN +'|45%')##Nur LF
+        VERSAND_AN_KUNDE                = '5', ('Versandt an Kunde|'+ LIEFERANTEN +'|67%')##Nur LF
+        AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert|'+ PRODUKTIONSDIENSTLEISTUNG +'|40%')
+        NEU_BESTELLEN                   = '7', ('Teil neu bestellen|'+ PRODUKTIONSDIENSTLEISTUNG +'|50%')
+        VERSAND_AN_LIEFERANT            = '8', ('Versandt an Lieferant||70%')
+        GELIEFERT                       = '9', ('Geliefert|'+ PRODUKTIONSDIENSTLEISTUNG +'|80%')
+        VERSAND_AN_PRODUKTION           = '10', ('Versandt an Produktion|'+ PRODUKTION +'|90%')
         ABGESCHLOSSEN                   = '11', ('Abgeschlossen||100%')   
 
     status = models.CharField(
@@ -63,3 +63,55 @@ class SuppComplaintDet(ComplaintDet):
             i += 1
 
         return new_suppcomplaint.id
+    
+    def get_min_status(self):
+        # here to avoid import loop
+        minstatus = 9000
+        for i in SuppComplaintDet.objects.filter(supp_complaint=self.supp_complaint.pk):
+            if int(i.status) < minstatus:
+                minstatus = int(i.status)
+        return minstatus
+
+    def save(self, *args, **kwargs):
+        super(SuppComplaintDet, self).save(*args, **kwargs)
+        self.postsave()
+    
+    def postsave(self):
+        # Status auf Kopfebene setzen
+        # Normale Status
+        minstatus = self.get_min_status()
+
+        if self.supp_complaint.external_system == False:
+            # JOGA
+            if minstatus <= int(self.Status.ERFASST):
+                self.supp_complaint.status = SuppComplaint.Status.ERFASST
+            elif minstatus <= int(self.Status.VERSAND_AN_PDL):
+                self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_PDL
+            elif minstatus <= int(self.Status.IN_BEARBEITUNG):
+                self.supp_complaint.status = SuppComplaint.Status.IN_BEARBEITUNG
+            elif minstatus <= int(self.Status.REKLAMATION_FREIGEGEBEN):
+                self.supp_complaint.status = SuppComplaint.Status.REKLAMATION_FREIGEGEBEN
+            elif minstatus <= int(self.Status.NEU_BESTELLEN):
+                ## Prüfen ob die Positionen weiter prozessiert wurden
+                pos_work_finished = True
+                for i in SuppComplaintDet.objects.filter(supp_complaint=self.supp_complaint.pk):
+                    if i.status in ['0','1','2','3','4','5','8','9','10']:
+                        pos_work_finished = False
+                if pos_work_finished:
+                    self.supp_complaint.status = SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG
+
+        else:
+            # Kundensystem
+            if minstatus <= int(self.Status.ERFASST):
+                self.supp_complaint.status = SuppComplaint.Status.ERFASST
+            elif minstatus <= int(self.Status.REKLAMATION_FREIGEGEBEN):
+                self.supp_complaint.status = SuppComplaint.Status.REKLAMATION_FREIGEGEBEN
+            elif minstatus <= int(self.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN):
+                self.supp_complaint.status = SuppComplaint.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN
+            elif minstatus <= int(self.Status.VERSAND_AN_KUNDE):
+                self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_KUNDE
+            elif minstatus <= int(self.Status.GELIEFERT):
+                self.supp_complaint.status = SuppComplaint.Status.GELIEFERT
+            elif minstatus <= int(self.Status.ABGESCHLOSSEN):
+                self.supp_complaint.status = SuppComplaint.Status.ABGESCHLOSSEN
+        self.supp_complaint.save()
