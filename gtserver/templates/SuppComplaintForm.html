@@ -58,48 +58,50 @@
     {% if action == "alter" %}
     <div class="row section">
         <div class="col s12">
-            <h5>Positionen</h5>
+            <h5>Reklamierte Positionen</h5>
         </div>
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <table id="itemtable">
-                        <thead id="itemhead">
-                            <tr>
-                                <th>Position</th>
-                                <th> {% if company == LIEFERANTEN %}Reklamierte Artikel{% else %}Reklamierte Teile{% endif %}</th>
-                                <th>Menge</th>
-                                <th>Beschreibung</th>
-                                <th>Abgeschlossen am</th>
-                                <th>Neulieferung erforderlich</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="itembody">
-                            {% for i in items %}
-                            <tr>
-                                <td>{{ i.pos }}</td>
-                                <td>{{ i.supp_order_det.part }}</td>
-                                <td>{{ i.quantity }} Stk.</td>
-                                <td>{{ i.memo }}</td>
-                                <td>{{ i.finished_on }}</td>
-                                <td>{% if i.redelivery %}Ja{% else %}Nein{% endif%}</td>
-                                <td>
-                                    <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
-                                        <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
-                                    </div>
-                                    {{ i.get_status_display }} 
-                                </td>
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
-                                    class="material-icons">more_vert</i></a></td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td colspan="4"><a href="{% url 'supp_complaint_det_create' supp_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Position</th>
+                                    <th>{% if company == LIEFERANTEN %}Artikel{% else %}Teile{% endif %}</th>
+                                    <th>Menge</th>
+                                    <th>Kommentar</th>
+                                    <th>Abgeschlossen am</th>
+                                    <th>Neulieferung erforderlich</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itembody">
+                                {% for i in items %}
+                                <tr>
+                                    <td>{{ i.pos }}</td>
+                                    <td>{{ i.supp_order_det.part }}</td>
+                                    <td>{{ i.quantity }} Stk.</td>
+                                    <td>{{ i.memo|default:'-'|truncatechars:30 }}</td>
+                                    <td>{{ i.finished_on }}</td>
+                                    <td>{% if i.redelivery %}Ja{% else %}Nein{% endif%}</td>
+                                    <td>
+                                        <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
+                                            <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
+                                        </div>
+                                        {{ i.get_status_display }} 
+                                    </td>
+                                    <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
+                                        class="material-icons">more_vert</i></a></td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4"><a href="{% url 'supp_complaint_det_create' supp_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

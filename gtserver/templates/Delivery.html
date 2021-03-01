@@ -35,23 +35,25 @@
   {{ formset.management_form }}
   <div class="card">
     <div class="card-content">
-      <table id="itemtable">
-        <tbody id="itembody">
-          {% for form in formset %}
-          <div class="col s12 m12 l6" style="padding: 0">
-            <tr>
-            {% for field in form.visible_fields %}
-              {% if 'goods_shipping' in request.path and field.name != 'trash' or 'goods_receipt' in request.path %}
-                <td>{{ field|materializecss }}</td>
-              {% endif %}
+      <div class="table-scrollable">
+        <table id="itemtable">
+          <tbody id="itembody">
+            {% for form in formset %}
+            <div class="col s12 m12 l6" style="padding: 0">
+              <tr>
+              {% for field in form.visible_fields %}
+                {% if 'goods_shipping' in request.path and field.name != 'trash' or 'goods_receipt' in request.path %}
+                  <td>{{ field|materializecss }}</td>
+                {% endif %}
+              {% endfor %}
+              </tr> 
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
+            </div>
             {% endfor %}
-            </tr> 
-            <input type="hidden" name="next" value="{{ request.path }}">
-            <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
-          </div>
-          {% endfor %}
-        </tbody>
-    </table>
+          </tbody>
+      </table>
+    </div>
     <div class="right-align">
         <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">local_shipping</i>Kommisionierung abschließen</button>
     </div>

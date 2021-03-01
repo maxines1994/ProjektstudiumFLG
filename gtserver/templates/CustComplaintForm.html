@@ -24,76 +24,78 @@
             <a class="btn-flat" href="{% url 'cust_complaint' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
             <h4>{% if company == KUNDEN %}Bestellreklamation{% else %}Auftragsreklamation{% endif %} {% if action == 'create' %}erstellen{% else %}ändern{% endif %}</h4>
         </div>
-    {% if action == "alter" %}
+        {% if action == "alter" %}
+            <div class="col s12">
+                <h5>Kopf</h5>
+            </div>
+        {% endif %}
+
         <div class="col s12">
-            <h5>Kopf</h5>
-        </div>
-    {% endif %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="row" style="margin-bottom: 0px;">
+                        {% for field in form.visible_fields %}
+                            {% if forloop.counter0|divisibleby:2 %}
+                            </div>
+                            <div class="row" style="margin-bottom: 0px;">
+                            {% endif %}
+                    <div class="col s12 m12 l6" style="padding: 0">
+                        {{ field|materializecss }}
+                    </div>
+                    {% endfor %}
+                    </div>
 
-    <div class="col s12">
-        <div class="card">
-            <div class="card-content">
-                <div class="row" style="margin-bottom: 0px;">
-                    {% for field in form.visible_fields %}
-                        {% if forloop.counter0|divisibleby:2 %}
-                        </div>
-                        <div class="row" style="margin-bottom: 0px;">
-                        {% endif %}
-                <div class="col s12 m12 l6" style="padding: 0">
-                    {{ field|materializecss }}
+                    {% for field in form.hidden_fields %}
+                    <div class="col s12 m12 l6">
+                        {{ field }}
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-                </div>
-
-                {% for field in form.hidden_fields %}
-                <div class="col s12 m12 l6">
-                    {{ field }}
-                </div>
-                {% endfor %}
             </div>
         </div>
     </div>
-</div>
     
     {% if action == "alter" %}
     <div class="row section">
         <div class="col s12">
-            <h5>Positionen</h5>
+            <h5>Reklamierte Positionen</h5>
         </div>
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <table id="itemtable">
-                        <thead id="itemhead">
-                            <tr>
-                                <th>Position</th>
-                                <th>Reklamierte Artikel</th>
-                                <th>Beschreibung</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="itembody">
-                            {% for i in items %}
-                            <tr>
-                                <td>{{ i.pos }}</td>
-                                <td>{{ i.cust_order_det.article }}</td>
-                                <td>{{ i.memo }}</td>
-                                <td>
-                                    <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
-                                        <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
-                                    </div>
-                                    {{ i.get_status_display }} 
-                                </td>
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
-                                    class="material-icons">more_vert</i></a></td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td colspan="4"><a href="{% url 'cust_complaint_det_create' cust_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Artikel</th>
+                                    <th>Kommentar</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itembody">
+                                {% for i in items %}
+                                <tr>
+                                    <td>{{ i.pos }}</td>
+                                    <td>{{ i.cust_order_det.article }}</td>
+                                    <td>{{ i.memo|default:'-'|truncatechars:30 }}</td>
+                                    <td>
+                                        <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
+                                            <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
+                                        </div>
+                                        {{ i.get_status_display }} 
+                                    </td>
+                                    <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
+                                        class="material-icons">more_vert</i></a></td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4"><a href="{% url 'cust_complaint_det_create' cust_complaint_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +104,7 @@
     
     <div class="row section">
         <div class="col s12 right-align">
-            <!--                                                                    BUTTON UNTEN CONTENT-->
+            {# <!--                                                                    BUTTON UNTEN CONTENT--> #}
             {% if KUNDEN in group %}
                 {% if OBJ_STATUS == STATUS.ERFASST %}
                     {% if action != 'create' %}
@@ -124,7 +126,7 @@
             {% elif PRODUKTION in group %}
                 {% if OBJ_STATUS == STATUS.IN_ANPASSUNG %}
                     {% if fix_done %}
-                        <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  -->
+                        {# <!--#LUXI#     Status (Kopf) auf 5 && Task 'Hubwagen an KD liefern'  --> #}
                         <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">build</i>Bearbeitung abschließen</button>
                     {% endif %}
                 {% elif OBJ_STATUS == STATUS.ANPASSUNG_ABGESCHLOSSEN %}
@@ -143,7 +145,7 @@
 <!-- Gruppe: KUNDEN in group-->
 {% block body %}
 {% for i in items %}
-<!--                                                                    DROPDOWN CONTENT-->
+{# <!--                                                                    DROPDOWN CONTENT--> #}
 <ul id='i{{i.id}}' class='dropdown-content'>
     {% if KUNDEN in group %}
         {% if i.status == POS_STATUS.ERFASST %}
@@ -163,7 +165,7 @@
         {% elif i.status == POS_STATUS.BEI_KUNDENDIENST %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kunden liefern</a></li>
         {% elif i.status == POS_STATUS.VERSAND_AN_KUNDE %}
-            <!-- POS_STATUS.ABGESCHLOSSEN wird nicht als Integer interretiert -->
+            {# <!-- POS_STATUS.ABGESCHLOSSEN wird nicht als Integer interretiert --> #}
             <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
         {% endif %}
     {% elif PRODUKTION in group %}

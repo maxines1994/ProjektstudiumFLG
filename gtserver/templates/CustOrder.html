@@ -61,7 +61,7 @@
                             </td>
                             {% if company == JOGA %}
                                 <td>
-                                    {{ o.ref_no }}
+                                    {{ o.ref_no|default:'-' }}
                                 </td>
                                 <td>
                                     {{ o.customer }}

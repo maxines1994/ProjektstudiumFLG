@@ -21,7 +21,7 @@
                         <tr>
                             <th>Reklamationsnummer</th>
                             {% if company != KUNDEN %}<th>Kunde</th>{% endif %}
-                            <th>Beschreibung</th>
+                            <th>Kommentar</th>
                             <th>Status</th>
                             <th>Abgeschlossen am</th>
                             <th></th>
@@ -33,7 +33,7 @@
                             <tr>
                                 <td>{{ c.order_no }}</td>
                                 {% if company != KUNDEN %} <td>{{c.cust_order.customer}}</td>{% endif %}
-                                <td>{{ c.memo }}</td>
+                                <td>{{ c.memo|default:'-'|truncatechars:30 }}</td>
                                 <td>
                                     <div class="progress{% if not c|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ c.get_status_progress }}"></div>

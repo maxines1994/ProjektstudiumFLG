@@ -22,7 +22,9 @@
                             <th>Fertigungsauftrag</th>
                             <th>Artikel</th>
                             <th>Lieferdatum</th>
+                            <th>Kommentar</th>
                             <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="itembody">
@@ -32,6 +34,7 @@
                                 <td>{{ m.cust_order }}-{{ m.pos }}</td>
                                 <td>{{ m.article }} {{ m.get_status_groups }}</td>
                                 <td>Tag {{ m.cust_order.delivery_date|default:'-'}}</td>
+                                <td>{{ m.memo|default:'-'|truncatechars:15 }}</td>
                                 <td>
                                     <div class="progress{% if not m|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ m.get_status_progress }}"></div>
@@ -41,11 +44,11 @@
                                 <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{m.id}}'><i class="material-icons">more_vert</i></a></td>
                             </tr>
                         {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
-                    </tbody>
 </div>
 {% endblock %}
 
