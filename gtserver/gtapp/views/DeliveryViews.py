@@ -114,8 +114,8 @@ def delivery_view(request, **kwargs):
                         my_part = Part.objects.get(id=my_model_det.objects.get(id=kwargs['id']).part_id)
                        
                     my_stock = Stock.objects.get(is_supplier_stock=is_supplier,part=my_part)
-                    # Reservierte Menge um Entnommene Menge verringern
-                    my_stock.reserve(fset.delivered)
+                    # Reservierte Menge um zu liefernde Menge verringern
+                    my_stock.reserve(-fset.quantity)
                 
                 else:
                     if my_model == SuppOrder:

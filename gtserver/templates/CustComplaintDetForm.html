@@ -52,6 +52,11 @@
     <div class="row section">
         <div class="col s12 right-align">
             <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
+            {% if object.status == STATUS.ERFASST %}
+                {% if action != 'create' %}
+                    <a class="btn waves-effect waves-light" href="{% url 'cust_complaint_det_delete' object.id %}"><i class="material-icons left">delete</i>Löschen</a>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </form>
