@@ -105,6 +105,7 @@
       {# SPIELLEITUNG: #}
       {% if request.user.id == 1 %}
         <li><a href="{% url 'home' %}">Platzhalter Spielsteuerung</a></li>
+        <li><a href="{% url 'credentials_sheet' %}">Zugangsdaten</a></li>
       {% endif %}
 
       {# LEITUNGSTEAM: #}

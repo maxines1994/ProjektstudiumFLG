@@ -5,12 +5,21 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from gtapp.constants import *
+from qr_code.qrcode.utils import WifiConfig
 import base64
 
 @login_required
 def change_user_view(request, view):
     if view=='debug':
-        c = dict(users=get_user_model().objects.all())
+        userqueryset = get_user_model().objects.all()
+        
+        users = []
+        for user in userqueryset.exclude(groups__name=SPIELLEITUNG):
+            users.append(user)
+        for user in userqueryset.filter(groups__name=SPIELLEITUNG):
+            users.append(user)
+
+        c = dict(users=users)
     else:
         c = dict(users=get_user_model().objects.filter(groups__name=SPIELLEITUNG))
         
@@ -41,18 +50,36 @@ def credentials_sheet_view(request):
         else:
             base_url = 'http://'
         base_url += request.get_host()
+        
+        userqueryset = get_user_model().objects.exclude(groups__name=SPIELLEITUNG)
 
         users = []
-        for user in get_user_model().objects.exclude(groups__name=SPIELLEITUNG):
+        for user in userqueryset.filter(groups__name=KUNDEN):
+            users.append(user)
+        for user in userqueryset.filter(groups__name=JOGA):
+            users.append(user)
+        for user in userqueryset.filter(groups__name=LIEFERANTEN):
+            users.append(user)
+
+        userdict = []
+        for user in users:
             password = base64.urlsafe_b64encode(user.username.encode("utf-8")).decode().replace("=", "")
             credentials = {
                 'user': user,
                 'password': password,
+                'company': user.groups.filter(name__in=[KUNDEN, JOGA, LIEFERANTEN]).first().name,
+                'group': user.groups.exclude(name__in=[KUNDEN, JOGA, LIEFERANTEN]).first().name,
                 'login_url': base_url + reverse('urllogin', kwargs={'username': user.username, 'password': password}),
             }
-            users.append(credentials)
+            userdict.append(credentials)
         
-        c = {'users': users}
+        wifi_config = WifiConfig(
+            ssid='PLANSPIEL',
+            authentication=WifiConfig.AUTHENTICATION.WPA,
+            password='logisnet'
+        )
+
+        c = {'users': userdict, 'wifi_config': wifi_config}
         
         return render(request, "registration/credentials_sheet.html", c)
     else:
