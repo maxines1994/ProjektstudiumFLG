@@ -3,13 +3,21 @@ from django.utils.translation import gettext_lazy as _
 
 class Cust_order_form_jg(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
     #refno = CharField(required=False)
 
     class Meta:
         model = CustOrder
         fields = ["ref_no", "customer", "issued_on",
                   "delivery_date", "memo"]
+        labels = {
+            'ref_no': _('Referenznummer'),
+            'customer': _('Kunde'),
+            'issued_on': _('Bestelltag'),
+            'delivery_date': _('Liefertag'),
+            'memo': _('Kommentar'),
+
+        }
 
 class Cust_order_form_kd(ModelForm):
     use_required_attribute = False
@@ -29,13 +37,13 @@ class Cust_order_form_kd(ModelForm):
 
     class Meta:
         model = CustOrder
-        fields = ["issued_on", "delivery_date", "memo", "box_no"]
+        fields = ["issued_on", "delivery_date", "memo"]
 
 
 
 class Cust_order_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = CustOrderDet
@@ -44,6 +52,7 @@ class Cust_order_det_form(ModelForm):
             'pos': _('Positionsnummer'),
             'article': _('Artikel'),
             'memo': _('Kommentar'),
+            'box_no': _('Boxnummer'),
         }
         widgets = {
             'pos': TextInput(attrs={'disabled': True}),
@@ -52,7 +61,7 @@ class Cust_order_det_form(ModelForm):
 
 class Cust_order_det_form_create(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = CustOrderDet

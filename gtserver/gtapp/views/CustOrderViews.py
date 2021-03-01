@@ -80,7 +80,7 @@ class Cust_order_alter_view(LoginRequiredMixin, UpdateView):
         context['items'] = CustOrderDet.objects.filter(cust_order=obj.pk)
         context["cust_order_no"] = obj.pk
         context["order_no"] = obj.order_no
-        context["box_no"] = obj.box_no
+        #context["box_no"] = obj.box_no
         context["action"] = "alter"
 
         context["ORDER_STATUS"] = CustOrder.Status.__members__
