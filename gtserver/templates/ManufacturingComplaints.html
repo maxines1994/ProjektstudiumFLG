@@ -51,7 +51,7 @@
 {% for c in complaints %}
 <ul id='a{{c.id}}' class='dropdown-content'>
     <li><a href="" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
-    <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+    <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst ausliefern</a></li>
     {% if PRODUKTIONSDIENSTLEISTUNG in group %}
         {% if m.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
             <li><a href="{% url 'stock_check' c.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
@@ -62,7 +62,7 @@
     {% endif %}
     {% if PRODUKTION in group %}
         {% if m.status == STATUS.IN_PRODUKTION %}
-            <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An KD ausliefern</a></li>
+            <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kundendienst ausliefern</a></li>
             <li><a href="" class="li-content"><i class="material-icons">done</i>Erledigt</a></li>
         {% endif %}
     {% endif %}

@@ -66,9 +66,6 @@ Position
     
     <div class="row section">
         <div class="col s12 right-align">
-            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group or PRODUKTION in group %}
-                <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
-            {% endif %}
             {% if action != 'create' %}
                 {% if KUNDEN in group %}
                     {% if object.status == STATUS.ERFASST %}            
@@ -110,6 +107,7 @@ Position
                         {% endif %}
                 {% endif %}
             {% endif %}
+            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
         </div>
     </div>
 </form>

@@ -166,7 +166,7 @@ class Cust_order_det_alter_view(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.pos = CustOrderDet.objects.get(id=form.instance.id).pos
         custOrderDet = form.save()
-        if self.request.user.groups.filter(name=PRODUKTION).exists():
+        if self.request.user.groups.filter(name__in=[PRODUKTION, PRODUKTIONSDIENSTLEISTUNG]).exists():
             return HttpResponseRedirect(reverse('manufacturing_list'))
         else:
             return HttpResponseRedirect("/cust_order/alter/" + str(form.instance.cust_order.id) + "/")

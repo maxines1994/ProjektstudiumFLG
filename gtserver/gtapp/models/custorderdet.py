@@ -14,21 +14,21 @@ class CustOrderDet(OrderDet):
         ERFASST                             = '1', ('Erfasst|' + KUNDEN + ',' + KUNDENDIENST + '|0%') # auch für Kundensystem #K, KD
 
         # FREIGEGEBEN
-        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|' + PRODUKTIONSDIENSTLEISTUNG + '|10%') #PDL
-        BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|' + PRODUKTIONSDIENSTLEISTUNG + '|15%')
-        AUFTRAG_FREIGEGEBEN                 = '4', ('Fertigungsauftrag freigegeben||20%') 
+        BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Freigegeben|' + PRODUKTIONSDIENSTLEISTUNG + '|10%') #PDL
+        BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Teile reserviert|' + PRODUKTIONSDIENSTLEISTUNG + '|15%')
+        AUFTRAG_FREIGEGEBEN                 = '4', ('Kommissioniert||20%') 
 
         # IN BEARBEITUNG
         IN_PRODUKTION                       = '5', ('In Produktion|' + PRODUKTION + '|30%')
         LIEFERUNG_AN_KD_AUSSTEHEND          = '6', ('Produktion abgeschlossen|' + PRODUKTION + '|50%') #PRO
         VERSANDT_AN_KD                      = '7', ('An Kundendienst versandt|' + KUNDENDIENST + '|60%') #KD
-        LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Lieferung an Kunden ausstehend|' + KUNDENDIENST + '|70%') #KD
+        LIEFERUNG_AN_K_AUSSTEHEND           = '8', ('Bereit zum Versand an Kunden|' + KUNDENDIENST + '|70%') #KD
 
         # BESTELLT, nur Kunde
         BESTELLT                            = '9', ('Bestellt||30%') # für Kundensystem only  
 
         # TEILGELIEFERT
-        VERSANDT_AN_K                       = '10', ('Versandt|' + KUNDENDIENST + '|90%')
+        VERSANDT_AN_K                       = '10', ('Geliefert|' + KUNDENDIENST + '|90%')
         # GELIEFERT - MINSTATUS GELIEFERT (aka alle geliefert)
         GELIEFERT                           = '11', ('Geliefert|' + KUNDEN + '|90%') # für Kundensystem only 
 

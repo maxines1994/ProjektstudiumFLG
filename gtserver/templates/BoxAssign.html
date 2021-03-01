@@ -21,18 +21,21 @@
 <form method="post">
     {% csrf_token %}
     <div class="row section">
-        <div class="col s12 m6">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">Bitte Scannen Sie den Barcode und übergeben Sie die Ware an den Versand</span>
-                    {{ form.box_no|materializecss }}
-                    <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
-                </div>
-                <div class="row section">
-                    <div class="col s12 right-align">
-                        <a onclick="history.back();" class="btn waves-effect waves-light"><i class="material-icons left">block</i>Abbrechen</a>
-                        <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
+        <div class="card col s12 m6 l12 xl6">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        <p>Bitte Scannen Sie den Barcode und übergeben Sie die Ware an den Versand.</p>
+                        <p class="grey-text">Alternativ können Sie die Nummer auch manuell eingeben.</p>
+                        <br />
                     </div>
+                </div>
+                    {{ form.box_no|materializecss }}
+
+                <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
+                <div class="right-align">
+                    <a onclick="history.back();" class="btn waves-effect waves-light"><i class="material-icons left">block</i>Abbrechen</a>
+                    <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
                 </div>
             </div>
         </div>
@@ -40,6 +43,40 @@
 </form>
 
 
+{% comment %}
+<div class="row section">
+    <div class="col s12">
+        <a class="btn-flat" onclick="history.back();" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+        <h4>Bestand anpassen von {{stock.part.description}}</h4>
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="card col s12 m6 l12 xl6">
+            <div class="card-content">
+                <div class="row" style="margin-bottom: 10px;">
+                    {% for field in form.visible_fields %}
+                        <div class="col s12" style="padding: 0">
+                            {{ field|materializecss }}
+                        </div>
+                    {% endfor %}
+                    <input type="hidden" name="previous" value="{{ request.META.HTTP_REFERER }}">
+                </div>
+                <div class="row section">
+                    <div class="col s12 right-align">
+                        {% if LIEFERANTEN in group or PRODUKTIONSDIENSTLEISTUNG in group %}
+                            <a class="btn waves-effect waves-light" onclick="history.back();"><i class="material-icons left">block</i>Abbrechen</a>
+                            <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endcomment %}
 {% endblock %}
 
 <!-- Body-->s
