@@ -100,7 +100,13 @@ def set_status(model: str, id: int, status: int):
             for obj in CustOrderDet.objects.filter(cust_order_id=id):
                 obj.status = status
                 obj.save()
+        elif my_model == SuppComplaint:
+            for obj in SuppComplaintDet.objects.filter(supp_complaint_id=id):
+                obj.status = status
+                obj.save()
+
         else:
             obj = my_model.objects.get(id=id)
             obj.status = status
             obj.save()
+        

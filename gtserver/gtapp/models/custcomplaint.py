@@ -19,7 +19,7 @@ class CustComplaint(Complaint):
         IN_ANPASSUNG                    = '4', ('In Anpassung||30%')
         ANPASSUNG_ABGESCHLOSSEN         = '5', ('Anpassung abgeschlossen||50%')
         VERSAND_AN_KUNDENDIENST         = '6', ('Versandt an Kundendienst||60%')
-        BEI_KUNDENDIENST                = '7', ('Bei Kundendienst||70%')
+        BEI_KUNDENDIENST                = '7', ('Bereit zum Versand an Kunden||70%')
         VERSAND_AN_KUNDE                = '8', ('Versandt an Kunde||80%')
         GELIEFERT                       = '9', ('Geliefert||90%')
         ABGESCHLOSSEN                   = '10', ('Abgeschlossen||100%')
@@ -41,7 +41,7 @@ class CustComplaint(Complaint):
     
     def group_has_work(self, user):
         from . import CustComplaintDet
-        for det in CustComplaintDet.objects.filter(cust_order=self.pk):
+        for det in CustComplaintDet.objects.filter(cust_complaint=self.pk):
             if det.group_has_work(user):
                 return True
         return False

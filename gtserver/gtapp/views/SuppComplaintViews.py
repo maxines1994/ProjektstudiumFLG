@@ -95,7 +95,7 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         context['object'] = self.get_object()
 
         context['button_neubestellung'] = SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status=SuppComplaintDet.Status.NEU_BESTELLEN).exists()
-        context['button_abschliessen'] = not SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status__lte=10).exists()
+        #context['button_abschliessen'] = not SuppComplaintDet.objects.filter(supp_complaint=self.get_object(),status__lte=10).exists()
 
         
         # Nur bei BoxScan implementieren? vv
@@ -255,6 +255,7 @@ class Supp_complaint_view(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context["STATUS"] = SuppComplaint.Status.__members__
+        context["POS_STATUS"] = SuppComplaintDet.Status.__members__
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe
