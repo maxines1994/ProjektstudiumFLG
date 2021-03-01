@@ -84,6 +84,10 @@ Position
     $(document).ready(function () {
         $('select').formSelect();
     });
+    $('form').on('submit', function() {
+      $('input, select').prop('disabled', false);
+      //$('input, text').prop('disabled', false);
+  });
 </script>
 
 {% endblock %}
