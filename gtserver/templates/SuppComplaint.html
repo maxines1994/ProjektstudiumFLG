@@ -93,7 +93,7 @@
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
         {% if c.status == STATUS.ERFASST %}
             {% if action != 'create' %}
-                <li><a href="{% url 'set_status_task' object.pk 36 %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a>
+                <li><a href="{% url 'set_status_task' c.id 36 %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a>
             {% endif %}
         {% endif %}
         {% if c.status == STATUS.REKLAMATION_FREIGEGEBEN %}
