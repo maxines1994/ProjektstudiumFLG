@@ -56,11 +56,31 @@
 <ul id='a{{c.id}}' class='dropdown-content'>
     {% if PRODUKTION in group %}
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if c.status == STATUS.ERFASST %}
+            {% if action != 'create' %}
+                <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">send</i>Weiterleiten an PDL</a>
+            {% endif %}
+        {% endif %}
         {% if c.status <= STATUS.ERFASST %}
             <li><a href="{% url 'supp_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
     {% elif PRODUKTIONSDIENSTLEISTUNG in group %}
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if c.status == STATUS.IN_BEARBEITUNG or c.status == STATUS.ERFASST %}
+            {% if action != 'create' %}
+                <li><a href="{% url 'set_status_task' c.pk 33 %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a>
+            {% endif %}
+        {% endif %}
+        {% if button_neubestellung %}
+            {% if action != 'create' %}
+                <li><a href="{% url 'box_assign' c|to_class_name c.id %}" class="li-content"><i class="material-icons">local_shipping</i>Neubestellung auslösen</a>
+            {% endif %}
+        {% endif %}
+        {% if c.status == STATUS.GELIEFERT %}
+            {% if action != 'create' %}
+                <li><a href="{% url 'box_assign' c|to_class_name c.id %}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion liefern</a>
+            {% endif %}
+        {% endif %}
         {% if c.status >= STATUS.ERFASST and c.status <= STATUS.REKLAMATION_FREIGEGEBEN or c.status == STATUS.POSITIONSBEARBEITUNG_FERTIG %}
             <li><a href="{% url 'supp_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% elif c.status == STATUS.GELIEFERT %}
@@ -69,6 +89,11 @@
         {% endif %}
     {% elif LIEFERANTEN in group %}
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if c.status == STATUS.ERFASST %}
+            {% if action != 'create' %}
+                <li><a href="{% url 'set_status_task' c.id 36 %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a>
+            {% endif %}
+        {% endif %}
         {% if c.status == STATUS.REKLAMATION_FREIGEGEBEN %}
             <li><a href="{% url 'stock_check' c.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
         {% elif c.status >= STATUS.BESTANDSPRUEFUNG_ABGESCHLOSSEN and c.status <= STATUS.VERSAND_AN_LIEFERANT %}

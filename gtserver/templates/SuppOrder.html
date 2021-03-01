@@ -98,29 +98,42 @@
 <ul id='a{{o.id}}' class='dropdown-content'>
     {% if LIEFERANTEN in group %}
         <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if o.status == STATUS.ERFASST %}
+            < li><a href="{% url 'set_status_task' o.id 9%}"><i class="li-content"><i class="material-icons">done_all</i>Freigeben</a>
+        {% endif %}
         {% if o.status <= STATUS.ERFASST %}
             <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% endif %}
         {% if o.status == STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %}
             <li><a href="{% url 'stock_check' o.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
+            <li><a href="{% url 'supp_order_cancel' o.id %}" class="li-content"><i class="material-icons">block</i>Stornieren</a>
         {% endif %}
         {% if o.status == STATUS.LIEFERUNG_AN_JOGA_AUSSTEHEND %}
             <li><a href="{% url 'box_assign' o|to_class_name o.id%}" class="li-content"><i class="material-icons">local_shipping</i>Kunde beliefern</a></li>
         {% endif %}
+        {% if o.status == STATUS.BESTELLT %}
+            <li><a href="{% url 'set_status_call' o|to_class_name o.id 5%}" class="li-content"><i class="material-icons">done</i>Beliefert</a>
+        {% endif %} 
     {% endif %}
 
     {% if PRODUKTIONSDIENSTLEISTUNG in group %}
         <li><a href="{% url 'supp_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        {% if o.status == o.Status.ERFASST %}
+            <li><a href="{% url 'set_status_call' o|to_class_name o.id o.Status.BESTELLT %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a>
+        {% endif %}
         {% if o.status <= STATUS.ERFASST %}
             <li><a href="{% url 'supp_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
+        {% endif %}
+        {% if o.status == o.Status.BESTANDSPRUEFUNG_AUSSTEHEND %}
+            <li><a href="{% url 'supp_order_cancel' o.id %}" class="li-content"><i class="material-icons">block</i>Stornieren</a>
         {% endif %}
         {% if o.status >= STATUS.BESTELLT and o.status <= STATUS.TEILGELIEFERT %}
             <li><a href="{% url 'goods_receipt' o|to_class_name o.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang buchen</a></li>
         {% endif %}
         {% if o.status >= STATUS.TEILGELIEFERT and o.status < STATUS.GELIEFERT %}
-        <li><a href="{% url 'set_status_call' o|to_class_name o.id o.Status.GELIEFERT %}" class="li-content"><i class="material-icons">done_all</i>Voll beliefert</a></li>
+            <li><a href="{% url 'set_status_call' o|to_class_name o.id o.Status.GELIEFERT %}" class="li-content"><i class="material-icons">done_all</i>Voll beliefert</a></li>
         {% endif %}
-    {% endif %}
+    {% endif %}   
 </ul>
 {% endfor %}
 {% endblock %}

@@ -152,6 +152,7 @@ class Cust_order_det_alter_view(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["box_no"] = self.get_object().box_no
         context["action"] = "alter"
+        context["STATUS"] = CustOrderDet.Status.__members__
         return context
 
     def get_object(self, queryset=None):

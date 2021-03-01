@@ -95,6 +95,17 @@
         <ul id='a{{o.id}}' class='dropdown-content'>
             {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}
                 <li><a href="{% url 'cust_order_alter' o.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
+            {% endif %}
+            {% if KUNDEN in group %}
+                {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
+                    <li><a href="{% url 'set_status_call' o|to_class_name o.pk STATUS.BESTELLT %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a></li>
+                {# {% endif %} #}
+            {% elif KUNDENDIENST in group or LEITUNGSTEAM in group %}
+                {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
+                    <li><a href="{% url 'set_status_task' o.pk 2%}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a></li>
+                {# {% endif %} #}
+            {% endif %}
+            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}
                 {% if o.status == STATUS.ERFASST %}
                     <li><a href="{% url 'cust_order_delete' o.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
                 {% endif %}
