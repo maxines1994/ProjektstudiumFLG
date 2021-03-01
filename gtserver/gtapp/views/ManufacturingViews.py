@@ -28,17 +28,17 @@ def manufacturing_list_view(request):
 @login_required
 def manufacturing_release_view(request, **kwargs):
     c = {}
-    if CustOrderDet.objects.get(pk=kwargs['id']).status=='0':
-        CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='1')
     return HttpResponseRedirect(reverse("cust_order"))
 
 @login_required
 def manufacturing_testing_view(request, **kwargs):
+    from .StatusViews import set_status
     c = {}
+
     demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
     if Stock.reserve_test(demand):
         print("ERFOLGREICH")
-        CustOrderDet.objects.filter(pk=kwargs["id"]).update(status='2')
+        set_status('CustOrderDet', kwargs["id"], CustOrderDet.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN) # war vorher '2' von Maxi
     else:
         print("FEHLGESCHLAGEN")
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD

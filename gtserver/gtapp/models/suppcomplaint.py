@@ -40,7 +40,11 @@ class SuppComplaint(Complaint):
         return self.Status(self.status).label.split("|", 2)[-1]
     
     def group_has_work(self, user):
-        return True
+        from . import SuppComplaintDet
+        for det in SuppComplaintDet.objects.filter(cust_order=self.pk):
+            if det.group_has_work(user):
+                return True
+        return False
 
     def __str__(self):
         return self.order_no

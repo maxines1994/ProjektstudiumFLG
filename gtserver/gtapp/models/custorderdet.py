@@ -16,7 +16,7 @@ class CustOrderDet(OrderDet):
         # FREIGEGEBEN
         BESTANDSPRUEFUNG_AUSSTEHEND         = '2', ('Bestandsprüfung ausstehend|' + PRODUKTIONSDIENSTLEISTUNG + '|10%') #PDL
         BESTANDSPRUEFUNG_ABGESCHLOSSEN      = '3', ('Bestandsprüfung abgeschlossen|' + PRODUKTIONSDIENSTLEISTUNG + '|15%')
-        AUFTRAG_FREIGEGEBEN                 = '4', ('Auftrag freigegeben||20%') 
+        AUFTRAG_FREIGEGEBEN                 = '4', ('Fertigungsauftrag freigegeben||20%') 
 
         # IN BEARBEITUNG
         IN_PRODUKTION                       = '5', ('In Produktion|' + PRODUKTION + '|30%')
@@ -68,7 +68,10 @@ class CustOrderDet(OrderDet):
         return minstatus
 
     def save(self, *args, **kwargs):
+        super(CustOrderDet, self).save(*args, **kwargs)
+        self.postsave()
 
+    def postsave(self):
         # Status auf Kopfebene setzen
         # Normale Status
         minstatus = self.get_min_status()
@@ -126,9 +129,7 @@ class CustOrderDet(OrderDet):
                 self.cust_order.status = CustOrder.Status.ERFASST
 
         self.cust_order.save()
-        
-        super(CustOrderDet, self).save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.pos.__str__() + ' ' + self.article.description
 

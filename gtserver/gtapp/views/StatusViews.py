@@ -95,7 +95,12 @@ def set_status(model: str, id: int, status: int):
     # Und wenn der Status groesser ist als der bisherige!
     if int(status) > UNKNOWN and int(my_obj.status) < int(status):
         #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
+        # /!\ Umsetzung mit save() ist notwendig, weil update() nicht save() aufruft und keine Speicher-Events generiert, weshalb der Status des Kopf nicht gesetzt werden würde.
         if my_model == CustOrder:
-            CustOrderDet.objects.filter(cust_order_id=id).update(status=status)
+            for obj in CustOrderDet.objects.filter(cust_order_id=id):
+                obj.status = status
+                obj.save()
         else:
-            my_model.objects.filter(id=id).update(status=status)
+            obj = my_model.objects.get(id=id)
+            obj.status = status
+            obj.save()

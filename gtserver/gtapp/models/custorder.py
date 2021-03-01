@@ -25,6 +25,9 @@ class CustOrder(Order):
         default = Status.ERFASST,
     )
 
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)
+
     def get_status_display(self):
         return self.Status(self.status).label.split("|", 2)[0]
 
@@ -32,10 +35,11 @@ class CustOrder(Order):
         return self.Status(self.status).label.split("|", 2)[-1]
     
     def group_has_work(self, user):
-        return True
-
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    #ref_no = models.ForeignKey(CustOrder, null=True, on_delete=models.SET_NULL)
+        from . import CustOrderDet
+        for det in CustOrderDet.objects.filter(cust_order=self.pk):
+            if det.group_has_work(user):
+                return True
+        return False
 
     def __str__(self):
         return self.order_no
