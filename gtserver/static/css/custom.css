@@ -75,7 +75,7 @@ main.loggedin {
 
 .notification { 
   animation-name: bell; 
-  animation-duration: 0.7s; 
+  animation-duration: 0.625s; 
   animation-iteration-count: infinite; 
   animation-timing-function: ease; 
 }
@@ -110,7 +110,7 @@ main.loggedin {
 
 .messageicon { 
   animation-name: hover; 
-  animation-duration: 2s; 
+  animation-duration: 2.5s; 
   animation-iteration-count: infinite; 
   animation-timing-function: linear; 
   position: relative;
