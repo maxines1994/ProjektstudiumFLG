@@ -24,7 +24,10 @@
                 </p>
                 <b>Beschreibung</b>
                 <p>
-                    {{object.task_type.description}}
+                    {{object.task_type.description |safe}}
+                    {% autoescape off %}
+                    
+                    {% endautoescape %}
                 </p>
                 
                 <b>Zugewiesen an</b>
@@ -53,7 +56,7 @@
                     <a href="{% url 'tasks_assign' object.pk %}" class="btn waves-effect waves-light"><i class="material-icons left">launch</i>Mir zuweisen</a></li>
                 {% endif %} 
                     
-                <a href="{% url 'faq' content=0  %}" class="btn waves-effect waves-light"><i class="material-icons left">help</i>FAQ</a>
+                <a href="{% url 'home_information_pages' info='Rolle'  %}" class="btn waves-effect waves-light"><i class="material-icons left">help</i>Aufgabenbeschreibung</a>
 
             </div>
         </div>
