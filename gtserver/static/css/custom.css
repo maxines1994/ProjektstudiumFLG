@@ -116,7 +116,13 @@ main.loggedin {
   position:relative;
 }
 
-
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
 
 .progress-grey {
 		min-height: 10px;

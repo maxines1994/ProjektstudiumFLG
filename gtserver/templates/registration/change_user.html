@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load materializecss %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}Benutzer wechseln{% endblock %}
@@ -13,7 +14,7 @@
 {% block content %}
     <div class="row">
         <div class="s12">
-            <h3>Benutzer wechseln</h3>
+            <h4>Benutzer wechseln</h4>
             {% if not debug_flag %}<h5 class="red-text">Der Benutzer kann nur bei gesetztem Debug Flag gewechselt werden.</h5>{% endif %}
         </div>
     </div>
@@ -24,9 +25,9 @@
             {% for user_login in users %}
                 <li class="collection-item avatar"><div>
                     {% if user_login.id == user.id %}
-                        <i class="material-icons circle green">how_to_reg</i>
+                        <i class="material-icons circle {% if user_login|has_group:JOGA %}light-blue{% elif user_login|has_group:KUNDEN %}red{% elif user_login|has_group:LIEFERANTEN %}green{% else %}grey{% endif %}">how_to_reg</i>
                         <span class="title">{{ user_login.username }}</span>
-                        <p>
+                        <p class="grey-text">
                             {% for group in user_login.groups.all %}
                                 {{ group.name }}
                                 {% if not forloop.last %}<br />{% endif %}
@@ -36,9 +37,9 @@
                         </p>
                         
                     {% else %}
-                        <i class="material-icons circle">person</i>
+                        <i class="material-icons circle {% if user_login|has_group:JOGA %}light-blue{% elif user_login|has_group:KUNDEN %}red{% elif user_login|has_group:LIEFERANTEN %}green{% else %}grey{% endif %}">person</i>
                         <span class="title">{{ user_login.username }}</span>
-                        <p>
+                        <p class="grey-text">
                             {% for group in user_login.groups.all %}
                                 {{ group.name }}
                                 {% if not forloop.last %}<br />{% endif %}
@@ -47,7 +48,7 @@
                             {% endfor %}
                         </p>
                         {% if debug_flag %}
-                            <a href="{% url 'change_user_to' user_login.id %}" class="secondary-content"><i class="material-icons" style="font-size: 3rem">login</i></a>
+                            <a href="{% url 'change_user_to' user_login.id %}" class="secondary-content"><i class="material-icons text-darken-1 {% if user_login|has_group:JOGA %}light-blue-text{% elif user_login|has_group:KUNDEN %}red-text{% elif user_login|has_group:LIEFERANTEN %}green-text{% else %}grey-text{% endif %}" style="font-size: 3rem">login</i></a>
                         {% endif %}
                     {% endif %}
                     </div>

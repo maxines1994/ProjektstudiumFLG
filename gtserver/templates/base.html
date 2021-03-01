@@ -91,7 +91,7 @@
         <div class="background">
           <img style="filter: brightness(50%);" src="{% static 'img/logistics-300px.jpg' %}">
         </div>
-        <a {% if debug_flag %} href="{% url 'change_user' %}"{% endif %}><img class="grey lighten-2 circle" src="{% static 'img/avataaars.svg' %}"></a>
+        <a {% if debug_flag %} href="{% url 'change_user' 'debug' %}"{% endif %}><img class="grey lighten-2 circle" src="{% static 'img/avataaars.svg' %}"></a>
         <a><span class="white-text name">{{ user.username }}</span></a>
         <a><span class="white-text email">{{ user.groups.first.name }}</span></a>
       </div></li>
@@ -101,6 +101,18 @@
       {% if perms.gtapp.view_message %}<li><a href="{% url 'inbox' %}">Nachrichten</a></li>{% endif %}
       {% if perms.gtapp.view_suppcontainer or perms.gtapp.view_custcontainer %}<li><a href="{% url 'box_search_view' %}">Barcode scannen</a></li>{% endif %}
       <li><div class="divider"></div></li>
+
+      {# SPIELLEITUNG: #}
+      {% if request.user.id == 1 %}
+        <li><a href="{% url 'home' %}">Platzhalter Spielsteuerung</a></li>
+        <li><a href="{% url 'credentials_sheet' %}">Zugangsdaten</a></li>
+      {% endif %}
+
+      {# LEITUNGSTEAM: #}
+      {% if LEITUNGSTEAM in group %}
+        <li><a href="{% url 'home' %}">Platzhalter Dashboard</a></li>
+      {% endif %}
+
       {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
       {% if KUNDENDIENST in group or KUNDEN in group or LEITUNGSTEAM in group %}
         {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
@@ -115,11 +127,15 @@
       <li><div class="divider"></div></li>
       <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
       <li><a href="{% url 'faq' content=0  %}">FAQ</a></li>
-
-      {% if user.is_authenticated %}
-          <li><div class="divider"></div></li>
-          <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Ausloggen</a></li>
+      <li><div class="divider"></div></li>
+      {% if SPIELLEITUNG in group %}
+        {% if request.user.id != 1 %}
+          <li><a href="{% url 'change_user_to' 1 %}"><i class="material-icons left">engineering</i>Spielleitung</a></li>
+        {% endif %}
+        <li><a href="{% url 'change_user' 'sl' %}"><i class="material-icons left">group</i>Benutzer wechseln</a></li>
       {% endif %}
+      <li><a href="{% url 'logout' %}"><i class="material-icons left">exit_to_app</i>Ausloggen</a></li>
+      <li class="hide-on-med-and-down" style="height: 128px"></li>
     </ul>
     {% endif %}
 

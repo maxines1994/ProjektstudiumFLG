@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [
     '172.18.190.193',
     '192.168.193.198',
     '192.168.193.146',
-    '192.168.193.157'
+    '192.168.193.157',
     ]
 
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'gtapp',
     'materializecssform',
     'crum',
+    'qr_code',
 ]
 
 MIDDLEWARE = [

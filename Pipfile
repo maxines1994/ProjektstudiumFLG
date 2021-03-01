@@ -9,6 +9,7 @@ verify_ssl = true
 django = "*"
 django-materializecss-form = "*"
 django-crum = "*"
+django-qr-code = "*"
 
 [requires]
 python_version = "3.8"

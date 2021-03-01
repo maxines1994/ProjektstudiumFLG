@@ -15,8 +15,10 @@ urlpatterns = [
 
     # Login, Logout, Change User
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/change_user/', change_user_view, name='change_user'),
-    path('accounts/change_user/<int:id>/', change_user_to_view, name='change_user_to'),
+    path('accounts/change_user_to/<int:id>/', change_user_to_view, name='change_user_to'),
+    path('accounts/change_user/<str:view>/', change_user_view, name='change_user'),
+    path('accounts/urllogin/<str:username>/<str:password>/', url_login_view, name='urllogin'),
+    path('accounts/credentials_sheet/', credentials_sheet_view, name='credentials_sheet'),
 
     # Aufgaben
     path('tasks/', tasks_view, name='tasks'),

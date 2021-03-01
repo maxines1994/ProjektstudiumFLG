@@ -8,7 +8,7 @@
          url(iconfont/MaterialIconsSharp-Regular.otf) format('truetype'),
          url(iconfont/MaterialIconsOutlined-Regular.otf) format('truetype'),
          */
-         url(iconfont/MaterialIconsSharp-Regular.otf) format('truetype');
+         url(iconfont/MaterialIcons.woff2) format('woff2');
  }
  
  .material-icons {
