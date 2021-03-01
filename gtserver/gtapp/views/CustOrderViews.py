@@ -2,7 +2,7 @@ from gtapp.utils import get_context, get_context_back
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
-from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_form_create
+from gtapp.forms import Cust_order_form_jg, Cust_order_form_kd, Cust_order_det_form, Cust_order_det_fixed_form, Cust_order_det_form_create
 from gtapp.models import CustOrder, CustOrderDet, Task, Timers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -144,9 +144,13 @@ class Cust_order_det_create_view(LoginRequiredMixin, CreateView):
 
 # CustOrder von Joga und Bestellungen der Kunden
 class Cust_order_det_alter_view(LoginRequiredMixin, UpdateView):
-    form_class = Cust_order_det_form
     template_name = "CustOrderDetForm.html"
 
+    def get_form_class(self):
+        if self.get_object().status == CustOrderDet.Status.ERFASST:
+            return Cust_order_det_form
+        else:
+            return Cust_order_det_fixed_form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -162,7 +166,10 @@ class Cust_order_det_alter_view(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.pos = CustOrderDet.objects.get(id=form.instance.id).pos
         custOrderDet = form.save()
-        return HttpResponseRedirect("/cust_order/alter/" + str(form.instance.cust_order.id) + "/")
+        if self.request.user.groups.filter(name=PRODUKTION).exists():
+            return HttpResponseRedirect(reverse('manufacturing_list'))
+        else:
+            return HttpResponseRedirect("/cust_order/alter/" + str(form.instance.cust_order.id) + "/")
 
 #//self.kwargs["id"]
 

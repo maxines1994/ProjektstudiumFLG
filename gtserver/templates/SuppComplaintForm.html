@@ -58,11 +58,12 @@
     {% if action == "alter" %}
     <div class="row section">
         <div class="col s12">
-            <h5>Positionen</h5>
+            <h5>Reklamierte Positionen</h5>
         </div>
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
+                    <div class="table-scrollable">
                     <table id="itemtable">
                         <thead id="itemhead">
                             <tr>
@@ -104,6 +105,7 @@
                             {% endif %}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

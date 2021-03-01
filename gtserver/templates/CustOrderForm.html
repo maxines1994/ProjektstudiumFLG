@@ -84,35 +84,41 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <table id="itemtable">
-                        <thead id="itemhead">
-                            <tr>
-                                <th>Position</th>
-                                <th>Artikel</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="itembody">
-                            {% for i in items %}
-                            <tr>
-                                <td>{{ i.pos }}</td>
-                                <td>{{ i.article.description }}</td>
-                                <td>
-                                    <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
-                                        <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
-                                    </div>
-                                    {{ i.get_status_display }}
-                                </td>
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i class="material-icons">more_vert</i></a></td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Artikel</th>
+                                    <th>Status</th>
+                                    <th>Kommentar</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itembody">
+                                {% for i in items %}
+                                <tr>
+                                    <td>{{ i.pos }}</td>
+                                    <td>{{ i.article.description }}</td>
+                                    <td>
+                                        <div class="progress{% if not i|group_has_work:request.user %} progress-grey{% endif %}">
+                                            <div class="determinate" style="width: {{ i.get_status_progress }}"></div>
+                                        </div>
+                                        {{ i.get_status_display }}
+                                    </td>
+                                    <td>{{ i.memo|default:'-'|truncatechars:15 }}</td>
+                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                    <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i class="material-icons">more_vert</i></a></td>
+                                </tr>
+                                {% endfor %}
+                                {% if object.status == object.Status.ERFASST %}
+                                    <tr>
+                                        <td colspan="4"><a href="{% url 'cust_order_det_create' cust_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,13 +129,13 @@
         <div class="col s12 right-align">
             {% if action != "create" %}
                 {% if KUNDEN in group %}
-                    {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
+                    {% if object.status == object.Status.ERFASST %}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_call' object|to_class_name object.pk STATUS.BESTELLT %}"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {# {% endif %} #}
+                    {% endif %}
                 {% elif KUNDENDIENST in group or LEITUNGSTEAM in group %}
-                    {# {% if MIN_ITEM_STATUS < STATUS.BESTANDSPRUEFUNG_AUSSTEHEND %} #}
+                    {% if object.status == object.Status.ERFASST %}
                         <a class="waves-effect waves-light btn" href="{% url 'set_status_task' object.pk 2%}"><i class="material-icons left">done_all</i>Freigeben</a>
-                    {# {% endif %} #}
+                    {% endif %}
                 {% endif %}
             {% endif %}
             {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}   

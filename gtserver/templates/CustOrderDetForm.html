@@ -66,7 +66,7 @@ Position
     
     <div class="row section">
         <div class="col s12 right-align">
-            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group %}
+            {% if KUNDEN in group or KUNDENDIENST in group or LEITUNGSTEAM in group or PRODUKTION in group %}
                 <button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">save</i>Speichern</button>
             {% endif %}
             {% if KUNDEN in group %}
@@ -126,6 +126,10 @@ Position
     $(document).ready(function () {
         $('select').formSelect();
     });
+    $('form').on('submit', function() {
+      $('input, select').prop('disabled', false);
+      //$('input, text').prop('disabled', false);
+  });
 </script>
 
 {% endblock %}

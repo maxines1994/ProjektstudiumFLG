@@ -84,32 +84,36 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <table id="itemtable">
-                        <thead id="itemhead">
-                            <tr>
-                                <th>Position</th>
-                                <th>Artikel</th>
-                                <th>Bestellmenge</th>
-                                <th>Gebindegröße</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="itembody">
-                            {% for i in items %}
-                            <tr>
-                                <td>{{ i.pos }}</td>
-                                <td>{{ i.part.description }}</td>
-                                <td>{{ i.quantity }} Stk.</td>
-                                <td>{{ i.part.pack_quantity }} Stk.</td>
-                                <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
-                                    class="material-icons">more_vert</i></a></td>
-                            </tr>
-                            {% endfor %}
-                            <tr>
-                                <td colspan="5"><a href="{% url 'supp_order_det_create' supp_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-scrollable">
+                        <table id="itemtable">
+                            <thead id="itemhead">
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Artikel</th>
+                                    <th>Bestellmenge</th>
+                                    <th>Gebindegröße</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="itembody">
+                                {% for i in items %}
+                                <tr>
+                                    <td>{{ i.pos }}</td>
+                                    <td>{{ i.part.description }}</td>
+                                    <td>{{ i.quantity }} Stk.</td>
+                                    <td>{{ i.part.pack_quantity }} Stk.</td>
+                                    <td class="right"><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='i{{i.id}}'><i
+                                        class="material-icons">more_vert</i></a></td>
+                                </tr>
+                                {% endfor %}
+                                {% if object.status == object.Status.ERFASST %}
+                                    <tr>
+                                        <td colspan="5"><a href="{% url 'supp_order_det_create' supp_order_no %}" style="display: inline-block; height: 100%; width: 100%; padding: 10px 0;" class="black-text"><i class="material-icons left">add</i>POSITION HINZUFÜGEN</a></td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

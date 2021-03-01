@@ -58,6 +58,22 @@ class Cust_order_det_form(ModelForm):
             'pos': TextInput(attrs={'disabled': True}),
         }
 
+class Cust_order_det_fixed_form(ModelForm):
+    use_required_attribute = False
+    memo = CharField(required=False)
+
+    class Meta:
+        model = CustOrderDet
+        fields = ["pos", "article", "memo", "box_no"]
+        labels = {
+            'pos': _('Positionsnummer'),
+            'article': _('Artikel'),
+            'memo': _('Kommentar'),
+        }
+        widgets = {
+            'pos': TextInput(attrs={'disabled': True}),
+            'article': Select(attrs={'disabled': True}),
+        }
 
 class Cust_order_det_form_create(ModelForm):
     use_required_attribute = False
