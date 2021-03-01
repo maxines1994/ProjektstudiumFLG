@@ -53,6 +53,16 @@ class msgWriteView(LoginRequiredMixin, CreateView):
     template_name = "message.html"
     form_class = Msg_write_form
 
+    def get_form_kwargs(self):
+        """
+        Returns the keyword arguments for instantiating the form.
+        """
+        kwargs = super(msgWriteView, self).get_form_kwargs()
+        if hasattr(self, 'object'):
+            kwargs.update({'instance': self.object})
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
     def get_initial(self):
         # Vorbelegung Empfänger für Lieferanten und Kunden
         if self.request.user.groups.filter(name=KUNDEN).exists():
@@ -161,13 +171,17 @@ def add_order_view(request, **kwargs):
         "no": main.order_no,
         "issued": main.issued_on,
         "posl": alldets.count(),
+        "refno": main.ref_no,
+        "memo": main.memo
     }
 
     # Variables füllen der übergeordneten Instanz als Dictionary variabel nach Cust oder (else) Supp
     if CustOrder.__instancecheck__(main):
         order['partner'] = main.customer.name
+        order['deliverydate'] = main.delivery_date
     elif SuppOrder.__instancecheck__(main):
         order['partner'] = main.supplier.name
+        order['deliverydate'] = main.delivery_date
     elif CustComplaint.__instancecheck__(main):
         order['partner'] = main.cust_order.customer.name
     elif SuppComplaint.__instancecheck__(main):
@@ -191,8 +205,11 @@ def add_order_view(request, **kwargs):
         elif SuppComplaintDet.__instancecheck__(i):
             pos["particle"] = i.supp_order_det.part.description
             pos["quantity"] = i.quantity
+            pos["newdelivery"] = "erforderlich" if i.redelivery else "nicht erforderlich"
         else:
             pos["particle"] = "-"
+        
+        pos["memo"] = i.memo
 
         # Einfügen der untergeordneten gefüllten Positionen in den Aufragskopf bzw. die übergeordnete Instanz
         pos['posno'] = i.pos

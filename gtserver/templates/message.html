@@ -161,11 +161,20 @@
             if (request.status >= 200 && request.status < 300) {
                 var obj = JSON.parse(request.responseText);
                 // Werte setzen
-                s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\n" + "Bestelltag: " + obj["issued"] + "\n";
+                s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\nBestelltag: " + obj["issued"] + "\nReferenznummer: " + obj[i]["refno"] + "\nKommentar: " + obj["memo"] + "\n";
+                if (obj[i]["deliverydate"]!=undefined) {
+                    s = s + "Liefertag: " + obj[i]["deliverydate"] + "\n";
+                }
                 for (i=1;i<=obj["posl"];i++) {
                     s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tPosition: " + obj[i]["particle"] + "\n";
                     if (obj[i]["quantity"]!=undefined) {
                         s = s + "\tMenge: " + obj[i]["quantity"] + " Stk. \n";
+                    }
+                    if (obj[i]["newdelivery"]!=undefined) {
+                        s = s + "\tNeulieferung " + obj[i]["newdelivery"] + "\n";
+                    }
+                    if (obj[i]["memo"]!=undefined) {
+                        s = s + "\tKommentar: " + obj[i]["memo"] + "\n";
                     }
                 }
                 $('#id_text').val($('#id_text').val() + s);

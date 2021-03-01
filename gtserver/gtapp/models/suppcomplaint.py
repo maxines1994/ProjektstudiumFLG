@@ -22,7 +22,7 @@ class SuppComplaint(Complaint):
         VERSAND_AN_LIEFERANT            = 9, ('Im Versand an Lieferant|70%')
         GELIEFERT                       = 10, ('Geliefert|80%')
         VERSAND_AN_PRODUKTION           = 11, ('Im Versand an Produktion|90%')
-        ABGESCHLOSSEN                   = 12, ('Abgeschlossen|100%')   
+        ABGESCHLOSSEN                   = 12, ('Abgeschlossen|100%')
 
     status = models.CharField(
         max_length = 2,
