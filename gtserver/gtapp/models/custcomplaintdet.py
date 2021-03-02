@@ -17,7 +17,7 @@ class CustComplaintDet(ComplaintDet):
         IN_ANPASSUNG                    = '4', ('In Anpassung|'+ PRODUKTION +'|30%')
         ANPASSUNG_ABGESCHLOSSEN         = '5', ('Anpassung abgeschlossen|'+ PRODUKTION +'|50%')
         VERSAND_AN_KUNDENDIENST         = '6', ('Versandt an Kundendienst|'+ KUNDENDIENST +'|60%')
-        BEI_KUNDENDIENST                = '7', ('Bei Kundendienst|'+ KUNDENDIENST +'|70%')
+        BEI_KUNDENDIENST                = '7', ('Bereit zum Versand an Kunden|'+ KUNDENDIENST +'|70%')
         VERSAND_AN_KUNDE                = '8', ('Versandt an Kunde|'+ KUNDENDIENST+'|80%')
         GELIEFERT                       = '9', ('Geliefert||90%')
         ABGESCHLOSSEN                   = '10', ('Abgeschlossen||100%')

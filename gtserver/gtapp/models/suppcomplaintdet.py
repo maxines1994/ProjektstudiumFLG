@@ -22,7 +22,7 @@ class SuppComplaintDet(ComplaintDet):
         AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert|'+ PRODUKTIONSDIENSTLEISTUNG +'|40%')
         NEU_BESTELLEN                   = '7', ('Teil neu bestellen|'+ PRODUKTIONSDIENSTLEISTUNG +'|50%')
         VERSAND_AN_LIEFERANT            = '8', ('Versandt an Lieferant||70%')
-        GELIEFERT                       = '9', ('Geliefert|'+ PRODUKTIONSDIENSTLEISTUNG +'|80%')
+        GELIEFERT                       = '9', ('Geliefert|'+ PRODUKTIONSDIENSTLEISTUNG +','+ LIEFERANTEN +'|80%')
         VERSAND_AN_PRODUKTION           = '10', ('Versandt an Produktion|'+ PRODUKTION +'|90%')
         ABGESCHLOSSEN                   = '11', ('Abgeschlossen||100%')   
 
@@ -95,10 +95,16 @@ class SuppComplaintDet(ComplaintDet):
                 ## Prüfen ob die Positionen weiter prozessiert wurden
                 pos_work_finished = True
                 for i in SuppComplaintDet.objects.filter(supp_complaint=self.supp_complaint.pk):
-                    if i.status in ['0','1','2','3','4','5','8','9','10']:
+                    if i.status not in [SuppComplaintDet.Status.ABGESCHLOSSEN, SuppComplaintDet.Status.AUS_LAGER_GELIEFERT, SuppComplaintDet.Status.NEU_BESTELLEN]:
                         pos_work_finished = False
                 if pos_work_finished:
                     self.supp_complaint.status = SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG
+            elif minstatus <= int(self.Status.VERSAND_AN_LIEFERANT):
+                self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_LIEFERANT
+            elif minstatus <= int(self.Status.VERSAND_AN_PRODUKTION):
+                self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_PRODUKTION
+            elif minstatus <= int(self.Status.ABGESCHLOSSEN):
+                self.supp_complaint.status = SuppComplaint.Status.ABGESCHLOSSEN
 
         else:
             # Kundensystem

@@ -100,6 +100,7 @@ def box_search_view(request):
                         if det.status == SuppComplaintDet.Status.VERSAND_AN_LIEFERANT:
                             det.status = SuppComplaintDet.Status.GELIEFERT
                             det.save()
+                            print(SuppComplaintDet.Status.VERSAND_AN_LIEFERANT)
 
                     Task.set_task(obj, 34)
                     boxno_found = 1
