@@ -32,6 +32,21 @@ class Supp_complaint_form(ModelForm):
             else:
                 self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=False).order_by('_creation_date')
 
+class Supp_complaint_form_kanban(Supp_complaint_form):
+    
+    class Meta:
+        model = SuppComplaint
+        fields = ["supp_order", "memo",  "box_no"]
+        labels = {
+            'supp_order': _('Bestellung'),
+            'memo': _('Kommentar'), 
+            'box_no': _('Boxnummer'),     
+        }
+        widgets = {
+            'supp_order': Select(attrs={'disabled': True})
+        }
+
+
 
 class Cust_complaint_det_form(ModelForm):
     use_required_attribute = False
