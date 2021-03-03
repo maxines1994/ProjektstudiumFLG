@@ -36,6 +36,8 @@ def delivery_view(request, **kwargs):
     not_det = "det" not in kwargs['model'].casefold()    
     # Bin ich Lieferant?
     is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
+    # Ist es eine Reklamation?
+    is_complaint = 'complaint' in kwargs['model'].casefold()
     #Filter initialisieren
     my_model_id = {}
     if not_det:
@@ -46,8 +48,9 @@ def delivery_view(request, **kwargs):
         # Immer wird im richtigen Model nach dem richtigen Fremdschluessel gesucht.
         my_model_id[get_fieldname(model=my_model_det, foreign_key_model=my_model)] = kwargs['id']
     else:
+        # Nur relevant bei CustOrderDets
         my_model_det = GtModel.str_to_gtmodel(my_model.__name__)
-        my_model_id['article_id'] = 1
+        my_model_id['article_id'] = my_model_det.objects.get(id=kwargs['id']).article_id
         my_model_id['part__supplier_id'] = 3
 
 
@@ -59,7 +62,8 @@ def delivery_view(request, **kwargs):
         my_pos_count = ArtiPart.objects.filter(article_id__in=my_model.objects.filter(id=kwargs['id']).values('article_id'),part__supplier_id=3).count()
     else:
         # Anzahl der Positionsdatensaetze
-        my_pos_count = my_model_det.objects.filter(**my_model_id).count()
+        all_pos = my_model_det.objects.filter(**my_model_id)
+        my_pos_count = all_pos.count() if not is_complaint else all_pos.exclude(redelivery=False).count()
 
     # Warenausgang?
     is_shipping = resolve(request.path_info).url_name == 'goods_shipping'
@@ -191,7 +195,7 @@ def delivery_view(request, **kwargs):
                 quantity = i.quantity 
                 initial.append({my_foreign_key_on_goods_shipping:i.pk, "quantity":quantity})
         else:
-            qset = my_model_det.objects.filter(**my_model_id)
+            qset = my_model_det.objects.filter(**my_model_id) if not is_complaint else my_model_det.objects.filter(**my_model_id).exclude(redelivery=False)
             for i in qset:
                 # Setze die Menge zu entnehmender Teile auf die ArtiPart.quantity wenn es sich
                 # um eine CustOrderDet handelt, sonst nimm die quantity des det-Datensatzes

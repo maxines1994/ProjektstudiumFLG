@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 def stock_view(request, **kwargs):
     c = {}
     if request.user.groups.filter(name=JOGA).exists():
-        c["stock"] = Stock.objects.filter(is_supplier_stock=False)
+        c["stock"] = Stock.objects.filter(is_supplier_stock=False, part__supplier_id=3)
 
     if request.user.groups.filter(name=L100).exists():
         c["stock"] = Stock.objects.filter(is_supplier_stock=True, part__supplier_id=1)
@@ -31,11 +31,18 @@ def stock_view(request, **kwargs):
 def stock_check_view(request, **kwargs):
 
     is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
+    is_complaint = 'complaint' in request.META['HTTP_REFERER'] or request.POST.get('is_complaint')
     c = {}
+    c['is_complaint'] = is_complaint
     # Erst die CustOrderDet holen
     if is_supplier:
-        c["order"] = SuppOrder.objects.get(pk=kwargs["id"])
-        my_supporder_dets = SuppOrderDet.objects.filter(supp_order_id=kwargs["id"])
+        if is_complaint:
+            # Liste nur die Complaints die nachgeliefert werden sollen
+            my_suppcomplaint_dets = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs["id"]).exclude(redelivery=False)
+            my_supporder_dets = SuppOrderDet.objects.filter(id__in=my_suppcomplaint_dets.values('supp_order_det_id'))
+        else:
+            my_supporder_dets = SuppOrderDet.objects.filter(supp_order_id=kwargs["id"])
+
         my_supporder_parts = Part.objects.filter(id__in=my_supporder_dets.values("part_id"))
         # Bestandsdatensaetze zu den Teilen
         c["stock"] = Stock.objects.filter(is_supplier_stock=is_supplier, part__in=my_supporder_parts)
@@ -147,6 +154,10 @@ def stock_check_view(request, **kwargs):
     c["check_successful"] = check_successful
 
     if is_supplier:
+        if is_complaint:
+            # Bei Reklamationen Kontext auf Reklamationspositionen aendern, damit die Quantity der Reklamation
+            # und nicht der zugrundeliegenden Bestellung aufgelistet wird
+            c["supporderdet"] = my_suppcomplaint_dets
         c["stock_supporderdet_stockavailable"] = zip(c["stock"], c["supporderdet"], c["stock_available"])
 
     else: 
@@ -187,7 +198,13 @@ def stock_check_view(request, **kwargs):
                 my_part = Part.objects.get(id=part_id)
                 my_stock = Stock.objects.get(part_id=part_id, is_supplier_stock=is_supplier)
                 if is_supplier:
-                    my_quantity = my_supporder_dets.filter(part=my_part).first().quantity
+                    my_supporder_det = my_supporder_dets.filter(part=my_part).first()
+                    if is_complaint:
+                        my_suppcomplaint_det = my_suppcomplaint_dets.filter(supp_order_det_id=my_supporder_det).first()
+                        # Keine Menge reservieren, wenn Nachlieferung nicht notwendig
+                        my_quantity = my_suppcomplaint_det.quantity if my_suppcomplaint_det.redelivery else 0
+                    else:
+                        my_quantity = my_supporder_det.quantity
                 else:
                     my_quantity = my_part.install_quantity
                 my_stock.reserve(quantity=my_quantity)
@@ -195,7 +212,16 @@ def stock_check_view(request, **kwargs):
             status_task_kwargs['id'] = kwargs['id']
 
             if is_supplier:
-                my_task_type = 10 #Teilelieferung an JOGA
+                #Teilelieferung an JOGA
+                if is_complaint:
+                    if request.user.groups.filter(name=L100).exists():
+                        my_task_type = 44
+                    elif request.user.groups.filter(name=L200).exists():
+                        my_task_type = 45
+                    elif request.user.groups.filter(name=L300).exists():
+                        my_task_type = 46
+                else:
+                    my_task_type = 10
             else:
                 my_task_type = 5 #Teilelieferung an Produktion
 
