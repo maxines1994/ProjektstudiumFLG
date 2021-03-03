@@ -48,8 +48,9 @@ def delivery_view(request, **kwargs):
         # Immer wird im richtigen Model nach dem richtigen Fremdschluessel gesucht.
         my_model_id[get_fieldname(model=my_model_det, foreign_key_model=my_model)] = kwargs['id']
     else:
+        # Nur relevant bei CustOrderDets
         my_model_det = GtModel.str_to_gtmodel(my_model.__name__)
-        my_model_id['article_id'] = 1
+        my_model_id['article_id'] = my_model_det.objects.get(id=kwargs['id']).article_id
         my_model_id['part__supplier_id'] = 3
 
 
