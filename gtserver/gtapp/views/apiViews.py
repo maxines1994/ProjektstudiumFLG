@@ -21,7 +21,7 @@ def get_api_tasks(request, **kwargs):
 
     tasks_group = list()
     for index, task in enumerate(Task.get_unassigned_tasks(request.user)):
-        tasks_group.append(dict(id=task.id, title=task.task_type.title, ref=task.get_ref()))
+        tasks_group.append(dict(id=task.id, title="Bestellreklamation an Produktion senden", ref=task.get_ref()))
 
     return JsonResponse(dict(tasks_user=tasks_user, tasks_group=tasks_group))
 
