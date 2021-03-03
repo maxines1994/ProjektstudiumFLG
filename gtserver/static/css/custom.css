@@ -199,3 +199,9 @@ width: 100%;
 tr.unread td {
   font-weight: bold;
 }
+
+.collapsible-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
