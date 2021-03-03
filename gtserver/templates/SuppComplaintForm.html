@@ -178,7 +178,6 @@
                 {% endif %}
                     <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.NEU_BESTELLEN %}" class="li-content"><i class="material-icons">add_shopping_cart</i>Neu bestellen</a></li>
             {% else %}
-                <li><a href="{% url 'supp_complaint_det_alter' i.id %}" class="li-content"><i class="material-icons">create</i>Bearbeiten</a></li>
                 <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
             {% endif %}
         {% elif i.status == POS_STATUS.NEU_BESTELLEN %}

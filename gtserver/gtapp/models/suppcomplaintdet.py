@@ -20,7 +20,7 @@ class SuppComplaintDet(ComplaintDet):
         BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen|'+ LIEFERANTEN +'|45%')##Nur LF
         VERSAND_AN_KUNDE                = '5', ('Versandt an Kunde|'+ LIEFERANTEN +'|67%')##Nur LF
         AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert|'+ PRODUKTIONSDIENSTLEISTUNG +'|40%')
-        NEU_BESTELLEN                   = '7', ('Teil neu bestellen|'+ PRODUKTIONSDIENSTLEISTUNG +'|50%')
+        NEU_BESTELLEN                   = '7', ('Teil(e) neu bestellen|'+ PRODUKTIONSDIENSTLEISTUNG +'|50%')
         VERSAND_AN_LIEFERANT            = '8', ('Versandt an Lieferant||70%')
         GELIEFERT                       = '9', ('Geliefert|'+ PRODUKTIONSDIENSTLEISTUNG +','+ LIEFERANTEN +'|80%')
         VERSAND_AN_PRODUKTION           = '10', ('Versandt an Produktion|'+ PRODUKTION +'|90%')
@@ -101,7 +101,9 @@ class SuppComplaintDet(ComplaintDet):
                     self.supp_complaint.status = SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG
             elif minstatus <= int(self.Status.VERSAND_AN_LIEFERANT):
                 self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_LIEFERANT
-            elif minstatus <= int(self.Status.VERSAND_AN_PRODUKTION):
+            elif minstatus <= int(self.Status.GELIEFERT):
+                self.supp_complaint.status = SuppComplaint.Status.GELIEFERT
+            elif minstatus <= int(self.Status.VERSAND_AN_PRODUKTION): 
                 self.supp_complaint.status = SuppComplaint.Status.VERSAND_AN_PRODUKTION
             elif minstatus <= int(self.Status.ABGESCHLOSSEN):
                 self.supp_complaint.status = SuppComplaint.Status.ABGESCHLOSSEN

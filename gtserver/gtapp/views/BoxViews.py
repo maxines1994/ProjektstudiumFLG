@@ -93,18 +93,19 @@ def box_search_view(request):
                 #     boxno_found = 1
                 #     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_LIEFERANT:
-                    set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.GELIEFERT)
+                    ## Warum macht set_status kaputt?
+                    #set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.GELIEFERT)
                     SuppComplaintDets = SuppComplaintDet.objects.filter(supp_complaint=obj.id)
 
                     for det in SuppComplaintDets:
                         if det.status == SuppComplaintDet.Status.VERSAND_AN_LIEFERANT:
                             det.status = SuppComplaintDet.Status.GELIEFERT
                             det.save()
-                            print(SuppComplaintDet.Status.VERSAND_AN_LIEFERANT)
 
                     Task.set_task(obj, 34)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+                
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PDL:
                     set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.IN_BEARBEITUNG)
                     Task.set_task(obj, 38)
@@ -117,9 +118,14 @@ def box_search_view(request):
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PRODUKTION:
-                    set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
-                    #Hier muss noch ein Task hin
-                    #Task.set_task(obj, 38)
+                    #set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.ABGESCHLOSSEN)
+                    
+                    supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint=obj)
+                    for pos in supp_complaint_dets:
+                        pos.status = SuppComplaintDet.Status.ABGESCHLOSSEN
+                        pos.save()
+                    
+                    Task.set_task(obj, 47)
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 
@@ -192,6 +198,14 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
                     return SuppComplaint.Status.VERSAND_AN_LIEFERANT
 
                 elif obj.status == SuppComplaint.Status.GELIEFERT:
+                    
+                    SuppComplaintDets = SuppComplaintDet.objects.filter(supp_complaint=obj)
+
+                    for det in SuppComplaintDets:
+                        if det.status == SuppComplaintDet.Status.GELIEFERT:
+                            det.status = SuppComplaintDet.Status.VERSAND_AN_PRODUKTION
+                            det.save()
+
                     return SuppComplaint.Status.VERSAND_AN_PRODUKTION
 
             return obj.status
