@@ -31,7 +31,7 @@ def stock_view(request, **kwargs):
 def stock_check_view(request, **kwargs):
 
     is_supplier = request.user.groups.filter(name=LIEFERANTEN).exists()
-    is_complaint = 'complaint' in request.META['HTTP_REFERER'] or request.POST.get('is_complaint')
+    is_complaint = 'complaint' in request.META['HTTP_REFERER'] or request.POST.get('is_complaint') == True
     c = {}
     c['is_complaint'] = is_complaint
     # Erst die CustOrderDet holen
