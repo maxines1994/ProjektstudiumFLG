@@ -56,7 +56,7 @@ class Cust_complaint_det_form(ModelForm):
 
 class Supp_complaint_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = SuppComplaintDet
