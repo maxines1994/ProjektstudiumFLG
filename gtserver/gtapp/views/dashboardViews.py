@@ -67,15 +67,15 @@ def dashboard(request):
     labels_004 = ['Erfasst','Versandt an PDL','In Bearbeitung','Freigegeben','Positionsbearbeitung abgeschlossen','Versandt an Lieferant','Ersatzteile geliefert','Versandt an Produktion','Abgeschlossen']
     data_004 = []
 
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.ERFASST).count()) ## Erfasst
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.VERSAND_AN_PDL).count()) ## Versandt an PDL
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.IN_BEARBEITUNG).count()) ## In Bearbeitung
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.REKLAMATION_FREIGEGEBEN).count()) ## Freigegeben
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG).count()) ## Positionsbearbeitung abegschlossen
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.VERSAND_AN_LIEFERANT).count()) ## Versandt an Lieferant
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.GELIEFERT).count()) ## Ersatzteile geliefert
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.VERSAND_AN_PRODUKTION).count()) ## Versandt an Produktion
-    data_004.append(all_cust_complaints.filter(status=SuppComplaint.Status.ABGESCHLOSSEN).count()) ## Abgeschlossen
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.ERFASST).count()) ## Erfasst
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.VERSAND_AN_PDL).count()) ## Versandt an PDL
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.IN_BEARBEITUNG).count()) ## In Bearbeitung
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.REKLAMATION_FREIGEGEBEN).count()) ## Freigegeben
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.POSITIONSBEARBEITUNG_FERTIG).count()) ## Positionsbearbeitung abegschlossen
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.VERSAND_AN_LIEFERANT).count()) ## Versandt an Lieferant
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.GELIEFERT).count()) ## Ersatzteile geliefert
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.VERSAND_AN_PRODUKTION).count()) ## Versandt an Produktion
+    data_004.append(all_supp_complaints.filter(status=SuppComplaint.Status.ABGESCHLOSSEN).count()) ## Abgeschlossen
 
 
     ##005 Übersicht Aufträge vs Reklamationen nach Kunden
