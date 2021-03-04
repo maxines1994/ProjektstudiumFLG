@@ -58,7 +58,7 @@
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
         {% if c.status == STATUS.ERFASST %}
             {% if action != 'create' %}
-                <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">send</i>Weiterleiten an PDL</a>
+                <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">send</i>An PDL senden</a>
             {% endif %}
         {% endif %}
         {% if c.status <= STATUS.ERFASST %}
@@ -78,14 +78,14 @@
         {% endif %}
         {% if c.status == STATUS.GELIEFERT %}
             {% if action != 'create' %}
-                <li><a href="{% url 'box_assign' c|to_class_name c.id %}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion liefern</a>
+                <li><a href="{% url 'box_assign' c|to_class_name c.id %}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion senden</a>
             {% endif %}
         {% endif %}
         {% if c.status >= STATUS.ERFASST and c.status <= STATUS.REKLAMATION_FREIGEGEBEN or c.status == STATUS.POSITIONSBEARBEITUNG_FERTIG %}
             <li><a href="{% url 'supp_complaint_delete' c.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% elif c.status == STATUS.GELIEFERT %}
             <!--<li><a href="{% url 'goods_receipt' c|to_class_name c.id%}" class="li-content"><i class="material-icons">archive</i>Wareneingang erfassen</li>-->
-            <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion liefern</li>
+            <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion senden</li>
         {% endif %}
     {% elif LIEFERANTEN in group %}
             <li><a href="{% url 'supp_complaint_alter' c.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
