@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_tags %}
 
 <!-- Title-->
 {% block title %}
@@ -16,52 +17,266 @@ FAQ
 <h4>FAQ</h4>
 <div class="col s12">
     <ul class="collapsible popout">
+        
         <li {% if content == 1 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo verschicke ich Nachrichten?</div>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Nachrichten</div>
             <div class="collapsible-body">
-                <p>Klicken Sie zuerst auf das Nachrichten-Symbol in der Navigationsleiste:</p>
+                <p>Klicken Sie zuerst auf das Nachrichten-Symbol in der oberen Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Nachrichten_01.png' %}">
                 <div class="divider"></div>
-                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                <p>Klicken Sie anschließend auf das Plus-Symbol um eine neue Nachricht zu erfassen:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Nachrichten_02.png' %}">
                 <div class="divider"></div>
+                <p>Mithilfe von 'Anhängen von Dokumenten' können Sie die wichtigsten Informationen eines Auftrages, einer Bestellung oder einer Reklamation in die Nachricht einfügen. Diese können bei Bedarf angepasst werden.</p>
             </div>
         </li>
         <li {% if content == 2 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Aufträge an?</div>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Aufgaben</div>
             <div class="collapsible-body">
-                <p>Klicken Sie zuerst auf den Reiter Aufträge in der Seiten-Navigationsleiste:</p>
+                <p>Klicken Sie auf den Reiter Aufgaben in der seitlichen Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Aufgaben_01.png' %}">
+                <div class="divider"></div>
+                <p>Hier erhalten Sie drei Reiter. Der erste Reiter 'Aufgabenpool' listet alle Aufgaben Ihres Teams auf, welche sich noch kein Teammitglied zugewiesen hat. Über das Burgermenü gelangen Sie zu dem Button 'Mir zuweisen', mit welchem Sie sich die Aufgabe selbst zuweisen können. Mit dem Button 'Details' können Sie weitere Informationen über die Aufgabe anzeigen lassen.</p>
+                <img class="materialboxed z-depth-1" width="100%" src="">
+                <div class="divider"></div>
+                <p>Der zweite Reiter 'Meine Aufgaben' listet alle Aufgaben auf, die Sie sich selbst zugewiesen haben. Über das Burgermenü erhalten Sie weitere Buttons für die Bearbeitung der Aufgabe. Mithilfe des Buttons 'Zuweisung entfernen' können Sie die Aufgabe wieder in den Aufgabenpool legen. Durch den Button 'Bearbeiten' gelangen Sie in die Maske, welche Sie für die Bearbeitung der Aufgabe benötigen. Mit dem Button 'Fertig' schließen Sie die Aufgabe ab. Diese wird dann in den Reiter 'Abgeschlossen' geschoben.</p>
+                <p>Der dritte Reiter 'Abgeschlossen' listet alle Aufgaben auf, die Sie bereits abgeschlossen haben.</p>
+            </div>
+        </li>
+        <li {% if content == 3 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Scannen des Barcodes beim Erhalten einer neuen Box oder eines neuen Hubwagens</div>
+            <div class="collapsible-body">
+                <p>Wenn Ihr Team eine neue Box oder ein neuen Hubwagen erhält, klicken Sie auf den Reiter 'Barcode scannen' in der seitlichen Navigationsleiste oder auf das Barcode-Symbol in der oberen Navigationsleiste:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="">
+                <div class="divider"></div>
+                <p>Scannen Sie den Barcode der Box oder des Hubwagens, mithilfe des Scanners, ein. Alternativ können Sie die Nummer, welche unterhalb des Barcodes steht, manuell eingeben. Nach dem erflogreichen Scan erhält Ihr Team eine neue Aufgabe.</p>
+            </div>
+        </li>
+        <li {% if content == 4 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Scannen des Barcodes für das Versenden der Box oder eines Hubwagens</div>
+            <div class="collapsible-body">
+                <p>Wenn die Box oder der Hubwagen über die Interne Dienstleistung an ein anderes Team versendet oder geliefert wird, muss die Boxnummer eingescannt werden.</p>
+                <img class="materialboxed z-depth-1" width="100%" src="">
+                <div class="divider"></div>
+                <p>Diese Maske wird bei verschiedenen Buttons aufgerufen, wenn ein Barcodescan benötigt wird. In dieser Maske können Sie den Barcode scannen oder die Nummer, welche unter dem Barcode steht, manuell eingeben.</p>
+            </div>
+        </li>
+
+
+        {% if request.user|has_group:KUNDENDIENST or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 5 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage eines Auftrags</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf den Reiter 'Aufträge' in der seitlichen Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_01.png' %}">
                 <div class="divider"></div>
                 <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
                 <div class="divider"></div>
+                <p>Denken Sie an die korrekte Eintragung der <a href= "/faq/28/">Referenznummer</a>, für eine bessere Kommunikation zwischen Ihnen und den externen Unternehmen.</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
+                <div class="divider"></div>
+                <p>Nach der Anlegung des Auftragskopfes können die einzelnen Positionen hinzugefügt werden.</p>
             </div>
         </li>
-        <li {% if content == 3 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Auftragsreklamationen an?</div>
+        {% endif %}
+
+        {% if request.user|has_group:KUNDENDIENST  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 6 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung des Auftrages auf Kopfebene</div>
             <div class="collapsible-body">
-                <p>Klicken Sie zuerst auf den Reiter Auftragsreklamationen in der Seiten-Navigationsleiste:</p>
-                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_Reklamationen_01.png' %}">
+                <p>Folgende Buttons werden auf Kopfebene eines bestimmten Auftrages, je nach Status, angezeigt:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
                 <div class="divider"></div>
-                <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
-                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_Reklamationen_02.png' %}">
-                <div class="divider"></div>
+                <p><b>Speichern:</b> Neue Änderungen auf Auftrags-Kopfebene werden gespeichert</p>
+                <p><b>Freigeben:</b> Der Auftrag wird freigegeben. In dem JOGA-System wir aus jeder Auftragsposition automatisch ein Fertigungsauftrag erstellt.</p>
+                <p><b>Löschen:</b> Der Auftrag wird unwiderruflich gelöscht.</p>
+                {% if request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+                <p><b>Bestandsprüfung:</b> Hier kann der <a href= "/faq/11/">Bestand</a> geprüft werden und die bestellten Teile reserviert werden.</p>
+                <p><b>Kunde beliefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um die Teile an den Kunden zu liefern.</p>
+                {% endif %}
             </div>
         </li>
-        <li {% if content == 4 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Bestellungen an?</div>
+        {% endif %}
+
+        {% if request.user|has_group:KUNDENDIENST  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 7 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung des Auftrages auf Positionsebene</div>
             <div class="collapsible-body">
-                <p>Klicken Sie zuerst auf den Reiter Bestellungen in der Seiten-Navigationsleiste:</p>
+            <p>Folgende Buttons werden auf Positionsebene eines bestimmten Auftrages, je nach Status, angezeigt:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
+                <div class="divider"></div>
+                <p>Über das Burgermenü können Sie die Position bearbeiten, löschen oder stornieren.</p>
+                {% if request.user|has_group:KUNDENDIENST  or request.user|has_group:SPIELLEITUNG%}
+                <p><b>An Kunden liefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um den Hubwagen an den Kunden auszuliefern.</p>
+                <p><b>Ware abgenommen:</b> Hier können Sie angeben, dass der Kunde den Hubwagen abegnommen hat. Wenn alle Positionen abgenommen wurden, wird der Auftrag automatisch auf 'Abgenommen' gesetzt.</p>
+                {% endif %}
+            </div>
+        </li>
+        {% endif %}
+
+        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PDL or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 8 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellung</div>
+            <div class="collapsible-body">
+                <p>Klicken Sie zuerst auf den Reiter 'Bestellungen' in der seitlichen Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_01.png' %}">
                 <div class="divider"></div>
                 <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_02.png' %}">
                 <div class="divider"></div>
+                <p>Nach der Anlegung des Bestellkopfes können die einzelnen Positionen hinzugefügt werden.</p>
             </div>
         </li>
-        <li {% if content == 5 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo lege ich Bestellreklamationen an?</div>
+        {% endif %}
+
+        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PDL or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 9 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung der Bestellung auf Kopfebene</div>
+            <div class="collapsible-body">
+                <p>Folgende Buttons werden auf Kopfebene einer bestimmten Bestellung, je nach Status, angezeigt:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
+                <div class="divider"></div>
+                <p><b>Speichern:</b> Neue Änderungen auf Bestell-Kopfebene werden gespeichert</p>
+                <p><b>Freigeben:</b> Die Bestellung wird freigegeben.</p>
+                <p><b>Löschen:</b> Der Bestellung wird unwiderruflich gelöscht.</p>
+                {% if request.user|has_group:PDL or request.user|has_group:SPIELLEITUNG%}
+                <p><b>Wareneingang buchen:</b> Hier kann der <a href= "/faq/3/">Wareneingang</a> gebucht werden.</p>
+                <p><b>Voll beliefert:</b> Bestellung wird auf 'Geliefert' gesetzt. Erst auswählen nach der vollständigen Wareneingangsbuchung. </p>
+                {% endif %}
+                </div>
+        </li>
+        {% endif %}
+
+        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 10 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung der Bestellung auf Positionsebene</div>
+            <div class="collapsible-body">
+                <p>Folgende Buttons werden auf Positionsebene einer bestimmten Bestellung, je nach Status, angezeigt:</p>
+                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_02.png' %}">
+                <div class="divider"></div>
+                <p>Über das Burgermenü können Sie die Position bearbeiten, löschen oder stornieren.</p>
+                {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
+                <p><b>Abnehmen:</b> Nach einer erfolgreichen Qualitätsprüfung kann der Button ausgewählt werden. Wenn alle Positionen abgenommen wurden, wird die Bestellung automatisch auf 'Abgenommen' gesetzt.</p>
+                {% endif %}
+            </div>
+        </li>
+        {% endif %}
+
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 11 %}class="active"{% endif %}>
+            
+            {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or request.user|has_group:SPIELLEITUNG%}
+                <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bestandsprüfung</div>
+                <div class="collapsible-body">
+                    <img class="materialboxed z-depth-1" width="100%" src="">
+                    <div class="divider"></div>
+                        <p>Die Spalten sind wie folgt zu verstehen:</p>
+                        <p><b>Bedarf</b> Die Menge an Teilen, die für den Hubwagen des betrachteten Fertigungsauftrages benötigt werden.</p>
+                        <p><b>Gesamtbedarf</b> Die Menge an Teilen, die für alle Hubwagen aller Fertigungsaufträge mit dem Status 'Freigegeben' benötigt werden.</p>
+                        <p><b>Verfügbar</b> Die Menge an Teilen, die zur Zeit unreserviert im Lager vorhanden sind.</p>
+                        <p><b>Bestellt</b> Die Menge an Teile, die bereits bestellt sind.</p>
+                        <p><b>Bestellen</b> Die Menge an Teile, die Sie jetzt bestellen wollen.</p>
+                        <p> Wenn alle Teile im Lager vorhanden sind, können diese reserviert werden.</p>
+                </div>
+            {% elif request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+                <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bestandsprüfung</div>
+                <div class="collapsible-body">
+                    <img class="materialboxed z-depth-1" width="100%" src="">
+                    <div class="divider"></div>
+                        <p>Die Spalten sind wie folgt zu verstehen:</p>
+                        <p><b>Bedarf:</b> Die Menge an Teilen, die der Kunde bestellt hat.</p>
+                        <p><b>Verfügbar:</b> Die Menge an Teilen, die im Lager vorhanden ist.</p>
+                </div>
+            {% endif %}
+        </li>
+        {% endif %}
+
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 12 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Fertigungsaufträge</div>
+            <div class="collapsible-body">
+                <p>Folgende Buttons werden im Burgermenüs eines bestimmten Fertigungsauftrage, je nach Status, angezeigt:</p>
+                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:SPIELLEITUNG %}
+                <p><b>Bestandsprüfung:</b> Hier kann der <a href= "/faq/11/">Bestand</a> geprüft und gegebenenfalls die Teile reserviert werden.</p>
+                <p><b>Kommissionieren:</b> Nach der Reservierung der Teile, können hier die Teile kommissioniert und an die Produktion gesendet werden.</p>
+                {% elif request.user|has_group:PRODUKTION  or  request.user|has_group:SPIELLEITUNG%}
+                <p><b>Montageanleitung: </b>Hier können Sie sich die Montageanleitungen für jeden einzelnen Hubwagen anzeigen lassen.</p>
+                <p><b>Fertig melden: </b>Nach der Montage, kann hier der Hubwagen an den Kundendienst gesendet werden.</p>
+                {% endif %}
+            </div>
+        </li>
+        {% endif %}
+
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        <li {% if content == 13 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Lager</div>
+            <div class="collapsible-body">
+                <img class="materialboxed z-depth-1" width="100%" src="">
+                    <div class="divider"></div>
+                <p>Die Spalten sind wie folgt zu verstehen:</p>
+                <p><b>Bestand: </b>Die Menge an Teilen, die im Lager vorhanden ist.</p>
+                <p><b>Reserviert: </b>Die Menga an Teilen, welche für die Fertigungsaufträge bereits reserviert sind und noch nicht kommissioniert sind.</p>
+                <div class="divider"></div>
+                <p>Folgende Buttons werden hier angezeigt:</p>
+                <p><b>Bestand anpassen: </b>Hier kann manuell der Bestand für ein Teil angepasst werden.</p>
+                <p><b>Lagerbewegung: </b>Hier können sich alle Lagerbwegungen zu einem Teil angezeigt werden.</p>
+            </div>
+        </li>
+        {% endif %}
+
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
+        <li {% if content == 14 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Buchung des Wareneingangs</div>
+            <div class="collapsible-body">
+                <img class="materialboxed z-depth-1" width="100%" src="">
+                    <div class="divider"></div>
+                <p>Die Spalten sind wie folgt zu verstehen:</p>
+                <p><b>Geliefert: </b>Die komplette Menge an Teilen, die geliefert wurde.</p>
+                <p><b>Davon fehlerhaft: </b>Die Menge an Teilen, die von der gelieferten Menge fehlerhaft ist.</p>
+                <p>Wenn fehlerhafte Teile vorhanden sind, wird automatisch eine Bestellreklamation angelegt.</p>
+            </div>
+        </li>
+        {% endif %}
+
+        
+        <li {% if content == 15 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Kommissionierung</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 16 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Auftragsreklamation (JOGA System)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 17 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Kopfebene (JOGA System)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 18 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Positionsebene (JOGA System)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 19 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Auftragsreklamation (Lieferanten System)</div>
+                <div class="collapsible-body">
+                    <p>Klicken Sie zuerst auf den Reiter Auftragsreklamationen in der Seiten-Navigationsleiste:</p>
+                    <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_Reklamationen_01.png' %}">
+                    <div class="divider"></div>
+                    <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
+                    <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Auftraege_Reklamationen_02.png' %}">
+                    <div class="divider"></div>
+                </div>
+        </li>
+        <li {% if content == 20 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Kopfebene (Lieferanten System)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 21 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Positionsebene (Lieferanten System)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 22 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (JOGA System)</div>
             <div class="collapsible-body">
                 <p>Klicken Sie zuerst auf den Reiter Bestellreklamationen in der Seiten-Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_Reklamationen_01.png' %}">
@@ -71,32 +286,31 @@ FAQ
                 <div class="divider"></div>
             </div>
         </li>
-        <li {% if content == 6 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Wo finde ich meine Aufgaben?</div>
-            <div class="collapsible-body">
-                <p>Klicken Sie auf den Reiter Aufgaben in der Seiten-Navigationsleiste:</p>
-                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Aufgaben_01.png' %}">
-                <div class="divider"></div>
-            </div>
-        </li>
-        <li {% if content == 7 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>G</div>
+        <li {% if content == 23 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Kopfebene (JOGA System)</div>
             <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
         </li>
-        <li {% if content == 8 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>H</div>
+        <li {% if content == 24 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Positionsebene (JOGA System)</div>
             <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
         </li>
-        <li {% if content == 9 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>I</div>
+        <li {% if content == 25 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (Kunden System)</div>
             <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
         </li>
-        <li {% if content == 10 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>J</div>
+        <li {% if content == 26 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Kopfebene (Kunden System)</div>
             <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
         </li>
-    </ul>
-</div>
+        <li {% if content == 27 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Positionsebene (Kunden System)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+        <li {% if content == 28 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Nummernkreise (Referenznummer)</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+        </li>
+
 {% endblock %}
 
 <!-- Body-->
