@@ -41,10 +41,10 @@
 
     <!--Import materialize.icons.css-->
     <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.icons.css' %}"/>
-
+    
     <!--Import custom.css-->
     <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"/>
-
+    
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -110,7 +110,7 @@
 
       {# LEITUNGSTEAM: #}
       {% if LEITUNGSTEAM in group %}
-        <li><a href="{% url 'home' %}">Platzhalter Dashboard</a></li>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
       {% endif %}
 
       {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}

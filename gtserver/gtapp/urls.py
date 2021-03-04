@@ -116,4 +116,7 @@ urlpatterns = [
     path('supp_complaint_det/alter/<int:id>/', Supp_complaint_det_alter_view.as_view(), name="supp_complaint_det_alter"),
     path('supp_complaint_det/delete/<int:id>/', Supp_complaint_det_delete_view.as_view(), name="supp_complaint_det_delete"),
 
+    # Dashboard
+    path('dashboard/', dashboard, name='dashboard'),
+
 ]

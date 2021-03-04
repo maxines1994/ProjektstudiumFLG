@@ -29,3 +29,4 @@ from .StockViews import *
 from .SuppComplaintViews import *
 from .SuppOrderViews import *
 from .TaskViews import *
+from .dashboardViews import *
