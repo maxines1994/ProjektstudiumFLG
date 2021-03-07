@@ -181,15 +181,16 @@ def add_order_view(request, **kwargs):
     elif SuppOrder.__instancecheck__(main):
         order['partner'] = "Partner: " + str(main.supplier.name)
         order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
+        bx = str(main.box_no) if main.box_no is not None else ""
+        order['Boxnummer'] = "Boxnummer: " + bx
     elif CustComplaint.__instancecheck__(main):
         order['partner'] = "Partner: " + str(main.cust_order.customer.name)
     elif SuppComplaint.__instancecheck__(main):
+        bx = str(main.box_no) if main.box_no is not None else ""
+        order['Boxnummer'] = "Boxnummer: " + bx
         order['partner'] = "Partner: " + str(main.supp_order.supplier.name)
     else:
         order['partner'] = "-"
-
-    bx = str(main.box_no) if main.box_no is not None else ""
-    order['Boxnummer'] = "Boxnummer: " + bx
 
     # Füllen der untergeordneten Instanzen in das Dictionary
     s=0
@@ -199,8 +200,12 @@ def add_order_view(request, **kwargs):
         # Variables füllen der untergeordneten Instanzen je nach Cust oder (else) Supp
         if CustOrderDet.__instancecheck__(i):
             pos["particle"] = "Produkt: " + str(i.article.description)
+            bx = str(i.box_no) if i.box_no is not None else ""
+            pos["box_no"] = "Boxnummer: " + bx
         elif CustComplaintDet.__instancecheck__(i):
             pos["particle"] = "Produkt: " + str(i.cust_order_det.article.description)
+            bx = str(i.box_no) if i.box_no is not None else ""
+            pos["box_no"] = "Boxnummer: " + bx
         elif SuppOrderDet.__instancecheck__(i):
             pos["particle"] = "Produkt: " + str(i.part.description)
             pos["quantity"] = "Menge: " + str(i.quantity)
@@ -212,8 +217,6 @@ def add_order_view(request, **kwargs):
             pos["particle"] = "-"
         
         pos["memo"] = "Kommentar: " + str(i.memo)
-        bx = str(i.box_no) if i.box_no is not None else ""
-        pos["box_no"] = "Boxnummer: " + bx
 
         # Einfügen der untergeordneten gefüllten Positionen in den Aufragskopf bzw. die übergeordnete Instanz
         pos['posno'] = "Positionsnummer: " + str(i.pos)
