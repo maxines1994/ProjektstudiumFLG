@@ -168,26 +168,28 @@ def add_order_view(request, **kwargs):
 
     # Ausgeben der übergeordneten Intanz als Dictionary
     order = {
-        "no": main.order_no,
-        "issued": main.issued_on,
-        "posl": alldets.count(),
-        "refno": main.ref_no,
-        "memo": main.memo
+        "no": "Bestellnummer: " + str(main.order_no),
+        "issued": "Angelegt am: " + str(main.issued_on),
+        "posl": "Positionsanzahl: " + str(alldets.count()),
+        "memo": "Kommentar: " + str(main.memo)
     }
 
     # Variables füllen der übergeordneten Instanz als Dictionary variabel nach Cust oder (else) Supp
     if CustOrder.__instancecheck__(main):
-        order['partner'] = main.customer.name
-        order['deliverydate'] = main.delivery_date
+        order['partner'] = "Partner: " + str(main.customer.name)
+        order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
     elif SuppOrder.__instancecheck__(main):
-        order['partner'] = main.supplier.name
-        order['deliverydate'] = main.delivery_date
+        order['partner'] = "Partner: " + str(main.supplier.name)
+        order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
     elif CustComplaint.__instancecheck__(main):
-        order['partner'] = main.cust_order.customer.name
+        order['partner'] = "Partner: " + str(main.cust_order.customer.name)
     elif SuppComplaint.__instancecheck__(main):
-        order['partner'] = main.supp_order.supplier.name
+        order['partner'] = "Partner: " + str(main.supp_order.supplier.name)
     else:
         order['partner'] = "-"
+
+    bx = str(main.box_no) if main.box_no is not None else ""
+    order['Boxnummer'] = "Boxnummer: " + bx
 
     # Füllen der untergeordneten Instanzen in das Dictionary
     s=0
@@ -196,23 +198,25 @@ def add_order_view(request, **kwargs):
         pos = {}
         # Variables füllen der untergeordneten Instanzen je nach Cust oder (else) Supp
         if CustOrderDet.__instancecheck__(i):
-            pos["particle"] = i.article.description
+            pos["particle"] = "Produkt: " + str(i.article.description)
         elif CustComplaintDet.__instancecheck__(i):
-            pos["particle"] = i.cust_order_det.article.description
+            pos["particle"] = "Produkt: " + str(i.cust_order_det.article.description)
         elif SuppOrderDet.__instancecheck__(i):
-            pos["particle"] = i.part.description
-            pos["quantity"] = i.quantity
+            pos["particle"] = "Produkt: " + str(i.part.description)
+            pos["quantity"] = "Menge: " + str(i.quantity)
         elif SuppComplaintDet.__instancecheck__(i):
-            pos["particle"] = i.supp_order_det.part.description
-            pos["quantity"] = i.quantity
-            pos["newdelivery"] = "erforderlich" if i.redelivery else "nicht erforderlich"
+            pos["particle"] = "Produkt: " + str(i.supp_order_det.part.description)
+            pos["quantity"] = "Menge: " + str(i.quantity)
+            pos["newdelivery"] = "Neulieferung erforderlich" if i.redelivery else "Neulieferung nicht erforderlich"
         else:
             pos["particle"] = "-"
         
-        pos["memo"] = i.memo
+        pos["memo"] = "Kommentar: " + str(i.memo)
+        bx = str(i.box_no) if i.box_no is not None else ""
+        pos["box_no"] = "Boxnummer: " + bx
 
         # Einfügen der untergeordneten gefüllten Positionen in den Aufragskopf bzw. die übergeordnete Instanz
-        pos['posno'] = i.pos
+        pos['posno'] = "Positionsnummer: " + str(i.pos)
         order[s] = pos
     # Return als JSON
     return HttpResponse(json.dumps(order))
