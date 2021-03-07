@@ -161,25 +161,48 @@
             if (request.status >= 200 && request.status < 300) {
                 var obj = JSON.parse(request.responseText);
                 // Werte setzen
-                s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\nBestelltag: " + obj["issued"] + "\nReferenznummer: " + obj[i]["refno"] + "\nKommentar: " + obj["memo"] + "\n";
-                if (obj[i]["deliverydate"]!=undefined) {
-                    s = s + "Liefertag: " + obj[i]["deliverydate"] + "\n";
+                s = ""
+                Object.keys(obj).forEach(function(key) {
+                    var value = obj[key];
+                    if (!(obj[key] instanceof Object)) {
+                        s = s + obj[key] + "\n"
+                    }
+                });
+
+                Object.keys(obj).forEach(function(key) {
+                    var value = obj[key];
+                    if (obj[key] instanceof Object) {
+                        s=s+"Position " + key + ":\n";
+                        Object.keys(obj[key]).forEach(function(key2) {
+                            s = s + "\t" + obj[key][key2] + "\n"
+                        });
+                    }
+                });
+                console.log(obj)
+                /*
+                s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\nBestelltag: " + obj["issued"] + "\nKommentar: " + obj["memo"] + "\n";
+                if (obj.hasOwnProperty("deliverydate")) {
+                    s = s + "Liefertag: " + obj["deliverydate"] + "\n";
+                }
+                if (obj.hasOwnProperty("refno")) {
+                    s = s + "Referenznummer: " + obj["refno"] + "\n";
                 }
                 for (i=1;i<=obj["posl"];i++) {
                     s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tPosition: " + obj[i]["particle"] + "\n";
-                    if (obj[i]["quantity"]!=undefined) {
+                    if (obj.hasOwnProperty(i+".quantity")) {
                         s = s + "\tMenge: " + obj[i]["quantity"] + " Stk. \n";
                     }
-                    if (obj[i]["newdelivery"]!=undefined) {
+                    if (obj.hasOwnProperty(i+".newdelivery")) {
                         s = s + "\tNeulieferung " + obj[i]["newdelivery"] + "\n";
                     }
-                    if (obj[i]["memo"]!=undefined) {
+                    if (obj.hasOwnProperty(i+".memo")) {
                         s = s + "\tKommentar: " + obj[i]["memo"] + "\n";
                     }
                 }
+                */
                 $('#id_text').val($('#id_text').val() + s);
                 M.textareaAutoResize($('#id_text'));
-                M.updateTextFields()
+                M.updateTextFields();
             } else {
                 console.warn(request.statusText, request.responseText);
             }
