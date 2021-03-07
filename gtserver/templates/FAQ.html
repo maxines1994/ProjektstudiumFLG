@@ -263,19 +263,19 @@ FAQ
         <li {% if content == 16 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Auftragsreklamation (JOGA System)</div>
             <div class="collapsible-body">
-                <p>Eine Auftragsreklamation kann nur angelegt werden, wenn bereits ein Auftrag exisitert.</p>
+                <p>Eine Auftragsreklamation kann nur angelegt werden, wenn bereits ein Auftrag existiert.</p>
                 <p>Klicken Sie zuerst auf den Reiter 'Auftragsreklamation' in der seitlichen Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="">
                 <div class="divider"></div>
                 <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="">
                 <div class="divider"></div>
-                <p>Nach der Anlegung des Bestellkopfes können die einzelnen Positionen des vorher ausgewählten Auftrages hinzugefügt werden.</p>
+                <p>Nach der Anlegung des Reklamationskopfes können die einzelnen Positionen des vorher ausgewählten Auftrages hinzugefügt werden.</p>
             </div>
         </li>
         {% endif %}
 
-        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
         <li {% if content == 17 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Kopfebene (JOGA System)</div>
             <div class="collapsible-body">
@@ -284,9 +284,6 @@ FAQ
                     <div class="divider"></div>
                     <p><b>Freigeben:</b> Die Auftrgasreklamation wird freigegeben.</p>
 
-                {% elif request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
-                    <img class="materialboxed z-depth-1" width="100%" src="">
-                    <div class="divider"></div>
                 {% elif request.user|has_group:PRODUKTION %}
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
@@ -296,7 +293,7 @@ FAQ
         {% endif %}
 
 
-        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
         <li {% if content == 18 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Positionsebene (JOGA System)</div>
             {% if request.user|has_group:KUNDENDIENST %}
@@ -305,16 +302,12 @@ FAQ
                     <p><b>An Produktion senden:</b> Der Hubwagen wird an die Produktion gesendet. Dafür wird der Barcode an dem Hubwagen eingescannt.</p>
                     <p><b>An Kunden liefern:</b> Der Hubwagen wird an den Kunden geliefert. Dafür wird der Barcode an dem Hubwagen gescannt.</p>
                     <p><b>Abschließen:</b> Die Position wird abgeschlossen. Wenn alle Position einer Auftragsreklamation abgeschlossen wurden, wird automatisch die Auftragsreklamation auf "Abgeschlossen" gesetzt. </p>
-                {% elif request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
-                    <img class="materialboxed z-depth-1" width="100%" src="">
-                    <div class="divider"></div>
-                    <p>Was brauchen wir hier?</p>
                     
                 {% elif request.user|has_group:PRODUKTION %}
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
                     <p><b>Anpassung abschließen:</b> Bei der Auftragsreklamationsposition wird angegeben, dass der Hubwagen verbessert wurde. </p>
-                    <p><b>An Kundendienst liefern:</b> Der Hubwagen wird an den Kundendienst gesendet.</p>
+                    <p><b>An Kundendienst liefern:</b> Der Hubwagen wird an den Kundendienst gesendet. Dafür wird der Barcode an dem Hubwagen gescannt.</p>
                 {% endif %}
         </li>
         {% endif %}
@@ -323,7 +316,7 @@ FAQ
         <li {% if content == 19 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Auftragsreklamation (Lieferanten System)</div>
                 <div class="collapsible-body">
-                    <p>Eine Auftragsreklamation kann für einen bestimmten Auftrag (nur bei Lieferant300) oder es wird der Auftrag "Lieferantenname_Teile" verwendet. Hier könne alle Ihre Teile ausgewählt werden.</p>
+                    <p>Eine Auftragsreklamation kann für einen bestimmten Auftrag (nur bei Lieferant300) oder für den Auftrag "[Lieferantenname]_Teile" angelegt werden. Hier können alle Ihre Teile ausgewählt werden.</p>
                     <p>Klicken Sie zuerst auf den Reiter 'Auftragsreklamationen' in der Seiten-Navigationsleiste:</p>
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
@@ -340,11 +333,11 @@ FAQ
             <div class="collapsible-body">
                 <img class="materialboxed z-depth-1" width="100%" src="">
                 <div class="divider"></div>
-                <p><b>Freigeben:</b> Die Auftrgasreklamation wird freigegeben.</p>
+                <p><b>Freigeben:</b> Die Auftragsreklamation wird freigegeben.</p>
                 <p><b>Bestandsprüfung: </b>Hier kann der <a href= "/faq/11/">Bestand</a> geprüft werden und die bestellten Teile reserviert werden. Hier werden nur die Teile angezeigt, welche neu geliefert werden sollen.</p>
                 <p><b>Warenentnahme:</b> Hier kann die Ware für die Auftragsreklamation entnommen werden.</p>
                 <p><b>An Kunde liefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um die Teile an den Kunden zu liefern.</p>
-                <p><b>Abschliessen:</b> Die Bestellreklamation wird auf "Abgeschlossen" gesetzt.</p>
+                <p><b>Abschließen:</b> Die Auftragsreklamation wird auf "Abgeschlossen" gesetzt.</p>
             </div>
         </li>
         {% endif %}
@@ -364,7 +357,7 @@ FAQ
         <li {% if content == 21 %}class="active"{% endif %}></li>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (JOGA System)</div>
             <div class="collapsible-body">
-                <p>Eine Bestellreklamation kann für eine Bestellung angelegt werden oder für eine Dummy-Bestellung. Bei der Dummy-Bestellung wählen Sie die Bestellung passend zu dem Lieferanten aus, welcher für die Teile zuständig ist. Bei unterschiedlichen Lieferanten müssen unterschiedliche Bestellreklamationen angelegt werden.</p>
+                <p>Eine Bestellreklamation kann für eine Bestellung oder für eine Dummy-Bestellung angelegt werden. Die Dummy-Bestellungen werden für eine Reklamation von KANBAN-Teilen oder wenn Sie sich in der Produktion befinden verwendet. Bei der Dummy-Bestellung wählen Sie die Bestellung passend zu dem Lieferanten aus, welcher für die Teile zuständig ist. Bei unterschiedlichen Lieferanten müssen mehrere Bestellreklamationen angelegt werden.</p>
                 <p>Klicken Sie zuerst auf den Reiter 'Bestellreklamationen' in der Seiten-Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_Reklamationen_01.png' %}">
                 <div class="divider"></div>
@@ -383,7 +376,7 @@ FAQ
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
                     <p><b>Freigeben:</b> Die Bestellreklamation wird freigegeben.</p>
-                    <p><b>Neubstellung auslösen:</b> Wenn eine Neulieferung, ?????</p>
+                    <p><b>Nachlieferung auslösen:</b> Der Button wird angezeigt, wenn mindestens eine Position auf "Nachlieferung" gesetzt wurde. Hier kann dann die Box eingescannt werden.</p>
                     <p><b>An Produktion liefern:</b> Hier wird die Box eingescannt und dann an die Produktion geliefert. </p>
                     
                 {% elif request.user|has_group:PRODUKTION %}
@@ -402,28 +395,28 @@ FAQ
                 {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
-                    <p>Diese Buttons werden bei Teile angezeigt, welche neu bestellt werden sollen.</p>
-                    <p><b>Neu bestellen:</b> Es wird automtatisch eine neue Bestellung angelegt und die Teile werden als Position hinterlegt.</p>
-                    <p><b>Aus Lager beliefern:</b> Wenn die Teile im Lager vorhanden sind, können Sie die Teile auch aus dem Lager entnehmen. ????</p>
-                    <p><b>Abschliessen:</b> Wenn keine nuelieferung benötigt wird, dann wird ie Position abgeschlossen.</p>
+                    <p>Diese Buttons werden bei Teilen angezeigt, welche neu geliefert werden sollen:</p>
+                    <p><b>Nachlieferung:</b> Hier wird angegeben, dass die fehlerhaften Teile vom Lieferanten neu geliefert werden sollen.</p>
+                    <p><b>Aus Lager beliefern:</b> Wenn die Teile im Lager vorhanden sind, können Sie die Teile auch aus dem Lager entnehmen. Dadurch entsteht ein neuer Task, welcher die außerordentliche Teilelieferung behandelt.</p>
                     <div class="divider"></div>
-                    <p>Diese Buttons werden angezeigt bei Teile, welche nicht neu bestellt werden sollen.</p>
+                    <p>Diese Buttons werden bei Teilen angezeigt, welche nicht neu geliefert werden sollen:</p>
+                    <p><b>Abschließen:</b> Wenn keine Nachlieferung benötigt wird, wird die Position abgeschlossen.</p>
                 {% elif request.user|has_group:PRODUKTION %}
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
-                    <p><b></b></p>
+                    <p><b></b>Fehlt hier was?</p>
                 {% endif %}
             </div>
         </li>
         {% endif %}
 
-
+        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
         <li {% if content == 25 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (Kunden System)</div>
             <div class="collapsible-body">
                 div class="collapsible-body">
                 <p>Eine Bestellreklamation kann nur für eine bereits erstellte Bestellung angelegt werden.</p>
-                <p>Klicken Sie zuerst auf den Reiter 'Bestellreklamationen' in der Seiten-Navigationsleiste:</p>
+                <p>Klicken Sie zuerst auf den Reiter 'Bestellreklamationen' in der seitlichen Navigationsleiste:</p>
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellungen_Reklamationen_01.png' %}">
                 <div class="divider"></div>
                 <p>Klicken Sie anschließend auf das Plus-Symbol:</p>
@@ -431,6 +424,9 @@ FAQ
                 <div class="divider"></div>
             </div>
         </li>
+        {% endif %}
+
+        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
         <li {% if content == 26 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Kopfebene (Kunden System)</div>
             <div class="collapsible-body">
@@ -439,18 +435,26 @@ FAQ
                 <p><b>Freigeben: </b>Die Bestellreklamation wird freigegeben.</p>
             </div>
         </li>
+        {% endif %}
+
+        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
         <li {% if content == 27 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Positionsebene (Kunden System)</div>
             <div class="collapsible-body">
                 <img class="materialboxed z-depth-1" width="100%" src="">
                 <div class="divider"></div>
                 <p><b>An JOGA liefern: </b>Hier wird der Barcode am Hubwagen gescannt, um ihn an JOGA zu liefern.</p>
+                <p><b>Reklamation abschließen:</b> Hier wird die Position auf abgeschlossen gesetzt. Wenn alle Positionen abgeschlossen wurden, wird die Bestellreklamation automatisch auf "Abgeschlossen" gesetzt.</p>
             </div>
         </li>
+        {% endif %}
+
+
         <li {% if content == 28 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Nummernkreise (Referenznummer)</div>
             <div class="collapsible-body">
-                <p>Bei Aufträgen sollte immer die Referenznummer, welche die Bestellnummer ist mit eingetragen werden. Dies erleichtert die Kommunikationen zwischen Kunden, JOGA und den Lieferanten. Bei Auftragsreklamationen sollte immer die Bestellreklamationsnummer, als Referenznummer, eingetragen werden.</p>
+                <p>Bei Aufträgen sollte immer die Referenznummer, welche die Bestellnummer ist, mit eingetragen werden. Dies erleichtert die Kommunikationen zwischen Kunden, JOGA und den Lieferanten. Bei Auftragsreklamationen sollte immer die Nummer aus dem anderen System, als Referenznummer, eingetragen werden.</p>
+                <p>Achten Sie darauf, dass die Referenznummer in den Nachrichten mitgeschickt, für eine bessere Kommunikation, werden.</p>
                 <div class="divider"></div>
                 <h5>JOGA-System</h5>
                 <p><b>Aufträge:</b> Aufträge beginnen mit "A-" und beinhalten eine Zahl, welche automatisch hochzählt. Beispiel: A-001, A-123. </p>
@@ -460,13 +464,21 @@ FAQ
                 
                 <div class="divider"></div>
                 <h5>KUNDEN-System</h5>
-                <p><b>Bestellungen:</b> Bestellungen beginnen mit dem Namen des Kunden "K1-" , "K2-" oder "K3-". Ausserdem steht am Ende eine Zahl, welche automaisch hochzählt. Beispiel: K1-345, K2-007, K3-748</p>
-                <p><b>Bestellreklamation:</b>Bestellreklamationen beginnen mit einem "R" , gefolgt von dem Namen des Kunden "RK1-" , "RK2-" oder "RK3-". Ausserdem steht am Ende eine Zahl, welche automaisch hochzählt. Beispiel: RK1-345, RK2-007, RK3-748</p>
+                <p><b>Bestellungen:</b> Bestellungen beginnen mit dem Namen des Kunden "K1-" , "K2-" oder "K3-". Ausserdem steht am Ende eine Zahl, welche automatisch hochzählt. Beispiel: K1-345, K2-007, K3-748</p>
+                <p><b>Bestellreklamation:</b>Bestellreklamationen beginnen mit einem "R" , gefolgt von dem Namen des Kunden "RK1-" , "RK2-" oder "RK3-". Ausserdem steht am Ende eine Zahl, welche automatisch hochzählt. Beispiel: RK1-345, RK2-007, RK3-748</p>
                 
                 <div class="divider"></div>
                 <h5>LIEFERANTEN-System</h5>
-                <p><b>Aufträge:</b> Aufträge beginnen mit dem Namen des Lieferanten "L1-" , "L2-" oder "L3-". Ausserdem steht am Ende eine Zahl, welche automaisch hochzählt. Beispiel: L1-345, L2-007, L3-748</p>
-                <p><b>Auftragsreklamation:</b> Auftragsreklamationen beginnen mit einem "R" , gefolgt von dem Namen des Lieferanten "RL1-" , "RL2-" oder "RL3-". Ausserdem steht am Ende eine Zahl, welche automaisch hochzählt. Beispiel: RL1-345, RL2-007, RL3-748</p>
+                <p><b>Aufträge:</b> Aufträge beginnen mit dem Namen des Lieferanten "L1-" , "L2-" oder "L3-". Ausserdem steht am Ende eine Zahl, welche automatisch hochzählt. Beispiel: L1-345, L2-007, L3-748</p>
+                <p><b>Auftragsreklamation:</b> Auftragsreklamationen beginnen mit einem "R" , gefolgt von dem Namen des Lieferanten "RL1-" , "RL2-" oder "RL3-". Ausserdem steht am Ende eine Zahl, welche automatisch hochzählt. Beispiel: RL1-345, RL2-007, RL3-748</p>
+            </div>
+        </li>
+
+        <li {% if content == 28 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Box</div>
+            <div class="collapsible-body">
+                <img class="materialboxed z-depth-1" width="100%" src="">
+                <div class="divider"></div>
             </div>
         </li>
 
