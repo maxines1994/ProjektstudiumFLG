@@ -3,17 +3,15 @@ from django.shortcuts import render
 
 def dashboard(request):
     ##Queries and data
-    all_cust_orders = CustOrder.objects.all()
+    all_cust_orders = CustOrder.objects.all().exclude(external_system=True)
     all_cust_order_dets = CustOrderDet.objects.all()
 
-    all_cust_complaints = CustComplaint.objects.all()
+    all_cust_complaints = CustComplaint.objects.all().exclude(external_system=True)
     all_cust_complaint_dets = CustComplaintDet.objects.all()
 
-    all_supp_orders = SuppOrder.objects.all()
-    all_supp_order_dets = SuppOrderDet.objects.all()
+    all_supp_orders = SuppOrder.objects.all().exclude(external_system=True).exclude(id__in=[1,2,3,4,5,6])
 
-    all_supp_complaints = SuppComplaint.objects.all()
-    all_supp_complaint_dets = SuppComplaintDet.objects.all()
+    all_supp_complaints = SuppComplaint.objects.all().exclude(external_system=True)
 
     all_messages = Message.objects.all()
 
@@ -129,7 +127,7 @@ def dashboard(request):
     data_007_5 = []
 
 
-    for day in range(1,current_gameday):
+    for day in range(1,current_gameday+1):
         labels_007.append('Tag '+str(day))
 
         data_007_1.append(all_cust_order_dets.filter(_creation_gameday=day).count())
