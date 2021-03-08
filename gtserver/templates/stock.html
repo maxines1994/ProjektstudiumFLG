@@ -22,6 +22,7 @@ Lager
                     <tr>
                         <th>Teil</th>
                         <th>Grafik</th>
+                        <th>Gebindegröße</th>
                         <th>Bestand</th>
                         {% if company == JOGA or LIEFERANTEN in group %}
                             <th>Reserviert</th>
@@ -33,6 +34,7 @@ Lager
                     <tr>
                         <td>{{o.part.description}}</td>
                         <td><img src="{% static o.part.image %}" width="25px" height="auto" class="materialboxed white"></td>
+                        <td>{{o.part.pack_quantity}}</td>
                         {% if o.part.supplier_id == 3 or LIEFERANTEN in group %}
                             <td>{{o.stock}} Stk.</td>
                         {% else %}
