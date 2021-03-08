@@ -129,7 +129,7 @@
                     {% endif %}
                 {% elif OBJ_STATUS == STATUS.POSITIONSBEARBEITUNG_FERTIG and button_neubestellung %}
                     {% if action != 'create' %}
-                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>Neubestellung auslösen</a>
+                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>Nachlieferung auslösen</a>
                     {% endif %}
                 {% elif OBJ_STATUS == STATUS.GELIEFERT %}
                     {% if action != 'create' %}
@@ -176,7 +176,7 @@
                 {% if has_enough_stock %}
                     <li><a href="{% url 'set_status_task' i.id 39 %}" class="li-content"><i class="material-icons">unarchive</i>Aus Lager beliefern</a></li>
                 {% endif %}
-                    <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.NEU_BESTELLEN %}" class="li-content"><i class="material-icons">add_shopping_cart</i>Neu bestellen</a></li>
+                    <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.NEU_BESTELLEN %}" class="li-content"><i class="material-icons">add_shopping_cart</i>Nachlieferung</a></li>
             {% else %}
                 <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>
             {% endif %}

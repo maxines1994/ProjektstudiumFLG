@@ -17,7 +17,7 @@ class SuppComplaint(Complaint):
         BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen|33%')##Nur LF
         VERSAND_AN_KUNDE                = '5', ('Versandt an Kunde|67%')##Nur LF
         AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert|40%')
-        NEU_BESTELLEN                   = '7', ('Teil(e) neu bestellen|50%')
+        NEU_BESTELLEN                   = '7', ('Teil(e) zur Nachlieferung|50%')
         POSITIONSBEARBEITUNG_FERTIG     = '8', ('Positionsbearbeitung fertig|60%')
         VERSAND_AN_LIEFERANT            = '9', ('Versandt an Lieferant|70%')
         GELIEFERT                       = '10', ('Geliefert|80%')
