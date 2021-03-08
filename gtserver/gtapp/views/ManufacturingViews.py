@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def manufacturing_list_view(request):
     c = {}
-    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False, status__gte=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND, status__lte=CustOrderDet.Status.LIEFERUNG_AN_K_AUSSTEHEND)
+    c["manufacturing"] = CustOrderDet.objects.filter(cust_order__external_system=False, status__gte=CustOrderDet.Status.BESTANDSPRUEFUNG_AUSSTEHEND, status__lte=CustOrderDet.Status.LIEFERUNG_AN_K_AUSSTEHEND).order_by('cust_order__delivery_date')
     c["manufacturing_complaints"] = CustOrderDet.objects.filter(id__in=CustComplaintDet.objects.filter(status__gte=CustComplaintDet.Status.ERFASST).values('cust_order_det_id'),cust_order__external_system=False)
     c["complaints"] = CustComplaintDet.objects.filter(cust_order_det__in=c["manufacturing_complaints"])
     c["mylist"] = zip(c["manufacturing_complaints"], c["complaints"])
