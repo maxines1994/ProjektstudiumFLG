@@ -25,12 +25,20 @@ class Supp_complaint_form(ModelForm):
             self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers).order_by('_creation_date')
     else:
         # 2. Digitalisierungsstufe
-        def __init__(self, suppliers, *args, **kwargs):
+        def __init__(self, user_groups, *args, **kwargs):
             super(Supp_complaint_form, self).__init__(*args, **kwargs)
-            if len(suppliers) == 1:
-                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=True).order_by('_creation_date')
+
+            if user_groups.filter(name=L100).exists():
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier=1, external_system=True).order_by('_creation_date')
+            elif user_groups.filter(name=L200).exists():
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier=2, external_system=True).order_by('_creation_date')
+            elif user_groups.filter(name=L300).exists():
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier=3, external_system=True).order_by('_creation_date')
+            elif user_groups.filter(name=PRODUKTION).exists():
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(id__in=[1,3,5]).order_by('_creation_date')
             else:
-                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=suppliers, external_system=False).order_by('_creation_date')
+                self.fields['supp_order'].queryset = SuppOrder.objects.filter(supplier__in=[1,2,3], external_system=False).order_by('_creation_date')
+                
 
 class Supp_complaint_form_kanban(Supp_complaint_form):
     
@@ -71,7 +79,7 @@ class Cust_complaint_det_form(ModelForm):
 
 class Supp_complaint_det_form(ModelForm):
     use_required_attribute = False
-    memo = CharField(required=False)
+    memo = CharField(required=False, label="Kommentar")
 
     class Meta:
         model = SuppComplaintDet

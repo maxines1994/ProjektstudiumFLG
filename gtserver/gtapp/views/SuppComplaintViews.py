@@ -63,15 +63,8 @@ class Supp_complaint_create_view(LoginRequiredMixin, CreateView):
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
 
-        if self.request.user.groups.filter(name=L100).exists():
-            suppliers = [1]
-        elif self.request.user.groups.filter(name=L200).exists():
-            suppliers = [2]
-        elif self.request.user.groups.filter(name=L300).exists():
-            suppliers = [3]
-        else:
-            suppliers = [1, 2, 3]
-        kwargs.update({'suppliers': suppliers})
+        kwargs.update({'user_groups': self.request.user.groups.all() })
+
         return kwargs
 
     def get_initial(self):

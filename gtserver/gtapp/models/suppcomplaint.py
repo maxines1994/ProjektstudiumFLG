@@ -17,10 +17,10 @@ class SuppComplaint(Complaint):
         BESTANDSPRUEFUNG_ABGESCHLOSSEN  = '4', ('Bestandsprüfung abgeschlossen|33%')##Nur LF
         VERSAND_AN_KUNDE                = '5', ('Versandt an Kunde|67%')##Nur LF
         AUS_LAGER_GELIEFERT             = '6', ('Aus Lager beliefert|40%')
-        NEU_BESTELLEN                   = '7', ('Teil neu bestellen|50%')
+        NEU_BESTELLEN                   = '7', ('Teil(e) zur Nachlieferung|50%')
         POSITIONSBEARBEITUNG_FERTIG     = '8', ('Positionsbearbeitung fertig|60%')
         VERSAND_AN_LIEFERANT            = '9', ('Versandt an Lieferant|70%')
-        GELIEFERT                       = '10', ('An JOGA geliefert|80%')
+        GELIEFERT                       = '10', ('Geliefert|80%')
         VERSAND_AN_PRODUKTION           = '11', ('Versandt an Produktion|90%')
         ABGESCHLOSSEN                   = '12', ('Abgeschlossen|100%')   
 
