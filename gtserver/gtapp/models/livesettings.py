@@ -20,7 +20,7 @@ class LiveSettings(models.Model):
         if LiveSettings.objects.filter(pk=1).exists():
             #Check for TimeActiveChange
             if self.timeactive != LiveSettings.load().timeactive:
-                Timers.objects.create(nowactive=self.timeactive, interval=180)
+                Timers.objects.create(nowactive=self.timeactive, interval=self.timelength)
 
             if self.timelength != LiveSettings.load().timelength and self.timeactive == True:
                 Timers.objects.create(nowactive=False, interval=LiveSettings.load().timelength)
