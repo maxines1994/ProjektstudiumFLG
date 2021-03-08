@@ -296,7 +296,8 @@ FAQ
         {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
         <li {% if content == 18 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Positionsebene (JOGA System)</div>
-            {% if request.user|has_group:KUNDENDIENST %}
+            <div class="collapsible-body">
+                {% if request.user|has_group:KUNDENDIENST %}
                     <img class="materialboxed z-depth-1" width="100%" src="">
                     <div class="divider"></div>
                     <p><b>An Produktion senden:</b> Der Hubwagen wird an die Produktion gesendet. Dafür wird der Barcode an dem Hubwagen eingescannt.</p>
@@ -309,6 +310,7 @@ FAQ
                     <p><b>Anpassung abschließen:</b> Bei der Auftragsreklamationsposition wird angegeben, dass der Hubwagen verbessert wurde. </p>
                     <p><b>An Kundendienst liefern:</b> Der Hubwagen wird an den Kundendienst gesendet. Dafür wird der Barcode an dem Hubwagen gescannt.</p>
                 {% endif %}
+            </div>
         </li>
         {% endif %}
 
@@ -354,7 +356,7 @@ FAQ
         {% endif %}
 
         {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
-        <li {% if content == 21 %}class="active"{% endif %}></li>
+        <li {% if content == 21 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (JOGA System)</div>
             <div class="collapsible-body">
                 <p>Eine Bestellreklamation kann für eine Bestellung oder für eine Dummy-Bestellung angelegt werden. Die Dummy-Bestellungen werden für eine Reklamation von KANBAN-Teilen oder wenn Sie sich in der Produktion befinden verwendet. Bei der Dummy-Bestellung wählen Sie die Bestellung passend zu dem Lieferanten aus, welcher für die Teile zuständig ist. Bei unterschiedlichen Lieferanten müssen mehrere Bestellreklamationen angelegt werden.</p>
