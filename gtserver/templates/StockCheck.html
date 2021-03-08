@@ -47,13 +47,12 @@
                     </tr>
                 </thead>
                 <tbody id="itembody">
-
                     {% if LIEFERANTEN in group %}
-                        {% for stock, supporderdet, stockavailable in stock_supporderdet_stockavailable %}
+                        {% for stock, quantity, stockavailable in stock_quantity_stockavailable %}
                             <tr>
                                 <td>{{ stock.part.description }}</td>        
                                 <td><img src="{% static stock.part.image %}" width="25px" height="auto" class="materialboxed white"></td>      
-                                <td>{{ supporderdet.quantity }} Stk.</td>    
+                                <td>{{ quantity }} Stk.</td>    
                                 <td>{{ stockavailable }} Stk.</td>            
                                 <td><input type="hidden" name="part_id{{forloop.counter}}" value={{stock.part.id}}></td>
                                 <td><input type="hidden" name="rows" value={{forloop.counter}}></td>   
@@ -69,7 +68,7 @@
                                 <td>{{ stockavailable }} Stk.</td>
                                 <td>{{ orderedtotal }} </td>
                                     {% if not check_successful %}
-                                        <td><input type="number" name="order_quantity{{forloop.counter}}" value={{suggestion}}></td>
+                                        <td><input type="number" required="true" name="order_quantity{{forloop.counter}}" value={{suggestion}}></td>
                                     {% endif %}
                                 <td><input type="hidden" name="part_id{{forloop.counter}}" value={{stock.part.id}}></td>
                                 <td><input type="hidden" name="rows" value={{forloop.counter}}></td>     
