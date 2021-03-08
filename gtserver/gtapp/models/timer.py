@@ -5,6 +5,7 @@ import datetime
 class Timers(models.Model):
     nowactive = models.BooleanField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    interval = models.IntegerField(null=True, default=None)
     #day = models.SmallIntegerField()
     #speed..
     
@@ -18,13 +19,13 @@ class Timers(models.Model):
             myList = list(Timers.objects.all().order_by('timestamp'))
             for i in myList:
                 if i.nowactive:
-                    sum -= i.timestamp.timestamp()
+                    sum -= i.timestamp.timestamp() / i.interval
                 else:
-                    sum += i.timestamp.timestamp()
+                    sum += i.timestamp.timestamp() / i.interval
             
 
             if len(myList) != 0:
                 if myList[-1].nowactive:
-                    sum += nowtime.timestamp()
+                    sum += nowtime.timestamp() / i.interval
 
-        return int(sum/5+1)
+        return int(sum+1)

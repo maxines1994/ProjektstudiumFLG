@@ -163,7 +163,6 @@ main.loggedin {
 canvas {
 display: block;
 width: 100%;
-visibility: hidden;
 }
 
 .svginside {

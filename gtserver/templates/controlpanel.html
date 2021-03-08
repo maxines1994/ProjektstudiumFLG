@@ -1,0 +1,49 @@
+{% extends "forms.html" %}
+{% load materializecss %}
+
+<!-- Title-->
+{% block title %}Optionen{% endblock %}
+
+<!-- Header-->
+{% block head %}
+<style>
+    .help-block {
+        margin:0px;
+    }
+</style>
+{% endblock %}
+
+<!-- Content-->
+{% block content %}
+    {% csrf_token %}
+    <div class="row section">
+        <div class="col s12">
+            <a class="btn-flat" href="{% url 'home' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
+            <h4>Kontrollstation</h4>
+        </div>
+    </div>
+    <div class="row section">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <a href="{% url 'timetoggle' %}" class="waves-effect waves-light btn">{% if timeactive %}Zeit anhalten{% else %}Zeit starten{% endif %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+<!-- Body-->
+{% block body %}
+{% endblock %}
+
+<!-- Scripts-->
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+
+{% endblock %}

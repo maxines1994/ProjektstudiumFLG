@@ -20,6 +20,10 @@ urlpatterns = [
     path('accounts/urllogin/<str:username>/<str:password>/', url_login_view, name='urllogin'),
     path('accounts/credentials_sheet/', credentials_sheet_view, name='credentials_sheet'),
 
+    path('options/', LiveSettingsUpdate.as_view(), name='optionsview'),
+    path('controlpanel/', controlPanel, name='controlpanel'),
+    path('timetoggle/', timeToggleView, name='timetoggle'),
+
     # Aufgaben
     path('tasks/', tasks_view, name='tasks'),
     path('tasks_list/assigned/', tasks_list_assigned_view, name='tasks_assigned'),
@@ -115,5 +119,8 @@ urlpatterns = [
     path('supp_complaint_det/create/<int:supp_complaint>/', Supp_complaint_det_create_view.as_view(), name="supp_complaint_det_create"),
     path('supp_complaint_det/alter/<int:id>/', Supp_complaint_det_alter_view.as_view(), name="supp_complaint_det_alter"),
     path('supp_complaint_det/delete/<int:id>/', Supp_complaint_det_delete_view.as_view(), name="supp_complaint_det_delete"),
+
+    # Dashboard
+    path('dashboard/', dashboard, name='dashboard'),
 
 ]
