@@ -178,17 +178,25 @@ def add_order_view(request, **kwargs):
     if CustOrder.__instancecheck__(main):
         order['partner'] = "Partner: " + str(main.customer.name)
         order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
+        if request.user.groups.filter(name=JOGA).exists():
+            order['refno'] = "Referenznummer: " + str(main.ref_no)
     elif SuppOrder.__instancecheck__(main):
         order['partner'] = "Partner: " + str(main.supplier.name)
         order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
         bx = str(main.box_no) if main.box_no is not None else ""
         order['Boxnummer'] = "Boxnummer: " + bx
+        if request.user.groups.filter(name=LIEFERANTEN).exists():
+            order['refno'] = "Referenznummer: " + str(main.ref_no)
     elif CustComplaint.__instancecheck__(main):
         order['partner'] = "Partner: " + str(main.cust_order.customer.name)
+        if request.user.groups.filter(name=JOGA).exists():
+            order['refno'] = "Referenznummer: " + str(main.ref_no)
     elif SuppComplaint.__instancecheck__(main):
         bx = str(main.box_no) if main.box_no is not None else ""
         order['Boxnummer'] = "Boxnummer: " + bx
         order['partner'] = "Partner: " + str(main.supp_order.supplier.name)
+        if request.user.groups.filter(name=LIEFERANTEN).exists():
+            order['refno'] = "Referenznummer: " + str(main.ref_no)
     else:
         order['partner'] = "-"
 
