@@ -164,7 +164,7 @@
             <li><a href="{% url 'set_status_call' i|to_class_name i.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Reklamation abschließen</a></li>
         {% endif %}
     {% elif KUNDENDIENST in group %}
-        {% if i.status == POS_STATUS.ERFASST %}-        
+        {% if i.status == POS_STATUS.ERFASST %}     
             <li><a href="{% url 'cust_complaint_det_delete' i.id %}" class="li-content"><i class="material-icons">delete</i>Löschen</a></li>
         {% elif i.status == POS_STATUS.REKLAMATION_FREIGEGEBEN %}
             <li><a href="{% url 'box_assign' i|to_class_name i.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Produktion schicken</a></li>

@@ -197,9 +197,12 @@
 
 <!-- Scripts-->
 {% block scripts %}
-<script type="text/javascript">
+<script>
   $(document).ready(function(){
     $('select').formSelect();
+  });
+  $('form').on('submit', function() {
+      $('input, select').prop('disabled', false);
   });
 </script>
 

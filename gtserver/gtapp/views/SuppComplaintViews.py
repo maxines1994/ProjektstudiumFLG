@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView, DeleteView
 from gtapp.models import SuppComplaint, SuppComplaintDet, Part, SuppOrder, Task, Timers, Stock, SuppOrderDet
-from gtapp.forms import Supp_complaint_form, Supp_complaint_det_form
+from gtapp.forms import Supp_complaint_form, Supp_complaint_form_kanban, Supp_complaint_det_form
 from django import forms
 from gtapp.models import LiveSettings
 from gtapp.constants import *
@@ -48,10 +48,10 @@ class Supp_complaint_create_view(LoginRequiredMixin, CreateView):
         return context
 
     def get_form(self, form_class=None):
-        #if self.request.user.groups.first().name == "LIEFERANTEN":
-        form_class = Supp_complaint_form
-        #else:
-        #    form_class = Supp_order_form_jg
+        if self.request.user.groups.filter(name__in=[L100, L200]).exists():
+            form_class = Supp_complaint_form_kanban
+        else:
+            form_class = Supp_complaint_form
         return form_class(**self.get_form_kwargs())
 
     def get_form_kwargs(self):
@@ -74,6 +74,22 @@ class Supp_complaint_create_view(LoginRequiredMixin, CreateView):
         kwargs.update({'suppliers': suppliers})
         return kwargs
 
+    def get_initial(self):
+        if self.request.user.groups.filter(name=L100).exists():
+            suppliers = [1]
+        elif self.request.user.groups.filter(name=L200).exists():
+            suppliers = [2]
+        elif self.request.user.groups.filter(name=L300).exists():
+            suppliers = [3]
+        else:
+            suppliers = [1, 2, 3]
+
+        if len(suppliers) == 1:
+            supp_order = SuppOrder.objects.filter(supplier__in=suppliers, external_system=True).order_by('_creation_date').first()
+        else:
+            supp_order = SuppOrder.objects.filter(supplier__in=suppliers, external_system=False).order_by('_creation_date').first()
+
+        return {'supp_order': supp_order}
 
 
 class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
@@ -132,7 +148,10 @@ class Supp_complaint_alter_view(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect("/supp_complaint/")
 
     def get_form(self, form_class=None):
-        form_class = Supp_complaint_form
+        if self.request.user.groups.filter(name__in=[L100, L200]).exists():
+            form_class = Supp_complaint_form_kanban
+        else:
+            form_class = Supp_complaint_form
         return form_class(**self.get_form_kwargs())
 
     def get_form_kwargs(self):
