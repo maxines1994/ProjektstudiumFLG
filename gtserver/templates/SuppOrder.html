@@ -50,6 +50,7 @@
                             </th>
                             <th>Einteilungsdatum</th>
                             <th>Lieferdatum</th>
+                            <th>Ersteller</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -72,6 +73,7 @@
                                 </td>
                                 <td>Tag {{ o.issued_on|default_if_none:"-" }}</td>
                                 <td>Tag {{ o.delivery_date|default_if_none:"-" }}</td>
+                                <td>{{ o.get_creation_user }}</td>
                                 <td>
                                     <div class="progress{% if not o|group_has_work:request.user %} progress-grey{% endif %}">
                                         <div class="determinate" style="width: {{ o.get_status_progress }}"></div>

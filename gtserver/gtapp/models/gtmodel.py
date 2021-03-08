@@ -43,6 +43,12 @@ class GtModel(models.Model):
         """
         return apps.get_model(app_label='gtapp', model_name=string)
 
+    def get_creation_user(self):
+        return self._creation_user
+
+    def get_update_user(self):
+        return self._update_user
+
     def gtmodel_to_foreign_field_name(model: models.Model):
         """
         Erwartet ein Model und liefert die uebliche Fremdschluesselbezeichnung zurueck
