@@ -10,6 +10,7 @@ Usage: "LiveSettings.load()"
 class LiveSettings(models.Model):
     debugflag = models.BooleanField(default=True)
     timeactive = models.BooleanField(default=False)
+    timelength = models.IntegerField(default=180, )
     phase_3 = models.BooleanField(default=False)
 
 
@@ -19,7 +20,11 @@ class LiveSettings(models.Model):
         if LiveSettings.objects.filter(pk=1).exists():
             #Check for TimeActiveChange
             if self.timeactive != LiveSettings.load().timeactive:
-                Timers.objects.create(nowactive=self.timeactive)
+                Timers.objects.create(nowactive=self.timeactive, interval=180)
+
+            if self.timelength != LiveSettings.load().timelength and self.timeactive == True:
+                Timers.objects.create(nowactive=False, interval=LiveSettings.load().timelength)
+                Timers.objects.create(nowactive=True, interval=self.timelength)
 
         super(LiveSettings, self).save(*args, **kwargs)
 

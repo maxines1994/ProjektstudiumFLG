@@ -20,6 +20,10 @@ urlpatterns = [
     path('accounts/urllogin/<str:username>/<str:password>/', url_login_view, name='urllogin'),
     path('accounts/credentials_sheet/', credentials_sheet_view, name='credentials_sheet'),
 
+    path('options/', LiveSettingsUpdate.as_view(), name='optionsview'),
+    path('controlpanel/', controlPanel, name='controlpanel'),
+    path('timetoggle/', timeToggleView, name='timetoggle'),
+
     # Aufgaben
     path('tasks/', tasks_view, name='tasks'),
     path('tasks_list/assigned/', tasks_list_assigned_view, name='tasks_assigned'),
