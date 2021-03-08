@@ -86,7 +86,7 @@ def delivery_view(request, **kwargs):
             'quantity': TextInput(attrs={'disabled':True}),
            my_foreign_key_on_goods_shipping: Select(attrs={'disabled':True}),
            'delivered': TextInput(attrs={'required': 'required'}),
-           'trash': NumberInput(attrs={'hidden': is_shipping}),
+           'trash': NumberInput(attrs={'hidden': is_shipping, 'required': not is_shipping}),
         }
         )
     

@@ -183,8 +183,8 @@ def stock_check_view(request, **kwargs):
         while i <= int(request.POST.get("rows")):
             part_id_list.append(request.POST.get('part_id' + str(i)))
             if not check_successful:
-                # Nur Listen fuellen mit Teilen die eine Bestellmenge > 0 haben
-                if int(request.POST.get('order_quantity' + str(i))) > 0:
+                # Nur Listen fuellen mit Teilen die eine Bestellmenge >= 0 haben
+                if int(request.POST.get('order_quantity' + str(i))) >= 0:
                     order_quantity_list.append(request.POST.get('order_quantity' + str(i)))
             i += 1
 

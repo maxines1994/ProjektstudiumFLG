@@ -31,12 +31,20 @@ class SuppOrderDet(OrderDet):
         mit entsprechenden Positionen. Gibt die ID der erstellten Bestellung zurueck
         """
         delivery_date = Timers.get_current_day() + 3
-        new_supporder = SuppOrder.objects.create(supplier_id=3, delivery_date=delivery_date, issued_on=Timers.get_current_day(), memo="Automatisch generiert")
+        new_supporder = None
+        # Nur 
+        if any(int(quantity) > 0 for quantity in quantity_list):
+            new_supporder = SuppOrder.objects.create(supplier_id=3, delivery_date=delivery_date, issued_on=Timers.get_current_day(), memo="Automatisch generiert")
         list_length = len(part_list)
         # Packe die Listen zusammen. Die erste Liste ist ein Iterator von 1 bis zur Listenlaenge.
         # Es muss nochmal + 1 addiert werden, weil wir die 0 nicht mitzaehlen
         part_quantity = zip(range(1,list_length +1), part_list, quantity_list)
         for i, part, quantity in part_quantity:
-            SuppOrderDet.objects.create(supp_order=new_supporder, pos=i, part_id=part, quantity=quantity)
+            # Nur Positionen hinzufuegen, die eine groessere Bestellmenge als 0 haben
+            if int(quantity) > 0:
+                SuppOrderDet.objects.create(supp_order=new_supporder, pos=i, part_id=part, quantity=quantity)
 
-        return new_supporder.id
+        if new_supporder is not None:
+            return new_supporder.id
+        else:
+            return 0
