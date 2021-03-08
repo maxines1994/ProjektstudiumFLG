@@ -117,7 +117,7 @@
             {% if PRODUKTION in group %}
                 {% if OBJ_STATUS == STATUS.ERFASST %}
                     {% if action != 'create' %}
-                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">send</i>Weiterleiten an PDL</a>
+                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id%}" type="submit" name="action"><i class="material-icons left">send</i>An PDL senden</a>
                     {% endif %}
                 {% elif OBJ_STATUS == STATUS.VERSAND_AN_PRODUKTION %}
                     <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>
@@ -133,7 +133,7 @@
                     {% endif %}
                 {% elif OBJ_STATUS == STATUS.GELIEFERT %}
                     {% if action != 'create' %}
-                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>An Produktion liefern</a>
+                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>An Produktion senden</a>
                     {% endif %}
                 {% endif %}
             {% elif LIEFERANTEN in group %}

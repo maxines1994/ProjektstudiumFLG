@@ -93,7 +93,6 @@ def box_search_view(request):
                 #     boxno_found = 1
                 #     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 if obj.status == SuppComplaint.Status.VERSAND_AN_LIEFERANT:
-                    ## Warum macht set_status kaputt?
                     #set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.GELIEFERT)
                     SuppComplaintDets = SuppComplaintDet.objects.filter(supp_complaint=obj.id)
 
@@ -106,6 +105,17 @@ def box_search_view(request):
                     boxno_found = 1
                     SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
                 
+                if obj.status == SuppComplaint.Status.REKLAMATION_FREIGEGEBEN:
+                    if request.user.groups.filter(name=L100).exists():
+                        Task.set_task(obj, 48)
+                    elif request.user.groups.filter(name=L200).exists():
+                        Task.set_task(obj, 49)
+                    elif request.user.groups.filter(name=L300).exists():
+                        Task.set_task(obj, 50)
+                    boxno_found = 1
+                    SuppComplaint.objects.filter(pk=obj.id).update(box_no='')
+
+
                 if obj.status == SuppComplaint.Status.VERSAND_AN_PDL:
                     set_status(obj.__class__.__name__, obj.id,SuppComplaint.Status.IN_BEARBEITUNG)
                     Task.set_task(obj, 38)
