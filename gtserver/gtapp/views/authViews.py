@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from gtapp.constants import *
 from qr_code.qrcode.utils import WifiConfig
-import base64
+import hashlib
 
 @login_required
 def change_user_view(request, view):
@@ -37,6 +37,7 @@ def change_user_to_view(request, id):
 def url_login_view(request, username, password):
     user = authenticate(username=username, password=password)
     if user is not None:
+        login(request, user)
         return redirect('/')
     else:
         return HttpResponse('Unauthorized', status=401)
@@ -63,7 +64,7 @@ def credentials_sheet_view(request):
 
         userdict = []
         for user in users:
-            password = base64.urlsafe_b64encode(user.username.encode("utf-8")).decode().replace("=", "")
+            password = str(int(hashlib.sha256(user.username.encode('utf-8')).hexdigest(), 16) % 10**4)
             credentials = {
                 'user': user,
                 'password': password,

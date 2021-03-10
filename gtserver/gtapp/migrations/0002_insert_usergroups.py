@@ -11,7 +11,7 @@ from gtapp.constants import groups
 from gtapp.models import *
 from gtapp import models
 from gtapp.models import LiveSettings
-import base64
+import hashlib
 
 class Migration(migrations.Migration):
     atomic = False
@@ -175,7 +175,7 @@ class Migration(migrations.Migration):
         # ID=1
         my_name = SPIELLEITUNG_CODE
         newUser = User(username=my_name, is_superuser=False, is_staff=False, is_active=True)
-        newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+        newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
         newUser.save()
         my_group = Group.objects.get(name=SPIELLEITUNG)
         newUser.groups.add(my_group)
@@ -197,7 +197,7 @@ class Migration(migrations.Migration):
             newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
             if number==0:
                 newUser.username=my_name + '-' + SPIELLEITUNG_CODE
-            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+            newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
             newUser.save()
             my_group = Group.objects.get(name=LEITUNGSTEAM)
             newUser.groups.add(my_group)
@@ -213,7 +213,7 @@ class Migration(migrations.Migration):
                 newUser = User(username=my_name + '-' + str(number), is_superuser=False, is_staff=False, is_active=True)
                 if number==0:
                     newUser.username=my_name + "-" + SPIELLEITUNG_CODE
-                newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+                newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
                 newUser.save()
                 my_group = Group.objects.get(name=KUNDEN)
                 newUser.groups.add(my_group)
@@ -234,7 +234,7 @@ class Migration(migrations.Migration):
             newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
             if number==0:
                     newUser.username=my_name + "-" + SPIELLEITUNG_CODE
-            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+            newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
             newUser.save()
             my_group = Group.objects.get(name=KUNDENDIENST)
             newUser.groups.add(my_group)
@@ -249,7 +249,7 @@ class Migration(migrations.Migration):
             newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
             if number==0:
                 newUser.username=my_name + "-" + SPIELLEITUNG_CODE
-            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+            newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
             newUser.save()
             my_group = Group.objects.get(name=INTERNE_DIENSTLEISTUNG)
             newUser.groups.add(my_group)
@@ -264,7 +264,7 @@ class Migration(migrations.Migration):
             newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
             if number==0:
                 newUser.username=my_name + "-" + SPIELLEITUNG_CODE
-            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+            newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
             newUser.save()
             my_group = Group.objects.get(name=PRODUKTIONSDIENSTLEISTUNG)
             newUser.groups.add(my_group)
@@ -279,7 +279,7 @@ class Migration(migrations.Migration):
             newUser = User(username=my_name + '-' + str(number), is_superuser=False, is_staff=False, is_active=True)
             if number==0:
                 newUser.username= my_name + "-" + SPIELLEITUNG_CODE
-            newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+            newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
             newUser.save()
             my_group = Group.objects.get(name=PRODUKTION)
             newUser.groups.add(my_group)
@@ -295,7 +295,7 @@ class Migration(migrations.Migration):
                 newUser = User(username=my_name + '-'  + str(number), is_superuser=False, is_staff=False, is_active=True)
                 if number==0:
                     newUser.username=my_name + "-" + SPIELLEITUNG_CODE
-                newUser.set_password(base64.urlsafe_b64encode(newUser.username.encode("utf-8")).decode().replace("=", ""))
+                newUser.set_password(str(int(hashlib.sha256(newUser.username.encode('utf-8')).hexdigest(), 16) % 10**4))
                 newUser.save()
                 my_group = Group.objects.get(name=LIEFERANTEN)
                 newUser.groups.add(my_group)
