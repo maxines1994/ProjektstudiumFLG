@@ -27,8 +27,8 @@ def main():
         # Funktionen (gefolgt von UI)
         # Funktion Speichernbutton
         def save():
-            print("[setupgui] ##### ERSTELLE NEUE DATENBANK #####")
-            print("[setupgui] Generiere config.py...")
+            print("[setupgui] ##### CREATING FRESH DATABASE... #####")
+            print("[setupgui] Generate config.py...")
             # Generierung config.py
             # Header
             out = "\"\"\"\nDie Anzahl der Spieler jeder Organisationseinheit sind hier definiert.\n\"\"\"\n\n"
@@ -38,7 +38,7 @@ def main():
             for i in range(0, len(spinboxes)):
                 out += player_amounts[i][0] + ' = ' + spinboxes[i].get() + '\n'
 
-            print("[setupgui] Speichere config.py...")
+            print("[setupgui] Save config.py...")
             f = open("gtserver/gtapp/constants/config.py", "w")
             f.write(out)
             f.close()
@@ -52,7 +52,7 @@ def main():
             print("[setupgui] Create DB...")
             run(["pipenv", "run", "python", "gtserver\\manage.py", "createdb"])
             
-            print("[setupgui] ##### NEUE DATENBANK ERSTELLT #####")
+            print("[setupgui] ##### CREATED FRESH DATABASE #####")
             close()
 
 
@@ -153,7 +153,7 @@ def main():
         
     def runserver():
         # Funktionen
-        print("\n[setupgui] ##### STARTING SERVER #####\n")
+        print("\n[setupgui] ##### STARTING SERVER... #####\n")
         process = Popen(["pipenv", "run", "python", "gtserver\\manage.py", "runserver", "0.0.0.0:80", "--insecure"], stdout=PIPE)
         root = Tk()
         root.iconbitmap('gtserver/static/favicon/favicon.ico')
