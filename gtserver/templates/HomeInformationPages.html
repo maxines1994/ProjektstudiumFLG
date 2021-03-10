@@ -23,7 +23,7 @@
                             {% elif request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                                 Produktionsdienstleistung
                             {% elif request.user|has_group:LEITUNGSTEAM %}
-                                Leitungsteam
+                                Geschäftsleitung
                             {% elif request.user|has_group:PRODUKTION %}
             	                Produktion
                             {% elif request.user|has_group:K1 %}
@@ -152,7 +152,7 @@
                     Bei der Statusleiste gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Bearbeitung von Fertigungsaufträgen</b></h6>
-                    Das Team Produktionsdienstleistung erhält von dem Team Kundendienst (KD) die Kundenaufträge. Das Team prüft, wie der Kundenauftrag in die Kapazitätsplanung der Produktion passt. Es informiert das Leitungsteam laufend über die Kapazitätssituation und mögliche Engpässe.<p></p>
+                    Das Team Produktionsdienstleistung erhält von dem Team Kundendienst (KD) die Kundenaufträge. Das Team prüft, wie der Kundenauftrag in die Kapazitätsplanung der Produktion passt. Es informiert das Geschäftsleitung laufend über die Kapazitätssituation und mögliche Engpässe.<p></p>
                     Für jeden Kundenauftrag werden die notwendigen A-Teile bestimmt (T10-T15) und über die <a href="{% url 'faq' content=11 %}">Bestandsprüfung</a> festgestellt, welche Teile noch bestellt werden müssen. Dafür legen Sie eine auftragsbezogene <a href="{% url 'faq' content=8 %}">Bestellung</a> mit Angabe der entsprechenden Teile im System an. Anschließend informieren Sie den Lieferanten L300 über Ihre Bestellung, indem Sie eine <a href="{% url 'faq' content=1 %}">Nachricht,</a> deren Text die Angabe der bestellten Teile beinhaltet, verfassen. Dafür können Sie die bereits angelegte Bestellung der Nachricht anhängen.<p></p>
                     Für den Transport von Teilen/ Produktion ist das Team Interne Dienstleistung (IDL) zuständig.<br></br>
 
@@ -212,7 +212,7 @@
                 {% elif user.username == 'PRO2' %}
                     Sie sind der Metallfacharbeiter-Geselle im Team und besuchen im Augenblick abends die Meisterschule. Sie wirken manchmal etwas demotiviert.
                 {% elif user.username == 'PRO3' %}
-                    Sie waren früher einmal bei der Qualitätssicherung. Sie verfolgen konsequent Ihr "Null-Fehler-Ziel". Sie verstehen sich sehr gut mit dem Qualitätsmanager aus dem Leitungsteam, bei dem Sie sich stets in ein gutes Licht rücken möchten.
+                    Sie waren früher einmal bei der Qualitätssicherung. Sie verfolgen konsequent Ihr "Null-Fehler-Ziel". Sie verstehen sich sehr gut mit dem Qualitätsmanager aus dem Geschäftsleitung, bei dem Sie sich stets in ein gutes Licht rücken möchten.
                 {% elif user.username == 'PRO4' %}
                     Sie sind Deutsch-Russe und kamen erst vor sechs Monaten nach Deutschland. Sie wurden auf Ihre Position angelernt und haben einen auf zwölf Monate befristeten Vertrag. Da Sie auf eine Festanstellung spekulieren, legen Sie sich besonders ins Zeug. Sie arbeiten schnell und zuverlässig.
                 {% endif %}
@@ -714,7 +714,7 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
-                <div style="font-weight: bold;"> Das Leitungsteam</div>
+                <div style="font-weight: bold;"> Die Geschäftsleitung</div>
             </div>
             <div class="collapsible-body">
                 <span> Geschäftsführer, Unternehmensberater, Organisationsentwicklung, Qualitätsmanagement </span>
@@ -722,12 +722,12 @@
         </li>
         <li>
             <div class="collapsible-header">
-                <div style="font-weight: bold;">Die Rollen im Leitungsteam</div>
+                <div style="font-weight: bold;">Die Rollen in der Geschäftsleitung</div>
             </div>
             <div class="collapsible-body">
                 <span>Der Geschäftsführer der JOGA GmbH ist in dieser Funktion bereits seit 14 Jahren tätig und wird in zwei Jahren in den Ruhestand gehen. Er hat das Unternehmen bislang erfolgreich geführt und steht Veränderungen zunächst immer sehr kritisch gegenüber. Er weiß aber auch, dass es Veränderungen geben muß, um künftigen Herausforderungen zu begegnen. Alle Entscheidungen sind wohl überlegt und niemals voreilig. 
                     <p></p>
-                    Seine Kollegen im Leitungsteam bezeichnet er gerne als „junge Wilde“. Ihrem Enthusiasmus für Veränderungen setzt er seine Erfahrung und Souveränität entgegen. Von gut begründeten Veränderungen läßt sich aber auch der Geschäftsführer überzeugen. Er ist bei seinen Mitarbeitern beliebt und führt mit Lob und Anerkennung.
+                    Seine Kollegen im Geschäftsleitung bezeichnet er gerne als „junge Wilde“. Ihrem Enthusiasmus für Veränderungen setzt er seine Erfahrung und Souveränität entgegen. Von gut begründeten Veränderungen läßt sich aber auch der Geschäftsführer überzeugen. Er ist bei seinen Mitarbeitern beliebt und führt mit Lob und Anerkennung.
                     <p></p>
                     Der externe Unternehmensberater ist seit zwei Jahren ausschließlich für die JOGA GmbH tätig. Er ist grundsätzlich für Veränderungen und möchte für jede Idee Konzepte erarbeiten, da er damit sein Geld verdient. 
                     <p></p>
@@ -748,7 +748,7 @@
                     Bei der Statusleiste gibt es zwei Farboptionen: grau und farbig. Ist die Statusleiste farbig, so hat das Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat das Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Programm- und Kapazitätsplanung (Sehr wichtig)</b></h6>
-                    Das Leitungsteam führt Besprechungen zur aktuellen Situation in der Produktion durch. Dabei geht es sowohl um die bestmögliche Auslastung der Kapazitäten, als auch um das Aufspüren und Beseitigen von Mängeln in der Produktion oder an den Produkten. Die Planungskonferenz versuchen Sie mindestens alle 2 Wochen (30 min.) durchzuführen. <p></p>
+                    Die Geschäftsleitung führt Besprechungen zur aktuellen Situation in der Produktion durch. Dabei geht es sowohl um die bestmögliche Auslastung der Kapazitäten, als auch um das Aufspüren und Beseitigen von Mängeln in der Produktion oder an den Produkten. Die Planungskonferenz versuchen Sie mindestens alle 2 Wochen (30 min.) durchzuführen. <p></p>
 
                     <h6><b>Rahmenvorgabe</b></h6>
                     Für die Gestaltungsspanne der Preise und Termine geben Sie vor Beginn des Spiels sowie alle zwei Wochen (30min.) eine Rahmenvorgabe an den Kundenservice:<p></p>
@@ -791,7 +791,7 @@
                 <div style="font-weight: bold;">Störfälle</div>
             </div>
             <div class="collapsible-body">
-                <span>Bei auftretenden Problemen sind Sie der Ansprechpartner für alle Mitarbeiter. Als Leitungsteam sollten Sie Ihren Kollegen bei der Beseitigung aller Störungen helfen. Selbstverständlich dürfen Sie auch Personal zwischen einzelnen Arbeitsgruppen austauschen. 
+                <span>Bei auftretenden Problemen sind Sie der Ansprechpartner für alle Mitarbeiter. Als Geschäftsleitung sollten Sie Ihren Kollegen bei der Beseitigung aller Störungen helfen. Selbstverständlich dürfen Sie auch Personal zwischen einzelnen Arbeitsgruppen austauschen. 
                     Wenn Sie ein mangelhafte Auslastung einzelner Mitarbeiter oder Teams feststellen, so können Sie Zusatzaufgaben vergeben, um die Mitarbeiter wieder zu aktivieren. Gegebenenfalls erhalten Sie zusätzliche Aufgaben durch die Spielleitung.                    
                 </span>
             </div>

@@ -190,7 +190,7 @@ class Migration(migrations.Migration):
         else:
             print("Superuser was not created because the debug flag in settings.py is not set.")
 
-        #Leitungsteam
+        #Geschäftsleitung
         for number in range(0, PLAYER_AMOUNT_LEITUNGSTEAM + 1):
             
             my_name = LEITUNGSTEAM_CODE
