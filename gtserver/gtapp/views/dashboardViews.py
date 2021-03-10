@@ -126,7 +126,6 @@ def dashboard(request):
     ## Nachrichten
     data_007_5 = []
 
-
     for day in range(1,current_gameday+1):
         labels_007.append('Tag '+str(day))
 
@@ -135,6 +134,25 @@ def dashboard(request):
         data_007_3.append(all_supp_orders.filter(_creation_gameday=day).count())
         data_007_4.append(all_supp_complaints.filter(_creation_gameday=day).count())
         data_007_5.append(all_messages.filter(_creation_gameday=day).count())
+
+    #008 Übersicht Aufträge Lieferverzug
+    data_008 = []
+    for cust_order in all_cust_orders.exclude(status=CustOrder.Status.ABGENOMMEN).exclude(status=CustOrder.Status.STORNIERT):
+        days_until_delivery = cust_order.delivery_date - current_gameday
+        if days_until_delivery >= 1 and days_until_delivery <= 3:
+            data_set_color = '#f58a42' ##Orange
+            data_set_font_weight = 'bold'
+        elif days_until_delivery <= 0:
+            data_set_color = '#e60000' ##Red
+            data_set_font_weight = 'bolder'
+        else:
+            data_set_color = '#000000' ##Schwarz
+            data_set_font_weight = 'normal'
+
+        data_008.append({'cust_order':cust_order,'days_until_delivery':days_until_delivery,'data_set_color':data_set_color,'data_set_font_weight':data_set_font_weight})
+
+    #data_008.sort(key='days_until_delivery')
+    data_008 = sorted(data_008, key=lambda k: k['days_until_delivery']) 
 
 
     return render(request, 'dashboard.html', {
@@ -164,4 +182,6 @@ def dashboard(request):
         'data_007_3': data_007_3,
         'data_007_4': data_007_4,
         'data_007_5': data_007_5,
+
+        'data_008': data_008,
     })
