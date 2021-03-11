@@ -104,18 +104,17 @@
 
       {# SPIELLEITUNG: #}
       {% if request.user.id == 1 %}
-        <li><a href="{% url 'home' %}">Platzhalter Spielsteuerung</a></li>
-        <li><a href="{% url 'credentials_sheet' %}">Zugangsdaten</a></li>
+        <li><a href="{% url 'dashboard' %}"><i class="material-icons left">dashboard</i>Dashboard der GL</a></li>
+        <li><a href="{% url 'controlpanel' %}"><i class="material-icons left">today</i>Spielsteuerung</a></li>
+        <li><a href="{% url 'credentials_sheet' %}"><i class="material-icons left">password</i>Zugangsdaten</a></li>
+        <li><a href="{% url 'optionsview' %}"><i class="material-icons left">settings</i>Einstellungen</a></li>
       {% endif %}
 
       {# LEITUNGSTEAM: #}
       {% if LEITUNGSTEAM in group %}
         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
       {% endif %}
-      {% if SPIELLEITUNG in group %}
-        <li><a href="{% url 'controlpanel' %}">Kontrollstation</a></li>
-        <li><a href="{% url 'optionsview' %}">Optionen</a></li>
-      {% endif %}
+
       {% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_list' %}">Fertigungsaufträge</a></li> {% endif %}
       {% if KUNDENDIENST in group or KUNDEN in group or LEITUNGSTEAM in group %}
         {% if perms.gtapp.view_custorder %}<li><a href="{% url 'cust_order' %}">{% if company == KUNDEN %}Bestellungen{% else %}Aufträge{% endif %}</a></li>{% endif %}
@@ -127,7 +126,7 @@
       {% if perms.gtapp.view_stock %}<li><a href="{% url 'stock' %}">Lager</a></li> {% endif %}
       <!--{% if perms.gtapp.view_permmanufacturinglist %}<li><a href="{% url 'manufacturing_complaints' %}">Reklamationsaufträge</a></li>{% endif %}-->
       <li><div class="divider"></div></li>
-      <li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>
+      {% if request.user.id != 1 %}<li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>{% endif %}
       <li><a href="{% url 'faq' content=0  %}">FAQ</a></li>
       <li><div class="divider"></div></li>
       {% if SPIELLEITUNG in group %}

@@ -2,7 +2,7 @@
 {% load materializecss %}
 
 <!-- Title-->
-{% block title %}Optionen{% endblock %}
+{% block title %}Einstellungen{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -20,13 +20,14 @@
     <div class="row section">
         <div class="col s12">
             <a class="btn-flat" href="{% url 'home' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-            <h4>Optionen</h4>
+            <h4>Einstellungen</h4>
         </div>
-    </div>
-    <div class="row section">
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
+                    <p>Beim Erstellen einer frischen Datenbank kann die Digitalisierungsstufe eingestellt und bestimmt werden, wie viele Benutzer angelegt werden sollen.</p>
+                    <br />
+                    <p>Die Länge eines Spieltags einstellen:</p>
                     <div class="row" style="margin-bottom: 0px;">
                     {% for field in form.visible_fields %}
                         {% if forloop.counter0|divisibleby:2 %}

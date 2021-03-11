@@ -2,7 +2,7 @@
 {% load materializecss %}
 
 <!-- Title-->
-{% block title %}Optionen{% endblock %}
+{% block title %}Spielsteuerung{% endblock %}
 
 <!-- Header-->
 {% block head %}
@@ -19,14 +19,14 @@
     <div class="row section">
         <div class="col s12">
             <a class="btn-flat" href="{% url 'home' %}" style="margin-left: -16px;"><i class="material-icons left">arrow_back</i>Zurück</a>
-            <h4>Kontrollstation</h4>
+            <h4>Spielsteuerung</h4>
         </div>
-    </div>
-    <div class="row section">
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <a href="{% url 'timetoggle' %}" class="waves-effect waves-light btn">{% if timeactive %}Zeit anhalten{% else %}Zeit starten{% endif %}</a>
+                    <p>{% if timeactive %}Gerade läuft die Zeit.{% else %}Gerade ist die Zeit angehalten.{% endif %}</p>
+                    <br />
+                    <a href="{% url 'timetoggle' %}" class="waves-effect waves-light btn"><i class="material-icons left">today</i>{% if timeactive %}Zeit anhalten{% else %}Zeit starten{% endif %}</a>
                 </div>
             </div>
         </div>
