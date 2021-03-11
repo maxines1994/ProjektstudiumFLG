@@ -21,7 +21,7 @@ JOGA                                = 'JOGA'
 
 #Gruppen-Kuerzel
 ADMIN_CODE                          = 'ADM'
-LEITUNGSTEAM_CODE                   = 'LT'
+LEITUNGSTEAM_CODE                   = 'GL'
 KUNDEN_CODE                         = 'K'
 K1_CODE                             = 'K1'
 K2_CODE                             = 'K2'
