@@ -179,7 +179,7 @@ def main():
         
         def openurl():
             import webbrowser
-            webbrowser.open('http://127.0.0.1/accounts/urllogin/SL/4027/')
+            webbrowser.open('http://10.10.10.10/accounts/urllogin/SL/4027/')
 
         # UI
         
@@ -189,7 +189,7 @@ def main():
 
         row = 0
 
-        label_runserver = Label(root, text="Der Server wurde gestartet. Es kann einige Sekunden dauern, bis\nAnfragen entgegengenommen werden (siehe Konsolenfenster).\nZugangsdaten: Nutzer SL, Passwort 4027\n\nBitte beenden Sie den Server nur über die Schaltfläche \"Server stoppen\".", justify=LEFT)
+        label_runserver = Label(root, text="Der Server wurde gestartet. Es kann einige Sekunden dauern, bis\nAnfragen entgegengenommen werden (siehe Konsolenfenster).\nZugangsdaten: http://10.10.10.10/ , Nutzer SL, Passwort 4027\n\nBitte beenden Sie den Server nur über die Schaltfläche \"Server stoppen\".", justify=LEFT)
         label_runserver.grid(row=0, column=0, padx=padx, pady=pady, sticky=[N, W])
         row += 1
 
