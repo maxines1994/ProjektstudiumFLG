@@ -178,20 +178,22 @@
     {% endblock %}
 
     <!-- Scripts-->
-    <script>
+    
+    {% if perms.gtapp.view_task %}
+      <script>
         $(document).ready(function (){
             var tasks_options = {
             'edge': 'right',
             'onOpenStart': getTasks
           }
 
-          {% if perms.gtapp.view_task %}
-            M.Sidenav.init($("#tasks")[0], tasks_options);
-          {% endif %}
-
-          var sidenav_options = {
-            {% if perms.gtapp.view_task %}'onOpenStart': closeRight{% endif %}
-          }
+          M.Sidenav.init($("#tasks")[0], tasks_options);
+        });
+      </script>
+    {% endif %}
+      <script>
+        $(document).ready(function(){
+          var sidenav_options = { {% if perms.gtapp.view_task %}'onOpenStart': closeRight{% endif %} };
           M.Sidenav.init(document.getElementById('sidenav'), sidenav_options);
           M.Dropdown.init($('.dropdown-trigger'), {'constrainWidth': false});
           $('.collapsible').collapsible();
