@@ -79,8 +79,8 @@ class Migration(migrations.Migration):
                     perm_list.append(item)
                 return perm_list
             
-            if group.name == SPIELLEITUNG:
-                can_change      = get_content_type_ids_of_models(Message)
+            # if group.name == SPIELLEITUNG:
+            #     can_change      = get_content_type_ids_of_models()
   
             if group.name == LEITUNGSTEAM:
                 can_change      = get_content_type_ids_of_models(Message)
