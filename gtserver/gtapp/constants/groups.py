@@ -3,7 +3,7 @@ Alle Gruppen-Konstanten werden in dieser Datei definiert.
 """
 
 ADMIN                               = 'Admin'
-LEITUNGSTEAM                        = 'Leitungsteam'
+LEITUNGSTEAM                        = 'Geschäftsleitung'
 KUNDEN                              = 'Kunden'
 K1                                  = 'Kunde 1'
 K2                                  = 'Kunde 2'

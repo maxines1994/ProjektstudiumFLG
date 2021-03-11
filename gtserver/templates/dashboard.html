@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_tags %}
 
 <!--Head-->
 {% block head %}
@@ -124,9 +125,68 @@
         </div>    
     </div>
 
+    <div class="col s12">
+        <h6 class="header">Offene Aufträge</h6>
+        <div class="card horizontal">
+          <div class="card-stacked">
+            <div class="card-content">
+                <div class="table-scrollable">
+                    <table id="itemtable">
+                        <thead id="itemhead">
+                            <tr>
+                                <th>Tag(e) bis Lieferdatum</th>
+                                <th>Auftragsnummer</th>
+                                <th>Referenz</th>
+                                <th>Kunde</th>
+                                <th>Lieferdatum</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="itembody">
+                            <!-- Alle complaints durchlaufen und in ABhängigkeit des eingeloggten Benutzers anzeigen-->
+                            {% for i in data_008 %}
+                                <tr>
+                                    <td><div style="color: {{ i.data_set_color }}; font-weight: {{i.data_set_font_weight}};">{{ i.days_until_delivery }} Tag(e)</div></td>
+                                    <td>{{ i.cust_order.order_no }}</td>
+                                    <td>{{ i.cust_order.ref_no }}</td>
+                                    <td>{{i.cust_order.customer}}</td>
+                                    <td>Tag {{ i.cust_order.delivery_date|default_if_none:"-" }}</td>
+                                    <td>                                    
+                                        <div class="progress">
+                                        <div class="determinate" style="width: {{ i.cust_order.get_status_progress }};"></div>
+                                        </div>
+                                        {{ i.cust_order.get_status_display }} 
+                                    </td>
+                                    <td><a class='dropdown-trigger btn-floating btn waves-effect waves-light' data-target='a{{i.cust_order.id}}'><i
+                                                class="material-icons">more_vert</i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-action">
+              <a href="#"></a>
+            </div>
+          </div>
+        </div>    
+    </div>
+
 </div>
+{% endblock %}
 
+<!-- Body-->
+{% block body %}
+    {% for i in data_008 %}
+        <ul id='a{{i.cust_order.id}}' class='dropdown-content'>
+                <li><a href="{% url 'cust_order_alter' i.cust_order.id %}" class="li-content"><i class="material-icons">create</i>Öffnen</a></li>
+        </ul>
+    {% endfor %}
+{% endblock %}
 
+<!-- Scripts-->
+{% block scripts %}
 <script type="text/javascript">
     $(document).ready(function (){
 
@@ -458,4 +518,3 @@
     });
 </script>
 {% endblock %}
-
