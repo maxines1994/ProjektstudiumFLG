@@ -69,8 +69,9 @@ def credentials_sheet_view(request):
                 'user': user,
                 'password': password,
                 'company': user.groups.filter(name__in=[KUNDEN, JOGA, LIEFERANTEN]).first().name,
-                'group': user.groups.exclude(name__in=[KUNDEN, JOGA, LIEFERANTEN]).first().name,
+                'group': user.groups.exclude(name__in=[KUNDEN, JOGA, LIEFERANTEN, SPIELLEITUNG]).first().name,
                 'login_url': base_url + reverse('urllogin', kwargs={'username': user.username, 'password': password}),
+                'site': base_url + '/',
             }
             userdict.append(credentials)
         
