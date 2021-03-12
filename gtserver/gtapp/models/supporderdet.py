@@ -39,7 +39,7 @@ class SuppOrderDet(OrderDet):
         # Packe die Listen zusammen. Die erste Liste ist ein Iterator von 1 bis zur Listenlaenge.
         # Es muss nochmal + 1 addiert werden, weil wir die 0 nicht mitzaehlen
         part_quantity = zip(range(1,list_length +1), part_list, quantity_list)
-        my_pos = 0
+        my_pos = 1
         for i, part, quantity in part_quantity:
             # Nur Positionen hinzufuegen, die eine groessere Bestellmenge als 0 haben
             if int(quantity) > 0:

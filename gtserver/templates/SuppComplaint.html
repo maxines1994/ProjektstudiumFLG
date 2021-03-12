@@ -97,7 +97,6 @@
         {% if c.status == STATUS.REKLAMATION_FREIGEGEBEN %}
             <li><a href="{% url 'stock_check' c.id %}" class="li-content"><i class="material-icons">flag</i>Bestandsprüfung</a></li>
         {% elif c.status >= STATUS.BESTANDSPRUEFUNG_ABGESCHLOSSEN and c.status <= STATUS.VERSAND_AN_LIEFERANT %}
-            <li><a href="{% url 'goods_shipping' c|to_class_name c.id%}" class="li-content"><i class="material-icons">unarchive</i> Warenentnahme</a></li>
             <li><a href="{% url 'box_assign' c|to_class_name c.id%}" class="li-content"><i class="material-icons">local_shipping</i>An Kunden liefern</a></li>
         {% elif c.status == STATUS.GELIEFERT %}
             <li><a href="{% url 'set_status_call' c|to_class_name c.id POS_STATUS.ABGESCHLOSSEN %}" class="li-content"><i class="material-icons">done_all</i>Abschließen</a></li>

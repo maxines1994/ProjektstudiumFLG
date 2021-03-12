@@ -6,6 +6,7 @@ from gtapp.models import Task, TaskType, CustOrder, SuppOrder, CustOrderDet, Sup
 from django.contrib.auth.models import Group, User
 from gtapp.constants import *
 from gtapp.views.StatusViews import set_status 
+from gtapp.views import StatusViews 
 from django import forms
 from gtapp.forms import *
 import json
@@ -168,12 +169,14 @@ def delivery_view(request, **kwargs):
                         mykwargs['task_type'] = 38
 
             if my_model == SuppComplaint:
-                if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
-                    my_supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['id'])
-
-                    for item in my_supp_complaint_dets:
-                        set_status(SuppComplaintDet.__name__, item.id, SuppComplaintDet.Status.VERSAND_AN_LIEFERANT)
-                    return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs=mykwargs))
+                my_supp_complaint_dets = SuppComplaintDet.objects.filter(supp_complaint_id=kwargs['id'])
+                if request.user.groups.filter(name=JOGA).exists():
+                    new_status = SuppComplaintDet.Status.VERSAND_AN_LIEFERANT
+                if request.user.groups.filter(name=LIEFERANTEN).exists():
+                    new_status = SuppComplaintDet.Status.GELIEFERT
+                for item in my_supp_complaint_dets:
+                    StatusViews.set_status(SuppComplaintDet.__name__, item.id, new_status)
+                return HttpResponseRedirect(reverse("supp_complaint_alter", kwargs=mykwargs))
 
             if len(mykwargs) > 1:
                 # Redirect mit Parameter

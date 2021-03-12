@@ -144,7 +144,6 @@
                 {% elif OBJ_STATUS == STATUS.REKLAMATION_FREIGEGEBEN %}
                     <a class="btn waves-effect waves-light" href="{% url 'stock_check' object.id %}"><i class="material-icons left">flag</i>Bestandsprüfung</a>
                 {% elif OBJ_STATUS == STATUS.BESTANDSPRUEFUNG_ABGESCHLOSSEN %}
-                    <a class="btn waves-effect waves-light" href="{% url 'goods_shipping' object|to_class_name object.id%}"><i class="material-icons left">unarchive</i>Warenentnahme</a>
                     <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}" type="submit" name="action"><i class="material-icons left">local_shipping</i>An Kunde liefern</a>
                 {% elif OBJ_STATUS == STATUS.GELIEFERT %}
                     <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id POS_STATUS.ABGESCHLOSSEN %}" type="submit" name="action"><i class="material-icons left">done_all</i>Abschließen</a>

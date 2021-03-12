@@ -242,18 +242,10 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         form.instance.status = self.get_new_status(my_obj)
         my_obj = form.save()
         previous = self.request.POST.get('previous', '/')
-        # Lieferanten werden weiter geleitet  auf die SuppOrder geleitet
-        if self.request.user.groups.filter(name=LIEFERANTEN).exists():
-            if self.kwargs['model'] != SuppComplaint.__name__:
-                my_redirect = reverse("goods_shipping", args=('SuppOrder',self.kwargs['id']))
-            else:
-                # Bei Lieferant nach dem Boxscan nur den Status der Positionen aendern und zurueck zur vorherigen Maske
-                my_supp_complaint = SuppComplaint.objects.get(id=self.kwargs['id'])
-                my_supp_complaint_det_qry = SuppComplaintDet.objects.filter(supp_complaint=my_supp_complaint)
-                for complaint in my_supp_complaint_det_qry:
-                    complaint.status = SuppComplaintDet.Status.GELIEFERT
-                    complaint.save()
-                my_redirect = previous
+        # Lieferanten werden weiter auf zur Kommissionierung geleitet
+        if self.request.user.groups.filter(name=LIEFERANTEN).exists():  
+            my_redirect = reverse("goods_shipping", args=(self.kwargs['model'],self.kwargs['id']))
+
         # PDL wird weitergeleitet auf goods_shipping fuer wofuer auch immer sie die Box zugewiesen haben
         elif self.request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
             if self.kwargs['model'] != SuppComplaint.__name__:
