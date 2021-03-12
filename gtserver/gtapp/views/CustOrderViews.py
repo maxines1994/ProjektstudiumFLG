@@ -198,6 +198,7 @@ class Cust_order_view(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context["STATUS"] = CustOrder.Status.__members__
+        context["POS_STATUS"] = CustOrderDet.Status.__members__
 
         if (LiveSettings.objects.all().first().phase_3):
             # 3. Digitalisierungsstufe

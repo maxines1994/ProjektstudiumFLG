@@ -98,7 +98,7 @@
             {% endif %}
             {% if KUNDEN in group %}
                 {% if o.status == STATUS.ERFASST %}
-                    <li><a href="{% url 'set_status_call' o|to_class_name o.pk STATUS.BESTELLT %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a></li>
+                    <li><a href="{% url 'set_status_call' o|to_class_name o.pk POS_STATUS.BESTELLT %}" class="li-content"><i class="material-icons">done_all</i>Freigeben</a></li>
                 {% endif %}
             {% elif KUNDENDIENST in group or LEITUNGSTEAM in group %}
                 {% if o.status == STATUS.ERFASST %}

@@ -86,7 +86,7 @@ class CustOrderDet(OrderDet):
 
             elif minstatus <= int(self.Status.LIEFERUNG_AN_K_AUSSTEHEND):
                 # Wenn schon Positionen geliefert wurden teilgeliefert, sonst in Bearbeitung
-                if CustOrderDet.objects.filter(status=self.Status.GELIEFERT).exists():
+                if CustOrderDet.objects.filter(cust_order=self.cust_order, status=self.Status.GELIEFERT).exists():
                     self.cust_order.status = CustOrder.Status.TEILGELIEFERT
                 else:
                     self.cust_order.status = CustOrder.Status.IN_BEARBEITUNG
@@ -110,7 +110,7 @@ class CustOrderDet(OrderDet):
 
             elif minstatus <= int(self.Status.BESTELLT):
                 # Wenn schon Positionen geliefert wurden teilgeliefert, sonst in Bearbeitung
-                if CustOrderDet.objects.filter(status=self.Status.GELIEFERT).exists():
+                if CustOrderDet.objects.filter(cust_order=self.cust_order, status=self.Status.GELIEFERT).exists():
                     self.cust_order.status = CustOrder.Status.TEILGELIEFERT
                 else:
                     self.cust_order.status = CustOrder.Status.BESTELLT
