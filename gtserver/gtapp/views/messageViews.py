@@ -65,6 +65,13 @@ class msgWriteView(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         # Vorbelegung Empfänger für Lieferanten und Kunden
+        
+        if 'msg' in self.kwargs:
+            return {
+                'receiver': MessageUser.objects.filter(pk=self.kwargs['msg'])[0].message.sender.groups.exclude(name__in=[KUNDEN, JOGA, LIEFERANTEN,SPIELLEITUNG]).first(),
+                'text': "\n\n\n --- Antwort auf --- \n" + MessageUser.objects.filter(pk=self.kwargs['msg'])[0].message.text + "\n ----- \n",
+                }
+
         if self.request.user.groups.filter(name=KUNDEN).exists():
             return {'receiver': Group.objects.get(name=KUNDENDIENST)}
         elif self.request.user.groups.filter(name=LIEFERANTEN).exists():
@@ -127,10 +134,8 @@ class msgDetailsView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = get_context_back(context, "Nachricht", "")  
-
-     
-
+        context = get_context_back(context, "Nachricht", "")
+        context['mu'] = MessageUser.objects.filter(pk=self.kwargs['id'])[0]
         obj = self.get_object()
         if obj.sender == self.request.user:
             context["is_sender"] = True
@@ -176,25 +181,25 @@ def add_order_view(request, **kwargs):
 
     # Variables füllen der übergeordneten Instanz als Dictionary variabel nach Cust oder (else) Supp
     if CustOrder.__instancecheck__(main):
-        order['partner'] = "Partner: " + str(main.customer.name)
+        order['partner'] = "Geschäftspartner: " + str(main.customer.name)
         order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
         if request.user.groups.filter(name=JOGA).exists():
             order['refno'] = "Referenznummer: " + str(main.ref_no)
     elif SuppOrder.__instancecheck__(main):
-        order['partner'] = "Partner: " + str(main.supplier.name)
+        order['partner'] = "Geschäftspartner: " + str(main.supplier.name)
         order['deliverydate'] = "Lieferdatum: " + str(main.delivery_date)
         bx = str(main.box_no) if main.box_no is not None else ""
         order['Boxnummer'] = "Boxnummer: " + bx
         if request.user.groups.filter(name=LIEFERANTEN).exists():
             order['refno'] = "Referenznummer: " + str(main.ref_no)
     elif CustComplaint.__instancecheck__(main):
-        order['partner'] = "Partner: " + str(main.cust_order.customer.name)
+        order['partner'] = "Geschäftspartner: " + str(main.cust_order.customer.name)
         if request.user.groups.filter(name=JOGA).exists():
             order['refno'] = "Referenznummer: " + str(main.ref_no)
     elif SuppComplaint.__instancecheck__(main):
         bx = str(main.box_no) if main.box_no is not None else ""
         order['Boxnummer'] = "Boxnummer: " + bx
-        order['partner'] = "Partner: " + str(main.supp_order.supplier.name)
+        order['partner'] = "Geschäftspartner: " + str(main.supp_order.supplier.name)
         if request.user.groups.filter(name=LIEFERANTEN).exists():
             order['refno'] = "Referenznummer: " + str(main.ref_no)
     else:
