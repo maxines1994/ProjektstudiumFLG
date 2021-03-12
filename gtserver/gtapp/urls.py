@@ -122,5 +122,6 @@ urlpatterns = [
 
     # Dashboard
     path('dashboard/', dashboard, name='dashboard'),
+    path('barcodes/', barcodeView, name='barcode_sheets'),
 
 ]
