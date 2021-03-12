@@ -69,6 +69,7 @@ class msgWriteView(LoginRequiredMixin, CreateView):
         if 'msg' in self.kwargs:
             return {
                 'receiver': MessageUser.objects.filter(pk=self.kwargs['msg'])[0].message.sender.groups.exclude(name__in=[KUNDEN, JOGA, LIEFERANTEN,SPIELLEITUNG]).first(),
+                'subject': "AW: " + MessageUser.objects.filter(pk=self.kwargs['msg'])[0].message.subject,
                 'text': "\n\n\n --- Antwort auf --- \n" + MessageUser.objects.filter(pk=self.kwargs['msg'])[0].message.text + "\n ----- \n",
                 }
 

@@ -49,7 +49,6 @@ class Supp_order_form_lf(ModelForm):
 class Supp_order_det_form(ModelForm):
     use_required_attribute = False
     memo = CharField(required=False,label="Kommentar")
-
     class Meta:
         model = SuppOrderDet
         fields = ["part", "quantity", "memo"]
@@ -65,4 +64,4 @@ class Supp_order_det_form(ModelForm):
 
     def __init__(self, parts, *args, **kwargs):
         super(Supp_order_det_form, self).__init__(*args, **kwargs)
-        self.fields['part'].queryset = parts
+        self.fields['part'].queryset = parts.filter(supplier_id=3)
