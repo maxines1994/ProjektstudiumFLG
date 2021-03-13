@@ -83,10 +83,6 @@ def set_status_call(request, **kwargs):
             if kwargs["status"] == int(SuppOrder.Status.GELIEFERT):
                 my_redirect_url = reverse("supp_order")     
         
-        # Wenn PDL eine Bestellung freigibt, wird auf msgwrite umgeleitet
-        if request.user.groups.filter(name=PRODUKTIONSDIENSTLEISTUNG).exists():
-            if kwargs["status"] == int(SuppOrder.Status.BESTELLT):
-                my_redirect_url = reverse("msgwrite")
 
     return HttpResponseRedirect(my_redirect_url)
 
