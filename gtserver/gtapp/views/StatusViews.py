@@ -91,23 +91,27 @@ def set_status(model: str, id: int, status: int):
     Keine View. Interne Methode zum setzen des Status. Benoetigte Argumente:
     """
     my_model = GtModel.str_to_gtmodel(model)
-    my_obj = my_model.objects.get(id=id)
-    # Nur Status aendern, wenn ein vernuenftiger Status > -1 uebergeben wird
-    # Und wenn der Status groesser ist als der bisherige!
-    if int(status) > UNKNOWN and int(my_obj.status) < int(status):
-        #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
-        # /!\ Umsetzung mit save() ist notwendig, weil update() nicht save() aufruft und keine Speicher-Events generiert, weshalb der Status des Kopf nicht gesetzt werden würde.
-        if my_model == CustOrder:
-            for obj in CustOrderDet.objects.filter(cust_order_id=id):
-                obj.status = status
-                obj.save()
-        elif my_model == SuppComplaint:
-            for obj in SuppComplaintDet.objects.filter(supp_complaint_id=id):
+    
+    print(model)
+    #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
+    # /!\ Umsetzung mit save() ist notwendig, weil update() nicht save() aufruft und keine Speicher-Events generiert, weshalb der Status des Kopf nicht gesetzt werden würde.
+    if my_model == CustOrder:
+        for obj in CustOrderDet.objects.filter(cust_order_id=id):
+            # Nur Status aendern, wenn ein vernuenftiger Status > -1 uebergeben wird
+            # Und wenn der Status groesser ist als der bisherige!
+            if int(status) > UNKNOWN and int(obj.status) < int(status):
                 obj.status = status
                 obj.save()
 
-        else:
-            obj = my_model.objects.get(id=id)
+    elif my_model == SuppComplaint:
+        for obj in SuppComplaintDet.objects.filter(supp_complaint_id=id):
+            if int(status) > UNKNOWN and int(obj.status) < int(status):
+                obj.status = status
+                obj.save()
+
+    else:
+        obj = my_model.objects.get(id=id)
+        if int(status) > UNKNOWN and int(obj.status) < int(status):
             obj.status = status
             obj.save()
         
