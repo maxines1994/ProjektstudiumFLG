@@ -25,3 +25,13 @@ def handler500_view(request):
 # HTTP Error 404
 def handler404_view(request, exeption):
     return render(request, '404.html', status=404)
+
+def workflows_view(request):
+    context = {
+        "JOGA": ["",],
+        "KUNDEN": ["",],
+        "LIEFERANTEN": ["",],
+        "SPIELLEITUNG": ["",],
+    }
+    return render(request, "workflows.html", context)
+
