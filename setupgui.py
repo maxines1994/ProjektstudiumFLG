@@ -207,7 +207,8 @@ def main():
 
         root.mainloop() 
 
-
+    def close():
+        mainroot.destroy()
 
     # Hauptfenster erstellen
     mainroot = Tk()
@@ -242,7 +243,9 @@ def main():
     btn_start = Button(frame_runserver, text="Server starten", command=runserver, justify=RIGHT)
     btn_start.grid(row=1, column=0, padx=padx, pady=pady, sticky=[S, E])
 
-    
+    btn_start = Button(mainroot, text="Schließen", command=close, justify=RIGHT)
+    btn_start.grid(row=mainrow, column=0, padx=padx, pady=pady, sticky=[S, E])
+    mainrow += 1
 
 
     # UI-Loop
