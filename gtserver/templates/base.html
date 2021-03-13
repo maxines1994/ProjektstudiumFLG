@@ -26,16 +26,8 @@
     <meta name="theme-color" content="#ffffff">
 
     <!--Import materialize.css-->
-    {% if company == JOGA %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_light-blue.min.css' %}"  media="screen, projection"/>
-    {% elif company == LIEFERANTEN %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_green.min.css' %}"  media="screen, projection"/>
-    {% elif company == KUNDEN %}
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_red.min.css' %}"  media="screen, projection"/>
-    {% else %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/materialize_grey.min.css' %}"  media="screen, projection"/>
-    {% endif %}
-    
+
     <!--Import materialize.js-->
     <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
 
