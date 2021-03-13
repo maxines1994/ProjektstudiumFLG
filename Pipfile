@@ -10,7 +10,7 @@ django = "*"
 django-materializecss-form = "*"
 django-crum = "*"
 django-qr-code = "*"
-django-barcode = "*"
+python-barcode = "*"
 
 [requires]
 python_version = "3.8"
