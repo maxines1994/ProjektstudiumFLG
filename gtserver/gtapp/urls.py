@@ -20,9 +20,13 @@ urlpatterns = [
     path('accounts/urllogin/<str:username>/<str:password>/', url_login_view, name='urllogin'),
     path('accounts/credentials_sheet/', credentials_sheet_view, name='credentials_sheet'),
 
+    # Options
     path('options/', LiveSettingsUpdate.as_view(), name='optionsview'),
     path('controlpanel/', controlPanel, name='controlpanel'),
     path('timetoggle/', timeToggleView, name='timetoggle'),
+
+    # Workflows
+    path("workflows/", , name="workflows"),
 
     # Aufgaben
     path('tasks/', tasks_view, name='tasks'),
