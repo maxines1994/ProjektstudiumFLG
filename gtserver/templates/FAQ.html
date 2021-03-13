@@ -17,7 +17,7 @@ FAQ
 <h4>FAQ</h4>
 <div class="col s12">
     <ul class="collapsible popout">
-        
+        {% if request.user.id != 1 %}
         <li {% if content == 1 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Nachrichten</div>
             <div class="collapsible-body">
@@ -30,6 +30,9 @@ FAQ
                 <p>Mithilfe von 'Anhängen von Dokumenten' können Sie die wichtigsten Informationen eines Auftrages, einer Bestellung oder einer Reklamation in die Nachricht einfügen. Diese können bei Bedarf angepasst werden.</p>
             </div>
         </li>
+        {% endif %}
+
+        {% if request.user.id != 1 %}
         <li {% if content == 2 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Aufgaben</div>
             <div class="collapsible-body">
@@ -43,6 +46,9 @@ FAQ
                 <p>Der dritte Reiter 'Abgeschlossen' listet alle Aufgaben auf, die Sie bereits abgeschlossen haben.</p>
             </div>
         </li>
+        {% endif %}
+
+        {% if request.user.id != 1 %}
         <li {% if content == 3 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Scannen des Barcodes beim Erhalten einer neuen Box oder eines neuen Hubwagens</div>
             <div class="collapsible-body">
@@ -53,6 +59,9 @@ FAQ
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Scannen_des_Barcodes_Erhalten_02.jpg' %}">
             </div>
         </li>
+        {% endif %}
+
+        {% if request.user.id != 1 %}
         <li {% if content == 4 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Scannen des Barcodes für das Versenden der Box oder eines Hubwagens</div>
             <div class="collapsible-body">
@@ -62,9 +71,10 @@ FAQ
                 <p>Diese Maske wird bei verschiedenen Buttons aufgerufen, wenn ein Barcodescan benötigt wird. In dieser Maske können Sie den Barcode scannen oder die Nummer, welche unter dem Barcode steht, manuell eingeben.</p>
             </div>
         </li>
+        {% endif %}
 
 
-        {% if request.user|has_group:KUNDENDIENST or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300%}
         <li {% if content == 5 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage eines Auftrags</div>
             <div class="collapsible-body">
@@ -82,7 +92,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:KUNDENDIENST  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300%}
         <li {% if content == 6 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung des Auftrages auf Kopfebene</div>
             <div class="collapsible-body">
@@ -92,7 +102,7 @@ FAQ
                 <p><b>Speichern:</b> Neue Änderungen auf Auftrags-Kopfebene werden gespeichert</p>
                 <p><b>Freigeben:</b> Der Auftrag wird freigegeben. In dem JOGA-System wir aus jeder Auftragsposition automatisch ein Fertigungsauftrag erstellt.</p>
                 <p><b>Löschen:</b> Der Auftrag wird unwiderruflich gelöscht.</p>
-                {% if request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300%}
                 <p><b>Bestandsprüfung:</b> Hier kann der <a href= "/faq/11/">Bestand</a> geprüft werden und die bestellten Teile reserviert werden.</p>
                 <p><b>Kunde beliefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um die Teile an den Kunden zu liefern.</p>
                 {% endif %}
@@ -100,7 +110,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:KUNDENDIENST  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 %}
         <li {% if content == 7 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung des Auftrages auf Positionsebene</div>
             <div class="collapsible-body">
@@ -108,7 +118,7 @@ FAQ
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bearbeitung_Auftrag_Position_01.jpg' %}">
                 <div class="divider"></div>
                 <p>Über das Burgermenü können Sie die Position bearbeiten, löschen oder stornieren.</p>
-                {% if request.user|has_group:KUNDENDIENST  or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:KUNDENDIENST %}
                 <p><b>An Kunden liefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um den Hubwagen an den Kunden auszuliefern.</p>
                 <p><b>Ware abgenommen:</b> Hier können Sie angeben, dass der Kunde den Hubwagen abegnommen hat. Wenn alle Positionen abgenommen wurden, wird der Auftrag automatisch auf 'Abgenommen' gesetzt.</p>
                 {% endif %}
@@ -116,7 +126,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
         <li {% if content == 8 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellung</div>
             <div class="collapsible-body">
@@ -131,7 +141,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
         <li {% if content == 9 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung der Bestellung auf Kopfebene</div>
             <div class="collapsible-body">
@@ -141,7 +151,7 @@ FAQ
                 <p><b>Speichern:</b> Neue Änderungen auf Bestell-Kopfebene werden gespeichert</p>
                 <p><b>Freigeben:</b> Die Bestellung wird freigegeben.</p>
                 <p><b>Löschen:</b> Der Bestellung wird unwiderruflich gelöscht.</p>
-                {% if request.user|has_group:PDL or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:PDL %}
                 <p><b>Wareneingang buchen:</b> Hier kann der <a href= "/faq/3/">Wareneingang</a> gebucht werden.</p>
                 <p><b>Voll beliefert:</b> Bestellung wird auf 'Geliefert' gesetzt. Erst auswählen nach der vollständigen Wareneingangsbuchung. </p>
                 {% endif %}
@@ -149,7 +159,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
         <li {% if content == 10 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung der Bestellung auf Positionsebene</div>
             <div class="collapsible-body">
@@ -157,17 +167,17 @@ FAQ
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bearbeiten_einer_Bestellung_Positionsebene_01.jpg' %}">
                 <div class="divider"></div>
                 <p>Über das Burgermenü können Sie die Position bearbeiten, löschen oder stornieren.</p>
-                {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:K1  or  request.user|has_group:K2 or request.user|has_group:K3 %}
                 <p><b>Abnehmen:</b> Nach einer erfolgreichen Qualitätsprüfung kann der Button ausgewählt werden. Wenn alle Positionen abgenommen wurden, wird die Bestellung automatisch auf 'Abgenommen' gesetzt.</p>
                 {% endif %}
             </div>
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 %}
         <li {% if content == 11 %}class="active"{% endif %}>
             
-            {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or request.user|has_group:SPIELLEITUNG%}
+            {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                 <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bestandsprüfung</div>
                 <div class="collapsible-body">
                     <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestandspruefung_JOGA.jpg' %}">
@@ -178,9 +188,9 @@ FAQ
                         <p><b>Verfügbar</b> Die Menge an Teilen, die zur Zeit unreserviert im Lager vorhanden sind.</p>
                         <p><b>Bestellt</b> Die Menge an Teile, die bereits bestellt sind.</p>
                         <p><b>Bestellen</b> Die Menge an Teile, die Sie jetzt bestellen wollen.</p>
-                        <p> Wenn alle Teile im Lager vorhanden sind, können diese reserviert werden.</p>
+                        <p> Wenn alle Teile im Lager vorhanden sind, können diese reserviert werden. Sonst wird automatisch eine Bestellung erfasst, welche freigegeben werden muss. Denken Sie daran diese an den Lieferatnen per Nachricht zu senden.</p>
                 </div>
-            {% elif request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+            {% elif request.user|has_group:L100 or request.user|has_group:L200 or request.user|has_group:L300 %}
                 <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bestandsprüfung</div>
                 <div class="collapsible-body">
                     <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Lager.jpg' %}">
@@ -193,17 +203,17 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:PRODUKTION %}
         <li {% if content == 12 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Fertigungsaufträge</div>
             <div class="collapsible-body">
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Fertigungsauftrag.jpg' %}">
                 <div class="divider"></div>
                 <p>Folgende Buttons werden im Burgermenüs eines bestimmten Fertigungsauftrage, je nach Status, angezeigt:</p>
-                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:SPIELLEITUNG %}
+                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                 <p><b>Bestandsprüfung:</b> Hier kann der <a href= "/faq/11/">Bestand</a> geprüft und gegebenenfalls die Teile reserviert werden.</p>
                 <p><b>Kommissionieren:</b> Nach der Reservierung der Teile, können hier die Teile kommissioniert und an die Produktion gesendet werden.</p>
-                {% elif request.user|has_group:PRODUKTION  or  request.user|has_group:SPIELLEITUNG%}
+                {% elif request.user|has_group:PRODUKTION  %}
                 <p><b>Montageanleitung: </b>Hier können Sie sich die Montageanleitungen für jeden einzelnen Hubwagen anzeigen lassen.</p>
                 <p><b>Fertig melden: </b>Nach der Montage, kann hier der Hubwagen an den Kundendienst gesendet werden.</p>
                 {% endif %}
@@ -211,7 +221,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 %}
         <li {% if content == 13 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Lager</div>
             <div class="collapsible-body">
@@ -228,7 +238,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
         <li {% if content == 14 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Buchung des Wareneingangs</div>
             <div class="collapsible-body">
@@ -242,15 +252,15 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG  or  request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 %}
         <li {% if content == 15 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Kommissionierung</div>
             <div class="collapsible-body">
-                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Komissionierung_JOGA.jpg' %}">
                 <div class="divider"></div>
                 <p>Bei der Kommissionierung geben Sie die entnommenen Teile an und legen Sie diese in die davor eingescannte Box. Durch die Kommissionierung werden die eingetragenen Teile automatisch aus dem Lager gebucht.</p>
-                {% elif request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+                {% elif request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 %}
                 <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Kommissionierung_Lieferant_01.jpg' %}">
                 <div class="divider"></div>
                 <p>Bei der Kommissionierung geben Sie die entnommenen Teile an und legen Sie diese in die davor eingescannte Box. Durch die Kommissionierung werden die eingetragenen Teile automatisch aus dem Lager gebucht.</p>
@@ -262,7 +272,7 @@ FAQ
 
 
 
-        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST %}
         <li {% if content == 16 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Auftragsreklamation (JOGA System)</div>
             <div class="collapsible-body">
@@ -278,11 +288,11 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION %}
         <li {% if content == 17 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Kopfebene (JOGA System)</div>
             <div class="collapsible-body">
-                {% if request.user|has_group:KUNDENDIENST or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:KUNDENDIENST %}
                     <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bearbeitung_Auftragsreklamation_Kopfebene_01.jpg' %}">
                     <div class="divider"></div>
                     <p><b>Freigeben:</b> Die Auftrgasreklamation wird freigegeben.</p>
@@ -296,11 +306,11 @@ FAQ
         {% endif %}
 
 
-        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:KUNDENDIENST or request.user|has_group:PRODUKTION %}
         <li {% if content == 18 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Positionsebene (JOGA System)</div>
             <div class="collapsible-body">
-                {% if request.user|has_group:KUNDENDIENST or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:KUNDENDIENST %}
                     <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bearbeitung_Auftragsreklamation_Positionsebene_01.jpg' %}">
                     <div class="divider"></div>
                     <p><b>An Produktion senden:</b> Der Hubwagen wird an die Produktion gesendet. Dafür wird der Barcode an dem Hubwagen eingescannt.</p>
@@ -317,7 +327,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 %}
         <li {% if content == 19 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Auftragsreklamation (Lieferanten System)</div>
                 <div class="collapsible-body">
@@ -332,7 +342,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 %}
         <li {% if content == 20 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Kopfebene (Lieferanten System)</div>
             <div class="collapsible-body">
@@ -340,14 +350,13 @@ FAQ
                 <div class="divider"></div>
                 <p><b>Freigeben:</b> Die Auftragsreklamation wird freigegeben.</p>
                 <p><b>Bestandsprüfung: </b>Hier kann der <a href= "/faq/11/">Bestand</a> geprüft werden und die bestellten Teile reserviert werden. Hier werden nur die Teile angezeigt, welche neu geliefert werden sollen.</p>
-                <p><b>Warenentnahme:</b> Hier kann die Ware für die Auftragsreklamation entnommen werden.</p>
-                <p><b>An Kunde liefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um die Teile an den Kunden zu liefern.</p>
+                <p><b>An Kunde liefern:</b> Hier kann der Barcode eingescannt oder die Nummer unterhalb des Barcodes manuell eingetragen werden, um die Teile an den Kunden zu liefern. Außerdem kann die Ware für die Auftragsreklamation entnommen werden.</p>
                 <p><b>Abschließen:</b> Die Auftragsreklamation wird auf "Abgeschlossen" gesetzt.</p>
             </div>
         </li>
         {% endif %}
 
-        {% if request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:L100 or  request.user|has_group:L200 or  request.user|has_group:L300 %}
         <li {% if content == 21 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Auftragsreklamation auf Positionsebene (Lieferanten System)</div>
             <div class="collapsible-body">
@@ -358,7 +367,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION %}
         <li {% if content == 21 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (JOGA System)</div>
             <div class="collapsible-body">
@@ -373,11 +382,11 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION %}
         <li {% if content == 23 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Kopfebene (JOGA System)</div>
             <div class="collapsible-body">
-                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                     <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellreklamation_Bearbeiten_Kopfebene_PDL_01.jpg' %}">
                     <div class="divider"></div>
                     <p><b>Freigeben:</b> Die Bestellreklamation wird freigegeben.</p>
@@ -393,11 +402,11 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:PRODUKTION %}
         <li {% if content == 24 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Positionsebene (JOGA System)</div>
             <div class="collapsible-body">
-                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG or request.user|has_group:SPIELLEITUNG%}
+                {% if request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
                     <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/Bestellreklamation_Bearbeiten_Positionsebene_01.jpg' %}">
                     <div class="divider"></div>
                     <p>Diese Buttons werden bei Teilen angezeigt, welche neu geliefert werden sollen:</p>
@@ -415,7 +424,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 %}
         <li {% if content == 25 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Anlage einer Bestellreklamation (Kunden System)</div>
             <div class="collapsible-body">
@@ -430,7 +439,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 %}
         <li {% if content == 26 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Kopfebene (Kunden System)</div>
             <div class="collapsible-body">
@@ -441,7 +450,7 @@ FAQ
         </li>
         {% endif %}
 
-        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 or request.user|has_group:SPIELLEITUNG%}
+        {% if request.user|has_group:K1 or request.user|has_group:K2 or request.user|has_group:K3 %}
         <li {% if content == 27 %}class="active"{% endif %}>
             <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Bearbeitung einer Bestellreklamation auf Positionsebene (Kunden System)</div>
             <div class="collapsible-body">
@@ -478,14 +487,36 @@ FAQ
             </div>
         </li>
 
-        <li {% if content == 28 %}class="active"{% endif %}>
-            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Box</div>
+
+        
+
+        {% if request.user.id == 1 %}
+        <li {% if content == 29 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Zeit starten/anhalten</div>
             <div class="collapsible-body">
-                <img class="materialboxed z-depth-1" width="100%" src="{% static 'img/faq/XXX_Dateiname' %}">
-                <div class="divider"></div>
+                <p>Über die seitliche Navigationsleiste kommen Sie zur Spielsteuerung. Hier können Sie die Spielzeit starten und anhalten.</p>
             </div>
         </li>
+        {% endif %}
 
+        {% if request.user.id == 1 %}
+        <li {% if content == 30 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Tagesdauer bearbeiten</div>
+            <div class="collapsible-body">
+                <p>Über die seitliche Navigationsleiste kommen Sie zur Einstellung. Hier können Sie die Dauer des Spieltages in Sekunden angeben.</p>
+            </div>
+        </li>
+        {% endif %}
+
+        {% if request.user.id == 1 %}
+        <li {% if content == 31 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Benutzer wechseln</div>
+            <div class="collapsible-body">
+                <p>Über die seitliche Navigationsleiste können Sie den Benutzer wechseln. Hier können Sie sich in die jeweiligen Teams versetzen und deren Ansicht entdecken.</p>
+            </div>
+        </li>
+        {% endif %}
+        
 {% endblock %}
 
 <!-- Body-->
