@@ -26,7 +26,7 @@ urlpatterns = [
     path('timetoggle/', timeToggleView, name='timetoggle'),
 
     # Workflows
-    path("workflows/", , name="workflows"),
+    path("workflows/", workflows_view, name="workflows"),
 
     # Aufgaben
     path('tasks/', tasks_view, name='tasks'),

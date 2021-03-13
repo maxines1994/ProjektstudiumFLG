@@ -27,11 +27,37 @@ def handler404_view(request, exeption):
     return render(request, '404.html', status=404)
 
 def workflows_view(request):
+    img_path = "img/workflow/"
     context = {
-        "JOGA": ["",],
-        "KUNDEN": ["",],
-        "LIEFERANTEN": ["",],
-        "SPIELLEITUNG": ["",],
+        "JOGA": [   {"Title": "Hauptworkflow" , "Path":  img_path + "JOGA_Hauptworkflow.png"},
+                    {"Title": "Bestellreklamation" , "Path": img_path + "JOGA_Bestellreklamation.png"}, 
+                    {"Title": "Auftragsreklamationen" , "Path": img_path + "JOGA_Auftragsreklamation.png"},     
+        ],
+
+        "KUNDEN": [ {"Title": "Hauptworkflow" , "Path": img_path + "Kunden_Hauptworkflow.png"},
+                    {"Title": "Bestellreklamation" , "Path": img_path + "Kunde_Bestellreklamation.png"},
+        ],
+        "LIEFERANTEN": [ {"Title": "Hauptworkflow" , "Path": img_path + "Lieferanten_Hauptworkflow.png"},
+                         {"Title": "Auftragsreklamationen" , "Path": img_path + "Lieferanten_Auftragsreklamation.png"},
+        ],
+        "SPIELLEITUNG": [],
     }
-    return render(request, "workflows.html", context)
+
+    for item in context["JOGA"]:
+        context["SPIELLEITUNG"].append({"Title": "JOGA - " + item["Title"], "Path": item["Path"]})
+    for item in context["KUNDEN"]:
+        context["SPIELLEITUNG"].append({"Title": "Kunden - " + item["Title"], "Path": item["Path"]})
+    for item in context["LIEFERANTEN"]:   
+        context["SPIELLEITUNG"].append({"Title": "Lieferanten - " + item["Title"], "Path": item["Path"]})
+
+    workflows = []
+    if request.user.groups.filter(name=JOGA).exists():
+        workflows = context["JOGA"]
+    elif request.user.groups.filter(name=KUNDEN).exists():
+        workflows = context["KUNDEN"]
+    elif request.user.groups.filter(name=LIEFERANTEN).exists():
+        workflows = context["LIEFERANTEN"]
+    elif request.user.groups.filter(name=SPIELLEITUNG).exists():
+        workflows = context["SPIELLEITUNG"]
+    return render(request, "workflows.html", {"workflows": workflows})
 

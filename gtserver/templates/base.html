@@ -129,6 +129,7 @@
       <li><div class="divider"></div></li>
       {% if request.user.id != 1 %}<li><a href="{% url 'home_information_pages' info='Rolle' %}">Stellenbeschreibung</a></li>{% endif %}
       <li><a href="{% url 'faq' content=0  %}">FAQ</a></li>
+      <li><a href="{% url 'workflows' %}">Workflows</a></li>
       <li><div class="divider"></div></li>
       {% if SPIELLEITUNG in group %}
         {% if request.user.id != 1 %}

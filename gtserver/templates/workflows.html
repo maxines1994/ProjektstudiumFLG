@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 <!-- Title-->
 {% block title %}Workflows{% endblock %}
@@ -10,8 +11,17 @@
 
 <!-- Content-->
 {% block content %}
-<H5>Workflows</H5>
-<img class="materialboxed" style="margin:auto;" width="80%" src="">
+<H4>Workflows</H4>
+{% for item in workflows %}
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <h5>Workflow: {{item.Title}}</h5>
+            <img class="materialboxed" style="margin:auto;" width="80%" src="{%static item.Path %}">
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}
 
 <!-- Body-->
