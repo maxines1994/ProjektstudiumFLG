@@ -5,7 +5,8 @@
 <div class="col s12">
     <div class="card">
         <div class="card-content">
-            <h5>Von: {{object.sender}}</h5>
+            <h5>Von: {{object.sender}} <a href="{% url 'msganswer' mu.pk %}" style="margin-left: 10px;" class="waves-effect waves-light btn"><i class="material-icons left">reply</i>Anworten</a></h5>
+            <h5>An: {{object.receiver}}</h5>
             <h5>Betreff: {{object.subject}}</h5>
         </div>
     </div>

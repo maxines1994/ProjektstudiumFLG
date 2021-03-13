@@ -72,7 +72,7 @@
                         </div>
                         
                     </div>
-                    <div class="col s12 s5">
+                    <div class="col s12 m5 right-align">
                         <a onclick="getmsgapi('SuppOrder')" style="margin-top: 15px;" class="waves-effect waves-light btn"><i class="material-icons left">attach_file</i>Anhängen</a>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                             <label for="CustOrder">{% if KUNDEN in group %}Bestellungen{% else %}Aufträge{% endif %}</label>
                         </div>
                     </div>
-                    <div class="col s12 m5">
+                    <div class="col s12 m5 right-align">
                         <a onclick="getmsgapi('CustOrder')" style="margin-top: 15px;" class="waves-effect waves-light btn"><i class="material-icons left">attach_file</i>Anhängen</a>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                             <label for="SuppComplaint">{% if LIEFERANTEN in group %}Auftragsreklamationen{% else %}Bestellreklamationen{% endif %}</label>
                         </div>
                     </div>
-                    <div class="col s12 m5">
+                    <div class="col s12 m5 right-align">
                         <a onclick="getmsgapi('SuppComplaint')" style="margin-top: 15px;" class="waves-effect waves-light btn"><i class="material-icons left">attach_file</i>Anhängen</a>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                             <label for="CustComplaint">{% if KUNDEN in group %}Bestellreklamationen{% else %}Auftragsreklamationen{% endif %}</label>
                         </div>
                     </div>
-                    <div class="col s12 m5">
+                    <div class="col s12 m5 right-align">
                         <a onclick="getmsgapi('CustComplaint')" style="margin-top: 15px;" class="waves-effect waves-light btn"><i class="material-icons left">attach_file</i>Anhängen</a>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
             if (request.status >= 200 && request.status < 300) {
                 var obj = JSON.parse(request.responseText);
                 // Werte setzen
-                s = ""
+                s = "\n\n --- Anhang --- \n"
                 Object.keys(obj).forEach(function(key) {
                     var value = obj[key];
                     if (!(obj[key] instanceof Object)) {
@@ -178,28 +178,8 @@
                         });
                     }
                 });
+                s = s + " ----- \n"
                 console.log(obj)
-                /*
-                s = "\nBestellung: " + obj["no"] + "\nFirma: " + obj["partner"] + "\nBestelltag: " + obj["issued"] + "\nKommentar: " + obj["memo"] + "\n";
-                if (obj.hasOwnProperty("deliverydate")) {
-                    s = s + "Liefertag: " + obj["deliverydate"] + "\n";
-                }
-                if (obj.hasOwnProperty("refno")) {
-                    s = s + "Referenznummer: " + obj["refno"] + "\n";
-                }
-                for (i=1;i<=obj["posl"];i++) {
-                    s = s + "Position Nr.: " + obj[i]["posno"] + "\n\tPosition: " + obj[i]["particle"] + "\n";
-                    if (obj.hasOwnProperty(i+".quantity")) {
-                        s = s + "\tMenge: " + obj[i]["quantity"] + " Stk. \n";
-                    }
-                    if (obj.hasOwnProperty(i+".newdelivery")) {
-                        s = s + "\tNeulieferung " + obj[i]["newdelivery"] + "\n";
-                    }
-                    if (obj.hasOwnProperty(i+".memo")) {
-                        s = s + "\tKommentar: " + obj[i]["memo"] + "\n";
-                    }
-                }
-                */
                 $('#id_text').val($('#id_text').val() + s);
                 M.textareaAutoResize($('#id_text'));
                 M.updateTextFields();
