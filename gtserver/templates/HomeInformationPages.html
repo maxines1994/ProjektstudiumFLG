@@ -45,9 +45,36 @@
 
 <p></p>
 
+
+
+
 {% if info == 'Rolle' %}
     {% if request.user|has_group:KUNDENDIENST %}
     <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.  
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle Kundendienst (KD)</div>
@@ -67,7 +94,7 @@
                 {% elif user.username == 'KD-2' %}
                     Sie sind im Verkauf ein Neuling. Sie überzeugen Ihre Kunden durch Begeisterung und logische Argumente. Bei den Verhandlungen der anderen Kundenbetreuer sind sie oft freiweillig mit dabei, um das Geschäft noch besser zu lernen.
                 {% elif user.username == 'KD-3' %}
-                    Sie sind in ständiger Sorge um Ihren Arbeitsplatz. Gegebenenfalls sind sie gerade bei Ihrem Rechtsanwalt.
+                    Sie sind in ständiger Sorge um Ihren Arbeitsplatz. Gegebenenfalls sind Sie gerade bei Ihrem Rechtsanwalt.
                 {% else %}
                     Sie machen zur Zeit einen LKW-Führerschein, da die Kundenbetreuer zukünftig die Auslieferung der Ware an die Kunden durch das Team Kundendienst durchführen lassen wollen. "One team to the costumer" lautet die Devise. Gegebenenfalls sind Sie gerade in der Fahrschule.
                 {% endif %}
@@ -81,7 +108,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Kundenbetreuung und Verkauf</b></h6>
                     Aufgabe des Kundendienstes ist sowohl das aktive Verkaufen, als auch die Kundenbetreuung. Der Kunde ist grundsätzlich König und sollte vom den Kundenbetreuern regelmäßig kontaktiert werden. Verkaufsverhandlungen finden meistens bei den Kunden vor Ort statt. Versuchen Sie nach „allen Regeln der Kunst“ Ihre Produkte zu verkaufen. Falls der Kunde extrem günstige Konditionen verlangt, holen Sie sich vor der Vertragsunterzeichnung lieber das „OK“ der Geschäftsleitung. <p></p>
@@ -120,6 +147,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle Produktionsdienstleistung (PDL)</div>
             </div>
             <div class="collapsible-body">
@@ -149,7 +200,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Bearbeitung von Fertigungsaufträgen</b></h6>
                     Das Team Produktionsdienstleistung erhält von dem Team Kundendienst (KD) die Kundenaufträge. Das Team prüft, wie der Kundenauftrag in die Kapazitätsplanung der Produktion passt. Es informiert das Geschäftsleitung laufend über die Kapazitätssituation und mögliche Engpässe.<p></p>
@@ -195,6 +246,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle Produktion (PRO)</div>
             </div>
             <div class="collapsible-body">
@@ -226,7 +301,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und blau. Ist die Statusleiste blau, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Fertigung und Montage</b></h6>
                     Nach Eingang der Transportbox mit den auftragsbezogenen A-Teilen, scannen Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> auf der Transportbox oder geben manuell den <a href="{% url 'faq' content=4 %}">Boxnummer</a> (unter dem Barcode) der Transportbox ein, um den Bezug zum Fertigungsauftrag zu erhalten. Anschließend können Sie anhand der Montageanleitung, die bei dem <a href="{% url 'faq' content=12 %}">Fertigungsauftrag</a> zu finden ist, zu den einzelnen Produktionsschritten den gewünschten Hubwagen montieren.<p></p>
@@ -266,6 +341,30 @@
 
     {% elif request.user|has_group:INTERNE_DIENSTLEISTUNG %}
     <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Stelle interne Dienstleistung (IDL)</div>
@@ -315,6 +414,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden. 
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Kunde 1 (K1)</div>
             </div>
             <div class="collapsible-body">
@@ -332,10 +455,10 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und rot. Ist die Statusleiste rot, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und rot. Ist die Statusleiste rot, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Hubwagen bestellen</b></h6>
-                    Während des Spiels bestellen Sie insgesamt 5-7 Hubwagen in unterschiedlichen Ausführungen. Sie bestellen immer nur einen Hubwagen pro Auftrag.<p></p>
+                    Während des Spiels bestellen Sie insgesamt 5-7 Hubwagen in unterschiedlichen Ausführungen. Sie bestellen immer nur einen Hubwagen pro Bestellung.<p></p>
                     Die erste Möglichkeit wie Sie eine Bestellung aufgeben können ist, dass Sie für ein Verkaufsgespräch den Verkäufer der JOGA GmbH zu sich kommen lassen. Zur Terminanfrage könnten Sie dem Kundendienst eine <a href="{% url 'faq' content=1 %}">Nachricht</a> schreiben. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress. Nach dem Termin mit dem Kundendienst legen Sie selbstständig für die eigene Dokumentation in Ihrem System eine <a href="{% url 'faq' content=8 %}">Bestellung</a> mit den abgesprochenen Inhalten an. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellung vornehmen, <a href="{% url 'faq' content=9 %}">geben Sie die Bestellung frei.</a><p></p>
                     Die zweite Möglichkeit der Durchführung einer Bestellung ist, dass Sie direkt die <a href="{% url 'faq' content=8 %}">Bestellung</a> mit dem gewünschten Hubwagen in Ihrem System anlegen. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellung vornehmen, <a href="{% url 'faq' content=9 %}">geben Sie die Bestellung frei.</a> Über eine <a href="{% url 'faq' content=1 %}">Nachricht</a> den Kundendienst über Ihre gewünschte Bestellung informieren. Die bereits angelegte Bestellung können Sie dafür der Nachricht anhängen.<p></p>
                     Verlangen Sie für die Aufträge die folgende Lieferzeit: ca. 20-25 Minuten. Sollte der Verkäufer die gewünschten Lieferzeiten nicht zusagen können, so sind Sie gegebenenfalls kompromissbereit. <p></p>
@@ -346,7 +469,7 @@
                     Sie erwarten, dass ein zugesagter Liefertermin in jedem Fall eingehalten wird. Insbesondere, wenn Sie dem Verkäufer beim Liefertermin bereits entgegengekommen waren. Nicht eingehaltene Termine werten Sie als Vertrauensbruch und werden daraufhin sehr böse. Drohen Sie mit Konventionalstrafen.<br></br>
                     
                     <h6><b>Hubwagen annehmen</b></h6>
-                    Nehmen Sie den fertigen Hubwagen an. Im Vertrauen auf die gute Qualität von JOGA-Hubwagen führen Sie die Qualitätskontrolle bei der Lieferung nur sehr oberflächlich durch. Bei einer erfolgreichen Qualitätsprüfung wählen Sie den Button <a href="{% url 'faq' content=10 %}">"Abnehmen"</a> auf Positionsebene Ihrer Bestellung.<p></p> 
+                    Nehmen Sie den fertigen Hubwagen an. Im Vertrauen auf die gute Qualität von JOGA-Hubwagen führen Sie die Qualitätskontrolle bei der Lieferung nur sehr oberflächlich durch. Wählen Sie den Button <a href="{% url 'faq' content=10 %}">"Abnehmen"</a> auf Positionsebene Ihrer Bestellung, um die Bestellposition abzuschließen.<p></p> 
                     
                     Wenn Sie allerdings später einen Mangel feststellen, so wenden sich an die JOGA-Geschäftsführung und erwarten dann eine besonders kulante Reaktion von JOGA - schließlich sind Sie seit Jahren Stammkunde. Zusätzlich legen Sie für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=25 %}">Bestellreklamation</a> in Ihrem System an. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellreklamation vornehmen, <a href="{% url 'faq' content=26 %}">geben Sie die Reklamation frei.</a><p></p> 
                     Im Anschluss versenden Sie den reklamierten Hubwagen an JOGA. Dafür gehen Sie auf den Button <a href="{% url 'faq' content=27 %}">"An JOGA schicken"</a>, den Sie auf Positionsebene bei der Bestellreklamation finden. Scannen Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> des Hubwagens oder geben Sie manuell die <a href="{% url 'faq' content=4 %}">Nummer</a>, die unter dem Barcode steht, an. Danach senden Sie eine <a href="{% url 'faq' content=1 %}">Nachricht</a> an den Kundendienst von JOGA, um ihn über die Reklamation zu informieren. Dabei teilen Sie ihm zudem die Nummer des Barcodes an dem Hubwagen mit.<br></br>
@@ -369,6 +492,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden. 
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Kunde 2 (K2) </div>
             </div>
             <div class="collapsible-body">
@@ -387,10 +534,10 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und rot. Ist die Statusleiste rot, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und rot. Ist die Statusleiste rot, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Hubwagen bestellen</b></h6>
-                    Während des Spiels bestellen Sie in gewissen Abständen Hubwagen in unterschiedlichen Ausführungen (ca. 5-7 Bestellungen im Laufe des Spiels). Bei jeder Auftragserteilung bestellen Sie einen oder zwei Hubwagen.<p></p>
+                    Während des Spiels bestellen Sie in gewissen Abständen Hubwagen in unterschiedlichen Ausführungen (ca. 5-7 Bestellungen im Laufe des Spiels). Bei jeder Bestellung bestellen Sie einen oder zwei Hubwagen.<p></p>
                     Die erste Möglichkeit wie Sie eine Bestellung aufgeben können ist, dass Sie für ein Verkaufsgespräch den Verkäufer der JOGA GmbH zu sich kommen lassen. Zur Terminanfrage könnten Sie dem Kundendienst eine <a href="{% url 'faq' content=1 %}">Nachricht</a> schreiben. Manchmal suchen Sie Ihn aber auch direkt auf. Zu welchem Zeitpunkt Sie jeweils bestellen, entscheiden Sie selbst. Machen Sie dem Kundendienst ruhig ein wenig Stress. Nach dem Termin mit dem Kundendienst legen Sie selbstständig für die eigene Dokumentation in Ihrem System eine <a href="{% url 'faq' content=8 %}">Bestellung</a> mit den abgesprochenen Inhalten an. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellung vornehmen, <a href="{% url 'faq' content=9 %}">geben Sie die Bestellung frei.</a><p></p>
                     Die zweite Möglichkeit der Durchführung einer Bestellung ist, dass Sie direkt die <a href="{% url 'faq' content=8 %}">Bestellung</a> mit dem gewünschten Hubwagen in Ihrem System anlegen. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellung vornehmen, <a href="{% url 'faq' content=9 %}">geben Sie die Bestellung frei.</a> Über eine <a href="{% url 'faq' content=1 %}">Nachricht</a> den Kundendienst über Ihre gewünschte Bestellung informieren. Die bereits angelegte Bestellung können Sie dafür der Nachricht anhängen.<p></p>
                     Bestellen Sie den ersten Hubwagen ohne große Verhandlungen und ohne Sonderwünsche. Wenn Sie nicht bestellen, kann JOGA auch nicht produzieren.<p></p>
@@ -402,8 +549,8 @@
                     Auch wenn Sie hart um die Lieferzeiten verhandelt haben - wirklich wichtig sind sie für Sie nicht. Es geht Ihnen mehr um das Prinzip. Eine neue Idee lässt einen laufenden Auftrag und seine Lieferzeiten manchmal unwichtig erscheinen.<p></p>
                 
                     <h6><b>Hubwagen abnehmen</b></h6>
-                    Nehmen Sie den fertigen Hubwagen an und führen eine Qualitätskontrolle durch. Dabei untersuchen Sie hauptsächlich, ob Ihre Sonderwünsche zu Ihrer Zufriedenheit erfüllt wurden. Ansonsten muss eine Abnahme für Sie - wie alles andere auch - schnell gehen. Bei einer erfolgreichen Qualitätsprüfung wählen Sie den Button <a href="{% url 'faq' content=10 %}">"Abnehmen"</a> auf Positionsebene Ihrer Bestellung aus.<p></p>
-                    Wenn Sie allerdings eine fehlende oder falsche Umsetzung feststellen, so nehmen Sie den Hubwagen nicht an und senden Ihn zurück. Legen Sie in dem Falle für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=25 %}">Bestelleklamation</a> in Ihrem System an. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellreklamation vornehmen, <a href="{% url 'faq' content=26 %}">geben Sie die Reklamation frei.</a><p></p> 
+                    Nehmen Sie den fertigen Hubwagen an und führen eine Qualitätskontrolle durch. Dabei untersuchen Sie hauptsächlich, ob Ihre Sonderwünsche zu Ihrer Zufriedenheit erfüllt wurden. Ansonsten muss eine Abnahme für Sie - wie alles andere auch - schnell gehen. Wählen Sie den Button <a href="{% url 'faq' content=10 %}">"Abnehmen"</a> auf Positionsebene Ihrer Bestellung aus, um die Bestellposition abzuschließen.<p></p>
+                    Wenn Sie allerdings eine fehlende oder falsche Umsetzung feststellen, so senden Sie Ihn zurück. Legen Sie in dem Falle für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=25 %}">Bestelleklamation</a> in Ihrem System an. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellreklamation vornehmen, <a href="{% url 'faq' content=26 %}">geben Sie die Reklamation frei.</a><p></p> 
                     Im Anschluss versenden Sie den reklamierten Hubwagen an JOGA. Dafür gehen Sie auf den Button <a href="{% url 'faq' content=27 %}">"An JOGA schicken"</a>, den Sie auf Positionsebene bei der Bestellreklamation finden. Scannen Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> des Hubwagens oder geben Sie manuell die <a href="{% url 'faq' content=4 %}">Nummer</a>, die unter dem Barcode steht, an. Danach senden Sie eine <a href="{% url 'faq' content=1 %}">Nachricht</a> an den Kundendienst von JOGA, um ihn über die Reklamation zu informieren. Dabei teilen Sie zudem die Nummer des Barcodes an dem Hubwagen mit.<p></p>
                 </span>
             </div>
@@ -425,6 +572,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Kunde 3 (K3)</div>
             </div>
             <div class="collapsible-body">
@@ -444,7 +615,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und rot. Ist die Statusleiste rot, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und rot. Ist die Statusleiste rot, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Hubwagen bestellen</b></h6>
                     Während des Spiels bestellen Sie mehrere Hubwagen in unterschiedlichen Ausführungen. Zu welchen Zeitpunkten Sie bestellen, entscheiden Sie selbst. Nur zu Beginn des Spiels sollten Sie schnell und ohne lange Diskussionen bei JOGA bestellen. Bestellen Sie jeweils 1-3 Hubwagen Ihrer Wahl.<p></p> 
@@ -456,7 +627,7 @@
                     Rufen Sie von Zeit zu Zeit den JOGA-Verkäufer an oder schreiben Sie ihm eine Nachricht, um ihn über den Auftragsstatus zu befragen. Lassen Sie sich dabei genau erklären, welchen Status der Auftrag gerade hat. Übertreiben Sie es damit aber nicht.<p></p>
 
                     <h6><b>Hubwagen abnehmen</b></h6>
-                    Nehmen Sie den fertigen Hubwagen an. Allerdings quittieren Sie erst, nachdem Sie den Hubwagen einer ausführlichen Qualitätskontrolle unterzogen haben. Bei einer erfolgreichen Qualitätsprüfung wählen Sie den Button <a href="{% url 'faq' content=10 %}">"Abnehmen"</a> auf Positionsebene Ihrer Bestellung.<p></p> 
+                    Nehmen Sie den fertigen Hubwagen an. Allerdings quittieren Sie erst, nachdem Sie den Hubwagen einer ausführlichen Qualitätskontrolle unterzogen haben. Wählen Sie den Button <a href="{% url 'faq' content=10 %}">"Abnehmen"</a> auf Positionsebene Ihrer Bestellung, um diese abzuschließen.<p></p> 
                     Auch bei kleinen Mängeln nehmen Sie das Produkt nicht an und senden es zurück. Legen Sie in dem Falle für den entsprechenden Hubwagen eine <a href="{% url 'faq' content=25 %}">Bestelleklamation</a> in Ihrem System an. Wollen Sie keine Änderungen mehr bei den Angaben in der Bestellreklamation vornehmen, <a href="{% url 'faq' content=26 %}">geben Sie die Reklamation frei.</a><p></p> 
                     Im Anschluss versenden Sie den reklamierten Hubwagen an JOGA. Dafür gehen Sie auf den Button <a href="{% url 'faq' content=27 %}">"An JOGA schicken"</a>, den Sie auf Positionsebene bei der Bestellreklamation finden. Scannen Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> des Hubwagens oder geben Sie manuell die <a href="{% url 'faq' content=4 %}">Nummer</a>, die unter dem Barcode steht, an. Danach senden Sie eine <a href="{% url 'faq' content=1 %}">Nachricht</a> an den Kundendienst von JOGA, um Ihn über die Reklamation zu informieren. Dabei teilen Sie zudem die Nummer des Barcodes an dem Hubwagen mit.<p></p>
                 </span>
@@ -481,6 +652,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden. 
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Lieferant 100 (L1)</div>
             </div>
             <div class="collapsible-body">
@@ -498,7 +693,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und grün. Ist die Statusleiste grün, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und grün. Ist die Statusleiste grün, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Kundenbetreuung und Verkauf</b></h6>
                     Sie erhalten vom Team Produktionsdienstleistungen (PDL) der JOGA GmbH leere Behälter für die Teile T1 bis T5. Die leeren Behälter gelten für Sie als Bestellauftrag. Tauschen Sie die leeren Behälter sofort gegen volle Behälter mit den jeweiligen Teilen aus. Senden Sie die vollen Behälter über das Team Interne Dienstleistungen (IDL) an die JOGA GmbH (Team Produktionsdienstleistungen) zurück.<p></p>
@@ -540,7 +735,7 @@
                         <h6><b>Auftragsreklamation</b></h6>
                         Die Reklamation erhalten Sie von dem Team Produktionsdienstleistungen (PDL) der JOGA GmbH über eine <a href="{% url 'faq' content=1 %}">Nachricht</a>. Nach Erhalt der Nachricht legen Sie bei sich im System eine passende <a href="{% url 'faq' content=19 %}">Auftragsreklamation</a> an. Sobald die Angaben der Reklamation nicht mehr geändert werden sollen, <a href="{% url 'faq' content=20 %}">geben Sie die Auftragsreklamation frei.</a><p></p>
                         Im Anschluss tragen Sie die Boxnummer, die Ihnen die PDL per Nachricht mitgeteilt hat, in den <a href="{% url 'faq' content=20 %}">Kopf der Auftragsreklamation</a> ein. Danach können Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> der Box einscannen oder geben manuell die <a href="{% url 'faq' content=4 %}">Boxummer</a> ein. Daraufhin nehmen Sie die <a href="{% url 'faq' content=11 %}">Bestandsprüfung</a> vor, um zu überprüfen, ob Sie die benötigten Teile im Lager vorliegen haben. Ist dies der Fall, so reservieren Sie die reservierten Teile.<p></p>
-                        Daraufhin nehmen Sie die Kommissionierung vor. Entnehmen Sie dafür die benötigten Teile aus Ihrem Lager und wählen im System den Button <a href="{% url 'faq' content=20 %}">"Warenentnahme"</a> aus. In der angezeigten Maske geben Sie an, welche Teile Sie mit welcher Stückzahl entnommen haben. Anschließend legen Sie die entnommenen Teile in eine leere Transportbox und wählen im System den Button <a href="{% url 'faq' content=20 %}">"An Kunden liefern"</a>, um die Boxnummer der entsprechenden Box einzugeben. Die Produktionsdienstleistung Ihres Kunden informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> darüber, in welcher Box die angeforderten Neuteile angeliefert werden. Hierfür geben Sie die Boxnummer ein und teilen zudem die <a href="{% url 'faq' content=28 %}">Referenznummer</a> mit. Damit ist die Nummer der Reklamation Ihres Kunden gemeint, welche Sie in der Nachricht Ihres Kunden finden.<p></p>
+                        Daraufhin nehmen Sie eine leere Transportbox und wählen im System den Button <a href="{% url 'faq' content=20 %}">"An Kunden liefern"</a>, um die Boxnummer der entsprechenden Box einzugeben. Anschließend nehmen Sie die Kommissionierung vor. Entnehmen Sie dafür die benötigten Teile aus Ihrem Lager. In der angezeigten Maske geben Sie an, welche Teile Sie mit welcher Stückzahl entnommen haben. Die Produktionsdienstleistung Ihres Kunden informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> darüber, in welcher Box die angeforderten Neuteile angeliefert werden. Hierfür geben Sie die Boxnummer ein und teilen zudem die <a href="{% url 'faq' content=28 %}">Referenznummer</a> mit. Damit ist die Nummer der Reklamation Ihres Kunden gemeint, welche Sie in der Nachricht Ihres Kunden finden.<p></p>
                         Zum Schluss gehen Sie auf den Button <a href="{% url 'faq' content=20 %}">"Abschließen"</a>, um die Auftragsreklamation abzuschließen.<br></br>
                         
                     </div></p>
@@ -567,6 +762,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.  
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Lieferant 200 (L2)</div>
             </div>
             <div class="collapsible-body">
@@ -584,7 +803,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und grün. Ist die Statusleiste grün, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und grün. Ist die Statusleiste grün, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Lieferungen</b></h6>
                     Sie liefern C-Teile (Normteile) in Gebindeeinheiten mit konstanten Mengen je Behälter direkt in die Produktion der JOGA GmbH.<p></p> 
@@ -631,9 +850,9 @@
                         <h6><b>Auftragsreklamation</b></h6>
                         Die Reklamation erhalten Sie von dem Team Produktionsdienstleistungen (PDL) der JOGA GmbH über eine <a href="{% url 'faq' content=1 %}">Nachricht</a>. Nach Erhalt der Nachricht legen Sie bei sich im System eine passende <a href="{% url 'faq' content=19 %}">Auftragsreklamation</a> an. Sobald die Angaben der Reklamation nicht mehr geändert werden sollen, <a href="{% url 'faq' content=20 %}">geben Sie die Auftragsreklamation frei.</a><p></p>
                         Im Anschluss tragen Sie die Boxnummer, die Ihnen die PDL per Nachricht mitgeteilt hat, in den <a href="{% url 'faq' content=20 %}">Kopf der Auftragsreklamation</a> ein. Danach können Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> der Box einscannen oder geben manuell die <a href="{% url 'faq' content=4 %}">Boxummer</a> ein. Daraufhin nehmen Sie die <a href="{% url 'faq' content=11 %}">Bestandsprüfung</a> vor, um zu überprüfen, ob Sie die benötigten Teile im Lager vorliegen haben. Ist dies der Fall, so reservieren Sie die reservierten Teile.<p></p>
-                        Daraufhin nehmen Sie die Kommissionierung vor. Entnehmen Sie dafür die benötigten Teile aus Ihrem Lager und wählen im System den Button <a href="{% url 'faq' content=20 %}">"Warenentnahme"</a> aus. In der angezeigten Maske geben Sie an, welche Teile Sie mit welcher Stückzahl entnommen haben. Anschließend legen Sie die entnommenen Teile in eine leere Transportbox und wählen im System den Button <a href="{% url 'faq' content=20 %}">"An Kunden liefern"</a>, um die Boxnummer der entsprechenden Box einzugeben. Die Produktionsdienstleistung Ihres Kunden informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> darüber, in welcher Box die angeforderten Neuteile angeliefert werden. Hierfür geben Sie die Boxnummer ein und teilen zudem die <a href="{% url 'faq' content=28 %}">Referenznummer</a> mit. Damit ist die Nummer der Reklamation Ihres Kunden gemeint, welche Sie in der Nachricht Ihres Kunden finden.<p></p>
-                        Zum Schluss gehen Sie auf den Button <a href="{% url 'faq' content=20 %}">"Abschließen"</a>, um die Auftragsreklamation abzuschließen.<br></br> 
-                    </div></p>
+                        Daraufhin nehmen Sie eine leere Transportbox und wählen im System den Button <a href="{% url 'faq' content=20 %}">"An Kunden liefern"</a>, um die Boxnummer der entsprechenden Box einzugeben. Anschließend nehmen Sie die Kommissionierung vor. Entnehmen Sie dafür die benötigten Teile aus Ihrem Lager. In der angezeigten Maske geben Sie an, welche Teile Sie mit welcher Stückzahl entnommen haben. Die Produktionsdienstleistung Ihres Kunden informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> darüber, in welcher Box die angeforderten Neuteile angeliefert werden. Hierfür geben Sie die Boxnummer ein und teilen zudem die <a href="{% url 'faq' content=28 %}">Referenznummer</a> mit. Damit ist die Nummer der Reklamation Ihres Kunden gemeint, welche Sie in der Nachricht Ihres Kunden finden.<p></p>
+                        Zum Schluss gehen Sie auf den Button <a href="{% url 'faq' content=20 %}">"Abschließen"</a>, um die Auftragsreklamation abzuschließen.<br></br>
+                        </div></p>
 
                     <h6><b>Liefertermin</b></h6>
                     Sie überprüfen alle 3 Minuten den Bestand an C-Teilen direkt beim Team Produktion (PRO) der JOGA GmbH. Leere Behälter werden von Ihnen sofort gegen volle Behälter gemäß der obigen Liefervorschrift ausgetauscht.<p></p>
@@ -658,6 +877,30 @@
     <ul class="collapsible popout">
         <li>
             <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.  
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
+        <li>
+            <div class="collapsible-header">
                 <div style="font-weight: bold;">Ihre Rolle Lieferant 300 (L3)</div>
             </div>
             <div class="collapsible-body">
@@ -673,7 +916,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und grün. Ist die Statusleiste grün, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und grün. Ist die Statusleiste grün, so hat Ihr Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat Ihr Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Bestellungen</b></h6>
                     Da die bei Ihnen bezogenen Teile hochwertig sind, bezieht Ihr Kunde nur seinen jeweiligen exakten Bedarf. Sie wissen, dass kurzfristige Bedarfe Ihres Kunden an der Tagesordnung sind. Deshalb halten Sie immer ausreichend Bestand am Lager.<p></p>
@@ -687,12 +930,12 @@
                     Im Zuge des Kommissionierprozesses legen Sie die entnommenen Teile in eine Transportbox, wofür Sie den Barcode der Box <a href="{% url 'faq' content=3 %}">einscannen</a>. Die PDL informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> über die Lieferung. In der Nachricht teilen Sie mit, welche Bestellung von der PDL sich in welcher Transportbox befindet. Dafür geben Sie die <a href="{% url 'faq' content=28 %}">Referenznummer</a> (Bestellnummer von JOGA) und die Transportboxnummer, die unter dem Barcode steht, an, damit der Kunde die Bestellung in seinem System zuweisen kann.<p></p> 
                     Achten Sie darauf, daß Sie Ihre Transportbehälter vom Team Produktion PRO der JOGA wieder zurückbekommen.
                 
-                    <h6><b>xAuftragsreklamation</b></h6>
+                    <h6><b>Auftragsreklamation</b></h6>
                     Die Reklamation erhalten Sie von dem Team Produktionsdienstleistungen (PDL) der JOGA GmbH über eine <a href="{% url 'faq' content=1 %}">Nachricht</a>. Nach Erhalt der Nachricht legen Sie bei sich im System eine passende <a href="{% url 'faq' content=19 %}">Auftragsreklamation</a> an. Sobald die Angaben der Reklamation nicht mehr geändert werden sollen, <a href="{% url 'faq' content=20 %}">geben Sie die Auftragsreklamation frei.</a><p></p>
                     Im Anschluss tragen Sie die Boxnummer, die Ihnen die PDL per Nachricht mitgeteilt hat, in den <a href="{% url 'faq' content=20 %}">Kopf der Auftragsreklamation</a> ein. Danach können Sie den <a href="{% url 'faq' content=3 %}">Barcode</a> der Box einscannen oder geben manuell die <a href="{% url 'faq' content=4 %}">Boxummer</a> ein. Daraufhin nehmen Sie die <a href="{% url 'faq' content=11 %}">Bestandsprüfung</a> vor, um zu überprüfen, ob Sie die benötigten Teile im Lager vorliegen haben. Ist dies der Fall, so reservieren Sie die reservierten Teile.<p></p>
-                    Daraufhin nehmen Sie die Kommissionierung vor. Entnehmen Sie dafür die benötigten Teile aus Ihrem Lager und wählen im System den Button <a href="{% url 'faq' content=20 %}">"Warenentnahme"</a> aus. In der angezeigten Maske geben Sie an, welche Teile Sie mit welcher Stückzahl entnommen haben. Anschließend legen Sie die entnommenen Teile in eine leere Transportbox und wählen im System den Button <a href="{% url 'faq' content=20 %}">"An Kunden liefern"</a>, um die Boxnummer der entsprechenden Box einzugeben. Die Produktionsdienstleistung Ihres Kunden informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> darüber, in welcher Box die angeforderten Neuteile angeliefert werden. Hierfür geben Sie die Boxnummer ein und teilen zudem die <a href="{% url 'faq' content=28 %}">Referenznummer</a> mit. Damit ist die Nummer der Reklamation Ihres Kunden gemeint, welche Sie in der Nachricht Ihres Kunden finden.<p></p>
+                    Daraufhin nehmen Sie eine leere Transportbox und wählen im System den Button <a href="{% url 'faq' content=20 %}">"An Kunden liefern"</a>, um die Boxnummer der entsprechenden Box einzugeben. Anschließend nehmen Sie die Kommissionierung vor. Entnehmen Sie dafür die benötigten Teile aus Ihrem Lager. In der angezeigten Maske geben Sie an, welche Teile Sie mit welcher Stückzahl entnommen haben. Die Produktionsdienstleistung Ihres Kunden informieren Sie per <a href="{% url 'faq' content=1 %}">Nachricht</a> darüber, in welcher Box die angeforderten Neuteile angeliefert werden. Hierfür geben Sie die Boxnummer ein und teilen zudem die <a href="{% url 'faq' content=28 %}">Referenznummer</a> mit. Damit ist die Nummer der Reklamation Ihres Kunden gemeint, welche Sie in der Nachricht Ihres Kunden finden.<p></p>
                     Zum Schluss gehen Sie auf den Button <a href="{% url 'faq' content=20 %}">"Abschließen"</a>, um die Auftragsreklamation abzuschließen.<br></br>
-                </span>
+                    </span>
             </div>
         </li>
         <li>
@@ -712,6 +955,30 @@
 
     {% elif request.user|has_group:LEITUNGSTEAM %}
     <ul class="collapsible popout">
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Allgemeines</div>
+            </div>
+            <div class="collapsible-body">
+                <span>
+                <h6><b>Willkommen bei der digitalen Version des Planspiels!</b></h6> 
+                In dieser Version werden keine Papiere ausgefüllt, sondern alle nötigen Angaben werden in diesem System vorgenommen. Um einen reibungslosen Prozessablauf zu haben, sollten bestimmte Dinge beachtet werden:
+                <p></p>
+                In dem Planspiel erhalten Sie eine Aufgabe, eine Nachricht, eine Box oder einen Hubwagen. Diese signalisieren Ihnen, dass Sie tätig werden müssen. Die Box und der Hubwagen enthalten einen Barcode, welcher eingescannt werden muss. Dadurch erhalten Sie eine Aufgabe für Ihr Team. Wenn die Box oder der Hubwagen von extern geliefert wird, muss drauf geachtet werden, dass die Barcodenummer in dem entsprechenden Objekt (Auftrag, Auftragsposition, Bestellung etc.) eingetragen ist. Dafür ist ein Feld in der Bearbeitungsmaske des entsprechenden Objektes vorhanden.  
+                <p></p>
+                Durch die sich bewegende Glocke (oben rechts) erkennen Sie, ob eine neue Aufgabe für Ihr Team vorhanden ist. Bevor Sie die Aufgabe bearbeiten können, müssen Sie sich diese zuweisen.
+                <p></p>
+                Durch das bewegende Nachrichtensymbol (oben rechts) können Sie feststellen, ob ihr Team eine neue Nachricht erhalten hat. In den Nachrichten können Sie Anhänge auswählen, welche im Nachrichtentext angezeigt werden. Dies erspart Ihnen den Übertrag von Bestellungen.
+                <p></p>
+                Mithilfe von Boxen können Teile zu den verschiedenen Teams gesendet werden. Den Transport dieser Boxen übernimmt die Interne Dienstleistung. Die Boxen haben unterschiedliche Farben, welche die Zugehörigkeit zu einem Team angeben. Dabei ist zu beachten, dass zum Beispiel die Lieferantenboxen nur zwischen Lieferanten und JOGA versendet werden. Dadurch müssen die Teile in andere Boxen umgepackt werden, wenn diese an ein weiteres Team gesendet werden sollen. Dieses Prinzip gilt für alle teamzugehörigen Boxen.
+                <p></p>
+                Damit die Teile aus einer Box, bzw der Hubwagen in einem externen System zugeordnet werden können, muss die Barcodenummer der Box oder des Hubwagens per Nachricht an das externe Unternehmen übermittelt werden. Dies ist auch für die Bestellungen von Teilen an L300 und für die Bestellungen von Hubwagen nötig. 
+                <p></p>
+                Um den Prozess mit den einzelnen Schritten zu verstehen, können Sie sich den Workflow über die seitliche Navigationsleiste anzeigen lassen. Über die FAQs können Sie nachschlagen, an welchen Stellen im System Sie die benötigten Informationen, Buttons etc. für die Bearbeitung Ihrer Aufgaben finden. Ihre Aufgaben können Sie weiter unten in der Stellenbeschreibung nachlesen.
+
+                </span>
+            </div>
+        </li>    
         <li>
             <div class="collapsible-header">
                 <div style="font-weight: bold;"> Die Geschäftsleitung</div>
@@ -745,7 +1012,7 @@
             </div>
             <div class="collapsible-body">
                 <span>
-                    Bei der Statusleiste gibt es zwei Farboptionen: grau und farbig. Ist die Statusleiste farbig, so hat das Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat das Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
+                    Bei der Statusleiste, welche bei jedem Auftrag, Auftragsposition, Bestellung etc. vorhanden ist, gibt es zwei Farboptionen: grau und farbig. Ist die Statusleiste farbig, so hat das Team noch offene Aufgaben zu dem betrachteten Objekt (Bestellung, Auftrag, usw.) zu erledigen. Wenn die Statusleiste grau ist, hat das Team aktuell keine Aufgaben zu dem vorliegendem Objekt offen.<br></br>
 
                     <h6><b>Programm- und Kapazitätsplanung (Sehr wichtig)</b></h6>
                     Die Geschäftsleitung führt Besprechungen zur aktuellen Situation in der Produktion durch. Dabei geht es sowohl um die bestmögliche Auslastung der Kapazitäten, als auch um das Aufspüren und Beseitigen von Mängeln in der Produktion oder an den Produkten. Die Planungskonferenz versuchen Sie mindestens alle 2 Wochen (30 min.) durchzuführen. <p></p>
