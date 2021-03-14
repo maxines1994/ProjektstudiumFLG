@@ -27,7 +27,7 @@ def main():
         # Funktionen (gefolgt von UI)
         # Funktion Speichernbutton
         def save():
-            print("[setupgui] ##### CREATING FRESH DATABASE... #####")
+            print("\n[setupgui] ##### CREATING FRESH DATABASE... #####\n")
             print("[setupgui] Generate config.py...")
             # Generierung config.py
             # Header
@@ -52,7 +52,7 @@ def main():
             print("[setupgui] Create DB...")
             run(["pipenv", "run", "python", "gtserver\\manage.py", "createdb"])
             
-            print("[setupgui] ##### CREATED FRESH DATABASE #####")
+            print("\n[setupgui] ##### CREATED FRESH DATABASE #####\n")
             close()
 
 
@@ -153,8 +153,8 @@ def main():
         
     def runserver():
         # Funktionen
-        print("\n[setupgui] ##### STARTING SERVER... #####\n")
-        process = Popen(["pipenv", "run", "python", "gtserver\\manage.py", "runserver", "0.0.0.0:80", "--insecure"], stdout=PIPE)
+        print("\n[setupgui] ##### STARTING SERVER #####\n")
+        process = Popen(["pipenv", "run", "python", "gtserver\\manage.py", "runserver", "0.0.0.0:80", "--insecure"])
         root = Tk()
         root.iconbitmap('gtserver/static/favicon/favicon.ico')
 
@@ -164,7 +164,7 @@ def main():
             #process.terminate()
             mainroot.deiconify()
             root.destroy()
-            print("\n[setupgui] ##### STOPPING SERVER #####\n")
+            print("\n[setupgui] ##### STOPPING SERVER... #####\n")
             # Send CTRL+C (CTRL+BREAK doesn't work) and wait until process is shut down
             process.send_signal(signal.CTRL_C_EVENT)
             try:
@@ -247,6 +247,7 @@ def main():
     btn_start.grid(row=mainrow, column=0, padx=padx, pady=pady, sticky=[S, E])
     mainrow += 1
 
+    print("\n[setupgui] ##### STARTED SETUPGUI #####\n")
 
     # UI-Loop
     mainroot.mainloop()
