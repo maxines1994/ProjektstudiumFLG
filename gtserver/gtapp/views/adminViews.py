@@ -44,7 +44,6 @@ def timeToggleView(request, *args, **kwargs):
 def barcodeView(request, *args, **kwargs):
     context = {}
     context['barcodes'] = generateBarcodes()
-    print(context['barcodes'])
     return render(request, "BarcodeSheets.html", context)
 
 def generateBarcodes():

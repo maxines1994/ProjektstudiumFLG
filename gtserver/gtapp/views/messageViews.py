@@ -110,14 +110,12 @@ class msgWriteView(LoginRequiredMixin, CreateView):
 
     # Umleitung auf die Alter View
     def form_valid(self, form):
-        print("Test")
         form.instance.sent_on = Timers.get_current_day()
         form.instance.sender = self.request.user
 
         newmessage = form.save()
 
         for i in form.instance.receiver.user_set.all():
-            print(i)
             MessageUser.objects.create(user=i, user_is_sender=False, message=newmessage, is_trash=False)
         
         MessageUser.objects.create(

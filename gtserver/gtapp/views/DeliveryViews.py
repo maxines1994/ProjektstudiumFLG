@@ -18,12 +18,10 @@ def stock_check_view2(request, **kwargs):
     from .StatusViews import set_status
     c = {}
     demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
-    print(demand)
     if Stock.reserve(demand=demand):
-        print("ERFOLGREICH")
         set_status('CustOrderDet', kwargs["id"], CustOrderDet.Status.IN_PRODUKTION)
     else:
-        print("FEHLGESCHLAGEN")
+        pass
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 
