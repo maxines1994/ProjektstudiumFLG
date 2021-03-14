@@ -79,7 +79,7 @@ Position
                     {% endif %}
                 {% elif KUNDENDIENST in group %}
                     {% if object.status == STATUS.LIEFERUNG_AN_K_AUSSTEHEND %}
-                        <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.VERSANDT_AN_K %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a>
+                        <a class="btn waves-effect waves-light" href="{% url 'box_assign' object|to_class_name object.id %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a>
                     {% endif %}
                     {% if object.status == STATUS.VERSANDT_AN_K %}
                         <a class="btn waves-effect waves-light" href="{% url 'set_status_call' object|to_class_name object.id STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Vom Kunden abgenommen</a>

@@ -68,7 +68,10 @@ class CustOrderDet(OrderDet):
         return minstatus
 
     def save(self, *args, **kwargs):
+        if self.status == CustOrderDet.Status.ABGENOMMEN:
+            self.box_no = ''
         super(CustOrderDet, self).save(*args, **kwargs)
+
         self.postsave()
 
     def postsave(self):
@@ -127,7 +130,7 @@ class CustOrderDet(OrderDet):
             else:
                 # Fallback
                 self.cust_order.status = CustOrder.Status.ERFASST
-
+        
         self.cust_order.save()
 
     def __str__(self):

@@ -166,7 +166,7 @@
         {% endif %}
     {% elif KUNDENDIENST in group %}
         {% if i.status == STATUS.LIEFERUNG_AN_K_AUSSTEHEND %}
-            <li><a href="{% url 'set_status_call' i|to_class_name i.id STATUS.VERSANDT_AN_K %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a></li>
+            <li><a href="{% url 'box_assign' i|to_class_name i.id %}"><i class="material-icons left">local_shipping</i>An Kunden liefern</a></li>
         {% endif %}
         {% if i.status == STATUS.VERSANDT_AN_K %}
             <li><a href="{% url 'set_status_call' i|to_class_name i.id STATUS.ABGENOMMEN %}"><i class="material-icons left">check</i>Vom Kunden abgenommen</a></li>

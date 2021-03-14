@@ -175,6 +175,8 @@ class Box_assign_view(LoginRequiredMixin, UpdateView):
         if model == CustOrderDet:
             if obj.status == CustOrderDet.Status.LIEFERUNG_AN_KD_AUSSTEHEND:
                 return CustOrderDet.Status.VERSANDT_AN_KD
+            elif obj.status == CustOrderDet.Status.LIEFERUNG_AN_K_AUSSTEHEND:
+                return CustOrderDet.Status.VERSANDT_AN_K
             else:
                 return obj.status
 

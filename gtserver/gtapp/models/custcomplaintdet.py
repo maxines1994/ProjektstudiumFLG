@@ -56,6 +56,8 @@ class CustComplaintDet(ComplaintDet):
         return minstatus
 
     def save(self, *args, **kwargs):
+        if self.status == CustComplaintDet.Status.ABGESCHLOSSEN:
+            self.box_no = ''
         super(CustComplaintDet, self).save(*args, **kwargs)
         self.postsave()
 
