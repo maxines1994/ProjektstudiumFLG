@@ -10,6 +10,7 @@ nav .brand-logo {
 
 .li-content {
   min-width: 200px !important;
+  white-space: nowrap;
 }
 
     /* optional */
@@ -126,6 +127,7 @@ main.loggedin {
 
 .progress-grey {
 		min-height: 10px;
+    min-width: 80px;
 		overflow: hidden;
 		position: relative;
 		background-color: #c7c7c7 !important;
@@ -142,6 +144,7 @@ main.loggedin {
 
 .progress {
   min-height: 10px;
+  min-width: 80px;
   overflow: hidden;
   position: relative;
 }
