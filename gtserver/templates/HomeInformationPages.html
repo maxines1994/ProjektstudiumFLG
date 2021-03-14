@@ -141,7 +141,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:PRODUKTIONSDIENSTLEISTUNG %}
     <ul class="collapsible popout">
@@ -240,7 +239,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:PRODUKTION %}
     <ul class="collapsible popout">
@@ -337,7 +335,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:INTERNE_DIENSTLEISTUNG %}
     <ul class="collapsible popout">
@@ -408,7 +405,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:K1 %}
     <ul class="collapsible popout">
@@ -486,7 +482,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:K2 %}
     <ul class="collapsible popout">
@@ -566,7 +561,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:K3 %}
     <ul class="collapsible popout">
@@ -646,7 +640,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:L100 %}
     <ul class="collapsible popout">
@@ -756,7 +749,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:L200 %}
     <ul class="collapsible popout">
@@ -871,7 +863,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:L300 %}
     <ul class="collapsible popout">
@@ -951,7 +942,6 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% elif request.user|has_group:LEITUNGSTEAM %}
     <ul class="collapsible popout">
@@ -1060,10 +1050,123 @@
                 </span>
             </div>
         </li>
-    </ul>
 
     {% endif %}
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Verbinden des Barcodescanners via Bluetooth</div>
+            </div>
+            <div class="collapsible-body">
+                <h6><b>Schritt 1: Einschalten des Barcode-Scanners</b></h6>
+                <span> Schalten Sie den Barcode-Scanner ein, indem sie für einige Sekunden den Abzug gedrückt halten, bis der Scanner Pieptöne von sich gibt. Scannen Sie nun folgenden Barcode, um bisherige Kopplungen des Scanners zu lösen:
+                    <figure>
+                        <center>
+                            <img src="{% static "img/scanner/verbindung_trennen.png" %}" alt="Barcode" style="width:50%">
+                        <figcaption>Verbindung trennen</figcaption>
+                        </center>
+                        <br>
+                    </figure>
+                <h6><b>Schritt 2: Bitte scannen Sie nacheinander die folgenden 3 Barcodes:</b></h6>
+                <span>Durch das Scannen der folgenden Barcodes sendet der Scanner bestimmte Befehle zum Verbinden an das Tablet/Handy/PC. Nach jedem erfolgreichen Scan bestätigt der Scanner durch jeweils unterschiedliche Pieptöne (klingen merkwürdig, bitte nicht wundern).
+                    <b>Bitte warten Sie jeweils fünf Sekunden, bevor Sie den nächsten Code scannen.</b>
+                </span>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/1st_code.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>1. Barcode</figcaption>
+                    </center>
+                    <br>
+                </figure>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/2nd_code.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>2. Barcode</figcaption>
+                    </center>
+                    <br>
+                </figure>                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/3rd_code.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>3. Barcode</figcaption>
+                    </center>
+                    <br>
+                </figure>
+                <h6><b>Schritt 3: Bluetooth-Einstellungen im Tablet/Handy/PC:</b></h6>
+                <span>Nun müssen Sie die Bluetooth-Funktion in ihrem Endgerät aktivieren. Unter Android klicken Sie dazu auf „Einstellungen > Bluetooth“. Wählen Sie in der Liste der verfügbaren Geräte als Tastatur den zu verbindenen Scanner aus:
+                </span>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/scanner-suche.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>Suche nach Bluetooth-Geräten</figcaption>
+                    </center>
+                    <br>
+                </figure>
+                <span>Falls der Scanner nicht erscheint, schalten Sie Bluetooth aus und wieder ein und versuchen Sie es erneut.<br><br>
+                    Anschließend wird in einem weiteren Fenster der Kopplungscode angezeigt. Die LED am Kopf des Barcodescanners sollte nun grün leuchten.
+                </span>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/scanner-kopplung.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>Suche nach Bluetooth-Geräten</figcaption>
+                    </center>
+                    <br>
+                </figure>
+                <span>Diesen Code müssen Sie mit Hilfe des Scanners und den Barcodes in Schritt 4 eingeben.</span>
+                <h6><b>Schritt 4: Kopplungscode einscannen:</b></h6>
+                <span>Übertragen Sie nun den auf Ihrem Endgerät angezeigten 6-stelligen Kopplungscode, indem Sie die untenstehenden Strichcodes (jeder Strichcode entspricht einer Ziffer) mit dem Scanner nacheinander zügig abscannen und anschließend den Prozess durch den Bestätigungscode(unten)abschließen. 
+                    Bitte achten Sie darauf, dass Sie die Strichcodes rasch nacheinander abscannen und anschließend schnellstmöglich bestätigen, um einen vorzeitigen automatischen Abbruch durch das System zu vermeiden. Falls Sie den Vorgang abbrechen und wiederholen müssen, scannen Sie den Abbruch-Barcode.
+                </span>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/scanner-numblock.png" %}" alt="Barcode" style="width:70%">
+                    <figcaption>Ziffernblock-Barcodes</figcaption>
+                    </center>
+                    <br>
+                </figure>
 
+                <span>Der Scanner ist nun mit Ihrem Endgerät verbunden und kann zum Scannen der Barcodes verwendet werden.
+                    Mit folgendem Barcode können Sie den Barcode-Scanner bis zum nächsten Betätigen des Abzuges ausschalten:
+                </span>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/scanner-ausschalten.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>Scanner ausschalten</figcaption>
+                    </center>
+                    <br>
+                </figure>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">
+                <div style="font-weight: bold;">Verbinden des Barcodescanners via USB</div>
+            </div>
+            <div class="collapsible-body">
+                <h6><b>Schritt 1: Basisstation mit dem PC verbinden</b></h6>
+                <span> Schließen Sie die Basisstation per USB-Kabel an ihr Endgerät an. Das mitgelieferte USB-Kabel hat am anderen Ende einen Netzwerkstecker. Mit diesem wird das Kabel an die Basisstation angeschlossen.</span>
+
+                <h6><b>Schritt 2: Einschalten des Barcode-Scanners</b></h6>
+                <span> Schalten Sie den Barcode-Scanner ein, indem sie für einige Sekunden den Abzug gedrückt halten, bis der Scanner Pieptöne von sich gibt. Scannen Sie nun folgenden Barcode, um bisherige Kopplungen des Scanners zu lösen:
+                    <figure>
+                        <center>
+                            <img src="{% static "img/scanner/verbindung_trennen.png" %}" alt="Barcode" style="width:50%">
+                        <figcaption>Verbindung trennen</figcaption>
+                        </center>
+                        <br>
+                    </figure>
+
+                <h6><b>Schritt 3: Verknüpfung  des Barcode-Scanners mit der Basisstation</b></h6>
+                <span>Stecken Sie den Barcodescanner in die Basisstation und schließen Sie den Verriegelungsschalter, damit die Kontakte von Scanner und Station verbunden werden. Der Barcodescanner ist einsatzbereit und verhält sich wie eine USB-Tastatur. Das bedeutet, dass eingescannte Barcodes als Text an das Endgerät übergeben werden. Sie können den Barcode-Scanner nun von der Basisstation entfernen und benutzen.
+                    Sollte es nicht funktionieren, schalten Sie den Scanner einmal mit folgendem Code aus und beginnen Sie bei Schritt 1.
+                    </span>
+                <figure>
+                    <center>
+                        <img src="{% static "img/scanner/scanner-ausschalten.png" %}" alt="Barcode" style="width:50%">
+                    <figcaption>Scanner ausschalten</figcaption>
+                    </center>
+                    <br>
+                </figure>
+            </div>
+        </li>
+    </ul>
 
 {% endif %}
 

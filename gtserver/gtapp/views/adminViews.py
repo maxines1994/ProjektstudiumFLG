@@ -43,31 +43,31 @@ def timeToggleView(request, *args, **kwargs):
 
 def barcodeView(request, *args, **kwargs):
     context = {}
-    context['barcodes'] = generateBarcodes()
-    print(context['barcodes'])
+    barcode_list_total = os.listdir("static/barcodes")
+
+    barcode_list_L1 = []
+    barcode_list_L2 = []
+    barcode_list_L3 = []
+    barcode_list_JOGA = []
+    barcode_list_Kunden = []
+
+    for item in barcode_list_total:
+        item_path = ("barcodes/" + item)
+        if item[0] == "1":
+            barcode_list_L1.append(item_path)
+        elif item[0] == "2":
+            barcode_list_L2.append(item_path)
+        elif item[0] == "3":
+            barcode_list_L3.append(item_path)
+        elif item[0] == "4":
+            barcode_list_JOGA.append(item_path)
+        else:
+            barcode_list_Kunden.append(item_path)
+
+    context["L1_Barcodes"] = barcode_list_L1
+    context["L2_Barcodes"] = barcode_list_L2
+    context["L3_Barcodes"] = barcode_list_L3
+    context["JOGA_Barcodes"] = barcode_list_JOGA
+    context["Kunden_Barcodes"] = barcode_list_Kunden
+
     return render(request, "BarcodeSheets.html", context)
-
-def generateBarcodes():
-    if os.getcwd().split('\\')[-1] != 'gtserver':
-        prefix = 'gtserver/'
-    else:
-        prefix = ''
-
-    binary = BytesIO()
-    barcode_type = 'code128'
-    root_barcode = 10420037
-    barcode_increment = 592327
-    max_barcode = 99900000
-
-    next_barcode = root_barcode
-    barcode_list = []
-
-    while next_barcode <= max_barcode:
-        new_barcode = barcode.get(barcode_type, str(next_barcode), writer=SVGWriter())
-        barcode_filepath = prefix + 'static/barcodes/' + str(next_barcode)
-        if not os.path.exists(barcode_filepath):
-            new_file = new_barcode.save(barcode_filepath)
-        barcode_list.append(barcode_filepath.replace(prefix + 'static/', '') + '.svg')
-        next_barcode += barcode_increment
-
-    return barcode_list
