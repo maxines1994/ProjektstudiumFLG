@@ -48,6 +48,11 @@ def barcodeView(request, *args, **kwargs):
     return render(request, "BarcodeSheets.html", context)
 
 def generateBarcodes():
+    if os.getcwd().split('\\')[-1] != 'gtserver':
+        prefix = 'gtserver/'
+    else:
+        prefix = ''
+
     binary = BytesIO()
     barcode_type = 'code128'
     root_barcode = 10420037
@@ -59,10 +64,10 @@ def generateBarcodes():
 
     while next_barcode <= max_barcode:
         new_barcode = barcode.get(barcode_type, str(next_barcode), writer=SVGWriter())
-        barcode_filepath = 'static/barcodes/' + str(next_barcode)
+        barcode_filepath = prefix + 'static/barcodes/' + str(next_barcode)
         if not os.path.exists(barcode_filepath):
             new_file = new_barcode.save(barcode_filepath)
-        barcode_list.append(barcode_filepath.replace('static/', '') + '.svg')
+        barcode_list.append(barcode_filepath.replace(prefix + 'static/', '') + '.svg')
         next_barcode += barcode_increment
 
     return barcode_list
