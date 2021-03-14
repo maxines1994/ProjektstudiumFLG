@@ -37,10 +37,9 @@ def manufacturing_testing_view(request, **kwargs):
 
     demand = CustOrderDet.objects.get(pk=kwargs["id"]).part_demand()
     if Stock.reserve_test(demand):
-        print("ERFOLGREICH")
         set_status('CustOrderDet', kwargs["id"], CustOrderDet.Status.BESTANDSPRUEFUNG_ABGESCHLOSSEN) # war vorher '2' von Maxi
     else:
-        print("FEHLGESCHLAGEN")
+        pass
     # SETSTATUSTO BESTANDSPRÜFUNG GOOD OR BESTANDSPRÜFUNG BAD
     return HttpResponseRedirect(reverse("manufacturing_list"))
 

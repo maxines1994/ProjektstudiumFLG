@@ -164,7 +164,6 @@ class Supp_order_det_alter_view(LoginRequiredMixin, UpdateView):
 
         if hasattr(self, 'object'):
             kwargs.update({'instance': self.object})
-        print("test")
 
         parts = Part.objects.filter(supplier__name=self.request.user.groups.first())
         kwargs.update({'parts': parts})
