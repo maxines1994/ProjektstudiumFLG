@@ -23,7 +23,7 @@ def set_status_task (request, **kwargs):
     # sondern "xxx_order = kwargs["id"]" oder "xxx_complaint = kwargs["id"]"
     if my_task_type.task_for_all_details:
         my_header_model = GtModel.str_to_gtmodel(my_task_type.task_model.replace('Det', ''))
-        my_header_field = GtModel.gtmodel_to_foreign_field_name(my_header_model)
+        my_header_field = GtModel.gtmodel_to_foreign_field_name(my_header_model) + '_id'
         my_task_filter[my_header_field] = kwargs["id"]
     else:
         my_task_filter["id"] = kwargs["id"]
@@ -35,7 +35,7 @@ def set_status_task (request, **kwargs):
     # sondern "xxx_order = kwargs["id"]" oder "xxx_complaint = kwargs["id"]"
     if my_task_type.status_for_all_details:
         my_header_model = GtModel.str_to_gtmodel(my_task_type.status_model.replace('Det', ''))
-        my_header_field = GtModel.gtmodel_to_foreign_field_name(my_header_model)
+        my_header_field = GtModel.gtmodel_to_foreign_field_name(my_header_model) + '_id'
         my_status_filter[my_header_field] = kwargs["id"]
     else:
         my_status_filter["id"] = kwargs["id"]
@@ -46,7 +46,6 @@ def set_status_task (request, **kwargs):
 
     # Durchlaeuft das Query der gefundenen Objekte und erzeugt fuer jedes Objekt einen Task.
     for obj in my_task_obj_qry:
-        set_status(my_task_type.status_model, obj.id, task_type_status)
         Task.set_task(obj=obj, task_type_id=kwargs["task_type"])
     
     # Durchlaeuft das Query der gefundenen Objekte und setzt fuer jedes Objekt den neuen Status.
@@ -91,8 +90,6 @@ def set_status(model: str, id: int, status: int):
     Keine View. Interne Methode zum setzen des Status. Benoetigte Argumente:
     """
     my_model = GtModel.str_to_gtmodel(model)
-    
-    print(model)
     #Custorder achtung dieser wird für die Freigabe des Auftrags verwendet SONST wird nur mit CustOrderDet gearbeitet
     # /!\ Umsetzung mit save() ist notwendig, weil update() nicht save() aufruft und keine Speicher-Events generiert, weshalb der Status des Kopf nicht gesetzt werden würde.
     if my_model == CustOrder:
