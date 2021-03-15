@@ -42,8 +42,13 @@ def timeToggleView(request, *args, **kwargs):
     return HttpResponseRedirect(reverse("controlpanel"))
 
 def barcodeView(request, *args, **kwargs):
+    if os.getcwd().split('\\')[-1] != 'gtserver':
+        prefix = 'gtserver/'
+    else:
+        prefix = ''
+
     context = {}
-    barcode_list_total = os.listdir("static/barcodes")
+    barcode_list_total = os.listdir(prefix + "static/barcodes")
 
     barcode_list_L1 = []
     barcode_list_L2 = []
