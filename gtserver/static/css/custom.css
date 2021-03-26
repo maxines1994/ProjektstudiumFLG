@@ -52,6 +52,46 @@ main.loggedin {
   }
 }
 
+@media print {
+  @page {
+    margin: 0,5cm
+  }
+  main.loggedin {
+    padding-left: 0;
+  }
+  .sidenav {
+    z-index: 40000;
+  }
+  ul.collapsible li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  ul.collapsible {
+    padding: 0;
+    margin: 0;
+  }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-size: 12pt;
+  }
+  h1, h2, h4 {
+    font-size: 24pt;
+  }
+  h5 {
+    font-size: 14pt;
+  }
+  h6 {
+    font-size: 12pt;
+  }
+  .collapsible-header {
+    font-size: 16pt;
+  }
+  .collapsible-body {
+    text-align: justify;
+  }
+}
+
 .formnopadding div.input-field {
   padding-left: 0;
   padding-right: 0;

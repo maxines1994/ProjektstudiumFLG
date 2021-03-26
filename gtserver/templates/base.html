@@ -60,7 +60,7 @@
   <body>
 
     <!-- Navbar-->
-    <div class="navbar-fixed" style="z-index: 9999;">
+    <div class="navbar-fixed no-print" style="z-index: 9999;">
       <nav>
         <div class="nav-wrapper">
           <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -85,7 +85,7 @@
 
     {% if user.is_authenticated %}
     <!-- Sidenav-->
-    <ul class="sidenav sidenav-fixed sidenav-left" id="sidenav" >
+    <ul class="sidenav sidenav-fixed sidenav-left no-print" id="sidenav" >
       <li class="hide-on-med-and-down" style="height: 64px"></li>
       <li><div class="user-view">
         <div class="background">
@@ -144,7 +144,7 @@
 
     {% if perms.gtapp.view_task %}
     <!-- Tasks-->
-    <ul id="tasks" class="sidenav">
+    <ul id="tasks" class="sidenav no-print">
       <li class="hide-on-med-and-down" style="height: 64px"></li>
       {#<li><a class="sidenav-close"><i class="material-icons">arrow_back</i>ZURÜCK</a></li>#}
       <li><a href="{% url 'tasks_notassigned' %}">Aufgabenübersicht öffnen</a></li>
