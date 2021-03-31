@@ -543,6 +543,32 @@ FAQ
             </div>
         </li>
         {% endif %}
+
+        {% if request.user.id == 1 %}
+        <li {% if content == 31 %}class="active"{% endif %}>
+            <div class="collapsible-header" style="font-weight: bold;"><i class="material-icons">expand_more</i>Schwierigkeitsgrade der Rollen</div>
+            <div class="collapsible-body">
+                <p>Der Schwierigkeitsgrad der Rollen wird von den Entwicklern folgendermaßen eingeschätzt:</p>
+                <h5>Sehr leicht</h5>
+                <p><b>Interne Dienstleistung (IDL):</b> Die Interne Dienstleistung hat keine Aufgaben in dem System und ist für den Transport der Kisten zuständig. </p>             
+                <div class="divider"></div>
+
+                <h5>Leicht</h5>
+                <p><b>Geschäftsleitung (GL):</b> Die Geschäftsführung hat keine Aufgabenschritte, welche im System abgewickelt werden müssen.</p>
+                <p><b>Kundendienst (KD):</b> Die Kundendienstmitarbeiter haben als Aufgaben im System das Anlegen von Aufträgen und Reklamationen, sowie das Schreiben von Nachrichten. Daher ist diese Rolle auch gut für Teilnehmer zu spielen, welche keine anfänglichen Erfahrungen in der mit einem ERP-System haben.</p>
+                <p><b>Kunde (K):</b> Die Kunden platzieren Aufträge bei JOGA, verfolgen diese und kommunizieren aktiv mit dem Kundendienst. Zudem legen Sie Auftragsreklamationen an. Diese Rolle bietet sich entsprechend für Spieler an, welche keine anfänglichen Erfahrungen mit einem ERP-System haben.</p>
+                <div class="divider"></div>
+                
+                <h5>Mittel</h5>
+                <p><b>Produktion (PRO):</b> Handwerkliches Geschick erleichtert den Produktionsmitarbeitern das Zusammenbauen des Hubwagens. Sie haben wenige Aufgabenschritte, die Sie im System vornehmen müssen. Daher ist diese Stelle geeignet für Spielteilnehmer ohne anfängliche Erfahrungen in einem ERP-System.</p>
+                <p><b>Lieferant (L):</b> Die Lieferanten haben einen ähnlichen, aber verkürzten Workflow wie bei JOGA. Aus diesem Grund ist es für die Teilnehmer leichter, wenn Sie bereits anfängliche Erfahrungen mit der Arbeit in einem ERP-System haben. Allerdings ist es auch ohne Erfahrungen bedienbar. Des Weiteren ist die Bedienung des Systems für die Teilnehmer dieser Rolle leichter, wenn Sie Kenntnisse über Begriffe aus der Produktion und Logistik aufweisen. Jedoch gilt auch hier, dass mit dem FAQ und der Stellenbeschreibung eine Bedienung ohne Kenntnisse des Fachvokabulars möglich sind.</p>
+                <div class="divider"></div>
+                
+                <h5>Schwer</h5>
+                <p><b>Produktionsdienstleistung (PDL):</b> Die Produktionsdienstleistung muss viele Aufgabenschritte des Hauptworkflows im System vornehmen. Aus diesem Grund ist es für die Teilnehmer erleichternd, wenn Sie bereits anfängliche Erfahrungen in einem ERP-System haben. Allerdings ist es auch ohne Erfahrungen bedienbar. Des Weiteren ist die Bedienung des Systems für die Teilnehmer dieser Rolle leichter, wenn Sie Kenntnisse über Begriffe aus der Produktion und Logistik aufweisen. Jedoch gilt auch hier, dass mit dem FAQ und der Stellenbeschreibung eine Bedienung ohne Kenntnisse des Fachvokabulars möglich sind.</p>
+            </div>
+        </li>
+        {% endif %}
         
 {% endblock %}
 
